@@ -157,7 +157,7 @@ model users {
   password    String        @db.VarChar(255)
   fullName    String        @db.VarChar(255)
   avt         String?       @db.VarChar(500)
-  role        users_role?    @default(user)
+  role        users_role?   @default(user)
   phone       String?       @db.VarChar(20)
   createdAt   DateTime?     @default(now()) @db.Timestamp(0)
   updatedAt   DateTime?     @default(now()) @db.Timestamp(0)
@@ -185,8 +185,8 @@ enum pitch_status {
 }
 
 enum pitch_pitchCategory {
-  five @map("5")
-  seven @map("7")
+  five   @map("5")
+  seven  @map("7")
   eleven @map("11")
 }
 
