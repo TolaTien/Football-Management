@@ -157,7 +157,7 @@ model users {
   password    String        @db.VarChar(255)
   fullName    String        @db.VarChar(255)
   avt         String?       @db.VarChar(500)
-  role        String?       @db.VarChar(50)
+  role        users_role?    @default(user)
   phone       String?       @db.VarChar(20)
   createdAt   DateTime?     @default(now()) @db.Timestamp(0)
   updatedAt   DateTime?     @default(now()) @db.Timestamp(0)
@@ -166,6 +166,11 @@ model users {
   comments    comments[]
   post        post[]
   postlike    postlike[]
+}
+
+enum users_role {
+  user
+  admin
 }
 
 enum payments_type {
