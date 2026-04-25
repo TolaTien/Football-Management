@@ -8,9 +8,9 @@ datasource db {
 }
 
 model booking {
-  bookId              Int                    @id @default(autoincrement())
-  userId              Int?
-  pitchId             Int?
+  bookId              String                 @id @db.VarChar(50)
+  userId              String?                @db.VarChar(50)
+  pitchId             String?                @db.VarChar(50)
   phone               String?                @db.VarChar(20)
   status              booking_status?        @default(pending)
   startTime           DateTime?              @db.DateTime(0)
@@ -30,9 +30,9 @@ model booking {
 }
 
 model bookingservices {
-  id                    Int       @id @default(autoincrement())
-  bookId                Int?
-  serviceId             Int?
+  id                    String    @id @db.VarChar(50)
+  bookId                String?   @db.VarChar(50)
+  serviceId             String?   @db.VarChar(50)
   quantity              Int?
   servicePriceAtBooking Decimal?  @db.Decimal(10, 2)
   createdAt             DateTime? @default(now()) @db.Timestamp(0)
@@ -45,8 +45,8 @@ model bookingservices {
 }
 
 model commentlike {
-  userId    Int
-  commentId Int
+  userId    String    @db.VarChar(50)
+  commentId String    @db.VarChar(50)
   createdAt DateTime? @default(now()) @db.Timestamp(0)
   updatedAt DateTime? @default(now()) @db.Timestamp(0)
   users     users     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "commentlike_ibfk_1")
@@ -57,11 +57,11 @@ model commentlike {
 }
 
 model comments {
-  commentId      Int           @id @default(autoincrement())
+  commentId      String        @id @db.VarChar(50)
   content        String        @db.Text
-  postId         Int?
-  userId         Int?
-  parentId       Int?
+  postId         String?       @db.VarChar(50)
+  userId         String?       @db.VarChar(50)
+  parentId       String?       @db.VarChar(50)
   createdAt      DateTime?     @default(now()) @db.Timestamp(0)
   updatedAt      DateTime?     @default(now()) @db.Timestamp(0)
   commentlike    commentlike[]
@@ -76,8 +76,8 @@ model comments {
 }
 
 model payments {
-  id            Int                     @id @default(autoincrement())
-  bookingId     Int?
+  id            String                  @id @db.VarChar(50)
+  bookingId     String?                 @db.VarChar(50)
   type          payments_type?
   amount        Decimal?                @db.Decimal(10, 2)
   paymentMethod payments_paymentMethod?
@@ -89,7 +89,7 @@ model payments {
 }
 
 model pitch {
-  pitchId       Int                  @id @default(autoincrement())
+  pitchId       String               @id @db.VarChar(50)
   namePitch     String               @db.VarChar(255)
   status        pitch_status?        @default(active)
   pitchCategory pitch_pitchCategory?
@@ -101,8 +101,8 @@ model pitch {
 }
 
 model pitchprice {
-  id        Int       @id @default(autoincrement())
-  pitchId   Int?
+  id        String    @id @db.VarChar(50)
+  pitchId   String?   @db.VarChar(50)
   startTime DateTime? @db.Time(0)
   endTime   DateTime? @db.Time(0)
   price     Decimal?  @db.Decimal(10, 2)
@@ -114,8 +114,8 @@ model pitchprice {
 }
 
 model post {
-  postId      Int          @id @default(autoincrement())
-  hostId      Int?
+  postId      String       @id @db.VarChar(50)
+  hostId      String?      @db.VarChar(50)
   description String?      @db.Text
   status      post_status? @default(open)
   createdAt   DateTime?    @default(now()) @db.Timestamp(0)
@@ -128,8 +128,8 @@ model post {
 }
 
 model postlike {
-  userId    Int
-  postId    Int
+  userId    String    @db.VarChar(50)
+  postId    String    @db.VarChar(50)
   createdAt DateTime? @default(now()) @db.Timestamp(0)
   updatedAt DateTime? @default(now()) @db.Timestamp(0)
   users     users     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "postlike_ibfk_1")
@@ -140,7 +140,7 @@ model postlike {
 }
 
 model services {
-  serviceId       Int               @id @default(autoincrement())
+  serviceId       String            @id @db.VarChar(50)
   nameProduct     String            @db.VarChar(255)
   price           Decimal?          @db.Decimal(10, 2)
   totalQuantity   Int?              @default(0)
@@ -152,7 +152,7 @@ model services {
 }
 
 model users {
-  userId      Int           @id @default(autoincrement())
+  userId      String        @id @db.VarChar(50)
   email       String        @unique(map: "email") @db.VarChar(255)
   password    String        @db.VarChar(255)
   fullName    String        @db.VarChar(255)

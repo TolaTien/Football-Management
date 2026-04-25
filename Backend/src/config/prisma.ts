@@ -9,6 +9,17 @@ const adapter = new PrismaMariaDb({
   database: process.env.DATABASE_NAME,
   connectionLimit: 5,
 });
+
 const prisma = new PrismaClient({ adapter });
+
+export const connectDB = async () => {
+  try {
+      await prisma.$connect();
+      console.log("✅ Database connection successful.");
+  } catch (error) {
+      console.error("❌ Failed to connect to the database.", error);
+      process.exit(1);
+  }
+};
 
 export { prisma };
