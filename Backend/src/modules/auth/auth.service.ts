@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid"
 import { ApiError } from "../../utils/ApiError.js";
 import { StatusCodes } from "http-status-codes";
 
-export class UserService {
+export class AuthService {
     static async login(dto : LoginDto){
         if(!dto.email || !dto.password) {
             throw new ApiError(StatusCodes.BAD_REQUEST, "Vui lòng nhập đầy đủ thông tin");
