@@ -1,0 +1,214 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model booking {
+  bookId              String                 @id @db.VarChar(50)
+  userId              String?                @db.VarChar(50)
+  pitchId             String?                @db.VarChar(50)
+  phone               String?                @db.VarChar(20)
+  status              booking_status?        @default(pending)
+  startTime           DateTime?              @db.DateTime(0)
+  endTime             DateTime?              @db.DateTime(0)
+  paymentStatus       booking_paymentStatus? @default(pending)
+  pitchPriceAtBooking Decimal?               @db.Decimal(10, 2)
+  total               Decimal?               @db.Decimal(10, 2)
+  createdAt           DateTime?              @default(now()) @db.Timestamp(0)
+  updatedAt           DateTime?              @default(now()) @db.Timestamp(0)
+  users               users?                 @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "booking_ibfk_1")
+  pitch               pitch?                 @relation(fields: [pitchId], references: [pitchId], onDelete: NoAction, onUpdate: NoAction, map: "booking_ibfk_2")
+  bookingservices     bookingservices[]
+  payments            payments[]
+
+  @@index([pitchId], map: "pitchId")
+  @@index([userId], map: "userId")
+}
+
+model bookingservices {
+  id                    String    @id @db.VarChar(50)
+  bookId                String?   @db.VarChar(50)
+  serviceId             String?   @db.VarChar(50)
+  quantity              Int?
+  servicePriceAtBooking Decimal?  @db.Decimal(10, 2)
+  createdAt             DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt             DateTime? @default(now()) @db.Timestamp(0)
+  booking               booking?  @relation(fields: [bookId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "bookingservices_ibfk_1")
+  services              services? @relation(fields: [serviceId], references: [serviceId], onDelete: NoAction, onUpdate: NoAction, map: "bookingservices_ibfk_2")
+
+  @@index([bookId], map: "bookId")
+  @@index([serviceId], map: "serviceId")
+}
+
+model commentlike {
+  userId    String    @db.VarChar(50)
+  commentId String    @db.VarChar(50)
+  createdAt DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.Timestamp(0)
+  users     users     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "commentlike_ibfk_1")
+  comments  comments  @relation(fields: [commentId], references: [commentId], onDelete: Cascade, onUpdate: NoAction, map: "commentlike_ibfk_2")
+
+  @@id([userId, commentId])
+  @@index([commentId], map: "commentId")
+}
+
+model comments {
+  commentId      String        @id @db.VarChar(50)
+  content        String        @db.Text
+  postId         String?       @db.VarChar(50)
+  userId         String?       @db.VarChar(50)
+  parentId       String?       @db.VarChar(50)
+  createdAt      DateTime?     @default(now()) @db.Timestamp(0)
+  updatedAt      DateTime?     @default(now()) @db.Timestamp(0)
+  commentlike    commentlike[]
+  post           post?         @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: NoAction, map: "comments_ibfk_1")
+  users          users?        @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "comments_ibfk_2")
+  comments       comments?     @relation("commentsTocomments", fields: [parentId], references: [commentId], onDelete: Cascade, onUpdate: NoAction, map: "comments_ibfk_3")
+  other_comments comments[]    @relation("commentsTocomments")
+
+  @@index([parentId], map: "parentId")
+  @@index([postId], map: "postId")
+  @@index([userId], map: "userId")
+}
+
+model payments {
+  id            String                  @id @db.VarChar(50)
+  bookingId     String?                 @db.VarChar(50)
+  type          payments_type?
+  amount        Decimal?                @db.Decimal(10, 2)
+  paymentMethod payments_paymentMethod?
+  createdAt     DateTime?               @default(now()) @db.Timestamp(0)
+  updatedAt     DateTime?               @default(now()) @db.Timestamp(0)
+  booking       booking?                @relation(fields: [bookingId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "payments_ibfk_1")
+
+  @@index([bookingId], map: "bookingId")
+}
+
+model pitch {
+  pitchId       String               @id @db.VarChar(50)
+  namePitch     String               @db.VarChar(255)
+  status        pitch_status?        @default(active)
+  pitchCategory pitch_pitchCategory?
+  address       String?              @db.VarChar(255)
+  createdAt     DateTime?            @default(now()) @db.Timestamp(0)
+  updatedAt     DateTime?            @default(now()) @db.Timestamp(0)
+  booking       booking[]
+  pitchprice    pitchprice[]
+}
+
+model pitchprice {
+  id        String    @id @db.VarChar(50)
+  pitchId   String?   @db.VarChar(50)
+  startTime DateTime? @db.Time(0)
+  endTime   DateTime? @db.Time(0)
+  price     Decimal?  @db.Decimal(10, 2)
+  createdAt DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.Timestamp(0)
+  pitch     pitch?    @relation(fields: [pitchId], references: [pitchId], onDelete: Cascade, onUpdate: NoAction, map: "pitchprice_ibfk_1")
+
+  @@index([pitchId], map: "pitchId")
+}
+
+model post {
+  postId      String       @id @db.VarChar(50)
+  hostId      String?      @db.VarChar(50)
+  description String?      @db.Text
+  status      post_status? @default(open)
+  createdAt   DateTime?    @default(now()) @db.Timestamp(0)
+  updatedAt   DateTime?    @default(now()) @db.Timestamp(0)
+  comments    comments[]
+  users       users?       @relation(fields: [hostId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "post_ibfk_1")
+  postlike    postlike[]
+
+  @@index([hostId], map: "hostId")
+}
+
+model postlike {
+  userId    String    @db.VarChar(50)
+  postId    String    @db.VarChar(50)
+  createdAt DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.Timestamp(0)
+  users     users     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "postlike_ibfk_1")
+  post      post      @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: NoAction, map: "postlike_ibfk_2")
+
+  @@id([userId, postId])
+  @@index([postId], map: "postId")
+}
+
+model services {
+  serviceId       String            @id @db.VarChar(50)
+  nameProduct     String            @db.VarChar(255)
+  price           Decimal?          @db.Decimal(10, 2)
+  totalQuantity   Int?              @default(0)
+  borrowed        Int?              @default(0)
+  returned        Int?              @default(0)
+  createdAt       DateTime?         @default(now()) @db.Timestamp(0)
+  updatedAt       DateTime?         @default(now()) @db.Timestamp(0)
+  bookingservices bookingservices[]
+}
+
+model users {
+  userId      String        @id @db.VarChar(50)
+  email       String        @unique(map: "email") @db.VarChar(255)
+  password    String        @db.VarChar(255)
+  fullName    String        @db.VarChar(255)
+  avt         String?       @db.VarChar(500)
+  role        users_role?   @default(user)
+  phone       String?       @db.VarChar(20)
+  createdAt   DateTime?     @default(now()) @db.Timestamp(0)
+  updatedAt   DateTime?     @default(now()) @db.Timestamp(0)
+  booking     booking[]
+  commentlike commentlike[]
+  comments    comments[]
+  post        post[]
+  postlike    postlike[]
+}
+
+enum users_role {
+  user
+  admin
+}
+
+enum payments_type {
+  deposit
+  remaining
+  refund
+}
+
+enum pitch_status {
+  active
+  maintenance
+}
+
+enum pitch_pitchCategory {
+  five   @map("5")
+  seven  @map("7")
+  eleven @map("11")
+}
+
+enum post_status {
+  open
+  closed
+  canceled
+}
+
+enum payments_paymentMethod {
+  cash
+  banking
+}
+
+enum booking_status {
+  pending
+  approved
+  rejected
+}
+
+enum booking_paymentStatus {
+  pending
+  partial
+  paid
+}
