@@ -1,6 +1,6 @@
 import { prisma } from "../../config/prisma.js";
-import { generateRefreshToken, generateToken } from "../../utils/jwt.js";
-import { LoginDto, RegisterDto } from "./auth.schema.js";
+import { generateRefreshToken, generateToken, verifyToken } from "../../utils/jwt.js";
+import { CheckAuthDto, LoginDto, RefreshToken, RegisterDto } from "./auth.schema.js";
 import bcrypt, { genSalt } from 'bcrypt';
 import { v4 as uuidv4 } from "uuid"
 import { ApiError } from "../../utils/ApiError.js";
@@ -66,6 +66,40 @@ export class UserService {
         const refreshToken = generateRefreshToken({ userId: newUser.userId, role: newUser.role });
         
         return { accessToken, refreshToken, newUser };
+    };
+
+    static async checkAuth(dto: CheckAuthDto ){
+        if(!dto.userId){
+            throw new ApiError(StatusCodes.UNAUTHORIZED, "Vui lòng đăng nhập");
+        }
+
+        const user = await prisma.users.findUnique({ where: {userId: dto.userId}});
+        if(!user){
+            throw new ApiError(StatusCodes.UNAUTHORIZED, "Người dùng không tồn tại");
+        }
+        return {user};
+    };
+
+    static async refreshToken(dto: RefreshToken ){
+        if(!dto.refreshToken){
+            throw new ApiError(StatusCodes.UNAUTHORIZED, "Vui lòng đăng nhập");
+        };
+
+        const decoded = verifyToken(dto.refreshToken);
+        
+        if(!decoded){
+            throw new ApiError(StatusCodes.UNAUTHORIZED, "Token không hợp lệ")
+        };
+        const user = await prisma.users.findUnique({ where: {userId: decoded.userId}});
+        if(!user){
+            throw new ApiError(StatusCodes.UNAUTHORIZED, "User không tồn tại")
+        }
+
+        if(!user.role){
+            throw new ApiError(StatusCodes.BAD_REQUEST, "Vai trò người dùng không hợp lệ");
+        }
+        const newAccessToken = generateToken({ userId: user.userId, role: user.role});
+        return {newAccessToken};
     }
 
 
