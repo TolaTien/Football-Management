@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { authRouters } from "../modules/auth/auth.route.js";
 import { userRouters } from "../modules/users/users.route.js";
+import { pitchRouters } from "../modules/pitch/pitch.route.js";
 
 export const Routers: Router = Router();
 
-Routers.use('/auth', authRouters)
-Routers.use('/user', userRouters)
+Routers.use('/auth', authRouters);
+Routers.use('/user', userRouters);
+Routers.use('/pitch', pitchRouters);
