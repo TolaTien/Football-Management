@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma.js";
-import { Pagination } from "./pitch.schema.js";
+import { AddPitch, Pagination } from "./pitch.schema.js";
+import { v4 as uuidv4 } from 'uuid';
 
 export class PitchService {
     static async getAllPitch(query: any){
@@ -25,5 +26,29 @@ export class PitchService {
         const total = await prisma.pitch.count({ where: filter});
         const totalPages  = Math.ceil(total/ perPage);
         return { pitches, pagination: { total, totalPages, page, perPage}};
+    };
+
+    static async addPitch(dto: AddPitch){
+        const newPitch = await prisma.pitch.create({
+            data: {
+                pitchId: uuidv4(),
+                namePitch: dto.namePitch,
+                status: dto.status,
+                pitchCategory: dto.pitchCategory,
+                address: dto.address 
+            }
+        });
+        
+        const price = await prisma.pitchprice.create({
+            data: {
+                id: uuidv4(),
+                pitchId: newPitch.pitchId,
+                startTime: new Date(dto.startTime),
+                endTime: new Date(dto.endTime),
+                price: dto.price
+            }
+        });
+
+        return { newPitch, price};
     }
 }
