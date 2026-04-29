@@ -21,7 +21,10 @@ export class PitchService {
             skip: skip,
             take: perPage,
             include: {
-                pitchprice: true
+                pitchprice: true,
+                booking: {
+                    where: { status: 'approved', paymentStatus: 'partial'}
+                }
             },
             orderBy: { createdAt: 'desc' }
         });
