@@ -1,5 +1,7 @@
+import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../config/prisma.js";
-import { AddPitch, Pagination } from "./pitch.schema.js";
+import { ApiError } from "../../utils/ApiError.js";
+import { AddPitch, Pagination, UpdatePitch, UpdatePricePitch } from "./pitch.schema.js";
 import { v4 as uuidv4 } from 'uuid';
 
 export class PitchService {
@@ -28,6 +30,7 @@ export class PitchService {
         return { pitches, pagination: { total, totalPages, page, perPage}};
     };
 
+
     static async addPitch(dto: AddPitch){
         const newPitch = await prisma.pitch.create({
             data: {
@@ -50,5 +53,57 @@ export class PitchService {
         });
 
         return { newPitch, price};
+    };
+
+    static async updatePitch(dto: UpdatePitch, pitchId: string){
+        const pitch = await prisma.pitch.findUnique({ where: {pitchId}});
+        if(!pitch){
+            throw new ApiError(StatusCodes.BAD_REQUEST, "Không tìm thấy sân");
+        }
+        const update = await prisma.pitch.update({
+            where: { pitchId },
+            data: {
+                namePitch: dto.namePitch ?? pitch.namePitch,
+                status: dto.status ?? pitch.status,
+                pitchCategory: dto.pitchCategory ?? pitch.pitchCategory,
+                address: dto.address ?? pitch.address
+            }
+        });
+
+        return update;
+    };
+    
+    static async updatePitchPrice(dto: UpdatePricePitch[], pitchId: string){
+        const pitch = await prisma.pitch.findUnique({ where: {pitchId}});
+        if(!pitch){
+            throw new ApiError(StatusCodes.BAD_REQUEST, "Không tìm thấy sân");
+        };
+
+        const update = await prisma.$transaction( async (tx) => {
+            await tx.pitchprice.deleteMany({
+                where: { pitchId}
+            });
+
+            const newPrices = dto.map( x => ({
+                id: uuidv4(),
+                pitchId: pitchId,
+                startTime: new Date(x.startTime!),
+                endTime: new Date(x.endTime!),
+                price: x.price
+            }));
+
+            if(newPrices.length > 0){
+                await tx.pitchprice.createMany({
+                    data: newPrices
+                });
+            }
+
+            return await tx.pitchprice.findMany({
+                where: {pitchId},
+                orderBy: {startTime: 'asc'}
+            });
+        });
+
+        return update;
     }
 }

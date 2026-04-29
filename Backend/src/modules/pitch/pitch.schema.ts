@@ -16,3 +16,16 @@ export interface AddPitch {
     endTime: string;
     price: number;
 };
+
+export interface UpdatePitch {
+    namePitch?: string;
+    status: 'active' | 'maintenance';
+    pitchCategory?: number;
+    address?: string;
+}
+
+export interface UpdatePricePitch {
+    startTime?: Date;
+    endTime?: Date;
+    price?: number;
+}
