@@ -23,6 +23,7 @@ model booking {
   users               users?                 @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "booking_ibfk_1")
   pitch               pitch?                 @relation(fields: [pitchId], references: [pitchId], onDelete: NoAction, onUpdate: NoAction, map: "booking_ibfk_2")
   bookingservices     bookingservices[]
+  cancelrequests      cancelrequests[]
   payments            payments[]
 
   @@index([pitchId], map: "pitchId")
@@ -139,6 +140,18 @@ model postlike {
   @@index([postId], map: "postId")
 }
 
+model cancelrequests {
+  id      String  @id @db.VarChar(50)
+  userId  String  @db.VarChar(50)
+  bookId  String  @db.VarChar(50)
+  content String  @db.Text
+  users   users   @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "cancelrequests_ibfk_1")
+  booking booking @relation(fields: [bookId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "cancelrequests_ibfk_2")
+
+  @@index([bookId], map: "bookId")
+  @@index([userId], map: "userId")
+}
+
 model services {
   serviceId       String            @id @db.VarChar(50)
   nameProduct     String            @db.VarChar(255)
@@ -162,6 +175,7 @@ model users {
   createdAt   DateTime?     @default(now()) @db.Timestamp(0)
   updatedAt   DateTime?     @default(now()) @db.Timestamp(0)
   booking     booking[]
+  cancelrequests cancelrequests[]
   commentlike commentlike[]
   comments    comments[]
   post        post[]
