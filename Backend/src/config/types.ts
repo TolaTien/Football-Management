@@ -1,7 +1,7 @@
 import { Request } from "express";
 
 
-export type Role = 'user' | 'admin'
+export type Role = 'user' | 'admin' 
 
 export interface Payload {
     userId: string;
