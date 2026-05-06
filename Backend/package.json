@@ -23,11 +23,12 @@
     "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.1.1",
+    "node-cron": "^4.2.1",
     "streamifier": "^0.1.1",
     "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^10.4.0", 
+    "@faker-js/faker": "^10.4.0",
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
@@ -35,6 +36,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.1.0",
     "@types/node": "^25.6.0",
+    "@types/node-cron": "^3.0.11",
     "@types/streamifier": "^0.1.2",
     "dotenv": "^17.4.2",
     "prisma": "^7.8.0",

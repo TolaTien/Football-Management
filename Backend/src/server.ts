@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import { connectDB } from "./config/prisma.js";
 import { Routers } from "./routes/index.js";
 import { errorHandlingMiddleware } from "./middlewares/error.middleware.js";
+import { startCron } from "./utils/cron.js";
 
 const PORT = 3000;
 const app = express()
@@ -22,6 +23,7 @@ app.use(errorHandlingMiddleware);
 
 async function init() {
     await connectDB();
+    startCron(); 
     
     app.listen(PORT, "0.0.0.0", async () =>{
         console.log(`Server is running on port ${PORT}`);
