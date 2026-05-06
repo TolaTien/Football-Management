@@ -16,6 +16,12 @@ class Booking {
         return res.status(200).json({ messagea: "Thanh toán thành công", data: payment})
     };
 
+    async cancelBookingForUser(req: Request, res: Response){
+        const { bookId, content } = req.body;
+        const userId = req.user?.userId as string; 
+        const cancelBooking = await BookingService.cancelBookingForUser({ bookId, content }, userId);
+        return res.status(200).json({ message: "Hủy đơn đặt sân thành công", data: cancelBooking });
+    }
 }
 
 export default new Booking();

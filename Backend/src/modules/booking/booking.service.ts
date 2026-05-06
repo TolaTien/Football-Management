@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/ApiError.js";
-import { BookPitchForUser, Payment } from "./booking.schema.js";
+import { BookPitchForUser, CancelBookingForUser, Payment } from "./booking.schema.js";
 import { v4 as uuidv4 } from 'uuid';
 
 export class BookingService {
@@ -88,4 +88,64 @@ export class BookingService {
         return { newPayment, updateBooking};
     };
 
+    static async cancelBookingForUser(dto: CancelBookingForUser, userId: string){
+        const booking = await prisma.booking.findUnique({ where: { bookId: dto.bookId}});
+        const user = await prisma.users.findUnique({ where: { userId} });
+
+        if(!user) throw new ApiError(400, "Không tìm thấy user");
+        if(!booking) throw new ApiError(400, "Không tìm thấy hóa đơn");
+        if(booking.status === 'rejected') throw new ApiError(400, "Đơn đã bị hủy trước đó");
+
+        const hoursBeforeStart = (booking.startTime!.getTime() - Date.now()) / (1000 * 60 * 60);
+        const canRefundDeposit = hoursBeforeStart > 24;
+        if (booking.paymentStatus === "pending" || ( booking.paymentStatus === "partial" && !canRefundDeposit )) {
+            return prisma.$transaction(async (tx) => {
+                const bookingUpdate = await tx.booking.update({
+                    where: { bookId: dto.bookId },
+                    data: { status: 'rejected' }
+                });
+
+                const cancelRequest = await tx.cancelrequests.create({
+                    data: {
+                        id: uuidv4(),
+                        userId,
+                        bookId: dto.bookId,
+                        content: dto.content
+                    }
+                });
+
+                return { bookingUpdate, cancelRequest };
+            });
+        }
+
+        if (booking.paymentStatus === "partial" && canRefundDeposit) {
+
+            return prisma.$transaction(async (tx) => {
+                const bookingUpdate = await tx.booking.update({
+                    where: { bookId: dto.bookId },
+                    data: { 
+                        status: 'rejected',
+                        payments: {
+                            updateMany: {
+                                where: { type: 'deposit' },
+                                data: { type: 'refund' }
+                            }
+                        }
+                    }
+                });
+
+
+                const cancelRequest = await tx.cancelrequests.create({
+                    data: {
+                        id: uuidv4(),
+                        userId,
+                        bookId: dto.bookId,
+                        content: dto.content
+                    }
+                });
+            })
+        }
+
+        throw new ApiError(StatusCodes.BAD_REQUEST, "Trạng thái thanh toán không hỗ trợ hủy đơn");
+    }
 }

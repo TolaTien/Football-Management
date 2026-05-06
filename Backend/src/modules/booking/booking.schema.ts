@@ -1,4 +1,4 @@
-import { booking_paymentStatus, booking_status, payments_paymentMethod, payments_type } from "../../prisma/enums.js";
+import { payments_paymentMethod } from "../../prisma/enums.js";
 
 export interface BookPitchForUser {
     pitchId: string,
@@ -19,4 +19,9 @@ export interface Payment {
     bookingId: string,
     amount: number,
     paymentMethod: payments_paymentMethod,
+}
+
+export interface CancelBookingForUser {
+    bookId: string,
+    content: string
 }
