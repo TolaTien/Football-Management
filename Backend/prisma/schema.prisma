@@ -189,7 +189,7 @@ enum users_role {
 
 enum payments_type {
   deposit
-  remaining
+  pending
   refund
 }
 
