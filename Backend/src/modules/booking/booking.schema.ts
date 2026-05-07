@@ -38,3 +38,7 @@ export interface bookingPitchForAdmin {
         servicePriceAtBooking: number,
     }>;  
 }
+
+export interface cancelBookingForAdmin {
+    bookId: string,
+}

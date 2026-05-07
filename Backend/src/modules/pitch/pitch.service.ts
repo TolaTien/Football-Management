@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class PitchService {
     static async getAllPitch(query: any){
         const page = Number(query.page) || 1;
-        const perPage = Number(query.limit) || 10;
+        const perPage =  10;
         const skip = (page - 1) * perPage;
 
         const filter: any = {};

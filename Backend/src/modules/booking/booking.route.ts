@@ -8,3 +8,5 @@ bookingRouters.post('/booking-pitch-user', authUser, Booking.bookPitchForUser);
 bookingRouters.post('/payment-user', authUser, Booking.partialPayment);
 bookingRouters.post('/cancel-booking-user', authUser, Booking.cancelBookingForUser);
 bookingRouters.post('/booking-booking-admin', authUser, authAdmin ,Booking.bookingPitchForAdmin);
+bookingRouters.post('/cancel-booking-admin', authUser, authAdmin ,Booking.cancelBookingForAdmin);
+bookingRouters.get('/get-all-request-admin', authUser, authAdmin ,Booking.getAllRequestForAdmin);
