@@ -10,3 +10,4 @@ bookingRouters.post('/cancel-booking-user', authUser, Booking.cancelBookingForUs
 bookingRouters.post('/booking-booking-admin', authUser, authAdmin ,Booking.bookingPitchForAdmin);
 bookingRouters.post('/cancel-booking-admin', authUser, authAdmin ,Booking.cancelBookingForAdmin);
 bookingRouters.get('/get-all-request-admin', authUser, authAdmin ,Booking.getAllRequestForAdmin);
+bookingRouters.post('/refund-user', authUser, authAdmin ,Booking.refundForUser);

@@ -39,6 +39,11 @@ class Booking {
         const request = await BookingService.getAllRequestForAdmin(req.query);
 
         return res.status(200).json({ message: "Lấy các request thành công", data: request});
+    };
+
+    async refundForUser(req: Request, res: Response){
+        const refund = await BookingService.refundForUser(req.body);
+        return res.status(200).json({ message: "Hoàn cọc thành công", data: refund});
     }
 }
 

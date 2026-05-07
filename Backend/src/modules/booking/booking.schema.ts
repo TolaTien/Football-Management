@@ -42,3 +42,7 @@ export interface bookingPitchForAdmin {
 export interface cancelBookingForAdmin {
     bookId: string,
 }
+
+export interface refundForUser {
+    bookId: string
+}
