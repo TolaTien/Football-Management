@@ -1,6 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/ApiError.js";
-import { ApproveRequestUser, cancelBookingForAdmin, refundForUser } from "./admin.schema.js";
+import { ApproveRequestUser, CancelBookingForAdmin, GetAllHistoryOfUser, RefundForUser } from "./admin.schema.js";
 
 
 export class AdminService {
@@ -22,7 +22,7 @@ export class AdminService {
         return update;
     }
 
-    static async cancelBookingForAdmin(dto: cancelBookingForAdmin){
+    static async cancelBookingForAdmin(dto: CancelBookingForAdmin){
         const booking = await prisma.booking.findUnique({ where: {bookId: dto.bookId}});
         if(!booking) throw new ApiError(400, "Không tìm thấy đơn đặt sân");
 
@@ -73,7 +73,7 @@ export class AdminService {
         });
     };
 
-    static async refundForUser(dto: refundForUser){
+    static async refundForUser(dto: RefundForUser){
         const booking = await prisma.booking.findUnique({ 
             where: { bookId: dto.bookId },
             include: { payments: true }
@@ -98,5 +98,28 @@ export class AdminService {
         });
 
         return update;
+    };
+
+    static async getAllHistoryOfUser(dto: GetAllHistoryOfUser) {
+        const user = await prisma.users.findUnique({ where: { userId: dto.userId}});
+        if(!user) throw new ApiError(400, "Không tìm thấy người dùng");
+
+        const history = await prisma.booking.findMany({
+            where: { userId: user.userId},
+            orderBy: {
+                createdAt: 'desc'
+            },
+            include: {
+                pitch: true,
+                payments: true,
+                bookingservices: {
+                    include: {
+                        services: true
+                    }
+                }
+            }
+        });
+
+        return history;
     }
 }

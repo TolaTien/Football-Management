@@ -46,7 +46,11 @@ export class UserService {
         if(!user) throw new ApiError(400, "Không tìm thấy user");
         const history = await prisma.booking.findMany({
             where: { userId},
+            orderBy: {
+                createdAt: 'desc'
+            },
             include: {
+                pitch: true,
                 payments: true,
                 bookingservices: {
                     include: { services: true }

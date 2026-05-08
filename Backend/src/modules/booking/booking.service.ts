@@ -11,22 +11,31 @@ export class BookingService {
             throw new ApiError(StatusCodes.BAD_REQUEST, "Người dùng không tồn tại")
         }
 
-        const checkBooked = await prisma.booking.findFirst({
-            where: {
-                pitchId: dto.pitchId,
-                status: { in: ['pending', 'approved'] },
-                AND: [
-                    { startTime: { lt: dto.endTime }},
-                    { endTime: { gt: dto.startTime }}
-                ]
-            }
-        });
-
-        if (checkBooked) {
-            throw new ApiError(StatusCodes.BAD_REQUEST, "Sân đã được đặt trong khoảng thời gian này");
-        }
+        const startTime = new Date(dto.startTime);
+        const endTime = new Date(dto.endTime);
 
         const booking = await prisma.$transaction( async (tx) => {
+            const pitch = await tx.pitch.findUnique({ where: { pitchId: dto.pitchId } });
+            if (!pitch) {
+                throw new ApiError(StatusCodes.BAD_REQUEST, "Sân không tồn tại");
+            }
+
+            const checkBooked = await tx.booking.findFirst({
+                where: {
+                    pitchId: dto.pitchId,
+                    status: { in: ['pending', 'approved'] },
+                    AND: [
+                        { startTime: { lt: endTime }},
+                        { endTime: { gt: startTime }}
+                    ]
+                }
+            });
+
+            if (checkBooked) {
+                throw new ApiError(StatusCodes.BAD_REQUEST, "Sân đã được đặt trong khoảng thời gian này");
+            }
+
+            const bookingDeposit = Math.floor(dto.pitchPriceAtBooking / 2);
 
             const booking = await tx.booking.create({
                 data: {
@@ -35,15 +44,14 @@ export class BookingService {
                     pitchId: dto.pitchId,
                     phone: dto.phone,
                     status: 'pending',
-                    startTime: dto.startTime,
-                    endTime: dto.endTime,
+                    startTime,
+                    endTime,
                     paymentStatus: 'pending',
                     pitchPriceAtBooking: dto.pitchPriceAtBooking,
-                    total: 0,
+                    total: bookingDeposit,
                 }
             });
 
-            let newServices;
             let totalServices = 0;
             if(dto.service?.length > 0){
                 //Note: duyệt mảng service để check xem trong kho còn đủ sp không
@@ -65,7 +73,7 @@ export class BookingService {
                     totalServices += (items.servicePriceAtBooking ?? 0) * (items.quantity ?? 0);
                 };
 
-                 newServices =  await Promise.all(dto.service.map((x) => {
+                 await Promise.all(dto.service.map((x) => {
                       return tx.bookingservices.create({
                         data: {
                             id: uuidv4(),
@@ -76,13 +84,33 @@ export class BookingService {
                         }
                     })
                 }));
-                const updatedBooking = await tx.booking.update({
-                    where: { bookId: booking.bookId},
-                    data: {total: (booking.pitchPriceAtBooking ?? 0) / 2 + totalServices}
-                });
-                return { booking: updatedBooking, newServices }
             };
-            return { booking, newServices}
+
+            const updatedBooking = await tx.booking.update({
+                where: { bookId: booking.bookId},
+                data: { total: bookingDeposit + totalServices }
+            });
+
+            const order = await tx.booking.findUnique({
+                where: { bookId: updatedBooking.bookId},
+                include: {
+                    users: {
+                        select: {
+                            fullName: true,
+                            avt: true,
+                            phone: true,
+                            email: true
+                        }
+                    },
+                    bookingservices: {
+                        include: {
+                            services: true
+                        }
+                    },
+                    pitch: true,
+                }
+            });
+            return order;
         });
 
         return booking;
@@ -300,7 +328,20 @@ export class BookingService {
             where: {status: 'pending'},
             skip,
             take: perpage,
+            orderBy: {
+                createdAt: 'asc'
+            },
             include: {
+                users: {
+                    select: {
+                        userId: true,
+                        fullName: true,
+                        email: true,
+                        phone: true,
+                        avt: true
+                    }
+                },
+                pitch: true,
                 bookingservices: {
                     include: { services: { select: { nameProduct: true }}}
                 },

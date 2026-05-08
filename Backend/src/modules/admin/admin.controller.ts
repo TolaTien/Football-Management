@@ -16,6 +16,12 @@ class Admin {
     async refundForUser(req: Request, res: Response){
         const refund = await AdminService.refundForUser(req.body);
         return res.status(200).json({ message: "Hoàn cọc thành công", data: refund});
+    };
+
+    async getAllHistoryOfUser(req: Request, res: Response){
+        const userId = req.params.userId as string;
+        const history = await AdminService.getAllHistoryOfUser({ userId });
+        return res.status(200).json({ message: "Lấy lịch sử thành công", data: history});
     }
 };
 

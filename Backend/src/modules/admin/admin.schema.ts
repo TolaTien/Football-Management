@@ -3,10 +3,14 @@ export interface ApproveRequestUser {
 
 }
 
-export interface cancelBookingForAdmin {
+export interface CancelBookingForAdmin {
     bookId: string,
 }
 
-export interface refundForUser {
+export interface RefundForUser {
     bookId: string
+}
+
+export interface GetAllHistoryOfUser {
+    userId: string
 }
