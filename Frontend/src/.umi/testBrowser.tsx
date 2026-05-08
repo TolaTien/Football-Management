@@ -10,6 +10,7 @@ import { getRoutes } from './core/route';
 import type { Location } from 'history';
 
 
+import 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/global.css';
 import 'antd/dist/reset.css';
 const publicPath = '/';
 const runtimePublicPath = false;
