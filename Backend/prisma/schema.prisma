@@ -16,13 +16,14 @@ model booking {
   startTime           DateTime?              @db.DateTime(0)
   endTime             DateTime?              @db.DateTime(0)
   paymentStatus       booking_paymentStatus? @default(pending)
-  pitchPriceAtBooking Decimal?               @db.Decimal(10, 2)
-  total               Decimal?               @db.Decimal(10, 2)
+  pitchPriceAtBooking Int?               
+  total               Int?               
   createdAt           DateTime?              @default(now()) @db.Timestamp(0)
   updatedAt           DateTime?              @default(now()) @db.Timestamp(0)
   users               users?                 @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "booking_ibfk_1")
   pitch               pitch?                 @relation(fields: [pitchId], references: [pitchId], onDelete: NoAction, onUpdate: NoAction, map: "booking_ibfk_2")
   bookingservices     bookingservices[]
+  cancelrequests      cancelrequests[]
   payments            payments[]
 
   @@index([pitchId], map: "pitchId")
@@ -34,7 +35,7 @@ model bookingservices {
   bookId                String?   @db.VarChar(50)
   serviceId             String?   @db.VarChar(50)
   quantity              Int?
-  servicePriceAtBooking Decimal?  @db.Decimal(10, 2)
+  servicePriceAtBooking Int? 
   createdAt             DateTime? @default(now()) @db.Timestamp(0)
   updatedAt             DateTime? @default(now()) @db.Timestamp(0)
   booking               booking?  @relation(fields: [bookId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "bookingservices_ibfk_1")
@@ -79,7 +80,7 @@ model payments {
   id            String                  @id @db.VarChar(50)
   bookingId     String?                 @db.VarChar(50)
   type          payments_type?
-  amount        Decimal?                @db.Decimal(10, 2)
+  amount        Int?               
   paymentMethod payments_paymentMethod?
   createdAt     DateTime?               @default(now()) @db.Timestamp(0)
   updatedAt     DateTime?               @default(now()) @db.Timestamp(0)
@@ -92,7 +93,7 @@ model pitch {
   pitchId       String               @id @db.VarChar(50)
   namePitch     String               @db.VarChar(255)
   status        pitch_status?        @default(active)
-  pitchCategory pitch_pitchCategory?
+  pitchCategory Int?
   address       String?              @db.VarChar(255)
   createdAt     DateTime?            @default(now()) @db.Timestamp(0)
   updatedAt     DateTime?            @default(now()) @db.Timestamp(0)
@@ -103,9 +104,9 @@ model pitch {
 model pitchprice {
   id        String    @id @db.VarChar(50)
   pitchId   String?   @db.VarChar(50)
-  startTime DateTime? @db.Time(0)
-  endTime   DateTime? @db.Time(0)
-  price     Decimal?  @db.Decimal(10, 2)
+  startTime DateTime? @db.DateTime(0)
+  endTime   DateTime? @db.DateTime(0)
+  price     Int?  
   createdAt DateTime? @default(now()) @db.Timestamp(0)
   updatedAt DateTime? @default(now()) @db.Timestamp(0)
   pitch     pitch?    @relation(fields: [pitchId], references: [pitchId], onDelete: Cascade, onUpdate: NoAction, map: "pitchprice_ibfk_1")
@@ -139,10 +140,22 @@ model postlike {
   @@index([postId], map: "postId")
 }
 
+model cancelrequests {
+  id      String  @id @db.VarChar(50)
+  userId  String  @db.VarChar(50)
+  bookId  String  @db.VarChar(50)
+  content String  @db.Text
+  users   users   @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "cancelrequests_ibfk_1")
+  booking booking @relation(fields: [bookId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "cancelrequests_ibfk_2")
+
+  @@index([bookId], map: "bookId")
+  @@index([userId], map: "userId")
+}
+
 model services {
   serviceId       String            @id @db.VarChar(50)
   nameProduct     String            @db.VarChar(255)
-  price           Decimal?          @db.Decimal(10, 2)
+  price           Int?      
   totalQuantity   Int?              @default(0)
   borrowed        Int?              @default(0)
   returned        Int?              @default(0)
@@ -162,6 +175,7 @@ model users {
   createdAt   DateTime?     @default(now()) @db.Timestamp(0)
   updatedAt   DateTime?     @default(now()) @db.Timestamp(0)
   booking     booking[]
+  cancelrequests cancelrequests[]
   commentlike commentlike[]
   comments    comments[]
   post        post[]
@@ -184,11 +198,7 @@ enum pitch_status {
   maintenance
 }
 
-enum pitch_pitchCategory {
-  five   @map("5")
-  seven  @map("7")
-  eleven @map("11")
-}
+
 
 enum post_status {
   open

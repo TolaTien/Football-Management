@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../utils/jwt.js";
+import { ApiError } from "../utils/ApiError.js";
 
 
 export const authUser =  (req: Request, res: Response, next: NextFunction) => {
@@ -19,4 +20,11 @@ export const authUser =  (req: Request, res: Response, next: NextFunction) => {
         console.log(err);
         return res.status(500).json({ message: "Lỗi xác thực người dùng" });
     }
+}
+
+export const authAdmin = (req: Request, res: Response, next: NextFunction) => {
+    if (req.user?.role !== 'admin') {
+        throw new ApiError(403, "Không có quyền truy cập");
+    }
+    next();
 }
