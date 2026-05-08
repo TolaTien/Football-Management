@@ -39,7 +39,21 @@ export class UserService {
         });
 
         return updatedUser ;
+    };
 
+    static async getHistoryBooking(userId: string) {
+        const user = await prisma.users.findUnique({ where: {userId}});
+        if(!user) throw new ApiError(400, "Không tìm thấy user");
+        const history = await prisma.booking.findMany({
+            where: { userId},
+            include: {
+                payments: true,
+                bookingservices: {
+                    include: { services: true }
+                }
+            }
+        });
 
+        return history;
     }
 }

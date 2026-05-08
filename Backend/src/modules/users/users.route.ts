@@ -6,3 +6,4 @@ import upload from "../../middlewares/upload.middlewares.js";
 export const userRouters: Router = Router();
 
 userRouters.put('/update-profile-user', authUser, upload.single('avt'), User.updateProfileUser)
+userRouters.get('/get-all-history-booking', authUser, User.getHistoryBooking)
