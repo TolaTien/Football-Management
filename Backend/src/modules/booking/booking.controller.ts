@@ -29,22 +29,11 @@ class Booking {
         return res.status(201).json({ message: "Tạo đơn đặt sân thành công", data: booking});
     }
 
-    async cancelBookingForAdmin(req: Request, res: Response){
-        const { bookId }  = req.body
-        const cancel = await BookingService.cancelBookingForAdmin(bookId);
-        return res.status(200).json({ message: "Hủy đơn đặt sân thành công", data: cancel});
-    };
-
     async getAllRequestForAdmin(req: Request, res: Response){
         const request = await BookingService.getAllRequestForAdmin(req.query);
 
         return res.status(200).json({ message: "Lấy các request thành công", data: request});
     };
-
-    async refundForUser(req: Request, res: Response){
-        const refund = await BookingService.refundForUser(req.body);
-        return res.status(200).json({ message: "Hoàn cọc thành công", data: refund});
-    }
 }
 
 export default new Booking();

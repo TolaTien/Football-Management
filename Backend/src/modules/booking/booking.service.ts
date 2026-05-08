@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/ApiError.js";
-import { bookingPitchForAdmin, BookPitchForUser, cancelBookingForAdmin, CancelBookingForUser, Payment, refundForUser } from "./booking.schema.js";
+import { bookingPitchForAdmin, BookPitchForUser, CancelBookingForUser, Payment } from "./booking.schema.js";
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 
@@ -117,6 +117,7 @@ export class BookingService {
 
         const hoursBeforeStart = (booking.startTime!.getTime() - Date.now()) / (1000 * 60 * 60);
         const isRefund = hoursBeforeStart > 24;
+        
         if (booking.paymentStatus === "pending" || ( booking.paymentStatus === "partial" && !isRefund )) {
             return prisma.$transaction(async (tx) => {
                 const bookingUpdate = await tx.booking.update({
@@ -132,6 +133,19 @@ export class BookingService {
                         content: dto.content
                     }
                 });
+
+                const bookingServices = await tx.bookingservices.findMany({ where: { bookId: dto.bookId } });
+                for (const items of bookingServices) {
+                    if (items.quantity && items.serviceId) {
+                        const item = await tx.services.findUnique({ where: { serviceId: items.serviceId } });
+                        if (item) {
+                            await tx.services.update({
+                                where: { serviceId: item.serviceId },
+                                data: { borrowed: (item.borrowed ?? 0) - items.quantity }
+                            });
+                        }
+                    }
+                };
 
                 return { bookingUpdate, cancelRequest };
             });
@@ -153,7 +167,6 @@ export class BookingService {
                     }
                 });
 
-
                 const cancelRequest = await tx.cancelrequests.create({
                     data: {
                         id: uuidv4(),
@@ -162,6 +175,19 @@ export class BookingService {
                         content: dto.content
                     }
                 });
+
+                const bookingServices = await tx.bookingservices.findMany({ where: { bookId: dto.bookId } });
+                for (const items of bookingServices) {
+                    if (items.quantity && items.serviceId) {
+                        const item = await tx.services.findUnique({ where: { serviceId: items.serviceId } });
+                        if (item) {
+                            await tx.services.update({
+                                where: { serviceId: item.serviceId },
+                                data: { borrowed: (item.borrowed ?? 0) - items.quantity }
+                            });
+                        }
+                    }
+                }
 
                 return { bookingUpdate, cancelRequest};
             })
@@ -265,18 +291,6 @@ export class BookingService {
         return booking
     };
 
-    static async cancelBookingForAdmin(dto: cancelBookingForAdmin){
-        const booking = await prisma.booking.findUnique({ where: {bookId: dto.bookId}});
-        if(!booking) throw new ApiError(400, "Không tìm thấy sân");
-        const cancel = await prisma.booking.update({
-            where: { bookId: booking.bookId},
-            data: {
-                status: 'rejected'
-            }
-        });
-        return cancel;
-    };
-
     static async getAllRequestForAdmin(query: any){
         const page = Number(query.page) || 1;
         const perpage = 10;
@@ -297,32 +311,6 @@ export class BookingService {
         const totalRequest = await prisma.booking.count({ where: { status: 'pending'}})
         const numberPage = Math.ceil(totalRequest/10);
         return { booking, pagination: { numberPage, page, totalRequest, perpage} };
-    }
-
-    static async refundForUser(dto: refundForUser){
-        const booking = await prisma.booking.findUnique({ 
-            where: { bookId: dto.bookId },
-            include: { payments: true }
-        });
-        if(!booking) throw new ApiError(400, "Không tìm thấy đơn đặt sân");
-        
-        if (booking.status !== 'rejected') {
-            throw new ApiError(400, "Chỉ có thể hoàn cọc cho đơn đã bị huỷ");
-        }
-
-        const update = await prisma.booking.update({
-            where: { bookId:  booking.bookId},
-            data: {
-                payments: {
-                    updateMany: {
-                        where: { type: 'pending' },
-                        data: { type: 'refund' },
-                    }
-                }
-            }
-        });
-
-        return update;
     }
 
 }

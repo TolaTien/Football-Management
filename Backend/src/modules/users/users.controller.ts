@@ -15,7 +15,9 @@ class User {
         const userId = req.user?.userId as string;
         const history = await UserService.getHistoryBooking(userId);
         res.status(200).json({ message: "Lấy lịch sử thành công", data: history });
-    }
+    };
+
+    
 }
 
 export default new User();
