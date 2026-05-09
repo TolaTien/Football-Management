@@ -1,5 +1,5 @@
 .env
 node_modules/
 
-GEMINI.md
-.github
+*.md
+# đưa các file .md vào .gitignore để tránh commit các file tài liệu không cần thiết
