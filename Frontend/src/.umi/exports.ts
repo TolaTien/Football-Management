@@ -11,7 +11,6 @@ export { useRequest, UseRequestProvider, request, getRequestInstance } from 'C:/
 // plugins types.d.ts
 export * from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-access/types.d';
 export * from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-antd/types.d';
-export * from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-layout/types.d';
 export * from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-request/types.d';
 // @umijs/renderer-*
 export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/node_modules/@umijs/renderer-react';
