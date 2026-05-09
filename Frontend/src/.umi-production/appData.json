@@ -54,7 +54,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 8
+        "register": 10
       },
       "enableBy": "register"
     },
@@ -145,10 +145,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            9
+            89
           ]
         },
-        "register": 15
+        "register": 16
       },
       "enableBy": "register"
     },
@@ -178,7 +178,7 @@
             0
           ],
           "onCheck": [
-            3
+            0
           ]
         },
         "register": 1
@@ -198,7 +198,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -211,7 +211,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1080,7 +1080,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1110,7 +1110,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1136,7 +1136,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 29
+        "register": 28
       },
       "enableBy": "config"
     },
@@ -1149,7 +1149,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 14
+        "register": 10
       },
       "enableBy": "config"
     },
@@ -1163,10 +1163,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            1
+            0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1179,7 +1179,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1192,7 +1192,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1204,12 +1204,8 @@
       "key": "mock",
       "config": {},
       "time": {
-        "hooks": {
-          "onStart": [
-            2
-          ]
-        },
-        "register": 21
+        "hooks": {},
+        "register": 22
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mpa/mpa": {
@@ -1259,7 +1255,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1276,7 +1272,7 @@
             1
           ]
         },
-        "register": 2
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/polyfill/publicPathPolyfill": {
@@ -1314,7 +1310,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1327,7 +1323,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1340,7 +1336,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1353,7 +1349,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1379,7 +1375,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/ssr/ssr": {
@@ -1430,7 +1426,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -1443,7 +1439,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1456,7 +1452,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 5
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/monorepo/redirect": {
@@ -1468,7 +1464,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 15
+        "register": 17
       },
       "enableBy": "config"
     },
@@ -1493,9 +1489,8 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
-      },
-      "enableBy": "config"
+        "register": 1
+      }
     },
     "./node_modules/@umijs/preset-umi/dist/features/legacy/legacy": {
       "cwd": "C:\\Users\\Admin\\Desktop\\huy\\web sân bóng\\Football-Management\\Frontend",
@@ -1561,7 +1556,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mako/mako": {
@@ -1573,7 +1568,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1598,7 +1593,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/routePreloadOnLoad/routePreloadOnLoad": {
@@ -1622,7 +1617,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1648,7 +1643,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1661,7 +1656,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 26
+        "register": 25
       },
       "enableBy": "register"
     },
@@ -1673,12 +1668,8 @@
       "key": "dev",
       "config": {},
       "time": {
-        "hooks": {
-          "modifyAppData": [
-            17
-          ]
-        },
-        "register": 27
+        "hooks": {},
+        "register": 28
       }
     },
     "./node_modules/@umijs/preset-umi/dist/commands/help": {
@@ -1742,7 +1733,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1781,7 +1772,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1794,7 +1785,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1820,7 +1811,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1833,7 +1824,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1859,7 +1850,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1872,7 +1863,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1950,7 +1941,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1978,7 +1969,7 @@
       },
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       }
     },
     "./node_modules/@umijs/plugins/dist/antd": {
@@ -1994,7 +1985,7 @@
             1
           ],
           "modifyAppData": [
-            0
+            1
           ],
           "onCheck": [
             0
@@ -2012,7 +2003,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 7
       },
       "enableBy": "config"
     },
@@ -2025,7 +2016,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2047,10 +2038,10 @@
             0
           ],
           "modifyAppData": [
-            1
+            0
           ]
         },
-        "register": 3
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2063,7 +2054,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2076,7 +2067,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2102,7 +2093,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2115,7 +2106,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -2140,7 +2131,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       }
     },
     "./node_modules/@umijs/plugins/dist/react-query": {
@@ -2178,7 +2169,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2191,7 +2182,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2204,7 +2195,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2238,7 +2229,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -2255,7 +2246,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2274,7 +2265,7 @@
     }
   },
   "presets": [],
-  "name": "dev",
+  "name": "build",
   "args": {
     "_": []
   },
@@ -2377,7 +2368,7 @@
       "@widgets": "/src/widgets",
       "@pages": "/src/pages",
       "@app": "/src/app",
-      "@@": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi",
+      "@@": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi-production",
       "regenerator-runtime": "C:\\Users\\Admin\\Desktop\\huy\\web sân bóng\\Football-Management\\Frontend\\node_modules\\regenerator-runtime",
       "antd": "C:\\Users\\Admin\\Desktop\\huy\\web sân bóng\\Football-Management\\Frontend\\node_modules\\antd",
       "@umijs/max": "@@/exports"
@@ -3411,7 +3402,7 @@
       "parentId": "4",
       "id": "6",
       "absPath": "/admin/schedule",
-      "__content": "import React, { useState } from 'react';\nimport { PageContainer } from '@ant-design/pro-components';\nimport { Card, Modal, Button, Form, Input, DatePicker, message, Typography, Row, Col } from 'antd';\nimport { SearchOutlined, FilterOutlined } from '@ant-design/icons';\nimport dayjs from 'dayjs';\n\nconst { Title, Text } = Typography;\n\n// Time slots from 06:00 to 23:00 (30 min intervals)\nconst generateTimeSlots = () => {\n  const slots = [];\n  for (let i = 6; i < 23; i++) {\n    slots.push(`${i.toString().padStart(2, '0')}:00`);\n    slots.push(`${i.toString().padStart(2, '0')}:30`);\n  }\n  return slots;\n};\nconst timeSlots = generateTimeSlots();\n\nconst pitches = [\n  { id: 'p1', name: 'Sân 5 - A1' },\n  { id: 'p2', name: 'Sân 5 - A2' },\n  { id: 'p3', name: 'Sân 7 - B1' },\n  { id: 'p4', name: 'Sân 7 - B2' },\n];\n\nconst mockBookings = [\n  { id: 'b1', pitchId: 'p1', startIdx: 24, endIdx: 26, status: 'booked', user: 'Nguyễn Văn Hùng' }, // 18:00 - 19:30\n  { id: 'b2', pitchId: 'p3', startIdx: 27, endIdx: 29, status: 'pending', user: 'Trần Bình' }, // 19:30 - 21:00\n  { id: 'b3', pitchId: 'p2', startIdx: 20, endIdx: 23, status: 'booked', user: 'FC The Boys' }, // 16:00 - 18:00\n];\n\nconst AdminSchedule: React.FC = () => {\n  const [isDragging, setIsDragging] = useState(false);\n  const [selection, setSelection] = useState<{ pitchId: string; startIdx: number; endIdx: number } | null>(null);\n  const [isModalVisible, setIsModalVisible] = useState(false);\n\n  const getCellStatus = (pitchId: string, slotIdx: number) => {\n    // Check if within current selection\n    if (selection && selection.pitchId === pitchId) {\n      const minIdx = Math.min(selection.startIdx, selection.endIdx);\n      const maxIdx = Math.max(selection.startIdx, selection.endIdx);\n      if (slotIdx >= minIdx && slotIdx <= maxIdx) return 'selected';\n    }\n\n    // Check existing bookings\n    const booking = mockBookings.find(\n      (b) => b.pitchId === pitchId && slotIdx >= b.startIdx && slotIdx <= b.endIdx\n    );\n    if (booking) return booking.status; // 'booked' | 'pending'\n\n    return 'available';\n  };\n\n  const handleMouseDown = (pitchId: string, slotIdx: number) => {\n    const status = getCellStatus(pitchId, slotIdx);\n    if (status === 'booked' || status === 'pending') return;\n    setIsDragging(true);\n    setSelection({ pitchId, startIdx: slotIdx, endIdx: slotIdx });\n  };\n\n  const handleMouseEnter = (pitchId: string, slotIdx: number) => {\n    if (!isDragging || !selection) return;\n    if (selection.pitchId !== pitchId) return; // Only allow vertical drag\n\n    const minIdx = Math.min(selection.startIdx, slotIdx);\n    const maxIdx = Math.max(selection.startIdx, slotIdx);\n    \n    // Check for overlap with existing bookings during drag\n    let hasOverlap = false;\n    for (let i = minIdx; i <= maxIdx; i++) {\n        const isBooked = mockBookings.some(b => b.pitchId === pitchId && i >= b.startIdx && i <= b.endIdx);\n        if (isBooked) hasOverlap = true;\n    }\n\n    if (!hasOverlap) {\n        setSelection({ ...selection, endIdx: slotIdx });\n    }\n  };\n\n  const handleMouseUp = () => {\n    if (!isDragging) return;\n    setIsDragging(false);\n    if (selection) {\n      setIsModalVisible(true);\n    }\n  };\n\n  const handleCancelBooking = () => {\n    setSelection(null);\n    setIsModalVisible(false);\n  };\n\n  const handleConfirmBooking = () => {\n    message.success('Tạo lịch đặt sân thành công!');\n    setSelection(null);\n    setIsModalVisible(false);\n  };\n\n  const calculatePrice = () => {\n    if (!selection) return 0;\n    const slotsCount = Math.max(selection.startIdx, selection.endIdx) - Math.min(selection.startIdx, selection.endIdx) + 1;\n    // Assuming 300,000 VND per hour => 150,000 VND per 30 mins\n    return slotsCount * 150000;\n  };\n\n  return (\n    <PageContainer\n      header={{\n        title: <Title level={2} style={{ margin: 0, fontWeight: 700 }}>Lịch đặt sân</Title>,\n        subTitle: <Text style={{ color: '#6b7280', fontSize: 14 }}>Quản lý thời gian, kéo thả để tạo lịch đặt sân nhanh chóng.</Text>,\n      }}\n    >\n      <Card className=\"card-arena\" bordered={false} bodyStyle={{ padding: 24 }}>\n        {/* Toolbar */}\n        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>\n          <div style={{ display: 'flex', gap: 16 }}>\n            <DatePicker defaultValue={dayjs()} format=\"DD/MM/YYYY\" size=\"large\" style={{ borderRadius: 8, width: 240 }} />\n            <Input prefix={<SearchOutlined />} placeholder=\"Tìm khách hàng...\" size=\"large\" style={{ borderRadius: 8, width: 240 }} />\n          </div>\n          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>\n            <div style={{ display: 'flex', gap: 16, fontSize: 13, color: '#4b5563', marginRight: 16 }}>\n              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><div style={{ width: 12, height: 12, borderRadius: 4, backgroundColor: '#ffffff', border: '1px solid #e5e7eb' }} /> Trống</div>\n              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><div style={{ width: 12, height: 12, borderRadius: 4, backgroundColor: '#00a67d' }} /> Đang chọn</div>\n              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><div style={{ width: 12, height: 12, borderRadius: 4, backgroundColor: '#fee2e2' }} /> Đã đặt</div>\n              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><div style={{ width: 12, height: 12, borderRadius: 4, backgroundColor: '#fef3c7' }} /> Chờ duyệt</div>\n            </div>\n            <Button icon={<FilterOutlined />} size=\"large\" style={{ borderRadius: 8 }}>Bộ lọc</Button>\n          </div>\n        </div>\n\n        {/* Schedule Grid */}\n        <div className=\"arena-schedule-grid\" onMouseUp={handleMouseUp} onMouseLeave={() => setIsDragging(false)}>\n          {/* Time Column */}\n          <div className=\"arena-time-col\">\n            <div className=\"arena-grid-header\">Giờ</div>\n            {timeSlots.map((time, idx) => (\n              <div key={idx} className=\"arena-cell time-label\">\n                {time}\n              </div>\n            ))}\n          </div>\n\n          {/* Pitch Columns */}\n          {pitches.map((pitch) => (\n            <div key={pitch.id} className=\"arena-pitch-col\">\n              <div className=\"arena-grid-header\">{pitch.name}</div>\n              {timeSlots.map((_, idx) => {\n                const status = getCellStatus(pitch.id, idx);\n                let displayContent = null;\n\n                // Show user name if it's the start of a booking\n                const booking = mockBookings.find(b => b.pitchId === pitch.id && b.startIdx === idx);\n                if (booking) displayContent = booking.user;\n\n                // Show temporary selection text\n                if (status === 'selected' && idx === Math.min(selection!.startIdx, selection!.endIdx)) {\n                    const minIdx = Math.min(selection!.startIdx, selection!.endIdx);\n                    const maxIdx = Math.max(selection!.startIdx, selection!.endIdx);\n                    const durationMins = (maxIdx - minIdx + 1) * 30;\n                    displayContent = `Đang chọn... (${durationMins} phút)`;\n                }\n\n                return (\n                  <div\n                    key={idx}\n                    className={`arena-cell ${status}`}\n                    onMouseDown={() => handleMouseDown(pitch.id, idx)}\n                    onMouseEnter={() => handleMouseEnter(pitch.id, idx)}\n                  >\n                    {displayContent}\n                  </div>\n                );\n              })}\n            </div>\n          ))}\n        </div>\n      </Card>\n\n      {/* Booking Modal */}\n      <Modal\n        title={<div style={{ fontSize: 18, fontWeight: 700, color: '#1f2937' }}>Xác nhận đặt sân nhanh</div>}\n        open={isModalVisible}\n        onCancel={handleCancelBooking}\n        footer={null}\n        width={480}\n        style={{ borderRadius: 12 }}\n        bodyStyle={{ paddingTop: 16 }}\n      >\n        {selection && (\n          <Form layout=\"vertical\">\n            <Row gutter={16}>\n              <Col span={12}>\n                <Form.Item label={<span style={{ fontWeight: 600, color: '#4b5563' }}>Sân bóng</span>}>\n                  <Input value={pitches.find(p => p.id === selection.pitchId)?.name} readOnly size=\"large\" style={{ borderRadius: 8, backgroundColor: '#f9fafb', color: '#1f2937', fontWeight: 600 }} />\n                </Form.Item>\n              </Col>\n              <Col span={12}>\n                <Form.Item label={<span style={{ fontWeight: 600, color: '#4b5563' }}>Thời gian</span>}>\n                  <Input \n                    value={`${timeSlots[Math.min(selection.startIdx, selection.endIdx)]} - ${timeSlots[Math.max(selection.startIdx, selection.endIdx)]} (+30p)`} \n                    readOnly \n                    size=\"large\"\n                    style={{ borderRadius: 8, backgroundColor: '#f9fafb', color: '#1f2937', fontWeight: 600 }}\n                  />\n                </Form.Item>\n              </Col>\n            </Row>\n\n            <Form.Item label={<span style={{ fontWeight: 600, color: '#4b5563' }}>Khách hàng</span>} required>\n              <Input placeholder=\"Nhập tên hoặc số điện thoại khách hàng\" autoFocus size=\"large\" style={{ borderRadius: 8 }} />\n            </Form.Item>\n\n            <Form.Item label={<span style={{ fontWeight: 600, color: '#4b5563' }}>Ghi chú</span>}>\n              <Input.TextArea placeholder=\"Ghi chú thêm (nếu có)\" rows={2} style={{ borderRadius: 8 }} />\n            </Form.Item>\n\n            <div style={{ marginTop: 24, padding: 20, background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>\n              <span style={{ color: '#047857', fontWeight: 600, fontSize: 15 }}>Tổng tiền dự tính:</span> \n              <span style={{ color: '#00a67d', fontSize: 24, fontWeight: 700 }}>\n                  {calculatePrice().toLocaleString()}đ\n              </span>\n            </div>\n\n            <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'flex-end' }}>\n              <Button size=\"large\" onClick={handleCancelBooking} style={{ borderRadius: 8, fontWeight: 500 }}>\n                Hủy bỏ\n              </Button>\n              <Button type=\"primary\" size=\"large\" onClick={handleConfirmBooking} style={{ backgroundColor: '#00a67d', borderRadius: 8, fontWeight: 500, padding: '0 32px' }}>\n                Xác nhận đặt\n              </Button>\n            </div>\n          </Form>\n        )}\n      </Modal>\n    </PageContainer>\n  );\n};\n\nexport default AdminSchedule;\n",
+      "__content": "import React, { useState } from 'react';\nimport { PageContainer } from '@ant-design/pro-components';\nimport { Card, Modal, Button, Form, Input, DatePicker, message, Badge } from 'antd';\nimport dayjs from 'dayjs';\n\n// Time slots from 06:00 to 23:00 (30 min intervals)\nconst generateTimeSlots = () => {\n  const slots = [];\n  for (let i = 6; i < 23; i++) {\n    slots.push(`${i.toString().padStart(2, '0')}:00`);\n    slots.push(`${i.toString().padStart(2, '0')}:30`);\n  }\n  return slots;\n};\nconst timeSlots = generateTimeSlots();\n\nconst pitches = [\n  { id: 'p1', name: 'Sân 5A' },\n  { id: 'p2', name: 'Sân 5B' },\n  { id: 'p3', name: 'Sân 7A' },\n  { id: 'p4', name: 'Sân 11' },\n];\n\nconst mockBookings = [\n  { id: 'b1', pitchId: 'p1', startIdx: 24, endIdx: 26, status: 'booked', user: 'Nguyễn Văn A' }, // 18:00 - 19:30\n  { id: 'b2', pitchId: 'p3', startIdx: 27, endIdx: 29, status: 'pending', user: 'Trần B' }, // 19:30 - 21:00\n];\n\nconst AdminSchedule: React.FC = () => {\n  const [isDragging, setIsDragging] = useState(false);\n  const [selection, setSelection] = useState<{ pitchId: string; startIdx: number; endIdx: number } | null>(null);\n  const [isModalVisible, setIsModalVisible] = useState(false);\n\n  const getCellStatus = (pitchId: string, slotIdx: number) => {\n    // Check if within current selection\n    if (selection && selection.pitchId === pitchId) {\n      const minIdx = Math.min(selection.startIdx, selection.endIdx);\n      const maxIdx = Math.max(selection.startIdx, selection.endIdx);\n      if (slotIdx >= minIdx && slotIdx <= maxIdx) return 'selected';\n    }\n\n    // Check existing bookings\n    const booking = mockBookings.find(\n      (b) => b.pitchId === pitchId && slotIdx >= b.startIdx && slotIdx <= b.endIdx\n    );\n    if (booking) return booking.status; // 'booked' | 'pending'\n\n    return 'available';\n  };\n\n  const handleMouseDown = (pitchId: string, slotIdx: number) => {\n    const status = getCellStatus(pitchId, slotIdx);\n    if (status === 'booked' || status === 'pending') return;\n    setIsDragging(true);\n    setSelection({ pitchId, startIdx: slotIdx, endIdx: slotIdx });\n  };\n\n  const handleMouseEnter = (pitchId: string, slotIdx: number) => {\n    if (!isDragging || !selection) return;\n    if (selection.pitchId !== pitchId) return; // Only allow vertical drag\n\n    const minIdx = Math.min(selection.startIdx, slotIdx);\n    const maxIdx = Math.max(selection.startIdx, slotIdx);\n    \n    // Check for overlap with existing bookings during drag\n    let hasOverlap = false;\n    for (let i = minIdx; i <= maxIdx; i++) {\n        const status = getCellStatus(pitchId, i);\n        // We only check against mockBookings directly to avoid selection state interference\n        const isBooked = mockBookings.some(b => b.pitchId === pitchId && i >= b.startIdx && i <= b.endIdx);\n        if (isBooked) hasOverlap = true;\n    }\n\n    if (!hasOverlap) {\n        setSelection({ ...selection, endIdx: slotIdx });\n    }\n  };\n\n  const handleMouseUp = () => {\n    if (!isDragging) return;\n    setIsDragging(false);\n    if (selection) {\n      setIsModalVisible(true);\n    }\n  };\n\n  const handleCancelBooking = () => {\n    setSelection(null);\n    setIsModalVisible(false);\n  };\n\n  const handleConfirmBooking = () => {\n    message.success('Tạo lịch đặt sân thành công!');\n    setSelection(null);\n    setIsModalVisible(false);\n  };\n\n  return (\n    <PageContainer title=\"Quản lý Lịch Sân\" ghost>\n      <Card className=\"card-minimal\" title=\"Lịch hôm nay\" extra={<DatePicker defaultValue={dayjs()} format=\"DD/MM/YYYY\" />}>\n        <div style={{ marginBottom: 16, display: 'flex', gap: 16 }}>\n          <Badge color=\"#48bb78\" text=\"Trống (Kéo thả để đặt)\" />\n          <Badge color=\"#f56565\" text=\"Đã đặt\" />\n          <Badge color=\"#ecc94b\" text=\"Chờ thanh toán\" />\n        </div>\n\n        <div className=\"admin-grid-container\" onMouseUp={handleMouseUp} onMouseLeave={() => setIsDragging(false)}>\n          {/* Time Column */}\n          <div className=\"time-column\">\n            <div className=\"grid-header\">Giờ</div>\n            {timeSlots.map((time, idx) => (\n              <div key={idx} className=\"grid-cell\" style={{ cursor: 'default', color: '#718096' }}>\n                {time}\n              </div>\n            ))}\n          </div>\n\n          {/* Pitch Columns */}\n          {pitches.map((pitch) => (\n            <div key={pitch.id} className=\"pitch-column\">\n              <div className=\"grid-header\">{pitch.name}</div>\n              {timeSlots.map((_, idx) => {\n                const status = getCellStatus(pitch.id, idx);\n                let displayContent = null;\n\n                // Show user name if it's the start of a booking\n                const booking = mockBookings.find(b => b.pitchId === pitch.id && b.startIdx === idx);\n                if (booking) displayContent = booking.user;\n\n                // Show temporary selection text\n                if (status === 'selected' && idx === Math.min(selection!.startIdx, selection!.endIdx)) {\n                    const minIdx = Math.min(selection!.startIdx, selection!.endIdx);\n                    const maxIdx = Math.max(selection!.startIdx, selection!.endIdx);\n                    const durationMins = (maxIdx - minIdx + 1) * 30;\n                    displayContent = `Đang chọn... (${durationMins} phút)`;\n                }\n\n                return (\n                  <div\n                    key={idx}\n                    className={`grid-cell ${status}`}\n                    onMouseDown={() => handleMouseDown(pitch.id, idx)}\n                    onMouseEnter={() => handleMouseEnter(pitch.id, idx)}\n                  >\n                    {displayContent}\n                  </div>\n                );\n              })}\n            </div>\n          ))}\n        </div>\n      </Card>\n\n      <Modal\n        title=\"Xác nhận đặt sân nhanh\"\n        open={isModalVisible}\n        onCancel={handleCancelBooking}\n        onOk={handleConfirmBooking}\n        okText=\"Xác nhận đặt\"\n        cancelText=\"Hủy\"\n        className=\"minimal-modal\"\n      >\n        {selection && (\n          <Form layout=\"vertical\">\n            <Form.Item label=\"Sân\">\n              <Input value={pitches.find(p => p.id === selection.pitchId)?.name} readOnly />\n            </Form.Item>\n            <Form.Item label=\"Thời gian\">\n              <Input \n                value={`${timeSlots[Math.min(selection.startIdx, selection.endIdx)]} - ${timeSlots[Math.max(selection.startIdx, selection.endIdx)]} (+30p)`} \n                readOnly \n              />\n            </Form.Item>\n            <Form.Item label=\"Khách hàng\">\n              <Input placeholder=\"Nhập tên hoặc số điện thoại khách hàng\" autoFocus />\n            </Form.Item>\n            <div style={{ padding: 12, background: 'rgba(0, 77, 64, 0.05)', borderRadius: 8 }}>\n                <strong>Dự tính: </strong> \n                <span style={{ color: '#004d40', fontSize: 18, fontWeight: 600 }}>\n                    {((Math.max(selection.startIdx, selection.endIdx) - Math.min(selection.startIdx, selection.endIdx) + 1) * 150000).toLocaleString()}đ\n                </span>\n            </div>\n          </Form>\n        )}\n      </Modal>\n    </PageContainer>\n  );\n};\n\nexport default AdminSchedule;\n",
       "__isJSFile": true,
       "__absFile": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/pages/admin/schedule/index.tsx"
     },
@@ -3451,10 +3442,10 @@
     "ant-design-pro-layout": {
       "id": "ant-design-pro-layout",
       "path": "/",
-      "file": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-layout/Layout.tsx",
+      "file": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi-production/plugin-layout/Layout.tsx",
       "absPath": "/",
       "isLayout": true,
-      "__absFile": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-layout/Layout.tsx"
+      "__absFile": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi-production/plugin-layout/Layout.tsx"
     }
   },
   "apiRoutes": {},
@@ -3503,9 +3494,6 @@
     "tslibVersion": "2.8.1"
   },
   "faviconFiles": [],
-  "port": 8000,
-  "host": "0.0.0.0",
-  "ip": "192.168.59.1",
   "antd": {
     "pkgPath": "C:\\Users\\Admin\\Desktop\\huy\\web sân bóng\\Football-Management\\Frontend\\node_modules\\antd",
     "version": "5.29.3"
