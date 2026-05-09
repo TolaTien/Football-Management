@@ -33,6 +33,26 @@ export default defineConfig({
           path: '/admin/dashboard',
           component: './admin/dashboard',
         },
+        {
+          name: 'Schedule',
+          path: '/admin/schedule',
+          component: './admin/schedule',
+        },
+        {
+          name: 'Pitches',
+          path: '/admin/pitches',
+          component: './admin/pitches',
+        },
+        {
+          name: 'Customers',
+          path: '/admin/customers',
+          component: './admin/customers',
+        },
+        {
+          name: 'Finance',
+          path: '/admin/finance',
+          component: './admin/finance',
+        },
       ],
     },
   ],

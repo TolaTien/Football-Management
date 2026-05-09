@@ -4,7 +4,7 @@
 import React from 'react';
 
 export async function getRoutes() {
-  const routes = {"1":{"path":"/","redirect":"/home","parentId":"ant-design-pro-layout","id":"1"},"2":{"name":"Home","path":"/home","parentId":"ant-design-pro-layout","id":"2"},"3":{"name":"Pitches","path":"/pitches","parentId":"ant-design-pro-layout","id":"3"},"4":{"name":"Admin","path":"/admin","parentId":"ant-design-pro-layout","id":"4"},"5":{"name":"Dashboard","path":"/admin/dashboard","parentId":"4","id":"5"},"ant-design-pro-layout":{"id":"ant-design-pro-layout","path":"/","isLayout":true}} as const;
+  const routes = {"1":{"path":"/","redirect":"/home","parentId":"ant-design-pro-layout","id":"1"},"2":{"name":"Home","path":"/home","parentId":"ant-design-pro-layout","id":"2"},"3":{"name":"Pitches","path":"/pitches","parentId":"ant-design-pro-layout","id":"3"},"4":{"name":"Admin","path":"/admin","parentId":"ant-design-pro-layout","id":"4"},"5":{"name":"Dashboard","path":"/admin/dashboard","parentId":"4","id":"5"},"6":{"name":"Schedule","path":"/admin/schedule","parentId":"4","id":"6"},"7":{"name":"Pitches","path":"/admin/pitches","parentId":"4","id":"7"},"8":{"name":"Customers","path":"/admin/customers","parentId":"4","id":"8"},"9":{"name":"Finance","path":"/admin/finance","parentId":"4","id":"9"},"ant-design-pro-layout":{"id":"ant-design-pro-layout","path":"/","isLayout":true}} as const;
   return {
     routes,
     routeComponents: {
@@ -13,6 +13,10 @@ export async function getRoutes() {
 '3': React.lazy(() => import(/* webpackChunkName: "p__pitches__index" */'@/pages/pitches/index.tsx')),
 '4': React.lazy(() => import('./EmptyRoute')),
 '5': React.lazy(() => import(/* webpackChunkName: "p__admin__dashboard__index" */'@/pages/admin/dashboard/index.tsx')),
+'6': React.lazy(() => import(/* webpackChunkName: "p__admin__schedule__index" */'@/pages/admin/schedule/index.tsx')),
+'7': React.lazy(() => import(/* webpackChunkName: "p__admin__pitches__index" */'@/pages/admin/pitches/index.tsx')),
+'8': React.lazy(() => import(/* webpackChunkName: "p__admin__customers__index" */'@/pages/admin/customers/index.tsx')),
+'9': React.lazy(() => import(/* webpackChunkName: "p__admin__finance__index" */'@/pages/admin/finance/index.tsx')),
 'ant-design-pro-layout': React.lazy(() => import(/* webpackChunkName: "umi__plugin-layout__Layout" */'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-layout/Layout.tsx')),
 },
   };
