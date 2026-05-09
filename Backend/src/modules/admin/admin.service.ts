@@ -1,7 +1,7 @@
 import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/ApiError.js";
-import { ApproveRequestUser, CancelBookingForAdmin, GetAllHistoryOfUser, RefundForUser } from "./admin.schema.js";
-
+import { ApproveRequestUser, CancelBookingForAdmin, GetAllHistoryOfUser, RefundForUser, VerifyPaymentOfUser } from "./admin.schema.js";
+import { v4 as uuidv4} from 'uuid';
 
 export class AdminService {
     static async approveRequestUser(dto: ApproveRequestUser) {
@@ -57,13 +57,13 @@ export class AdminService {
 
             
             const bookingServices = await tx.bookingservices.findMany({ where: { bookId: booking.bookId } });
-            for (const bs of bookingServices) {
-                if (bs.quantity && bs.serviceId) {
-                    const item = await tx.services.findUnique({ where: { serviceId: bs.serviceId } });
+            for (const items of bookingServices) {
+                if (items.quantity && items.serviceId) {
+                    const item = await tx.services.findUnique({ where: { serviceId: items.serviceId } });
                     if (item) {
                         await tx.services.update({
                             where: { serviceId: item.serviceId },
-                            data: { borrowed: (item.borrowed ?? 0) - bs.quantity }
+                            data: { returned: (item.returned ?? 0) + items.quantity }
                         });
                     }
                 }
@@ -119,7 +119,51 @@ export class AdminService {
                 }
             }
         });
-
         return history;
+    };
+
+    static async verifyPaymentOfUser(dto: VerifyPaymentOfUser){
+        const booking = await prisma.booking.findUnique({ where: { bookId: dto.bookId}});
+        if(!booking) throw new ApiError(400, "Không tìm thấy đơn đặt sân");
+
+        const update = await prisma.$transaction( async (tx) => {
+
+            const newPayment = await tx.payments.create({
+                data: {
+                    id: uuidv4(),
+                    bookingId: booking.bookId,
+                    type: 'deposit',
+                    amount: (booking.pitchPriceAtBooking ?? 0) / 2,
+                    paymentMethod: dto.paymentMethod
+                }
+            });
+
+            const updateBooking = await tx.booking.update({
+                where: { bookId: booking.bookId},
+                data: {
+                    paymentStatus: 'paid',
+                },
+                include: {
+                    bookingservices: true,
+                    payments: true
+                }
+            });
+
+            for (const items of updateBooking.bookingservices) {
+                if (items.quantity && items.serviceId) {
+                    const item = await tx.services.findUnique({ where: { serviceId: items.serviceId } });
+                    if (item) {
+                        await tx.services.update({
+                            where: { serviceId: item.serviceId },
+                            data: { returned: (item.returned ?? 0) + items.quantity }
+                        });
+                    }
+                }
+            };
+
+            return updateBooking;
+        });
+
+        return update;
     }
 }

@@ -22,6 +22,11 @@ class Admin {
         const userId = req.params.userId as string;
         const history = await AdminService.getAllHistoryOfUser({ userId });
         return res.status(200).json({ message: "Lấy lịch sử thành công", data: history});
+    };
+
+    async verifyPaymentOfUser(req: Request, res: Response){
+        const verify = await AdminService.verifyPaymentOfUser(req.body);
+        return res.status(200).json({ message: "Xác nhận thanh toán thành công", data: verify});
     }
 };
 

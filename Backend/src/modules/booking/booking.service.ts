@@ -169,7 +169,7 @@ export class BookingService {
                         if (item) {
                             await tx.services.update({
                                 where: { serviceId: item.serviceId },
-                                data: { borrowed: (item.borrowed ?? 0) - items.quantity }
+                                data: { returned: (item.returned ?? 0) + items.quantity }
                             });
                         }
                     }
@@ -211,7 +211,7 @@ export class BookingService {
                         if (item) {
                             await tx.services.update({
                                 where: { serviceId: item.serviceId },
-                                data: { borrowed: (item.borrowed ?? 0) - items.quantity }
+                                data: { returned: (item.returned ?? 0) + items.quantity }
                             });
                         }
                     }
