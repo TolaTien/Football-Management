@@ -167,4 +167,47 @@ export class AdminService {
 
         return update;
     }
+
+    static async getAllUsers(query: any) {
+        const page = Number(query.page) || 1;
+        const perPage = 10;
+        const skip = (page - 1) * perPage;
+
+        const filter: any = { role: 'user' };
+
+        const users = await prisma.users.findMany({
+            where: filter,
+            skip,
+            take: perPage,
+            orderBy: { createdAt: 'desc' },
+            include: {
+                _count: {
+                    select: { booking: true }
+                }
+            }
+        });
+        
+        const enrichedUsers = await Promise.all(users.map(async (user) => {
+            const bookings = await prisma.booking.findMany({
+                where: { userId: user.userId, paymentStatus: { in: ['paid', 'partial'] } }
+            });
+            const spent = bookings.reduce((sum, b) => sum + (b.total || 0), 0);
+            return {
+                id: user.userId,
+                name: user.fullName,
+                email: user.email,
+                phone: user.phone || 'Chưa cập nhật',
+                location: 'Tự do',
+                joinDate: user.createdAt ? new Date(user.createdAt).toLocaleDateString('vi-VN') : 'N/A',
+                bookings: user._count.booking,
+                spent: `${(spent / 1000).toLocaleString()}K`,
+                status: 'active'
+            };
+        }));
+
+        const total = await prisma.users.count({ where: filter });
+        const totalPages = Math.ceil(total / perPage);
+
+        return { users: enrichedUsers, pagination: { total, totalPages, page, perPage } };
+    }
 }

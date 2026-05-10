@@ -28,6 +28,11 @@ class Admin {
         const verify = await AdminService.verifyPaymentOfUser(req.body);
         return res.status(200).json({ message: "Xác nhận thanh toán thành công", data: verify});
     }
+
+    async getAllUsers(req: Request, res: Response) {
+        const result = await AdminService.getAllUsers(req.query);
+        return res.status(200).json({ message: "Lấy danh sách người dùng thành công", data: result });
+    }
 };
 
 export default new Admin();

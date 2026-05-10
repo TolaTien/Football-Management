@@ -323,13 +323,18 @@ export class BookingService {
         const page = Number(query.page) || 1;
         const perpage = 10;
         const skip = ( page - 1) * 10;
+        
+        const filter: any = {};
+        if (query.status) {
+            filter.status = query.status;
+        }
 
         const booking = await prisma.booking.findMany({
-            where: {status: 'pending'},
+            where: filter,
             skip,
             take: perpage,
             orderBy: {
-                createdAt: 'asc'
+                createdAt: 'desc'
             },
             include: {
                 users: {
@@ -349,7 +354,7 @@ export class BookingService {
             } 
         });
 
-        const totalRequest = await prisma.booking.count({ where: { status: 'pending'}})
+        const totalRequest = await prisma.booking.count({ where: filter })
         const numberPage = Math.ceil(totalRequest/10);
         return { booking, pagination: { numberPage, page, totalRequest, perpage} };
     }
