@@ -142,6 +142,7 @@ export class AdminService {
                 where: { bookId: booking.bookId},
                 data: {
                     paymentStatus: 'paid',
+                    total: (booking.total ?? 0) + ((booking.pitchPriceAtBooking ?? 0) / 2)
                 },
                 include: {
                     bookingservices: true,
