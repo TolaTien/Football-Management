@@ -8,9 +8,9 @@ import { renderClient } from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football
 import { getRoutes } from './core/route';
 import { createPluginManager } from './core/plugin';
 import { createHistory } from './core/history';
-import Loading from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/loading.tsx';
+import Loading from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/loading.tsx';
 import { ApplyPluginsType } from 'umi';
-import 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-tailwindcss/tailwind.css';
+import 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-tailwindcss/tailwind.css';
 
 const publicPath = "/";
 const runtimePublicPath = false;

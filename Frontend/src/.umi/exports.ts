@@ -9,16 +9,9 @@ export { Access, useAccess, useAccessMarkedRoutes } from 'C:/Users/Admin/Desktop
 export { Provider, useModel } from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-model';
 export { useRequest, UseRequestProvider, request, getRequestInstance } from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-request';
 // plugins types.d.ts
-<<<<<<< HEAD
 export * from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-access/types.d';
 export * from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-antd/types.d';
-export * from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-layout/types.d';
 export * from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-request/types.d';
-=======
-export * from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-access/types.d';
-export * from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-antd/types.d';
-export * from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-request/types.d';
->>>>>>> a6c83e67f96e55853ede099d9ded7afa62ca084d
 // @umijs/renderer-*
 export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/node_modules/@umijs/renderer-react';
 export type { History, ClientLoader } from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/node_modules/@umijs/renderer-react'

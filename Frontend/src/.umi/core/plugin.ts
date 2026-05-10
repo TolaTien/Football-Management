@@ -3,16 +3,9 @@
 // DO NOT CHANGE IT MANUALLY!
 import * as Plugin_0 from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/app.ts';
 import * as Plugin_1 from '@@/core/helmet.ts';
-<<<<<<< HEAD
 import * as Plugin_2 from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-access/runtime.tsx';
 import * as Plugin_3 from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-initialState/runtime.tsx';
-import * as Plugin_4 from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-layout/runtime.tsx';
-import * as Plugin_5 from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-model/runtime.tsx';
-=======
-import * as Plugin_2 from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-access/runtime.tsx';
-import * as Plugin_3 from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-initialState/runtime.tsx';
-import * as Plugin_4 from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-model/runtime.tsx';
->>>>>>> a6c83e67f96e55853ede099d9ded7afa62ca084d
+import * as Plugin_4 from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-model/runtime.tsx';
 import { PluginManager } from 'umi';
 
 function __defaultExport (obj) {
@@ -41,15 +34,7 @@ export function getPlugins() {
     },
     {
       apply: Plugin_4,
-<<<<<<< HEAD
-      path: process.env.NODE_ENV === 'production' ? void 0 : 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-layout/runtime.tsx',
-    },
-    {
-      apply: Plugin_5,
       path: process.env.NODE_ENV === 'production' ? void 0 : 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/.umi/plugin-model/runtime.tsx',
-=======
-      path: process.env.NODE_ENV === 'production' ? void 0 : 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-model/runtime.tsx',
->>>>>>> a6c83e67f96e55853ede099d9ded7afa62ca084d
     },
   ];
 }
