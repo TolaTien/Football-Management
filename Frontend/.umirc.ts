@@ -36,9 +36,10 @@ export default defineConfig({
         { path: '/matchmaking/messages', component: './matchmaking/messages' },
       ],
     },
-    // Admin routes (if they still need the Pro layout, we can re-enable it locally but for now let's keep it simple)
+    // Admin routes
     {
       path: '/admin',
+      component: '@/layouts/AdminLayout',
       routes: [
         {
           path: '/admin/dashboard',
@@ -52,7 +53,12 @@ export default defineConfig({
         {
           name: 'Pitches',
           path: '/admin/pitches',
-          component: './admin/pitches',
+          component: './admin/pitches', 
+        },
+        {
+          name: 'Pricing',
+          path: '/admin/pricing',
+          component: './admin/pricing', 
         },
         {
           name: 'Customers',
@@ -63,6 +69,16 @@ export default defineConfig({
           name: 'Finance',
           path: '/admin/finance',
           component: './admin/finance',
+        },
+        {
+          name: 'Services',
+          path: '/admin/services',
+          component: './admin/services',
+        },
+        {
+          name: 'Forum',
+          path: '/admin/forum',
+          component: './admin/forum',
         },
       ],
     },
