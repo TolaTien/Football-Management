@@ -1,3 +1,4 @@
-export interface statisticForAdmin {
-    
+export interface StatisticForAdmin {
+    month: number;
+    year: number;
 }

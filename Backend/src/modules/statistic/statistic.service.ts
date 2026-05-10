@@ -1,12 +1,8 @@
 import { prisma } from "../../config/prisma.js";
-
-export interface GetMonthlyRevenueDto {
-    month: number;
-    year: number;
-}
+import { StatisticForAdmin } from "./statistic.schema.js";
 
 export class StatisticService {
-    static async getMonthlyRevenue(dto: GetMonthlyRevenueDto) {
+    static async getMonthlyRevenue(dto: StatisticForAdmin) {
         const { month, year } = dto;
 
         const daysInMonth = new Date(year, month, 0).getDate();
