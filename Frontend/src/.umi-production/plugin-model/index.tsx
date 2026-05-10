@@ -3,7 +3,11 @@
 // DO NOT CHANGE IT MANUALLY!
 // @ts-ignore
 import type { models as rawModels } from '@@/plugin-model/model';
+<<<<<<< HEAD
 import isEqual from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/node_modules/fast-deep-equal/index.js';
+=======
+import isEqual from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/node_modules/fast-deep-equal/index.js';
+>>>>>>> a6c83e67f96e55853ede099d9ded7afa62ca084d
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 type Models = typeof rawModels;

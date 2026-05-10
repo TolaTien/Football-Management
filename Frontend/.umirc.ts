@@ -2,34 +2,45 @@ import { defineConfig } from '@umijs/max';
 
 export default defineConfig({
   antd: {},
+  tailwindcss: {},
   access: {},
   model: {},
   initialState: {},
   request: {},
-  layout: {
-    title: 'Football Management',
-  },
+  layout: false, // Disable the built-in Pro Layout globally, we manage our own
   routes: [
     {
       path: '/',
-      redirect: '/home',
+      redirect: '/auth/login',
+    },
+    // Auth pages
+    {
+      path: '/auth/login',
+      component: './auth/login',
     },
     {
-      name: 'Home',
-      path: '/home',
-      component: './home',
+      path: '/auth/signup',
+      component: './auth/signup',
     },
+    // User routes sharing UserLayout
     {
-      name: 'Pitches',
-      path: '/pitches',
-      component: './pitches',
+      path: '/',
+      component: '@/layouts/UserLayout',
+      routes: [
+        { path: '/user/dashboard', component: './user/dashboard' },
+        { path: '/user/activity', component: './user/activity' },
+        { path: '/user/team', component: './user/team' },
+        { path: '/user/wallet', component: './user/wallet' },
+        { path: '/booking/availability', component: './booking/availability' },
+        { path: '/matchmaking/feed', component: './matchmaking/feed' },
+        { path: '/matchmaking/messages', component: './matchmaking/messages' },
+      ],
     },
+    // Admin routes (if they still need the Pro layout, we can re-enable it locally but for now let's keep it simple)
     {
-      name: 'Admin',
       path: '/admin',
       routes: [
         {
-          name: 'Dashboard',
           path: '/admin/dashboard',
           component: './admin/dashboard',
         },
@@ -57,13 +68,13 @@ export default defineConfig({
     },
   ],
   alias: {
-    '@': '/src',
-    '@shared': '/src/shared',
-    '@entities': '/src/entities',
-    '@features': '/src/features',
-    '@widgets': '/src/widgets',
-    '@pages': '/src/pages',
-    '@app': '/src/app',
+    '@': __dirname + '/src',
+    '@shared': __dirname + '/src/shared',
+    '@entities': __dirname + '/src/entities',
+    '@features': __dirname + '/src/features',
+    '@widgets': __dirname + '/src/widgets',
+    '@pages': __dirname + '/src/pages',
+    '@app': __dirname + '/src/app',
   },
   npmClient: 'npm',
   esbuildMinifyIIFE: true,

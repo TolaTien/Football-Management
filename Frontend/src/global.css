@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
@@ -224,4 +225,54 @@ h1, h2, h3, h4, h5, h6 {
   color: #d97706;
   font-weight: 600;
   cursor: not-allowed;
+=======
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    background-color: #f9f9f9;
+    color: #1a1c1c;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    text-align: left;
+    border: none;
+    display: block;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    font-size: 24px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+@layer utilities {
+  .pitch-grid {
+    background-image: linear-gradient(#ededed 1px, transparent 1px),
+      linear-gradient(90deg, #ededed 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+>>>>>>> a6c83e67f96e55853ede099d9ded7afa62ca084d
 }

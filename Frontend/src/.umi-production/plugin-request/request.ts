@@ -6,8 +6,13 @@ import axios, {
   type AxiosRequestConfig,
   type AxiosResponse,
   type AxiosError,
+<<<<<<< HEAD
 } from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/node_modules/@umijs/plugins/node_modules/axios';
 import useUmiRequest, { UseRequestProvider } from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/node_modules/@umijs/plugins/node_modules/@ahooksjs/use-request';
+=======
+} from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/node_modules/@umijs/plugins/node_modules/axios';
+import useUmiRequest, { UseRequestProvider } from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/node_modules/@umijs/plugins/node_modules/@ahooksjs/use-request';
+>>>>>>> a6c83e67f96e55853ede099d9ded7afa62ca084d
 import { ApplyPluginsType } from 'umi';
 import { getPluginManager } from '../core/plugin';
 
@@ -26,7 +31,11 @@ import {
   PaginatedOptionsWithFormat,
   PaginatedParams,
   PaginatedResult,
+<<<<<<< HEAD
 } from 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/node_modules/@umijs/plugins/node_modules/@ahooksjs/use-request/es/types';
+=======
+} from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/node_modules/@umijs/plugins/node_modules/@ahooksjs/use-request/es/types';
+>>>>>>> a6c83e67f96e55853ede099d9ded7afa62ca084d
 
 type ResultWithData< T = any > = { data?: T; [key: string]: any };
 

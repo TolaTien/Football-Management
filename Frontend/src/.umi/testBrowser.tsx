@@ -9,6 +9,7 @@ import { createPluginManager } from './core/plugin';
 import { getRoutes } from './core/route';
 import type { Location } from 'history';
 
+import Loading from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/loading.tsx';
 
 import 'C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/global.css';
 import 'antd/dist/reset.css';
@@ -52,6 +53,7 @@ export function TestBrowser(props: TestBrowserProps) {
         routeComponents,
         pluginManager,
         rootElement: contextOpts.rootElement || document.getElementById('root'),
+        loadingComponent: Loading,
         publicPath,
         runtimePublicPath,
         history,

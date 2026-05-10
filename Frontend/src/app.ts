@@ -3,6 +3,7 @@ import { RunTimeLayoutConfig } from '@umijs/max';
 export const getInitialState = async (): Promise<{ name: string }> => {
   return { name: 'Admin' };
 };
+<<<<<<< HEAD
 
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
@@ -33,3 +34,5 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     rightContentRender: () => null, // Will use custom right content in pages if needed
   };
 };
+=======
+>>>>>>> a6c83e67f96e55853ede099d9ded7afa62ca084d
