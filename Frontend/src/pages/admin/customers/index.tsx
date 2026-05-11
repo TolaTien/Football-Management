@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
-import { Row, Col, Card, Table, Tag, Button, Space, Typography, Popconfirm, message, Tabs, Modal, Form, Input, Select } from 'antd';
-import { StopOutlined, CheckCircleOutlined, UserAddOutlined, TeamOutlined, SafetyCertificateOutlined, UserOutlined, WarningOutlined } from '@ant-design/icons';
+import { Row, Col, Card, Table, Tag, Button, Space, Typography, Popconfirm, message, Tabs, Modal, Form, Input, Select, Switch } from 'antd';
+import {
+  StopOutlined, CheckCircleOutlined, UserAddOutlined, TeamOutlined,
+  SafetyCertificateOutlined, UserOutlined, WarningOutlined,
+  MailOutlined, PhoneOutlined, IdcardOutlined, LockOutlined,
+} from '@ant-design/icons';
 import { useModel } from '@umijs/max';
 
 const { Title, Text } = Typography;
@@ -10,15 +14,14 @@ const AdminCustomers: React.FC = () => {
   const { users, toggleBanStatus, addUser } = useModel('adminUsers');
   const [activeTab, setActiveTab] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const [form] = Form.useForm();
 
-  // Thống kê
   const totalUsers = users.length;
   const adminCount = users.filter(u => u.role === 'Quản trị').length;
   const activeCount = users.filter(u => u.status === 'active').length;
   const bannedCount = users.filter(u => u.status === 'banned').length;
 
-  // Lọc theo Tab
   const filteredUsers = users.filter(u => {
     if (activeTab === 'admin') return u.role === 'Quản trị';
     if (activeTab === 'customer') return u.role === 'Khách hàng';
@@ -35,6 +38,13 @@ const AdminCustomers: React.FC = () => {
     message.success('Thêm người dùng thành công!');
     setIsModalOpen(false);
     form.resetFields();
+    setIsActive(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    form.resetFields();
+    setIsActive(true);
   };
 
   const columns = [
@@ -44,9 +54,9 @@ const AdminCustomers: React.FC = () => {
       key: 'name',
       render: (text: string, record: any) => (
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ 
-            width: 40, height: 40, borderRadius: '50%', backgroundColor: '#059669', 
-            color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold'
+          <div style={{
+            width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(135deg, #059669, #00a67d)',
+            color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: 16,
           }}>
             {text.substring(0, 1)}
           </div>
@@ -106,6 +116,150 @@ const AdminCustomers: React.FC = () => {
       )
     }
   ];
+
+  // ─── Nội dung form bên phải ───────────────────────────────────────────────
+  const formContent = (
+    <Form form={form} layout="vertical" onFinish={handleAddUser} style={{ padding: '32px 32px 8px' }}>
+      {/* Hàng 1: Họ tên + SĐT */}
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            name="name"
+            label={
+              <span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <IdcardOutlined style={{ color: '#059669' }} /> Họ và tên
+              </span>
+            }
+            rules={[{ required: true, message: 'Vui lòng nhập tên' }]}
+          >
+            <Input
+              placeholder="Nguyễn Văn An"
+              size="large"
+              style={{ borderRadius: 10, borderColor: '#d1d5db' }}
+            />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            name="phone"
+            label={
+              <span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <PhoneOutlined style={{ color: '#059669' }} /> Số điện thoại
+              </span>
+            }
+            rules={[{ required: true, message: 'Vui lòng nhập SĐT' }]}
+          >
+            <Input
+              placeholder="0901 234 567"
+              size="large"
+              style={{ borderRadius: 10, borderColor: '#d1d5db' }}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      {/* Email */}
+      <Form.Item
+        name="email"
+        label={
+          <span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <MailOutlined style={{ color: '#059669' }} /> Địa chỉ Email
+          </span>
+        }
+        rules={[{ required: true, type: 'email', message: 'Vui lòng nhập email hợp lệ' }]}
+      >
+        <Input
+          placeholder="example@turfmanager.vn"
+          size="large"
+          style={{ borderRadius: 10, borderColor: '#d1d5db' }}
+        />
+      </Form.Item>
+
+      {/* Vai trò + Trạng thái */}
+      <Row gutter={16} align="bottom">
+        <Col span={14}>
+          <Form.Item
+            name="role"
+            initialValue="Khách hàng"
+            label={
+              <span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <UserOutlined style={{ color: '#059669' }} /> Vai trò
+              </span>
+            }
+          >
+            <Select size="large" style={{ borderRadius: 10 }}>
+              <Select.Option value="Khách hàng">Khách hàng</Select.Option>
+              <Select.Option value="Quản trị">Quản trị viên</Select.Option>
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col span={10}>
+          <Form.Item
+            label={
+              <span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <CheckCircleOutlined style={{ color: '#059669' }} /> Trạng thái
+              </span>
+            }
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingBottom: 2 }}>
+              <Switch
+                checked={isActive}
+                onChange={setIsActive}
+                style={{ backgroundColor: isActive ? '#059669' : '#d1d5db' }}
+              />
+              <Text style={{ fontWeight: 600, color: isActive ? '#059669' : '#6b7280', fontSize: 14 }}>
+                {isActive ? 'Đang hoạt động' : 'Không hoạt động'}
+              </Text>
+            </div>
+          </Form.Item>
+        </Col>
+      </Row>
+
+      {/* Mật khẩu */}
+      <Form.Item
+        name="password"
+        label={
+          <span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <LockOutlined style={{ color: '#059669' }} /> Mật khẩu mặc định
+          </span>
+        }
+      >
+        <Input.Password
+          placeholder="Để trống để tự động tạo"
+          size="large"
+          style={{ borderRadius: 10, borderColor: '#d1d5db' }}
+        />
+      </Form.Item>
+
+      {/* Footer */}
+      <div style={{
+        marginTop: 8, paddingTop: 20,
+        borderTop: '1px solid #f3f4f6',
+        display: 'flex', justifyContent: 'flex-end', gap: 12,
+      }}>
+        <Button
+          size="large"
+          onClick={handleCancel}
+          style={{ borderRadius: 10, height: 44, padding: '0 24px', fontWeight: 600, color: '#374151', borderColor: '#d1d5db' }}
+        >
+          Hủy bỏ
+        </Button>
+        <Button
+          type="primary"
+          htmlType="submit"
+          size="large"
+          icon={<UserAddOutlined />}
+          style={{
+            backgroundColor: '#059669', borderColor: '#059669',
+            borderRadius: 10, height: 44, padding: '0 28px', fontWeight: 700,
+            boxShadow: '0 4px 12px rgba(5,150,105,0.3)',
+          }}
+        >
+          Lưu thay đổi
+        </Button>
+      </div>
+    </Form>
+  );
 
   return (
     <PageContainer
@@ -181,9 +335,9 @@ const AdminCustomers: React.FC = () => {
           tabBarStyle={{ marginBottom: 0, borderBottom: '1px solid #f0f0f0' }}
         />
         <div style={{ paddingTop: 16 }}>
-          <Table 
-            columns={columns} 
-            dataSource={filteredUsers} 
+          <Table
+            columns={columns}
+            dataSource={filteredUsers}
             rowKey="id"
             pagination={{ pageSize: 5 }}
             className="custom-table"
@@ -228,35 +382,59 @@ const AdminCustomers: React.FC = () => {
         </Col>
       </Row>
 
-      {/* Modal Thêm người dùng */}
-      <Modal 
-        title="Thêm Người Dùng Mới" 
-        open={isModalOpen} 
-        onCancel={() => setIsModalOpen(false)}
+      {/* ── Modal Thêm người dùng – thiết kế 2 panel ── */}
+      <Modal
+        open={isModalOpen}
+        onCancel={handleCancel}
         footer={null}
+        width={700}
+        style={{ top: 60 }}
+        styles={{ body: { padding: 0 } }}
+        closeIcon={
+          <span style={{ fontSize: 18, color: '#9ca3af', lineHeight: 1 }}>✕</span>
+        }
       >
-        <Form form={form} layout="vertical" onFinish={handleAddUser}>
-          <Form.Item name="name" label="Họ và Tên" rules={[{ required: true, message: 'Vui lòng nhập tên' }]}>
-            <Input placeholder="Nguyễn Văn A" />
-          </Form.Item>
-          <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email', message: 'Vui lòng nhập email hợp lệ' }]}>
-            <Input placeholder="example@gmail.com" />
-          </Form.Item>
-          <Form.Item name="phone" label="Số điện thoại" rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}>
-            <Input placeholder="+84..." />
-          </Form.Item>
-          <Form.Item name="role" label="Vai trò" initialValue="Khách hàng">
-            <Select>
-              <Select.Option value="Khách hàng">Khách hàng</Select.Option>
-              <Select.Option value="Quản trị">Quản trị viên</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ backgroundColor: '#00a67d', width: '100%' }}>
-              Thêm Người Dùng
-            </Button>
-          </Form.Item>
-        </Form>
+        <div style={{ display: 'flex', borderRadius: 12, overflow: 'hidden', minHeight: 500 }}>
+          {/* Panel trái – xanh lá */}
+          <div style={{
+            width: 200, minWidth: 200,
+            background: 'linear-gradient(160deg, #059669 0%, #047857 100%)',
+            padding: '36px 24px',
+            display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+          }}>
+            <div>
+              <div style={{
+                width: 48, height: 48, borderRadius: 12,
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                marginBottom: 20,
+              }}>
+                <UserAddOutlined style={{ fontSize: 24, color: '#fff' }} />
+              </div>
+              <div style={{ color: '#fff', fontSize: 18, fontWeight: 800, lineHeight: 1.3, marginBottom: 12 }}>
+                Thông tin người dùng
+              </div>
+              <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 13, lineHeight: 1.6 }}>
+                Vui lòng điền đầy đủ các thông tin bên dưới để cập nhật hệ thống.
+              </div>
+            </div>
+            <div style={{
+              padding: '12px 14px',
+              backgroundColor: 'rgba(255,255,255,0.12)',
+              borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)',
+            }}>
+              <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 11, marginBottom: 4 }}>ℹ️ Lưu ý</div>
+              <div style={{ color: '#fff', fontSize: 12, lineHeight: 1.5 }}>
+                Quản trị viên mới yêu cầu xác minh hai bước.
+              </div>
+            </div>
+          </div>
+
+          {/* Panel phải – form */}
+          <div style={{ flex: 1, backgroundColor: '#fff' }}>
+            {formContent}
+          </div>
+        </div>
       </Modal>
 
     </PageContainer>

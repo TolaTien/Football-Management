@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
 import { Row, Col, Card, Typography, Button, Space, message, Tag, Modal, Form, InputNumber, TimePicker, Input, Select, Popconfirm } from 'antd';
 import {
-  HistoryOutlined, SaveOutlined, PlusOutlined, EditOutlined, DeleteOutlined, CheckCircleOutlined, RightOutlined, FilterOutlined, BulbFilled
+  HistoryOutlined, SaveOutlined, PlusOutlined, EditOutlined, DeleteOutlined, CheckCircleOutlined, RightOutlined, FilterOutlined, BulbFilled,
+  ClockCircleOutlined, DollarOutlined, TagsOutlined,
 } from '@ant-design/icons';
 import { useModel } from '@umijs/max';
 import dayjs from 'dayjs';
@@ -239,44 +240,108 @@ const AdminPitches: React.FC = () => {
         </Col>
       </Row>
 
-      {/* Modal Thêm Khung Giờ */}
-      <Modal 
-        title="Thêm Khung Giờ Mới" 
-        open={isModalOpen} 
-        onCancel={() => setIsModalOpen(false)}
+      {/* ── Modal Thêm Khung Giờ – 2 panel premium ── */}
+      <Modal
+        open={isModalOpen}
+        onCancel={() => { setIsModalOpen(false); form.resetFields(); }}
         footer={null}
+        width={640}
+        style={{ top: 80 }}
+        styles={{ body: { padding: 0 } }}
+        closeIcon={<span style={{ fontSize: 18, color: '#9ca3af' }}>✕</span>}
       >
-        <Form form={form} layout="vertical" onFinish={handleAddRule}>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item name="startTime" label="Giờ bắt đầu" rules={[{ required: true }]}>
-                <TimePicker format="HH:mm" style={{ width: '100%' }} />
+        <div style={{ display: 'flex', borderRadius: 12, overflow: 'hidden', minHeight: 400 }}>
+          {/* Panel trái xanh */}
+          <div style={{
+            width: 185, minWidth: 185,
+            background: 'linear-gradient(160deg, #059669 0%, #047857 100%)',
+            padding: '36px 20px',
+            display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+          }}>
+            <div>
+              <div style={{
+                width: 48, height: 48, borderRadius: 12,
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20,
+              }}>
+                <ClockCircleOutlined style={{ fontSize: 24, color: '#fff' }} />
+              </div>
+              <div style={{ color: '#fff', fontSize: 17, fontWeight: 800, lineHeight: 1.3, marginBottom: 12 }}>Thêm Khung Giờ</div>
+              <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 13, lineHeight: 1.6 }}>
+                Thiết lập khung giờ và mức giá phù hợp để tối ưu doanh thu sân bóng.
+              </div>
+            </div>
+            <div style={{ padding: '12px 14px', backgroundColor: 'rgba(255,255,255,0.12)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)' }}>
+              <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 11, marginBottom: 4 }}>💡 Mẹo</div>
+              <div style={{ color: '#fff', fontSize: 12, lineHeight: 1.5 }}>Giờ 18–20h có mật độ đặt cao nhất.</div>
+            </div>
+          </div>
+
+          {/* Panel phải */}
+          <div style={{ flex: 1, backgroundColor: '#fff', padding: '32px 28px' }}>
+            <Form form={form} layout="vertical" onFinish={handleAddRule}>
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Form.Item
+                    name="startTime"
+                    label={<span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}><ClockCircleOutlined style={{ color: '#059669' }} /> Giờ bắt đầu</span>}
+                    rules={[{ required: true, message: 'Chọn giờ' }]}
+                  >
+                    <TimePicker format="HH:mm" size="large" style={{ width: '100%', borderRadius: 10, borderColor: '#d1d5db' }} />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    name="endTime"
+                    label={<span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}><ClockCircleOutlined style={{ color: '#059669' }} /> Giờ kết thúc</span>}
+                    rules={[{ required: true, message: 'Chọn giờ' }]}
+                  >
+                    <TimePicker format="HH:mm" size="large" style={{ width: '100%', borderRadius: 10, borderColor: '#d1d5db' }} />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Form.Item
+                name="type"
+                label={<span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}><TagsOutlined style={{ color: '#059669' }} /> Tên khung giờ</span>}
+                rules={[{ required: true }]}
+                initialValue="Giờ thường"
+              >
+                <Input placeholder="Ví dụ: Giờ vàng buổi tối" size="large" style={{ borderRadius: 10, borderColor: '#d1d5db' }} />
               </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="endTime" label="Giờ kết thúc" rules={[{ required: true }]}>
-                <TimePicker format="HH:mm" style={{ width: '100%' }} />
+
+              <Form.Item
+                name="price"
+                label={<span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}><DollarOutlined style={{ color: '#059669' }} /> Đơn giá (VNĐ/h)</span>}
+                rules={[{ required: true, message: 'Nhập đơn giá' }]}
+              >
+                <InputNumber
+                  style={{ width: '100%', borderRadius: 10 }}
+                  size="large"
+                  formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
+                  min={0}
+                  step={10000}
+                  placeholder="350,000"
+                />
               </Form.Item>
-            </Col>
-          </Row>
-          <Form.Item name="type" label="Tên khung giờ (Mô tả)" rules={[{ required: true }]} initialValue="Giờ thường">
-            <Input placeholder="Ví dụ: Giờ vàng buổi tối" />
-          </Form.Item>
-          <Form.Item name="price" label="Đơn giá (VNĐ/h)" rules={[{ required: true }]}>
-            <InputNumber 
-              style={{ width: '100%' }} 
-              formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
-              min={0}
-              step={10000}
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ backgroundColor: '#00a67d', width: '100%' }}>
-              Thêm Khung Giờ
-            </Button>
-          </Form.Item>
-        </Form>
+
+              <div style={{ paddingTop: 16, borderTop: '1px solid #f3f4f6', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
+                <Button size="large" onClick={() => { setIsModalOpen(false); form.resetFields(); }}
+                  style={{ borderRadius: 10, height: 44, padding: '0 24px', fontWeight: 600, color: '#374151', borderColor: '#d1d5db' }}
+                >
+                  Hủy
+                </Button>
+                <Button type="primary" htmlType="submit" size="large"
+                  icon={<PlusOutlined />}
+                  style={{ backgroundColor: '#059669', borderColor: '#059669', borderRadius: 10, height: 44, padding: '0 28px', fontWeight: 700, boxShadow: '0 4px 12px rgba(5,150,105,0.3)' }}
+                >
+                  Thêm Khung Giờ
+                </Button>
+              </div>
+            </Form>
+          </div>
+        </div>
       </Modal>
     </PageContainer>
   );

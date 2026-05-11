@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
 import { Row, Col, Card, Typography, Button, Space, Input, Select, Form, message, Tag } from 'antd';
-import { EditOutlined, DeleteOutlined, PushpinOutlined, MessageFilled } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, PushpinOutlined, MessageFilled, FileTextOutlined, TagsOutlined, SaveOutlined } from '@ant-design/icons';
 import { useModel } from '@umijs/max';
 
 const { Title, Text } = Typography;
@@ -82,32 +82,82 @@ const AdminForum: React.FC = () => {
 
         {/* Cột phải: Bản thảo nhanh & Thống kê */}
         <Col xs={24} lg={8}>
-          <Card bordered={false} bodyStyle={{ padding: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <EditOutlined style={{ color: '#059669' }} /> Bản thảo nhanh
+          <Card bordered={false} bodyStyle={{ padding: 0, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
+            {/* Header xanh */}
+            <div style={{
+              background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+              padding: '20px 24px',
+              display: 'flex', alignItems: 'center', gap: 12,
+            }}>
+              <div style={{
+                width: 36, height: 36, borderRadius: 10,
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <EditOutlined style={{ color: '#fff', fontSize: 18 }} />
+              </div>
+              <div>
+                <div style={{ color: '#fff', fontSize: 16, fontWeight: 700 }}>Bản thảo nhanh</div>
+                <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 12 }}>Tạo bài đăng mới cho cộng đồng</div>
+              </div>
             </div>
-            
-            <Form form={form} layout="vertical" onFinish={handlePost}>
-              <Form.Item name="title" label={<span style={{ fontWeight: 600 }}>Tiêu đề</span>} rules={[{ required: true }]}>
-                <Input placeholder="Tiêu đề bài viết..." size="large" style={{ borderRadius: 8 }} />
-              </Form.Item>
-              <Form.Item name="category" label={<span style={{ fontWeight: 600 }}>Danh mục</span>} rules={[{ required: true }]}>
-                <Select size="large" options={[{ value: 'Thông báo', label: 'Thông báo' }, { value: 'Bảo trì', label: 'Bảo trì' }, { value: 'Giải đấu', label: 'Giải đấu' }]} placeholder="Chọn danh mục" />
-              </Form.Item>
-              <Form.Item name="content" label={<span style={{ fontWeight: 600 }}>Nội dung</span>} rules={[{ required: true }]}>
-                <Input.TextArea rows={4} placeholder="Viết nội dung bài đăng tại đây..." style={{ borderRadius: 8 }} />
-              </Form.Item>
-              <Form.Item style={{ marginBottom: 0 }}>
-                <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-                  <Button type="primary" htmlType="submit" size="large" style={{ backgroundColor: '#00a67d', borderRadius: 8, fontWeight: 600, padding: '0 24px' }}>
+
+            {/* Form */}
+            <div style={{ padding: '24px' }}>
+              <Form form={form} layout="vertical" onFinish={handlePost}>
+                <Form.Item
+                  name="title"
+                  label={<span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}><FileTextOutlined style={{ color: '#059669' }} /> Tiêu đề</span>}
+                  rules={[{ required: true, message: 'Vui lòng nhập tiêu đề' }]}
+                >
+                  <Input placeholder="Tiêu đề bài viết..." size="large" style={{ borderRadius: 10, borderColor: '#d1d5db' }} />
+                </Form.Item>
+
+                <Form.Item
+                  name="category"
+                  label={<span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}><TagsOutlined style={{ color: '#059669' }} /> Danh mục</span>}
+                  rules={[{ required: true, message: 'Chọn danh mục' }]}
+                >
+                  <Select
+                    size="large"
+                    placeholder="Chọn danh mục"
+                    options={[
+                      { value: 'Thông báo', label: '📢 Thông báo' },
+                      { value: 'Bảo trì', label: '🔧 Bảo trì' },
+                      { value: 'Giải đấu', label: '🏆 Giải đấu' },
+                    ]}
+                    style={{ borderRadius: 10 }}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  name="content"
+                  label={<span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}><EditOutlined style={{ color: '#059669' }} /> Nội dung</span>}
+                  rules={[{ required: true, message: 'Vui lòng nhập nội dung' }]}
+                >
+                  <Input.TextArea
+                    rows={4}
+                    placeholder="Viết nội dung bài đăng tại đây..."
+                    style={{ borderRadius: 10, borderColor: '#d1d5db', resize: 'none' }}
+                  />
+                </Form.Item>
+
+                <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', paddingTop: 4, borderTop: '1px solid #f3f4f6' }}>
+                  <Button size="large"
+                    icon={<SaveOutlined />}
+                    style={{ borderRadius: 10, height: 44, padding: '0 20px', fontWeight: 600, color: '#374151', borderColor: '#d1d5db' }}
+                  >
+                    Lưu nháp
+                  </Button>
+                  <Button type="primary" htmlType="submit" size="large"
+                    icon={<EditOutlined />}
+                    style={{ backgroundColor: '#059669', borderColor: '#059669', borderRadius: 10, height: 44, padding: '0 24px', fontWeight: 700, boxShadow: '0 4px 12px rgba(5,150,105,0.3)' }}
+                  >
                     Đăng bài
                   </Button>
-                  <Button size="large" style={{ borderRadius: 8, fontWeight: 500, color: '#4b5563' }}>
-                    Lưu bản nháp
-                  </Button>
-                </Space>
-              </Form.Item>
-            </Form>
+                </div>
+              </Form>
+            </div>
           </Card>
 
           <Card bordered={false} style={{ marginTop: 24, backgroundColor: '#059669', borderRadius: 12 }} bodyStyle={{ padding: 24 }}>
