@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import { connectDB } from "./config/prisma.js";
 import { Routers } from "./routes/index.js";
 import { errorHandlingMiddleware } from "./middlewares/error.middleware.js";
+import { commentRouters } from "../modules/comments/comments.route.js";
 
 const PORT = 3000;
 const app = express()
