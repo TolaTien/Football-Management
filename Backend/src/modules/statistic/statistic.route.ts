@@ -1,7 +1,10 @@
-import { Router } from "express";
-import { authAdmin, authUser } from "../../middlewares/auth.middleware.js";
-import Statistic from "./statistic.controller.js";
+// import { Router } from "express";
+// import { authAdmin, authUser } from "../../middlewares/auth.middleware.js";
+// import Statistic from "./statistic.controller.js";
 
-export const statisticRouters: Router = Router();
+// export const statisticRouters: Router = Router();
 
-statisticRouters.get('/monthly-statistic', authUser, authAdmin, Statistic.getMonthlyRevenue);
+// statisticRouters.get('/monthly-revenue', authUser, authAdmin, Statistic.getMonthlyRevenue);
+// statisticRouters.get('/top-spenders', authUser, Statistic.getTopSpenders);
+// statisticRouters.get('/system-overview', authUser, authAdmin, Statistic.getSystemOverview);
+// statisticRouters.get('/pitch-revenue', authUser, authAdmin, Statistic.getRevenueByPitch);
