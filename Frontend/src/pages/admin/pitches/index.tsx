@@ -103,7 +103,7 @@ const AdminPitchesList: React.FC = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
                   <div style={{ fontSize: 18, fontWeight: 800, color: '#1f2937' }}>{p.name}</div>
                   <Space style={{ color: '#9ca3af' }}>
-                    <EditOutlined style={{ cursor: 'pointer', hover: { color: '#059669' } }} />
+                    <EditOutlined style={{ cursor: 'pointer' }} />
                     <DeleteOutlined style={{ cursor: 'pointer', color: '#dc2626' }} />
                   </Space>
                 </div>

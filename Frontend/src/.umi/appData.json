@@ -14,8 +14,11 @@
     "dependencies": {
       "@ant-design/icons": "^6.2.2",
       "@ant-design/pro-components": "^2.8.2",
+      "@umijs/max": "^4.4.2",
+      "@umijs/plugins": "^4.6.51",
       "antd": "^5.22.0",
       "axios": "^1.15.2",
+      "dayjs": "^1.11.20",
       "react": "^19.2.5",
       "react-dom": "^19.2.5",
       "recharts": "^3.8.1"
@@ -24,7 +27,6 @@
       "@types/node": "^24.12.2",
       "@types/react": "^19.2.14",
       "@types/react-dom": "^19.2.3",
-      "@umijs/max": "^4.4.2",
       "autoprefixer": "^10.5.0",
       "eslint": "^10.2.1",
       "postcss": "^8.5.14",
@@ -69,7 +71,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -100,7 +102,7 @@
       "time": {
         "hooks": {
           "onStart": [
-            3
+            2
           ]
         },
         "register": 2
@@ -120,7 +122,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -133,7 +135,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -147,10 +149,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            18
+            20
           ]
         },
-        "register": 21
+        "register": 17
       },
       "enableBy": "register"
     },
@@ -163,7 +165,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1125,7 +1127,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 60
+        "register": 65
       },
       "enableBy": "register"
     },
@@ -1138,7 +1140,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 29
+        "register": 30
       },
       "enableBy": "config"
     },
@@ -1165,7 +1167,7 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            0
+            1
           ]
         },
         "register": 0
@@ -1211,7 +1213,7 @@
             1
           ]
         },
-        "register": 22
+        "register": 25
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mpa/mpa": {
@@ -1236,7 +1238,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/overrides/overrides": {
@@ -1290,7 +1292,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1316,7 +1318,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1329,7 +1331,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1355,7 +1357,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1393,7 +1395,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -1495,7 +1497,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1575,7 +1577,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1588,7 +1590,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/hmrGuardian/hmrGuardian": {
@@ -1600,7 +1602,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/routePreloadOnLoad/routePreloadOnLoad": {
@@ -1612,7 +1614,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 22
+        "register": 24
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/forget/forget": {
@@ -1650,7 +1652,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1677,10 +1679,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            17
+            21
           ]
         },
-        "register": 29
+        "register": 30
       }
     },
     "./node_modules/@umijs/preset-umi/dist/commands/help": {
@@ -1692,7 +1694,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1718,7 +1720,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1731,7 +1733,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1796,7 +1798,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1822,7 +1824,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1835,7 +1837,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1887,7 +1889,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1900,7 +1902,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1913,7 +1915,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1926,7 +1928,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 16
+        "register": 17
       },
       "enableBy": "register"
     },
@@ -1952,7 +1954,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -2014,7 +2016,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 6
       },
       "enableBy": "config"
     },
@@ -2055,7 +2057,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2132,7 +2134,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       }
     },
     "./node_modules/@umijs/plugins/dist/react-query": {
@@ -3579,7 +3581,7 @@
       "parentId": "12",
       "id": "15",
       "absPath": "/admin/pitches",
-      "__content": "import React, { useState } from 'react';\nimport { PageContainer } from '@ant-design/pro-components';\nimport { Row, Col, Card, Typography, Button, Space, Tag, Modal, Form, Input, Select, message } from 'antd';\nimport {\n  CheckCircleOutlined, ToolOutlined, PlusOutlined, EditOutlined, DeleteOutlined\n} from '@ant-design/icons';\nimport { useModel } from '@umijs/max';\n\nconst { Title, Text } = Typography;\n\nconst AdminPitchesList: React.FC = () => {\n  const { pitches } = useModel('adminPitches');\n  const [isModalOpen, setIsModalOpen] = useState(false);\n  const [form] = Form.useForm();\n\n  const handleAddPitch = (values: any) => {\n    // add pitch logic should go to model, for demo just show message\n    message.success('Đã thêm sân mới thành công!');\n    setIsModalOpen(false);\n    form.resetFields();\n  };\n\n  const activePitches = pitches.filter(p => p.status === 'active').length;\n  const maintenancePitches = pitches.filter(p => p.status === 'maintenance').length;\n  // Calculate average grass health\n  const totalHealth = pitches.reduce((sum, p) => sum + (p.grassHealth || 0), 0);\n  const avgHealth = Math.round(totalHealth / (pitches.length || 1));\n\n  return (\n    <PageContainer\n      header={{\n        title: <Title level={2} style={{ margin: 0, fontWeight: 700 }}>Quản lý hệ thống sân</Title>,\n        subTitle: <Text style={{ color: '#6b7280' }}>Theo dõi tình trạng, lịch bảo trì và quản lý danh sách sân cỏ của bạn.</Text>,\n        extra: [\n          <Button key=\"add\" type=\"primary\" icon={<PlusOutlined />} style={{ backgroundColor: '#00a67d', borderRadius: 8, fontWeight: 600 }} onClick={() => setIsModalOpen(true)}>\n            Thêm sân mới\n          </Button>\n        ]\n      }}\n    >\n      {/* Top Stats */}\n      <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>\n        <Col xs={24} lg={8}>\n          <Card bordered={false} bodyStyle={{ padding: '20px 24px', borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>\n              <div style={{ width: 56, height: 56, borderRadius: 12, backgroundColor: '#d1fae5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>\n                <CheckCircleOutlined />\n              </div>\n              <div>\n                <div style={{ color: '#6b7280', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Sẵn sàng</div>\n                <div style={{ fontSize: 28, fontWeight: 800, color: '#1f2937' }}>{activePitches} Sân</div>\n              </div>\n            </div>\n          </Card>\n        </Col>\n        <Col xs={24} lg={8}>\n          <Card bordered={false} bodyStyle={{ padding: '20px 24px', borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>\n              <div style={{ width: 56, height: 56, borderRadius: 12, backgroundColor: '#fee2e2', color: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>\n                <ToolOutlined />\n              </div>\n              <div>\n                <div style={{ color: '#6b7280', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Đang bảo trì</div>\n                <div style={{ fontSize: 28, fontWeight: 800, color: '#dc2626' }}>{maintenancePitches} Sân</div>\n              </div>\n            </div>\n          </Card>\n        </Col>\n        <Col xs={24} lg={8}>\n          <Card bordered={false} bodyStyle={{ padding: '20px 24px', borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>\n              <div style={{ width: 56, height: 56, borderRadius: 12, backgroundColor: '#e0e7ff', color: '#4f46e5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>\n                🌱\n              </div>\n              <div>\n                <div style={{ color: '#6b7280', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Sức khỏe mặt cỏ</div>\n                <div style={{ fontSize: 28, fontWeight: 800, color: '#059669' }}>Tốt ({avgHealth}%)</div>\n              </div>\n            </div>\n          </Card>\n        </Col>\n      </Row>\n\n      {/* Grid Danh sách sân */}\n      <Row gutter={[24, 24]}>\n        {pitches.map(p => (\n          <Col xs={24} sm={12} lg={8} xl={6} key={p.id}>\n            <Card \n              hoverable\n              bordered={false} \n              bodyStyle={{ padding: 0 }}\n              style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)' }}\n            >\n              <div style={{ position: 'relative', height: 160 }}>\n                <img src={p.imageUrl} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />\n                <div style={{ position: 'absolute', top: 12, left: 12 }}>\n                  <Tag color={p.status === 'active' ? '#10b981' : p.status === 'maintenance' ? '#6b7280' : '#f59e0b'} style={{ borderRadius: 12, padding: '2px 10px', fontWeight: 600, border: 'none' }}>\n                    {p.status === 'active' ? 'Sẵn sàng' : p.status === 'maintenance' ? '🛠 Đang bảo trì' : '🚧 Đang thi công'}\n                  </Tag>\n                </div>\n              </div>\n              <div style={{ padding: 20 }}>\n                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>\n                  <div style={{ fontSize: 18, fontWeight: 800, color: '#1f2937' }}>{p.name}</div>\n                  <Space style={{ color: '#9ca3af' }}>\n                    <EditOutlined style={{ cursor: 'pointer', hover: { color: '#059669' } }} />\n                    <DeleteOutlined style={{ cursor: 'pointer', color: '#dc2626' }} />\n                  </Space>\n                </div>\n                <div style={{ color: '#6b7280', fontSize: 13, marginBottom: 16 }}>{p.desc}</div>\n                \n                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: 12, borderBottom: '1px dashed #e5e7eb', marginBottom: 12 }}>\n                  <div style={{ color: '#6b7280', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>\n                    🌱 Tình trạng mặt cỏ:\n                  </div>\n                  <div style={{ fontWeight: 600, color: p.grassHealth > 80 ? '#059669' : p.grassHealth > 40 ? '#d97706' : '#9ca3af' }}>\n                    {p.grassStatus}\n                  </div>\n                </div>\n                \n                <div style={{ display: 'flex', justifyContent: 'space-between' }}>\n                  <div style={{ color: '#6b7280', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>\n                    📅 {p.status === 'constructing' ? 'Ngày hoàn tất:' : 'Lịch bảo trì:'}\n                  </div>\n                  <div style={{ fontWeight: 600, color: p.status === 'maintenance' ? '#dc2626' : '#1f2937' }}>\n                    {p.nextMaintenance}\n                  </div>\n                </div>\n              </div>\n            </Card>\n          </Col>\n        ))}\n\n        {/* Card Thêm sân mới */}\n        <Col xs={24} sm={12} lg={8} xl={6}>\n          <div \n            onClick={() => setIsModalOpen(true)}\n            style={{ \n              height: '100%', minHeight: 320, borderRadius: 16, border: '2px dashed #cbd5e1', \n              backgroundColor: '#f8fafc', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',\n              cursor: 'pointer', transition: 'all 0.2s', padding: 24\n            }}\n            onMouseOver={(e) => e.currentTarget.style.borderColor = '#00a67d'}\n            onMouseOut={(e) => e.currentTarget.style.borderColor = '#cbd5e1'}\n          >\n            <div style={{ width: 48, height: 48, borderRadius: '50%', backgroundColor: '#e2e8f0', color: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 16 }}>\n              <PlusOutlined />\n            </div>\n            <div style={{ fontSize: 18, fontWeight: 700, color: '#1f2937', marginBottom: 8 }}>Thêm sân mới</div>\n            <div style={{ color: '#6b7280', fontSize: 13, textAlign: 'center' }}>Mở rộng hệ thống kinh doanh</div>\n          </div>\n        </Col>\n      </Row>\n\n      {/* Bảng Chi tiết bảo trì */}\n      <Card bordered={false} bodyStyle={{ padding: 0 }} style={{ marginTop: 24, borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n        <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f3f4f6' }}>\n          <div style={{ fontSize: 16, fontWeight: 700, color: '#1f2937' }}>Chi tiết bảo trì tiếp theo</div>\n          <a style={{ color: '#00a67d', fontWeight: 600, fontSize: 14 }}>Xem tất cả lịch →</a>\n        </div>\n        \n        <div style={{ padding: 24 }}>\n          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', paddingBottom: 16, borderBottom: '1px solid #f3f4f6', color: '#6b7280', fontWeight: 600, fontSize: 13 }}>\n            <div>Tên sân</div>\n            <div>Hoạt động</div>\n            <div>Ngày thực hiện</div>\n            <div>Nhân viên phụ trách</div>\n            <div style={{ textAlign: 'right' }}>Trạng thái</div>\n          </div>\n          \n          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', padding: '16px 0', borderBottom: '1px solid #f3f4f6', alignItems: 'center' }}>\n            <div style={{ fontWeight: 600, color: '#1f2937' }}>Sân 5 - A1</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>Cắt tỉa & Bón phân định kỳ</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>15/10/2023 (Sáng)</div>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>\n              <div style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#34d399' }} />\n              <span style={{ fontSize: 13, color: '#1f2937' }}>Nguyễn Văn An</span>\n            </div>\n            <div style={{ textAlign: 'right' }}><Tag color=\"blue\" style={{ borderRadius: 12, border: 'none', backgroundColor: '#e0e7ff', color: '#4f46e5', fontWeight: 600 }}>ĐÃ LÊN LỊCH</Tag></div>\n          </div>\n\n          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', padding: '16px 0', borderBottom: '1px solid #f3f4f6', alignItems: 'center' }}>\n            <div style={{ fontWeight: 600, color: '#1f2937' }}>Sân 7 - B2</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>Kiểm tra hệ thống thoát nước</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>18/10/2023 (Chiều)</div>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>\n              <div style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#94a3b8' }} />\n              <span style={{ fontSize: 13, color: '#1f2937' }}>Trần Thị Bình</span>\n            </div>\n            <div style={{ textAlign: 'right' }}><Tag color=\"blue\" style={{ borderRadius: 12, border: 'none', backgroundColor: '#e0e7ff', color: '#4f46e5', fontWeight: 600 }}>ĐÃ LÊN LỊCH</Tag></div>\n          </div>\n\n          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', padding: '16px 0', alignItems: 'center' }}>\n            <div style={{ fontWeight: 600, color: '#1f2937' }}>Sân 5 - C1</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>Thay thế mảng cỏ hư hại</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>Đang thực hiện</div>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>\n              <div style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#fca5a5' }} />\n              <span style={{ fontSize: 13, color: '#1f2937' }}>Lê Minh Cường</span>\n            </div>\n            <div style={{ textAlign: 'right' }}><Tag color=\"red\" style={{ borderRadius: 12, border: 'none', backgroundColor: '#fee2e2', color: '#dc2626', fontWeight: 600 }}>ĐANG XỬ LÝ</Tag></div>\n          </div>\n        </div>\n      </Card>\n\n      {/* Modal Thêm Sân */}\n      <Modal \n        title=\"Thêm Sân Mới\" \n        open={isModalOpen} \n        onCancel={() => setIsModalOpen(false)}\n        footer={null}\n      >\n        <Form form={form} layout=\"vertical\" onFinish={handleAddPitch}>\n          <Form.Item name=\"name\" label=\"Tên sân\" rules={[{ required: true }]}>\n            <Input placeholder=\"Ví dụ: Sân 5 - D1\" />\n          </Form.Item>\n          <Form.Item name=\"type\" label=\"Loại sân\" rules={[{ required: true }]}>\n            <Select options={[{ value: '5', label: 'Sân 5 người' }, { value: '7', label: 'Sân 7 người' }, { value: '11', label: 'Sân 11 người' }]} />\n          </Form.Item>\n          <Form.Item>\n            <Button type=\"primary\" htmlType=\"submit\" style={{ backgroundColor: '#00a67d', width: '100%' }}>Thêm Sân</Button>\n          </Form.Item>\n        </Form>\n      </Modal>\n\n    </PageContainer>\n  );\n};\n\nexport default AdminPitchesList;\n",
+      "__content": "import React, { useState } from 'react';\nimport { PageContainer } from '@ant-design/pro-components';\nimport { Row, Col, Card, Typography, Button, Space, Tag, Modal, Form, Input, Select, message } from 'antd';\nimport {\n  CheckCircleOutlined, ToolOutlined, PlusOutlined, EditOutlined, DeleteOutlined\n} from '@ant-design/icons';\nimport { useModel } from '@umijs/max';\n\nconst { Title, Text } = Typography;\n\nconst AdminPitchesList: React.FC = () => {\n  const { pitches } = useModel('adminPitches');\n  const [isModalOpen, setIsModalOpen] = useState(false);\n  const [form] = Form.useForm();\n\n  const handleAddPitch = (values: any) => {\n    // add pitch logic should go to model, for demo just show message\n    message.success('Đã thêm sân mới thành công!');\n    setIsModalOpen(false);\n    form.resetFields();\n  };\n\n  const activePitches = pitches.filter(p => p.status === 'active').length;\n  const maintenancePitches = pitches.filter(p => p.status === 'maintenance').length;\n  // Calculate average grass health\n  const totalHealth = pitches.reduce((sum, p) => sum + (p.grassHealth || 0), 0);\n  const avgHealth = Math.round(totalHealth / (pitches.length || 1));\n\n  return (\n    <PageContainer\n      header={{\n        title: <Title level={2} style={{ margin: 0, fontWeight: 700 }}>Quản lý hệ thống sân</Title>,\n        subTitle: <Text style={{ color: '#6b7280' }}>Theo dõi tình trạng, lịch bảo trì và quản lý danh sách sân cỏ của bạn.</Text>,\n        extra: [\n          <Button key=\"add\" type=\"primary\" icon={<PlusOutlined />} style={{ backgroundColor: '#00a67d', borderRadius: 8, fontWeight: 600 }} onClick={() => setIsModalOpen(true)}>\n            Thêm sân mới\n          </Button>\n        ]\n      }}\n    >\n      {/* Top Stats */}\n      <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>\n        <Col xs={24} lg={8}>\n          <Card bordered={false} bodyStyle={{ padding: '20px 24px', borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>\n              <div style={{ width: 56, height: 56, borderRadius: 12, backgroundColor: '#d1fae5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>\n                <CheckCircleOutlined />\n              </div>\n              <div>\n                <div style={{ color: '#6b7280', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Sẵn sàng</div>\n                <div style={{ fontSize: 28, fontWeight: 800, color: '#1f2937' }}>{activePitches} Sân</div>\n              </div>\n            </div>\n          </Card>\n        </Col>\n        <Col xs={24} lg={8}>\n          <Card bordered={false} bodyStyle={{ padding: '20px 24px', borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>\n              <div style={{ width: 56, height: 56, borderRadius: 12, backgroundColor: '#fee2e2', color: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>\n                <ToolOutlined />\n              </div>\n              <div>\n                <div style={{ color: '#6b7280', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Đang bảo trì</div>\n                <div style={{ fontSize: 28, fontWeight: 800, color: '#dc2626' }}>{maintenancePitches} Sân</div>\n              </div>\n            </div>\n          </Card>\n        </Col>\n        <Col xs={24} lg={8}>\n          <Card bordered={false} bodyStyle={{ padding: '20px 24px', borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>\n              <div style={{ width: 56, height: 56, borderRadius: 12, backgroundColor: '#e0e7ff', color: '#4f46e5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>\n                🌱\n              </div>\n              <div>\n                <div style={{ color: '#6b7280', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Sức khỏe mặt cỏ</div>\n                <div style={{ fontSize: 28, fontWeight: 800, color: '#059669' }}>Tốt ({avgHealth}%)</div>\n              </div>\n            </div>\n          </Card>\n        </Col>\n      </Row>\n\n      {/* Grid Danh sách sân */}\n      <Row gutter={[24, 24]}>\n        {pitches.map(p => (\n          <Col xs={24} sm={12} lg={8} xl={6} key={p.id}>\n            <Card \n              hoverable\n              bordered={false} \n              bodyStyle={{ padding: 0 }}\n              style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)' }}\n            >\n              <div style={{ position: 'relative', height: 160 }}>\n                <img src={p.imageUrl} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />\n                <div style={{ position: 'absolute', top: 12, left: 12 }}>\n                  <Tag color={p.status === 'active' ? '#10b981' : p.status === 'maintenance' ? '#6b7280' : '#f59e0b'} style={{ borderRadius: 12, padding: '2px 10px', fontWeight: 600, border: 'none' }}>\n                    {p.status === 'active' ? 'Sẵn sàng' : p.status === 'maintenance' ? '🛠 Đang bảo trì' : '🚧 Đang thi công'}\n                  </Tag>\n                </div>\n              </div>\n              <div style={{ padding: 20 }}>\n                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>\n                  <div style={{ fontSize: 18, fontWeight: 800, color: '#1f2937' }}>{p.name}</div>\n                  <Space style={{ color: '#9ca3af' }}>\n                    <EditOutlined style={{ cursor: 'pointer' }} />\n                    <DeleteOutlined style={{ cursor: 'pointer', color: '#dc2626' }} />\n                  </Space>\n                </div>\n                <div style={{ color: '#6b7280', fontSize: 13, marginBottom: 16 }}>{p.desc}</div>\n                \n                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: 12, borderBottom: '1px dashed #e5e7eb', marginBottom: 12 }}>\n                  <div style={{ color: '#6b7280', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>\n                    🌱 Tình trạng mặt cỏ:\n                  </div>\n                  <div style={{ fontWeight: 600, color: p.grassHealth > 80 ? '#059669' : p.grassHealth > 40 ? '#d97706' : '#9ca3af' }}>\n                    {p.grassStatus}\n                  </div>\n                </div>\n                \n                <div style={{ display: 'flex', justifyContent: 'space-between' }}>\n                  <div style={{ color: '#6b7280', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>\n                    📅 {p.status === 'constructing' ? 'Ngày hoàn tất:' : 'Lịch bảo trì:'}\n                  </div>\n                  <div style={{ fontWeight: 600, color: p.status === 'maintenance' ? '#dc2626' : '#1f2937' }}>\n                    {p.nextMaintenance}\n                  </div>\n                </div>\n              </div>\n            </Card>\n          </Col>\n        ))}\n\n        {/* Card Thêm sân mới */}\n        <Col xs={24} sm={12} lg={8} xl={6}>\n          <div \n            onClick={() => setIsModalOpen(true)}\n            style={{ \n              height: '100%', minHeight: 320, borderRadius: 16, border: '2px dashed #cbd5e1', \n              backgroundColor: '#f8fafc', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',\n              cursor: 'pointer', transition: 'all 0.2s', padding: 24\n            }}\n            onMouseOver={(e) => e.currentTarget.style.borderColor = '#00a67d'}\n            onMouseOut={(e) => e.currentTarget.style.borderColor = '#cbd5e1'}\n          >\n            <div style={{ width: 48, height: 48, borderRadius: '50%', backgroundColor: '#e2e8f0', color: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 16 }}>\n              <PlusOutlined />\n            </div>\n            <div style={{ fontSize: 18, fontWeight: 700, color: '#1f2937', marginBottom: 8 }}>Thêm sân mới</div>\n            <div style={{ color: '#6b7280', fontSize: 13, textAlign: 'center' }}>Mở rộng hệ thống kinh doanh</div>\n          </div>\n        </Col>\n      </Row>\n\n      {/* Bảng Chi tiết bảo trì */}\n      <Card bordered={false} bodyStyle={{ padding: 0 }} style={{ marginTop: 24, borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n        <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f3f4f6' }}>\n          <div style={{ fontSize: 16, fontWeight: 700, color: '#1f2937' }}>Chi tiết bảo trì tiếp theo</div>\n          <a style={{ color: '#00a67d', fontWeight: 600, fontSize: 14 }}>Xem tất cả lịch →</a>\n        </div>\n        \n        <div style={{ padding: 24 }}>\n          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', paddingBottom: 16, borderBottom: '1px solid #f3f4f6', color: '#6b7280', fontWeight: 600, fontSize: 13 }}>\n            <div>Tên sân</div>\n            <div>Hoạt động</div>\n            <div>Ngày thực hiện</div>\n            <div>Nhân viên phụ trách</div>\n            <div style={{ textAlign: 'right' }}>Trạng thái</div>\n          </div>\n          \n          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', padding: '16px 0', borderBottom: '1px solid #f3f4f6', alignItems: 'center' }}>\n            <div style={{ fontWeight: 600, color: '#1f2937' }}>Sân 5 - A1</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>Cắt tỉa & Bón phân định kỳ</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>15/10/2023 (Sáng)</div>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>\n              <div style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#34d399' }} />\n              <span style={{ fontSize: 13, color: '#1f2937' }}>Nguyễn Văn An</span>\n            </div>\n            <div style={{ textAlign: 'right' }}><Tag color=\"blue\" style={{ borderRadius: 12, border: 'none', backgroundColor: '#e0e7ff', color: '#4f46e5', fontWeight: 600 }}>ĐÃ LÊN LỊCH</Tag></div>\n          </div>\n\n          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', padding: '16px 0', borderBottom: '1px solid #f3f4f6', alignItems: 'center' }}>\n            <div style={{ fontWeight: 600, color: '#1f2937' }}>Sân 7 - B2</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>Kiểm tra hệ thống thoát nước</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>18/10/2023 (Chiều)</div>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>\n              <div style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#94a3b8' }} />\n              <span style={{ fontSize: 13, color: '#1f2937' }}>Trần Thị Bình</span>\n            </div>\n            <div style={{ textAlign: 'right' }}><Tag color=\"blue\" style={{ borderRadius: 12, border: 'none', backgroundColor: '#e0e7ff', color: '#4f46e5', fontWeight: 600 }}>ĐÃ LÊN LỊCH</Tag></div>\n          </div>\n\n          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', padding: '16px 0', alignItems: 'center' }}>\n            <div style={{ fontWeight: 600, color: '#1f2937' }}>Sân 5 - C1</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>Thay thế mảng cỏ hư hại</div>\n            <div style={{ color: '#4b5563', fontSize: 14 }}>Đang thực hiện</div>\n            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>\n              <div style={{ width: 24, height: 24, borderRadius: '50%', backgroundColor: '#fca5a5' }} />\n              <span style={{ fontSize: 13, color: '#1f2937' }}>Lê Minh Cường</span>\n            </div>\n            <div style={{ textAlign: 'right' }}><Tag color=\"red\" style={{ borderRadius: 12, border: 'none', backgroundColor: '#fee2e2', color: '#dc2626', fontWeight: 600 }}>ĐANG XỬ LÝ</Tag></div>\n          </div>\n        </div>\n      </Card>\n\n      {/* Modal Thêm Sân */}\n      <Modal \n        title=\"Thêm Sân Mới\" \n        open={isModalOpen} \n        onCancel={() => setIsModalOpen(false)}\n        footer={null}\n      >\n        <Form form={form} layout=\"vertical\" onFinish={handleAddPitch}>\n          <Form.Item name=\"name\" label=\"Tên sân\" rules={[{ required: true }]}>\n            <Input placeholder=\"Ví dụ: Sân 5 - D1\" />\n          </Form.Item>\n          <Form.Item name=\"type\" label=\"Loại sân\" rules={[{ required: true }]}>\n            <Select options={[{ value: '5', label: 'Sân 5 người' }, { value: '7', label: 'Sân 7 người' }, { value: '11', label: 'Sân 11 người' }]} />\n          </Form.Item>\n          <Form.Item>\n            <Button type=\"primary\" htmlType=\"submit\" style={{ backgroundColor: '#00a67d', width: '100%' }}>Thêm Sân</Button>\n          </Form.Item>\n        </Form>\n      </Modal>\n\n    </PageContainer>\n  );\n};\n\nexport default AdminPitchesList;\n",
       "__isJSFile": true,
       "__absFile": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/pages/admin/pitches/index.tsx"
     },
@@ -3590,7 +3592,7 @@
       "parentId": "12",
       "id": "16",
       "absPath": "/admin/pricing",
-      "__content": "import React, { useState } from 'react';\nimport { PageContainer } from '@ant-design/pro-components';\nimport { Row, Col, Card, Typography, Button, Space, message, Tag, Modal, Form, InputNumber, TimePicker, Input, Select, Popconfirm } from 'antd';\nimport {\n  HistoryOutlined, SaveOutlined, PlusOutlined, EditOutlined, DeleteOutlined, CheckCircleOutlined, RightOutlined, FilterOutlined, BulbFilled\n} from '@ant-design/icons';\nimport { useModel } from '@umijs/max';\nimport dayjs from 'dayjs';\n\nconst { Title, Text } = Typography;\n\nconst AdminPitches: React.FC = () => {\n  const { pitches, prices, updatePrice, addPriceRule, deletePriceRule } = useModel('adminPitches');\n  const [activePitch, setActivePitch] = useState(pitches[0]?.id || '');\n  \n  const [isModalOpen, setIsModalOpen] = useState(false);\n  const [editingPrice, setEditingPrice] = useState<{id: string, val: number} | null>(null);\n  const [form] = Form.useForm();\n\n  // Lọc giá theo sân đang chọn\n  const currentPrices = prices.filter(p => p.pitchId === activePitch);\n\n  const handleSavePrice = (id: string) => {\n    if (editingPrice && editingPrice.id === id) {\n      updatePrice(id, editingPrice.val);\n      setEditingPrice(null);\n      message.success('Đã cập nhật giá!');\n    }\n  };\n\n  const handleAddRule = (values: any) => {\n    const timeRange = `${values.startTime.format('HH:mm')} - ${values.endTime.format('HH:mm')}`;\n    addPriceRule({\n      pitchId: activePitch,\n      timeRange: timeRange,\n      price: values.price,\n      type: values.type,\n      status: 'active',\n      icon: 'sun' // hardcoded for demo\n    });\n    message.success('Đã thêm khung giờ mới!');\n    setIsModalOpen(false);\n    form.resetFields();\n  };\n\n  return (\n    <PageContainer\n      header={{\n        title: <Title level={2} style={{ margin: 0, fontWeight: 700 }}>Cấu hình Bảng giá Sân</Title>,\n        subTitle: <Text style={{ color: '#6b7280' }}>Quản lý các quy tắc giá theo giờ và điều chỉnh giờ cao điểm.</Text>,\n        extra: [\n          <Button key=\"history\" icon={<HistoryOutlined />} style={{ borderRadius: 8, backgroundColor: '#e0e7ff', color: '#4f46e5', border: 'none', fontWeight: 600 }}>\n            Xem nhật ký thay đổi\n          </Button>,\n          <Button key=\"save\" type=\"primary\" icon={<SaveOutlined />} style={{ backgroundColor: '#00a67d', borderRadius: 8, fontWeight: 600 }}>\n            Lưu tất cả thay đổi\n          </Button>\n        ]\n      }}\n    >\n      <Row gutter={[24, 24]}>\n        {/* Cột trái: Danh sách Sân + Phân tích */}\n        <Col xs={24} lg={8}>\n          <Card bordered={false} bodyStyle={{ padding: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>\n              <div style={{ color: '#00a67d' }}>⚽</div> Chọn sân\n            </div>\n            \n            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>\n              {pitches.map(p => (\n                <div \n                  key={p.id}\n                  onClick={() => setActivePitch(p.id)}\n                  style={{\n                    padding: '16px 20px',\n                    borderRadius: 12,\n                    border: activePitch === p.id ? '2px solid #00a67d' : '1px solid #f3f4f6',\n                    backgroundColor: activePitch === p.id ? '#ecfdf5' : '#ffffff',\n                    cursor: 'pointer',\n                    display: 'flex',\n                    justifyContent: 'space-between',\n                    alignItems: 'center',\n                    transition: 'all 0.2s'\n                  }}\n                >\n                  <div>\n                    <div style={{ fontWeight: 700, color: '#1f2937', fontSize: 15, marginBottom: 4 }}>{p.name}</div>\n                    <div style={{ color: '#6b7280', fontSize: 13 }}>{p.desc}</div>\n                  </div>\n                  {activePitch === p.id ? <CheckCircleOutlined style={{ color: '#00a67d', fontSize: 20 }} /> : <RightOutlined style={{ color: '#9ca3af' }} />}\n                </div>\n              ))}\n            </div>\n\n            <div style={{ marginTop: 24, padding: '16px 20px', backgroundColor: '#f9fafb', borderRadius: 12, border: '1px solid #e5e7eb' }}>\n              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text style={{ fontWeight: 600, color: '#6b7280', fontSize: 12 }}>TÌNH TRẠNG SÂN</Text>\n                <div style={{ padding: '4px 12px', backgroundColor: '#d1fae5', color: '#059669', borderRadius: 16, fontWeight: 800, fontSize: 12 }}>\n                  RẤT TỐT\n                </div>\n              </div>\n              <div style={{ width: '100%', height: 4, backgroundColor: '#e5e7eb', borderRadius: 2, marginTop: 12 }}>\n                <div style={{ width: '85%', height: '100%', backgroundColor: '#059669', borderRadius: 2 }}></div>\n              </div>\n            </div>\n          </Card>\n\n          <Card bordered={false} style={{ marginTop: 24, backgroundColor: '#1e293b', border: 'none', borderRadius: 12 }} bodyStyle={{ padding: 24 }}>\n            <div style={{ color: '#f8fafc', fontSize: 18, fontWeight: 700, marginBottom: 4 }}>Phân tích doanh thu</div>\n            <div style={{ color: '#94a3b8', fontSize: 14, marginBottom: 24 }}>30 ngày qua cho {pitches.find(p=>p.id === activePitch)?.name}</div>\n            \n            <div style={{ color: '#ffffff', fontSize: 36, fontWeight: 800, marginBottom: 8 }}>48.2M VNĐ</div>\n            <div style={{ color: '#34d399', fontSize: 14, fontWeight: 600 }}>↗ +12.4% so với tháng trước</div>\n          </Card>\n        </Col>\n\n        {/* Cột phải: Bảng giá + Xem trước lịch */}\n        <Col xs={24} lg={16}>\n          <Card bordered={false} bodyStyle={{ padding: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>\n              <div style={{ fontSize: 18, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>\n                <div style={{ color: '#00a67d' }}>🕒</div> Quy tắc giá theo giờ\n              </div>\n              <Space>\n                <Button icon={<FilterOutlined />} size=\"large\" style={{ borderRadius: 8 }} />\n                <Button type=\"primary\" icon={<PlusOutlined />} size=\"large\" style={{ backgroundColor: '#4b5563', borderRadius: 8, fontWeight: 600 }} onClick={() => setIsModalOpen(true)}>\n                  Thêm khung giờ\n                </Button>\n              </Space>\n            </div>\n\n            {/* Header row */}\n            <div style={{ display: 'grid', gridTemplateColumns: '2fr 2fr 1.5fr 1fr', padding: '0 16px 16px', borderBottom: '1px solid #f3f4f6', color: '#6b7280', fontWeight: 600, fontSize: 13 }}>\n              <div>Khung giờ</div>\n              <div>Đơn giá (VNĐ/h)</div>\n              <div>Trạng thái</div>\n              <div style={{ textAlign: 'right' }}>Thao tác</div>\n            </div>\n\n            {/* List prices */}\n            {currentPrices.map(pr => (\n              <div key={pr.id} style={{ display: 'grid', gridTemplateColumns: '2fr 2fr 1.5fr 1fr', padding: '24px 16px', borderBottom: '1px solid #f3f4f6', alignItems: 'center' }}>\n                <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>\n                  <div style={{ width: 48, height: 48, borderRadius: 12, backgroundColor: pr.status === 'active' ? '#e0f2fe' : '#f3f4f6', color: pr.status === 'active' ? '#0ea5e9' : '#9ca3af', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>\n                    {pr.status === 'active' ? '☀️' : '🌙'}\n                  </div>\n                  <div>\n                    <div style={{ fontWeight: 700, color: '#1f2937', fontSize: 15, marginBottom: 4 }}>{pr.timeRange}</div>\n                    <div style={{ color: '#6b7280', fontSize: 13 }}>{pr.type}</div>\n                  </div>\n                </div>\n                <div>\n                  {editingPrice?.id === pr.id ? (\n                    <InputNumber \n                      value={editingPrice.val} \n                      onChange={val => setEditingPrice({ id: pr.id, val: val || 0 })}\n                      onPressEnter={() => handleSavePrice(pr.id)}\n                      formatter={value => `${value}`.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',')}\n                      style={{ width: 140, borderRadius: 8, fontWeight: 600 }}\n                    />\n                  ) : (\n                    <div style={{ padding: '8px 16px', border: '1px solid #e5e7eb', borderRadius: 8, display: 'inline-block', fontWeight: 600, color: '#1f2937' }}>\n                      {pr.price.toLocaleString()} VNĐ\n                    </div>\n                  )}\n                </div>\n                <div>\n                  <div style={{ display: 'inline-flex', padding: '4px 12px', borderRadius: 16, backgroundColor: pr.status === 'active' ? '#ecfdf5' : '#fef2f2', color: pr.status === 'active' ? '#059669' : '#dc2626', fontWeight: 700, fontSize: 12 }}>\n                    {pr.status === 'active' ? 'Đang hoạt động' : 'Bảo trì'}\n                  </div>\n                </div>\n                <div style={{ textAlign: 'right', display: 'flex', justifyContent: 'flex-end', gap: 16, color: '#9ca3af', fontSize: 18 }}>\n                  {editingPrice?.id === pr.id ? (\n                    <SaveOutlined style={{ cursor: 'pointer', color: '#059669' }} onClick={() => handleSavePrice(pr.id)} />\n                  ) : (\n                    <EditOutlined style={{ cursor: 'pointer', color: '#4b5563' }} onClick={() => setEditingPrice({ id: pr.id, val: pr.price })} />\n                  )}\n                  <Popconfirm title=\"Xóa khung giờ này?\" onConfirm={() => deletePriceRule(pr.id)}>\n                    <DeleteOutlined style={{ cursor: 'pointer', color: '#dc2626' }} />\n                  </Popconfirm>\n                </div>\n              </div>\n            ))}\n\n            {/* Alert / Info Box */}\n            <div style={{ marginTop: 24, padding: 20, backgroundColor: '#f0fdf4', borderRadius: 12, border: '1px solid #bbf7d0', display: 'flex', gap: 16 }}>\n              <BulbFilled style={{ color: '#00a67d', fontSize: 24 }} />\n              <div>\n                <div style={{ color: '#064e3b', fontWeight: 700, marginBottom: 4, fontSize: 14 }}>Mẹo: Tự động phát hiện giờ cao điểm</div>\n                <div style={{ color: '#047857', fontSize: 13, lineHeight: 1.5 }}>\n                  Hệ thống nhận thấy mật độ đặt sân cao nhất diễn ra từ 18:00 đến 20:00. Cân nhắc áp dụng thêm 10% phí cho các khung giờ này để tối ưu doanh thu.\n                </div>\n              </div>\n            </div>\n          </Card>\n\n          {/* Lịch Preview theo Mockup */}\n          <Card bordered={false} style={{ marginTop: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }} bodyStyle={{ padding: 24 }}>\n            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>\n              <div style={{ fontSize: 18, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>\n                <div style={{ color: '#00a67d' }}>📅</div> Xem trước lịch tuần\n              </div>\n              <div style={{ display: 'flex', gap: 16, fontSize: 13, color: '#4b5563', fontWeight: 600 }}>\n                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><div style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#10b981' }} /> Đã đặt</div>\n                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><div style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#e5e7eb' }} /> Còn trống</div>\n              </div>\n            </div>\n\n            <div style={{ display: 'flex', height: 120, border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }}>\n              <div style={{ width: 60, borderRight: '1px solid #e5e7eb', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 0', fontSize: 10, color: '#9ca3af', textAlign: 'center', fontWeight: 600 }}>\n                <div>06:00</div>\n                <div>12:00</div>\n                <div>18:00</div>\n                <div>00:00</div>\n              </div>\n              <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(14, 1fr)', gridTemplateRows: 'repeat(4, 1fr)', gap: 2, padding: 8, backgroundColor: '#f9fafb' }}>\n                {Array.from({ length: 56 }).map((_, i) => {\n                  // Simulate some busy hours based on mockup pattern\n                  let color = '#e5e7eb'; // default empty\n                  if (i > 30 && i < 40) color = '#f87171'; // red for very busy\n                  else if (i % 3 === 0 || i % 7 === 0) color = '#10b981'; // green for booked\n                  else if (i > 45) color = '#1f2937'; // dark for night\n                  \n                  return (\n                    <div key={i} style={{ \n                      backgroundColor: color,\n                      borderRadius: 2\n                    }} />\n                  );\n                })}\n              </div>\n            </div>\n            \n            {/* FAB Button at bottom right */}\n            <div style={{ position: 'relative' }}>\n              <Button type=\"primary\" shape=\"circle\" icon={<PlusOutlined />} size=\"large\" style={{ position: 'absolute', right: -16, top: -20, width: 48, height: 48, backgroundColor: '#00a67d', boxShadow: '0 4px 10px rgba(0,166,125,0.4)' }} onClick={() => setIsModalOpen(true)}/>\n            </div>\n          </Card>\n        </Col>\n      </Row>\n\n      {/* Modal Thêm Khung Giờ */}\n      <Modal \n        title=\"Thêm Khung Giờ Mới\" \n        open={isModalOpen} \n        onCancel={() => setIsModalOpen(false)}\n        footer={null}\n      >\n        <Form form={form} layout=\"vertical\" onFinish={handleAddRule}>\n          <Row gutter={16}>\n            <Col span={12}>\n              <Form.Item name=\"startTime\" label=\"Giờ bắt đầu\" rules={[{ required: true }]}>\n                <TimePicker format=\"HH:mm\" style={{ width: '100%' }} />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name=\"endTime\" label=\"Giờ kết thúc\" rules={[{ required: true }]}>\n                <TimePicker format=\"HH:mm\" style={{ width: '100%' }} />\n              </Form.Item>\n            </Col>\n          </Row>\n          <Form.Item name=\"type\" label=\"Tên khung giờ (Mô tả)\" rules={[{ required: true }]} initialValue=\"Giờ thường\">\n            <Input placeholder=\"Ví dụ: Giờ vàng buổi tối\" />\n          </Form.Item>\n          <Form.Item name=\"price\" label=\"Đơn giá (VNĐ/h)\" rules={[{ required: true }]}>\n            <InputNumber \n              style={{ width: '100%' }} \n              formatter={value => `${value}`.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',')}\n              parser={value => value!.replace(/\\$\\s?|(,*)/g, '')}\n              min={0}\n              step={10000}\n            />\n          </Form.Item>\n          <Form.Item>\n            <Button type=\"primary\" htmlType=\"submit\" style={{ backgroundColor: '#00a67d', width: '100%' }}>\n              Thêm Khung Giờ\n            </Button>\n          </Form.Item>\n        </Form>\n      </Modal>\n    </PageContainer>\n  );\n};\n\nexport default AdminPitches;\n",
+      "__content": "import React, { useState } from 'react';\nimport { PageContainer } from '@ant-design/pro-components';\nimport { Row, Col, Card, Typography, Button, Space, message, Tag, Modal, Form, InputNumber, TimePicker, Input, Select, Popconfirm } from 'antd';\nimport {\n  HistoryOutlined, SaveOutlined, PlusOutlined, EditOutlined, DeleteOutlined, CheckCircleOutlined, RightOutlined, FilterOutlined, BulbFilled\n} from '@ant-design/icons';\nimport { useModel } from '@umijs/max';\nimport dayjs from 'dayjs';\n\nconst { Title, Text } = Typography;\n\nconst AdminPitches: React.FC = () => {\n  const { pitches, prices, updatePrice, addPriceRule, deletePriceRule } = useModel('adminPitches');\n  const [activePitch, setActivePitch] = useState(pitches[0]?.id || '');\n  \n  const [isModalOpen, setIsModalOpen] = useState(false);\n  const [editingPrice, setEditingPrice] = useState<{id: string, val: number} | null>(null);\n  const [form] = Form.useForm();\n\n  // Lọc giá theo sân đang chọn\n  const currentPrices = prices.filter(p => p.pitchId === activePitch);\n\n  const handleSavePrice = (id: string) => {\n    if (editingPrice && editingPrice.id === id) {\n      updatePrice(id, editingPrice.val);\n      setEditingPrice(null);\n      message.success('Đã cập nhật giá!');\n    }\n  };\n\n  const handleAddRule = (values: any) => {\n    const timeRange = `${values.startTime.format('HH:mm')} - ${values.endTime.format('HH:mm')}`;\n    addPriceRule({\n      pitchId: activePitch,\n      timeRange: timeRange,\n      price: values.price,\n      type: values.type,\n      status: 'active',\n      icon: 'sun' // hardcoded for demo\n    });\n    message.success('Đã thêm khung giờ mới!');\n    setIsModalOpen(false);\n    form.resetFields();\n  };\n\n  return (\n    <PageContainer\n      header={{\n        title: <Title level={2} style={{ margin: 0, fontWeight: 700 }}>Cấu hình Bảng giá Sân</Title>,\n        subTitle: <Text style={{ color: '#6b7280' }}>Quản lý các quy tắc giá theo giờ và điều chỉnh giờ cao điểm.</Text>,\n        extra: [\n          <Button key=\"history\" icon={<HistoryOutlined />} style={{ borderRadius: 8, backgroundColor: '#e0e7ff', color: '#4f46e5', border: 'none', fontWeight: 600 }}>\n            Xem nhật ký thay đổi\n          </Button>,\n          <Button key=\"save\" type=\"primary\" icon={<SaveOutlined />} style={{ backgroundColor: '#00a67d', borderRadius: 8, fontWeight: 600 }}>\n            Lưu tất cả thay đổi\n          </Button>\n        ]\n      }}\n    >\n      <Row gutter={[24, 24]}>\n        {/* Cột trái: Danh sách Sân + Phân tích */}\n        <Col xs={24} lg={8}>\n          <Card bordered={false} bodyStyle={{ padding: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>\n              <div style={{ color: '#00a67d' }}>⚽</div> Chọn sân\n            </div>\n            \n            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>\n              {pitches.map(p => (\n                <div \n                  key={p.id}\n                  onClick={() => setActivePitch(p.id)}\n                  style={{\n                    padding: '16px 20px',\n                    borderRadius: 12,\n                    border: activePitch === p.id ? '2px solid #00a67d' : '1px solid #f3f4f6',\n                    backgroundColor: activePitch === p.id ? '#ecfdf5' : '#ffffff',\n                    cursor: 'pointer',\n                    display: 'flex',\n                    justifyContent: 'space-between',\n                    alignItems: 'center',\n                    transition: 'all 0.2s'\n                  }}\n                >\n                  <div>\n                    <div style={{ fontWeight: 700, color: '#1f2937', fontSize: 15, marginBottom: 4 }}>{p.name}</div>\n                    <div style={{ color: '#6b7280', fontSize: 13 }}>{p.desc}</div>\n                  </div>\n                  {activePitch === p.id ? <CheckCircleOutlined style={{ color: '#00a67d', fontSize: 20 }} /> : <RightOutlined style={{ color: '#9ca3af' }} />}\n                </div>\n              ))}\n            </div>\n\n            <div style={{ marginTop: 24, padding: '16px 20px', backgroundColor: '#f9fafb', borderRadius: 12, border: '1px solid #e5e7eb' }}>\n              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>\n                <Text style={{ fontWeight: 600, color: '#6b7280', fontSize: 12 }}>TÌNH TRẠNG SÂN</Text>\n                <div style={{ padding: '4px 12px', backgroundColor: '#d1fae5', color: '#059669', borderRadius: 16, fontWeight: 800, fontSize: 12 }}>\n                  RẤT TỐT\n                </div>\n              </div>\n              <div style={{ width: '100%', height: 4, backgroundColor: '#e5e7eb', borderRadius: 2, marginTop: 12 }}>\n                <div style={{ width: '85%', height: '100%', backgroundColor: '#059669', borderRadius: 2 }}></div>\n              </div>\n            </div>\n          </Card>\n\n          <Card bordered={false} style={{ marginTop: 24, backgroundColor: '#1e293b', border: 'none', borderRadius: 12 }} bodyStyle={{ padding: 24 }}>\n            <div style={{ color: '#f8fafc', fontSize: 18, fontWeight: 700, marginBottom: 4 }}>Phân tích doanh thu</div>\n            <div style={{ color: '#94a3b8', fontSize: 14, marginBottom: 24 }}>30 ngày qua cho {pitches.find(p=>p.id === activePitch)?.name}</div>\n            \n            <div style={{ color: '#ffffff', fontSize: 36, fontWeight: 800, marginBottom: 8 }}>48.2M VNĐ</div>\n            <div style={{ color: '#34d399', fontSize: 14, fontWeight: 600 }}>↗ +12.4% so với tháng trước</div>\n          </Card>\n        </Col>\n\n        {/* Cột phải: Bảng giá + Xem trước lịch */}\n        <Col xs={24} lg={16}>\n          <Card bordered={false} bodyStyle={{ padding: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>\n            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>\n              <div style={{ fontSize: 18, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>\n                <div style={{ color: '#00a67d' }}>🕒</div> Quy tắc giá theo giờ\n              </div>\n              <Space>\n                <Button icon={<FilterOutlined />} size=\"large\" style={{ borderRadius: 8 }} />\n                <Button type=\"primary\" icon={<PlusOutlined />} size=\"large\" style={{ backgroundColor: '#4b5563', borderRadius: 8, fontWeight: 600 }} onClick={() => setIsModalOpen(true)}>\n                  Thêm khung giờ\n                </Button>\n              </Space>\n            </div>\n\n            {/* Header row */}\n            <div style={{ display: 'grid', gridTemplateColumns: '2fr 2fr 1.5fr 1fr', padding: '0 16px 16px', borderBottom: '1px solid #f3f4f6', color: '#6b7280', fontWeight: 600, fontSize: 13 }}>\n              <div>Khung giờ</div>\n              <div>Đơn giá (VNĐ/h)</div>\n              <div>Trạng thái</div>\n              <div style={{ textAlign: 'right' }}>Thao tác</div>\n            </div>\n\n            {/* List prices */}\n            {currentPrices.map(pr => (\n              <div key={pr.id} style={{ display: 'grid', gridTemplateColumns: '2fr 2fr 1.5fr 1fr', padding: '24px 16px', borderBottom: '1px solid #f3f4f6', alignItems: 'center' }}>\n                <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>\n                  <div style={{ width: 48, height: 48, borderRadius: 12, backgroundColor: pr.status === 'active' ? '#e0f2fe' : '#f3f4f6', color: pr.status === 'active' ? '#0ea5e9' : '#9ca3af', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>\n                    {pr.status === 'active' ? '☀️' : '🌙'}\n                  </div>\n                  <div>\n                    <div style={{ fontWeight: 700, color: '#1f2937', fontSize: 15, marginBottom: 4 }}>{pr.timeRange}</div>\n                    <div style={{ color: '#6b7280', fontSize: 13 }}>{pr.type}</div>\n                  </div>\n                </div>\n                <div>\n                  {editingPrice?.id === pr.id ? (\n                    <InputNumber \n                      value={editingPrice.val} \n                      onChange={val => setEditingPrice({ id: pr.id, val: val || 0 })}\n                      onPressEnter={() => handleSavePrice(pr.id)}\n                      formatter={value => `${value}`.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',')}\n                      style={{ width: 140, borderRadius: 8, fontWeight: 600 }}\n                    />\n                  ) : (\n                    <div style={{ padding: '8px 16px', border: '1px solid #e5e7eb', borderRadius: 8, display: 'inline-block', fontWeight: 600, color: '#1f2937' }}>\n                      {pr.price.toLocaleString()} VNĐ\n                    </div>\n                  )}\n                </div>\n                <div>\n                  <div style={{ display: 'inline-flex', padding: '4px 12px', borderRadius: 16, backgroundColor: pr.status === 'active' ? '#ecfdf5' : '#fef2f2', color: pr.status === 'active' ? '#059669' : '#dc2626', fontWeight: 700, fontSize: 12 }}>\n                    {pr.status === 'active' ? 'Đang hoạt động' : 'Bảo trì'}\n                  </div>\n                </div>\n                <div style={{ textAlign: 'right', display: 'flex', justifyContent: 'flex-end', gap: 16, color: '#9ca3af', fontSize: 18 }}>\n                  {editingPrice?.id === pr.id ? (\n                    <SaveOutlined style={{ cursor: 'pointer', color: '#059669' }} onClick={() => handleSavePrice(pr.id)} />\n                  ) : (\n                    <EditOutlined style={{ cursor: 'pointer', color: '#4b5563' }} onClick={() => setEditingPrice({ id: pr.id, val: pr.price })} />\n                  )}\n                  <Popconfirm title=\"Xóa khung giờ này?\" onConfirm={() => deletePriceRule(pr.id)}>\n                    <DeleteOutlined style={{ cursor: 'pointer', color: '#dc2626' }} />\n                  </Popconfirm>\n                </div>\n              </div>\n            ))}\n\n            {/* Alert / Info Box */}\n            <div style={{ marginTop: 24, padding: 20, backgroundColor: '#f0fdf4', borderRadius: 12, border: '1px solid #bbf7d0', display: 'flex', gap: 16 }}>\n              <BulbFilled style={{ color: '#00a67d', fontSize: 24 }} />\n              <div>\n                <div style={{ color: '#064e3b', fontWeight: 700, marginBottom: 4, fontSize: 14 }}>Mẹo: Tự động phát hiện giờ cao điểm</div>\n                <div style={{ color: '#047857', fontSize: 13, lineHeight: 1.5 }}>\n                  Hệ thống nhận thấy mật độ đặt sân cao nhất diễn ra từ 18:00 đến 20:00. Cân nhắc áp dụng thêm 10% phí cho các khung giờ này để tối ưu doanh thu.\n                </div>\n              </div>\n            </div>\n          </Card>\n\n          {/* Lịch Preview theo Mockup */}\n          <Card bordered={false} style={{ marginTop: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }} bodyStyle={{ padding: 24 }}>\n            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>\n              <div style={{ fontSize: 18, fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>\n                <div style={{ color: '#00a67d' }}>📅</div> Xem trước lịch tuần\n              </div>\n              <div style={{ display: 'flex', gap: 16, fontSize: 13, color: '#4b5563', fontWeight: 600 }}>\n                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><div style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#10b981' }} /> Đã đặt</div>\n                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}><div style={{ width: 10, height: 10, borderRadius: '50%', backgroundColor: '#e5e7eb' }} /> Còn trống</div>\n              </div>\n            </div>\n\n            <div style={{ display: 'flex', height: 120, border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }}>\n              <div style={{ width: 60, borderRight: '1px solid #e5e7eb', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '10px 0', fontSize: 10, color: '#9ca3af', textAlign: 'center', fontWeight: 600 }}>\n                <div>06:00</div>\n                <div>12:00</div>\n                <div>18:00</div>\n                <div>00:00</div>\n              </div>\n              <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(14, 1fr)', gridTemplateRows: 'repeat(4, 1fr)', gap: 2, padding: 8, backgroundColor: '#f9fafb' }}>\n                {Array.from({ length: 56 }).map((_, i) => {\n                  // Simulate some busy hours based on mockup pattern\n                  let color = '#e5e7eb'; // default empty\n                  if (i > 30 && i < 40) color = '#f87171'; // red for very busy\n                  else if (i % 3 === 0 || i % 7 === 0) color = '#10b981'; // green for booked\n                  else if (i > 45) color = '#1f2937'; // dark for night\n                  \n                  return (\n                    <div key={i} style={{ \n                      backgroundColor: color,\n                      borderRadius: 2\n                    }} />\n                  );\n                })}\n              </div>\n            </div>\n            \n            {/* FAB Button at bottom right */}\n            <div style={{ position: 'relative' }}>\n              <Button type=\"primary\" shape=\"circle\" icon={<PlusOutlined />} size=\"large\" style={{ position: 'absolute', right: -16, top: -20, width: 48, height: 48, backgroundColor: '#00a67d', boxShadow: '0 4px 10px rgba(0,166,125,0.4)' }} onClick={() => setIsModalOpen(true)}/>\n            </div>\n          </Card>\n        </Col>\n      </Row>\n\n      {/* Modal Thêm Khung Giờ */}\n      <Modal \n        title=\"Thêm Khung Giờ Mới\" \n        open={isModalOpen} \n        onCancel={() => setIsModalOpen(false)}\n        footer={null}\n      >\n        <Form form={form} layout=\"vertical\" onFinish={handleAddRule}>\n          <Row gutter={16}>\n            <Col span={12}>\n              <Form.Item name=\"startTime\" label=\"Giờ bắt đầu\" rules={[{ required: true }]}>\n                <TimePicker format=\"HH:mm\" style={{ width: '100%' }} />\n              </Form.Item>\n            </Col>\n            <Col span={12}>\n              <Form.Item name=\"endTime\" label=\"Giờ kết thúc\" rules={[{ required: true }]}>\n                <TimePicker format=\"HH:mm\" style={{ width: '100%' }} />\n              </Form.Item>\n            </Col>\n          </Row>\n          <Form.Item name=\"type\" label=\"Tên khung giờ (Mô tả)\" rules={[{ required: true }]} initialValue=\"Giờ thường\">\n            <Input placeholder=\"Ví dụ: Giờ vàng buổi tối\" />\n          </Form.Item>\n          <Form.Item name=\"price\" label=\"Đơn giá (VNĐ/h)\" rules={[{ required: true }]}>\n            <InputNumber \n              style={{ width: '100%' }} \n              formatter={value => `${value}`.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',')}\n              parser={(value) => value!.replace(/\\$\\s?|(,*)/g, '') as unknown as 0}\n              min={0}\n              step={10000}\n            />\n          </Form.Item>\n          <Form.Item>\n            <Button type=\"primary\" htmlType=\"submit\" style={{ backgroundColor: '#00a67d', width: '100%' }}>\n              Thêm Khung Giờ\n            </Button>\n          </Form.Item>\n        </Form>\n      </Modal>\n    </PageContainer>\n  );\n};\n\nexport default AdminPitches;\n",
       "__isJSFile": true,
       "__absFile": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/pages/admin/pricing/index.tsx"
     },
@@ -3612,7 +3614,7 @@
       "parentId": "12",
       "id": "18",
       "absPath": "/admin/finance",
-      "__content": "import React from 'react';\nimport { PageContainer } from '@ant-design/pro-components';\nimport { Card, Table, Tag, Row, Col, DatePicker, Select, Space, Button } from 'antd';\nimport { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';\nimport { DownloadOutlined } from '@ant-design/icons';\nimport dayjs from 'dayjs';\n\nconst { RangePicker } = DatePicker;\n\nconst transactionData = [\n  { id: 'TXN001', date: '2026-05-09 18:30', user: 'Nguyễn Văn A', type: 'Đặt sân', amount: 450000, method: 'Chuyển khoản', status: 'success' },\n  { id: 'TXN002', date: '2026-05-09 19:00', user: 'Nguyễn Văn A', type: 'Dịch vụ (Nước, Áo)', amount: 150000, method: 'Tiền mặt', status: 'success' },\n  { id: 'TXN003', date: '2026-05-08 20:00', user: 'Trần B', type: 'Đặt sân', amount: 800000, method: 'Ví điện tử', status: 'refunded' },\n  { id: 'TXN004', date: '2026-05-08 17:00', user: 'Lê C', type: 'Đặt sân', amount: 300000, method: 'Chuyển khoản', status: 'success' },\n  { id: 'TXN005', date: '2026-05-07 19:30', user: 'FC Hàng Cuối', type: 'Đặt sân + Dịch vụ', amount: 650000, method: 'Tiền mặt', status: 'success' },\n];\n\nconst revenueBreakdown = [\n  { name: 'Tiền thuê sân', value: 45000000 },\n  { name: 'Nước giải khát', value: 8500000 },\n  { name: 'Thuê áo, bóng', value: 3200000 },\n  { name: 'Tổ chức giải đấu', value: 12000000 },\n];\nconst COLORS = ['#004d40', '#48bb78', '#ecc94b', '#f6ad55'];\n\nconst AdminFinance: React.FC = () => {\n  const columns = [\n    { title: 'Mã GD', dataIndex: 'id', key: 'id', render: (text: string) => <code>{text}</code> },\n    { title: 'Thời gian', dataIndex: 'date', key: 'date' },\n    { title: 'Khách hàng', dataIndex: 'user', key: 'user' },\n    { title: 'Loại thanh toán', dataIndex: 'type', key: 'type' },\n    { title: 'Phương thức', dataIndex: 'method', key: 'method' },\n    { \n      title: 'Số tiền', \n      dataIndex: 'amount', \n      key: 'amount',\n      render: (val: number, record: any) => (\n        <span style={{ color: record.status === 'refunded' ? '#f56565' : '#2d3748', fontWeight: 600 }}>\n          {record.status === 'refunded' ? '-' : '+'}{val.toLocaleString()}đ\n        </span>\n      )\n    },\n    {\n      title: 'Trạng thái',\n      dataIndex: 'status',\n      key: 'status',\n      render: (status: string) => {\n        if (status === 'success') return <Tag color=\"success\">Thành công</Tag>;\n        if (status === 'refunded') return <Tag color=\"error\">Hoàn tiền</Tag>;\n        return <Tag color=\"default\">Chờ xử lý</Tag>;\n      }\n    },\n  ];\n\n  return (\n    <PageContainer title=\"Báo Cáo & Tài Chính\" ghost>\n      <Row gutter={[24, 24]}>\n        {/* Biểu đồ cơ cấu doanh thu */}\n        <Col xs={24} md={8}>\n          <Card className=\"card-minimal\" title=\"Cơ cấu doanh thu (Tháng này)\" bordered={false} style={{ height: '100%' }}>\n            <div style={{ height: 250 }}>\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\n                <PieChart>\n                  <Pie\n                    data={revenueBreakdown}\n                    cx=\"50%\"\n                    cy=\"50%\"\n                    innerRadius={60}\n                    outerRadius={80}\n                    paddingAngle={5}\n                    dataKey=\"value\"\n                  >\n                    {revenueBreakdown.map((entry, index) => (\n                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />\n                    ))}\n                  </Pie>\n                  <Tooltip formatter={(value: number) => `${value.toLocaleString()}đ`} />\n                  <Legend />\n                </PieChart>\n              </ResponsiveContainer>\n            </div>\n            <div style={{ textAlign: 'center', marginTop: 16 }}>\n              <h3 style={{ margin: 0, color: '#004d40', fontSize: 24 }}>68,700,000đ</h3>\n              <p style={{ color: '#718096', fontSize: 12 }}>Tổng doanh thu</p>\n            </div>\n          </Card>\n        </Col>\n\n        {/* Lịch sử giao dịch */}\n        <Col xs={24} md={16}>\n          <Card className=\"card-minimal\" title=\"Lịch sử giao dịch\" bordered={false}>\n            <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>\n              <Space>\n                <RangePicker defaultValue={[dayjs().subtract(7, 'days'), dayjs()]} format=\"DD/MM/YYYY\" />\n                <Select defaultValue=\"all\" style={{ width: 120 }}>\n                  <Select.Option value=\"all\">Tất cả TT</Select.Option>\n                  <Select.Option value=\"success\">Thành công</Select.Option>\n                  <Select.Option value=\"refunded\">Hoàn tiền</Select.Option>\n                </Select>\n                <Select defaultValue=\"all\" style={{ width: 150 }}>\n                  <Select.Option value=\"all\">Tất cả loại</Select.Option>\n                  <Select.Option value=\"pitch\">Tiền thuê sân</Select.Option>\n                  <Select.Option value=\"service\">Tiền dịch vụ</Select.Option>\n                </Select>\n              </Space>\n              <Button icon={<DownloadOutlined />}>Xuất Excel</Button>\n            </div>\n            <Table columns={columns} dataSource={transactionData} rowKey=\"id\" pagination={{ pageSize: 5 }} />\n          </Card>\n        </Col>\n      </Row>\n    </PageContainer>\n  );\n};\n\nexport default AdminFinance;\n",
+      "__content": "import React from 'react';\nimport { PageContainer } from '@ant-design/pro-components';\nimport { Card, Table, Tag, Row, Col, DatePicker, Select, Space, Button } from 'antd';\nimport { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';\nimport { DownloadOutlined } from '@ant-design/icons';\nimport dayjs from 'dayjs';\n\nconst { RangePicker } = DatePicker;\n\nconst transactionData = [\n  { id: 'TXN001', date: '2026-05-09 18:30', user: 'Nguyễn Văn A', type: 'Đặt sân', amount: 450000, method: 'Chuyển khoản', status: 'success' },\n  { id: 'TXN002', date: '2026-05-09 19:00', user: 'Nguyễn Văn A', type: 'Dịch vụ (Nước, Áo)', amount: 150000, method: 'Tiền mặt', status: 'success' },\n  { id: 'TXN003', date: '2026-05-08 20:00', user: 'Trần B', type: 'Đặt sân', amount: 800000, method: 'Ví điện tử', status: 'refunded' },\n  { id: 'TXN004', date: '2026-05-08 17:00', user: 'Lê C', type: 'Đặt sân', amount: 300000, method: 'Chuyển khoản', status: 'success' },\n  { id: 'TXN005', date: '2026-05-07 19:30', user: 'FC Hàng Cuối', type: 'Đặt sân + Dịch vụ', amount: 650000, method: 'Tiền mặt', status: 'success' },\n];\n\nconst revenueBreakdown = [\n  { name: 'Tiền thuê sân', value: 45000000 },\n  { name: 'Nước giải khát', value: 8500000 },\n  { name: 'Thuê áo, bóng', value: 3200000 },\n  { name: 'Tổ chức giải đấu', value: 12000000 },\n];\nconst COLORS = ['#004d40', '#48bb78', '#ecc94b', '#f6ad55'];\n\nconst AdminFinance: React.FC = () => {\n  const columns = [\n    { title: 'Mã GD', dataIndex: 'id', key: 'id', render: (text: string) => <code>{text}</code> },\n    { title: 'Thời gian', dataIndex: 'date', key: 'date' },\n    { title: 'Khách hàng', dataIndex: 'user', key: 'user' },\n    { title: 'Loại thanh toán', dataIndex: 'type', key: 'type' },\n    { title: 'Phương thức', dataIndex: 'method', key: 'method' },\n    { \n      title: 'Số tiền', \n      dataIndex: 'amount', \n      key: 'amount',\n      render: (val: number, record: any) => (\n        <span style={{ color: record.status === 'refunded' ? '#f56565' : '#2d3748', fontWeight: 600 }}>\n          {record.status === 'refunded' ? '-' : '+'}{val.toLocaleString()}đ\n        </span>\n      )\n    },\n    {\n      title: 'Trạng thái',\n      dataIndex: 'status',\n      key: 'status',\n      render: (status: string) => {\n        if (status === 'success') return <Tag color=\"success\">Thành công</Tag>;\n        if (status === 'refunded') return <Tag color=\"error\">Hoàn tiền</Tag>;\n        return <Tag color=\"default\">Chờ xử lý</Tag>;\n      }\n    },\n  ];\n\n  return (\n    <PageContainer title=\"Báo Cáo & Tài Chính\" ghost>\n      <Row gutter={[24, 24]}>\n        {/* Biểu đồ cơ cấu doanh thu */}\n        <Col xs={24} md={8}>\n          <Card className=\"card-minimal\" title=\"Cơ cấu doanh thu (Tháng này)\" bordered={false} style={{ height: '100%' }}>\n            <div style={{ height: 250 }}>\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\n                <PieChart>\n                  <Pie\n                    data={revenueBreakdown}\n                    cx=\"50%\"\n                    cy=\"50%\"\n                    innerRadius={60}\n                    outerRadius={80}\n                    paddingAngle={5}\n                    dataKey=\"value\"\n                  >\n                    {revenueBreakdown.map((entry, index) => (\n                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />\n                    ))}\n                  </Pie>\n                  <Tooltip formatter={(value) => `${Number(value).toLocaleString()}đ`} />\n                  <Legend />\n                </PieChart>\n              </ResponsiveContainer>\n            </div>\n            <div style={{ textAlign: 'center', marginTop: 16 }}>\n              <h3 style={{ margin: 0, color: '#004d40', fontSize: 24 }}>68,700,000đ</h3>\n              <p style={{ color: '#718096', fontSize: 12 }}>Tổng doanh thu</p>\n            </div>\n          </Card>\n        </Col>\n\n        {/* Lịch sử giao dịch */}\n        <Col xs={24} md={16}>\n          <Card className=\"card-minimal\" title=\"Lịch sử giao dịch\" bordered={false}>\n            <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>\n              <Space>\n                <RangePicker defaultValue={[dayjs().subtract(7, 'days'), dayjs()]} format=\"DD/MM/YYYY\" />\n                <Select defaultValue=\"all\" style={{ width: 120 }}>\n                  <Select.Option value=\"all\">Tất cả TT</Select.Option>\n                  <Select.Option value=\"success\">Thành công</Select.Option>\n                  <Select.Option value=\"refunded\">Hoàn tiền</Select.Option>\n                </Select>\n                <Select defaultValue=\"all\" style={{ width: 150 }}>\n                  <Select.Option value=\"all\">Tất cả loại</Select.Option>\n                  <Select.Option value=\"pitch\">Tiền thuê sân</Select.Option>\n                  <Select.Option value=\"service\">Tiền dịch vụ</Select.Option>\n                </Select>\n              </Space>\n              <Button icon={<DownloadOutlined />}>Xuất Excel</Button>\n            </div>\n            <Table columns={columns} dataSource={transactionData} rowKey=\"id\" pagination={{ pageSize: 5 }} />\n          </Card>\n        </Col>\n      </Row>\n    </PageContainer>\n  );\n};\n\nexport default AdminFinance;\n",
       "__isJSFile": true,
       "__absFile": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/pages/admin/finance/index.tsx"
     },

@@ -74,7 +74,7 @@ const AdminFinance: React.FC = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value: number) => `${value.toLocaleString()}đ`} />
+                  <Tooltip formatter={(value) => `${Number(value).toLocaleString()}đ`} />
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
