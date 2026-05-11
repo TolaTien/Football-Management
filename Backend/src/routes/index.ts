@@ -4,6 +4,7 @@ import { userRouters } from "../modules/users/users.route.js";
 import { pitchRouters } from "../modules/pitch/pitch.route.js";
 import { bookingRouters } from "../modules/booking/booking.route.js";
 import { adminRouters } from '../modules/admin/admin.route.js';
+import { serviceRouters } from "../modules/services/services.route.js";
 
 export const Routers: Router = Router();
 
@@ -12,3 +13,4 @@ Routers.use('/user', userRouters);
 Routers.use('/pitch', pitchRouters);
 Routers.use('/booking', bookingRouters);
 Routers.use('/admin', adminRouters);
+Routers.use('/services', serviceRouters);
