@@ -1,241 +1,202 @@
-// import { prisma } from "../../config/prisma.js";
-// import { StatisticForAdmin } from "./statistic.schema.js";
+import { prisma } from "../../config/prisma.js";
+import { GetRevenueInput, GetSystemOverview } from "./statistic.schema.js";
 
-// export class StatisticService {
-//     static async getMonthlyRevenue(dto: StatisticForAdmin & { address?: string }) {
-//         const { month, year, address } = dto;
+export class StatisticService {
+    static async getMonthlyRevenue(dto: GetRevenueInput) {
+        if (!dto.month && !dto.year && !dto.address) {
+            const totalPitches = await prisma.pitch.count({
+                where: { status: 'active'}
+            });
+            const successBookings = await prisma.booking.findMany({
+                where: {
+                    status: 'approved',
+                    paymentStatus: { in: ['paid', 'partial'] },
+                }
+            });
 
-//         const daysInMonth = new Date(year, month, 0).getDate();
+            const successRevenue = successBookings.reduce((sum, b) => sum + (b.total || 0), 0);
 
-//         const dailyRevenueList = [];
-//         let totalMonthlyRevenue = 0;
-//         let totalMonthlyBookings = 0;
+            const penaltyRevenueData = await prisma.booking.aggregate({
+                _sum: { pitchPriceAtBooking: true },
+                where: {
+                    status: 'rejected',
+                    paymentStatus: 'partial',
+                }
+            });
 
-//         // Lấy tổng số sân theo từng khu vực (address)
-//         const pitchesCountByAddress = await prisma.pitch.groupBy({
-//             by: ['address'],
-//             where: { 
-//                 status: 'active',
-//                 address: address ? { contains: address } : undefined
-//             },
-//             _count: { pitchId: true }
-//         });
+            const penaltyRevenue = (penaltyRevenueData._sum.pitchPriceAtBooking || 0) / 2;
+            const totalRevenue = successRevenue + penaltyRevenue;
+            const fillRate = parseFloat(((successBookings.length/totalPitches) * 100).toFixed(2))
+            return {
+                month: dto.month ,
+                year: dto.year ,
+                filteredAddress: dto.address || "All",
+                totalRevenue: totalRevenue,
+                totalBookings: successBookings.length,
+                rate: fillRate,
+            };
+        }
 
-//         const totalPitches = pitchesCountByAddress.reduce((sum, item) => sum + item._count.pitchId, 0);
+        ///
 
-//         for (let day = 1; day <= daysInMonth; day++) {
-//             const startOfDay = new Date(year, month - 1, day, 0, 0, 0); 
-//             startOfDay.setHours(startOfDay.getHours() - 7); 
+        const start = new Date(dto.year!, dto.month! - 1, 1, 0, 0, 0); 
+        start.setHours(start.getHours() - 7); 
 
-//             const endOfDay = new Date(year, month - 1, day, 23, 59, 59, 999); 
-//             endOfDay.setHours(endOfDay.getHours() - 7);
+        const end = new Date(dto.year!, dto.month!, 0, 23, 59, 59, 999); 
+        end.setHours(end.getHours() - 7);
 
-//             const successBookings = await prisma.booking.findMany({
-//                 where: {
-//                     status: 'approved',
-//                     paymentStatus: { in: ['paid', 'partial'] },
-//                     startTime: {
-//                         gte: startOfDay,
-//                         lte: endOfDay
-//                     },
-//                     pitch: address ? { address: { contains: address } } : undefined
-//                 },
-//                 include: {
-//                     pitch: {
-//                         select: { address: true }
-//                     }
-//                 }
-//             });
+        const pitchesCountByAddress = await prisma.pitch.groupBy({
+            by: ['address'],
+            where: { 
+                status: 'active',
+                address: dto.address ? { contains: dto.address } : undefined
+            },
+            _count: { pitchId: true }
+        });
 
-//             const successRevenue = successBookings.reduce((sum, b) => sum + (b.total || 0), 0);
-            
-//             // Tính tỉ lệ lấp đầy theo từng khu vực (address)
-//             const occupancyByAddress = pitchesCountByAddress.map(addr => {
-//                 const uniquePitchesInAddr = new Set(
-//                     successBookings
-//                         .filter(b => b.pitch?.address === addr.address)
-//                         .map(b => b.pitchId)
-//                 ).size;
+        const totalPitches = pitchesCountByAddress.reduce((sum, item) => sum + item._count.pitchId, 0);
 
-//                 return {
-//                     address: addr.address || "Chưa xác định",
-//                     totalPitches: addr._count.pitchId,
-//                     bookedPitches: uniquePitchesInAddr,
-//                     rate: addr._count.pitchId > 0 ? parseFloat(((uniquePitchesInAddr / addr._count.pitchId) * 100).toFixed(2)) : 0
-//                 };
-//             });
+        const successBookings = await prisma.booking.findMany({
+            where: {
+                status: 'approved',
+                paymentStatus: { in: ['paid', 'partial'] },
+                startTime: {
+                    gte: start,
+                    lte: end
+                },
+                pitch: dto.address ? { address: { contains: dto.address } } : undefined
+            },
+            include: {
+                pitch: {
+                    select: { address: true }
+                }
+            }
+        });
 
-//             const totalUniquePitchesBooked = new Set(successBookings.map(b => b.pitchId)).size;
+        const successRevenue = successBookings.reduce((sum, b) => sum + (b.total || 0), 0);
 
-//             const penaltyRevenueData = await prisma.booking.aggregate({
-//                 _sum: { pitchPriceAtBooking: true },
-//                 where: {
-//                     status: 'rejected',
-//                     paymentStatus: 'partial',
-//                     startTime: {
-//                         gte: startOfDay,
-//                         lte: endOfDay
-//                     },
-//                     pitch: address ? { address: { contains: address } } : undefined
-//                 }
-//             });
+        const penaltyRevenueData = await prisma.booking.aggregate({
+            _sum: { pitchPriceAtBooking: true },
+            where: {
+                status: 'rejected',
+                paymentStatus: 'partial',
+                startTime: {
+                    gte: start,
+                    lte: end
+                },
+                pitch: dto.address ? { address: { contains: dto.address } } : undefined
+            }
+        });
 
-//             const penaltyRevenue = (penaltyRevenueData._sum.pitchPriceAtBooking || 0) / 2;
-//             const totalDailyRevenue = successRevenue + penaltyRevenue;
-            
-//             totalMonthlyRevenue += totalDailyRevenue;
-//             totalMonthlyBookings += successBookings.length;
+        const penaltyRevenue = (penaltyRevenueData._sum.pitchPriceAtBooking || 0) / 2;
+        const totalRevenue = successRevenue + penaltyRevenue;
+        
+        // Tính tỉ lệ lấp đầy theo từng khu vực (address)
+        const occupancyByAddress = pitchesCountByAddress.map(addr => {
+            const uniquePitchesInAddr = new Set(
+                successBookings
+                    .filter(b => b.pitch?.address === addr.address)
+                    .map(b => b.pitchId)
+            ).size;
 
-//             dailyRevenueList.push({
-//                 date: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
-//                 successRevenue,
-//                 penaltyRevenue,
-//                 totalRevenue: totalDailyRevenue,
-//                 bookingCount: successBookings.length,
-//                 totalOccupancyRate: totalPitches > 0 ? parseFloat(((totalUniquePitchesBooked / totalPitches) * 100).toFixed(2)) : 0,
-//                 occupancyByAddress
-//             });
-//         }
+            return {
+                address: addr.address,
+                totalPitches: addr._count.pitchId,
+                bookedPitches: uniquePitchesInAddr,
+                rate:  parseFloat(((uniquePitchesInAddr / addr._count.pitchId) * 100).toFixed(2)) 
+            };
+        });
 
-//         return {
-//             month: month,
-//             year: year,
-//             filteredAddress: address || "All",
-//             totalMonthlyRevenue,
-//             totalMonthlyBookings,
-//             details: dailyRevenueList
-//         };
-//     }
+        const totalUniquePitchesBooked = new Set(successBookings.map(b => b.pitchId)).size;
+        const rate =  parseFloat(((totalUniquePitchesBooked / totalPitches) * 100).toFixed(2)) ;
 
-//     static async getTopSpenders(address?: string) {
-//         const todayStart = new Date();
-//         todayStart.setHours(0, 0, 0, 0);
+        
+        return {
+            month: dto.month,
+            year: dto.year,
+            filteredAddress: dto.address || "All",
+            totalRevenue,
+            totalBookings: successBookings.length,
+            rate,
+            occupancyByAddress,
+        };
+    };
 
-//         const spenders = await prisma.booking.groupBy({
-//             by: ['userId'],
-//             where: {
-//                 status: 'approved',
-//                 createdAt: { lt: todayStart },
-//                 userId: { not: null },
-//                 pitch: address ? { address: { contains: address } } : undefined
-//             },
-//             _sum: {
-//                 total: true
-//             },
-//             orderBy: {
-//                 _sum: {
-//                     total: 'desc'
-//                 }
-//             },
-//             take: 10
-//         });
+    static async getTopSpenders() {
+        const spenders = await prisma.booking.groupBy({
+            by: ['userId'],
+            where: {
+                status: 'approved',
+                paymentStatus: { in: ['paid', 'partial'] },
+            },
+            _sum: {
+                total: true
+            },
+            _count: {
+                bookId: true
+            },
+            orderBy: {
+                _sum: {
+                    total: 'desc'
+                }
+            },
+            take: 10
+        });
 
-//         const userIds = spenders.map(s => s.userId as string);
-//         const users = await prisma.users.findMany({
-//             where: { userId: { in: userIds } },
-//             select: {
-//                 userId: true,
-//                 fullName: true,
-//                 avt: true,
-//                 email: true,
-//                 phone: true
-//             }
-//         });
 
-//         return spenders.map(s => {
-//             const user = users.find(u => u.userId === s.userId);
-//             return {
-//                 userId: s.userId,
-//                 fullName: user?.fullName,
-//                 avt: user?.avt,
-//                 email: user?.email,
-//                 phone: user?.phone,
-//                 totalSpent: s._sum.total || 0
-//             };
-//         });
-//     }
+        const userIds = spenders.map(s => s.userId).filter((id): id is string => id !== null);
 
-//     static async getSystemOverview(address?: string) {
-//         const todayStart = new Date();
-//         todayStart.setHours(0, 0, 0, 0);
+        const users = await prisma.users.findMany({
+            where: { userId: { in: userIds } },
+            select: {
+                userId: true,
+                fullName: true,
+                avt: true,
+                email: true,
+                phone: true
+            }
+        });
 
-//         const [totalUsers, totalPitches, totalPendingRequests, revenueData, pitchesByAddress] = await Promise.all([
-//             prisma.users.count({ where: { createdAt: { lt: todayStart } } }),
-//             prisma.pitch.count({ 
-//                 where: { 
-//                     createdAt: { lt: todayStart },
-//                     address: address ? { contains: address } : undefined
-//                 } 
-//             }),
-//             prisma.booking.count({ 
-//                 where: { 
-//                     status: 'pending',
-//                     pitch: address ? { address: { contains: address } } : undefined
-//                 } 
-//             }),
-//             prisma.booking.aggregate({
-//                 _sum: { total: true },
-//                 where: {
-//                     status: 'approved',
-//                     createdAt: { lt: todayStart },
-//                     pitch: address ? { address: { contains: address } } : undefined
-//                 }
-//             }),
-//             prisma.pitch.groupBy({
-//                 by: ['address'],
-//                 where: { 
-//                     status: 'active',
-//                     address: address ? { contains: address } : undefined
-//                 },
-//                 _count: { pitchId: true }
-//             })
-//         ]);
+        return spenders.map((spender, index) => {
+            const user = users.find((userData) => userData.userId === spender.userId);
 
-//         return {
-//             totalUsers: address ? "N/A (Filtered by address)" : totalUsers,
-//             totalPitches,
-//             totalPendingRequests,
-//             totalRevenue: revenueData._sum.total || 0,
-//             pitchesByAddress: pitchesByAddress.map(p => ({
-//                 address: p.address || "N/A",
-//                 count: p._count.pitchId
-//             })),
-//             updatedAt: todayStart
-//         };
-//     }
+            return {
+                rank: index + 1,
+                userId: spender.userId,
+                fullName: user?.fullName,
+                avt: user?.avt || null,
+                email: user?.email || null,
+                phone: user?.phone || null,
+                bookingCount: spender._count.bookId,
+                totalSpent: spender._sum.total || 0
+            };
+        });
+    };
 
-//     static async getRevenueByPitch(address?: string) {
-//         const pitchRevenue = await prisma.booking.groupBy({
-//             by: ['pitchId'],
-//             where: {
-//                 status: 'approved',
-//                 paymentStatus: { in: ['paid', 'partial'] },
-//                 pitch: address ? { address: { contains: address } } : undefined
-//             },
-//             _sum: {
-//                 total: true
-//             }
-//         });
+    static async getSystemOverview(dto: GetSystemOverview) {
+        const pitchAddressFilter = dto.address ? { contains: dto.address } : undefined;
 
-//         const pitches = await prisma.pitch.findMany({
-//             where: {
-//                 address: address ? { contains: address } : undefined
-//             },
-//             select: {
-//                 pitchId: true,
-//                 namePitch: true,
-//                 address: true
-//             }
-//         });
+        const [totalUsers, totalPitches, totalPendingRequests] = await Promise.all([
+            prisma.users.count(),
+            prisma.pitch.count({
+                where: {
+                    status: 'active',
+                    address: pitchAddressFilter,
+                },
+            }),
+            prisma.booking.count({
+                where: {
+                    status: 'pending',
+                    pitch: pitchAddressFilter ? { address: pitchAddressFilter } : undefined,
+                },
+            }),
+        ]);
 
-//         return pitchRevenue.map(rev => {
-//             const pitch = pitches.find(p => p.pitchId === rev.pitchId);
-//             return {
-//                 pitchId: rev.pitchId,
-//                 namePitch: pitch?.namePitch || "N/A",
-//                 address: pitch?.address || "N/A",
-//                 totalRevenue: rev._sum.total || 0
-//             };
-//         }).sort((a, b) => b.totalRevenue - a.totalRevenue);
-//     }
-// }
+        return {
+            filteredAddress: dto.address || "All",
+            totalUsers,
+            totalPitches,
+            totalPendingRequests,
+        };
+    }
+}

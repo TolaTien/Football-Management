@@ -1,4 +1,9 @@
-export interface StatisticForAdmin {
-    month: number;
-    year: number;
+export interface GetRevenueInput {
+    month?: number;
+    year?: number;
+    address?: string;
+}
+
+export interface GetSystemOverview {
+    address?: string
 }
