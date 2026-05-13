@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
-import { Row, Col, Card, Typography, Button, Space, Tag, Modal, Form, Input, Select, message } from 'antd';
+import { Row, Col, Card, Typography, Button, Space, Tag, Modal, Form, Input, Select, message, Upload } from 'antd';
 import {
   CheckCircleOutlined, ToolOutlined, PlusOutlined, EditOutlined, DeleteOutlined,
-  EnvironmentOutlined, AppstoreOutlined, FileTextOutlined,
+  EnvironmentOutlined, AppstoreOutlined, FileTextOutlined, CameraOutlined, DollarOutlined,
 } from '@ant-design/icons';
 import { useModel } from '@umijs/max';
 
@@ -30,55 +30,50 @@ const AdminPitchesList: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: <Title level={2} style={{ margin: 0, fontWeight: 700 }}>Quản lý hệ thống sân</Title>,
-        subTitle: <Text style={{ color: '#6b7280' }}>Theo dõi tình trạng, lịch bảo trì và quản lý danh sách sân cỏ của bạn.</Text>,
+        title: (
+          <div>
+            <div style={{ fontWeight: 800, fontSize: 22, color: '#0f172a' }}>Quản lý hệ thống sân</div>
+            <Text style={{ color: '#94a3b8', fontSize: 13 }}>Theo dõi tình trạng, lịch bảo trì và danh sách sân cỏ của bạn</Text>
+          </div>
+        ),
         extra: [
-          <Button key="add" type="primary" icon={<PlusOutlined />} style={{ backgroundColor: '#00a67d', borderRadius: 8, fontWeight: 600 }} onClick={() => setIsModalOpen(true)}>
+          <Button key="add" type="primary" icon={<PlusOutlined />} style={{ height: 40, padding: '0 20px', fontWeight: 700 }} onClick={() => setIsModalOpen(true)}>
             Thêm sân mới
           </Button>
         ]
       }}
     >
       {/* Top Stats */}
-      <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>
+      <Row gutter={[20, 20]} style={{ marginBottom: 24 }}>
         <Col xs={24} lg={8}>
-          <Card bordered={false} bodyStyle={{ padding: '20px 24px', borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{ width: 56, height: 56, borderRadius: 12, backgroundColor: '#d1fae5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>
-                <CheckCircleOutlined />
-              </div>
-              <div>
-                <div style={{ color: '#6b7280', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Sẵn sàng</div>
-                <div style={{ fontSize: 28, fontWeight: 800, color: '#1f2937' }}>{activePitches} Sân</div>
-              </div>
+          <div style={{ background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', borderRadius: 16, padding: '22px 24px', color: 'white', boxShadow: '0 4px 20px rgba(5,150,105,0.25)', position: 'relative', overflow: 'hidden' }} className="admin-stat-card">
+            <div style={{ position: 'absolute', right: -16, bottom: -16, width: 90, height: 90, borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.08)' }} />
+            <div style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, marginBottom: 16 }}>
+              <CheckCircleOutlined style={{ color: '#fff' }} />
             </div>
-          </Card>
+            <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Sẵn sàng hoạt động</div>
+            <div style={{ fontSize: 32, fontWeight: 800, color: '#fff' }}>{activePitches} <span style={{ fontSize: 16, fontWeight: 500, opacity: 0.8 }}>sân</span></div>
+          </div>
         </Col>
         <Col xs={24} lg={8}>
-          <Card bordered={false} bodyStyle={{ padding: '20px 24px', borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{ width: 56, height: 56, borderRadius: 12, backgroundColor: '#fee2e2', color: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>
-                <ToolOutlined />
-              </div>
-              <div>
-                <div style={{ color: '#6b7280', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Đang bảo trì</div>
-                <div style={{ fontSize: 28, fontWeight: 800, color: '#dc2626' }}>{maintenancePitches} Sân</div>
-              </div>
+          <div style={{ background: 'white', borderRadius: 16, padding: '22px 24px', border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden' }} className="admin-stat-card">
+            <div style={{ position: 'absolute', right: -16, bottom: -16, width: 90, height: 90, borderRadius: '50%', backgroundColor: '#fee2e208' }} />
+            <div style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: '#fee2e2', color: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, marginBottom: 16 }}>
+              <ToolOutlined />
             </div>
-          </Card>
+            <div style={{ color: '#64748b', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Đang bảo trì</div>
+            <div style={{ fontSize: 32, fontWeight: 800, color: '#dc2626' }}>{maintenancePitches} <span style={{ fontSize: 16, fontWeight: 500, color: '#94a3b8' }}>sân</span></div>
+          </div>
         </Col>
         <Col xs={24} lg={8}>
-          <Card bordered={false} bodyStyle={{ padding: '20px 24px', borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{ width: 56, height: 56, borderRadius: 12, backgroundColor: '#e0e7ff', color: '#4f46e5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>
-                🌱
-              </div>
-              <div>
-                <div style={{ color: '#6b7280', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Sức khỏe mặt cỏ</div>
-                <div style={{ fontSize: 28, fontWeight: 800, color: '#059669' }}>Tốt ({avgHealth}%)</div>
-              </div>
+          <div style={{ background: 'white', borderRadius: 16, padding: '22px 24px', border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden' }} className="admin-stat-card">
+            <div style={{ position: 'absolute', right: -16, bottom: -16, width: 90, height: 90, borderRadius: '50%', backgroundColor: '#e0e7ff18' }} />
+            <div style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: '#e0e7ff', color: '#4f46e5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, marginBottom: 16 }}>
+              🌱
             </div>
-          </Card>
+            <div style={{ color: '#64748b', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Sức khỏe mặt cỏ</div>
+            <div style={{ fontSize: 32, fontWeight: 800, color: '#059669' }}>Tốt <span style={{ fontSize: 16, fontWeight: 700, color: '#059669' }}>({avgHealth}%)</span></div>
+          </div>
         </Col>
       </Row>
 
@@ -299,6 +294,24 @@ const AdminPitchesList: React.FC = () => {
                 }
               >
                 <Input.TextArea rows={2} placeholder="Sân cỏ nhân tạo cao cấp, đầy đủ tiện nghi..." style={{ borderRadius: 10, borderColor: '#d1d5db' }} />
+              </Form.Item>
+
+              <Form.Item
+                name="image"
+                label={
+                  <span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <CameraOutlined style={{ color: '#059669' }} /> Ảnh sân (tuỳ chọn)
+                  </span>
+                }
+              >
+                <Upload.Dragger
+                  name="file" multiple={false} beforeUpload={() => false}
+                  style={{ borderRadius: 10 }}
+                >
+                  <p style={{ color: '#059669', fontSize: 22, marginBottom: 4 }}><CameraOutlined /></p>
+                  <p style={{ color: '#374151', fontWeight: 600, fontSize: 13 }}>Kéo & thả ảnh sân vào đây</p>
+                  <p style={{ color: '#94a3b8', fontSize: 11 }}>PNG, JPG tối đa 5MB</p>
+                </Upload.Dragger>
               </Form.Item>
 
               <div style={{ marginTop: 8, paddingTop: 20, borderTop: '1px solid #f3f4f6', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>

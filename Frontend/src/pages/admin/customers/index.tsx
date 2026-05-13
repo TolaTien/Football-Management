@@ -264,62 +264,66 @@ const AdminCustomers: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: <Title level={2} style={{ margin: 0, fontWeight: 700 }}>Quản lý người dùng</Title>,
-        subTitle: <Text style={{ color: '#6b7280' }}>Quản lý phân quyền, theo dõi hoạt động và cấu hình truy cập cho nhân viên và khách hàng.</Text>,
+        title: (
+          <div>
+            <div style={{ fontWeight: 800, fontSize: 22, color: '#0f172a' }}>Quản lý Người dùng</div>
+            <Text style={{ color: '#94a3b8', fontSize: 13 }}>Quản lý phân quyền, theo dõi hoạt động và cấu hình truy cập</Text>
+          </div>
+        ),
         extra: [
-          <Button key="export" style={{ borderRadius: 8 }}>Xuất PDF</Button>,
-          <Button key="add" type="primary" icon={<UserAddOutlined />} style={{ backgroundColor: '#00a67d', borderRadius: 8, fontWeight: 500 }} onClick={() => setIsModalOpen(true)}>
-            Thêm người dùng mới
+          <Button key="export" style={{ borderRadius: 10, height: 40, fontWeight: 600 }}>Xuất PDF</Button>,
+          <Button key="add" type="primary" icon={<UserAddOutlined />} style={{ height: 40, padding: '0 20px', fontWeight: 700 }} onClick={() => setIsModalOpen(true)}>
+            Thêm người dùng
           </Button>
         ]
       }}
     >
-      <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>
+      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
         <Col xs={24} sm={12} lg={6}>
-          <Card bordered={false} bodyStyle={{ padding: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-              <div style={{ padding: 8, borderRadius: 8, background: '#d1fae5', color: '#059669' }}>
-                <TeamOutlined style={{ fontSize: 20 }} />
+          <div style={{ background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', borderRadius: 16, padding: '20px 22px', color: 'white', boxShadow: '0 4px 20px rgba(5,150,105,0.25)', position: 'relative', overflow: 'hidden' }} className="admin-stat-card">
+            <div style={{ position: 'absolute', right: -12, bottom: -12, width: 80, height: 80, borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.08)' }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <TeamOutlined style={{ fontSize: 20, color: '#fff' }} />
               </div>
-              <Text style={{ color: '#059669', fontWeight: 600 }}>+12% ↗</Text>
+              <div style={{ background: 'rgba(255,255,255,0.15)', padding: '3px 8px', borderRadius: 8, fontWeight: 700, fontSize: 11, color: '#a7f3d0' }}>+12% ↗</div>
             </div>
-            <Text style={{ color: '#6b7280', fontSize: 13, fontWeight: 600 }}>Tổng người dùng</Text>
-            <Title level={2} style={{ margin: '4px 0 0', fontWeight: 800 }}>{totalUsers.toLocaleString()}</Title>
-          </Card>
+            <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Tổng người dùng</div>
+            <div style={{ fontSize: 28, fontWeight: 800, color: '#fff' }}>{totalUsers.toLocaleString()}</div>
+          </div>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card bordered={false} bodyStyle={{ padding: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-              <div style={{ padding: 8, borderRadius: 8, background: '#e0e7ff', color: '#4f46e5' }}>
-                <SafetyCertificateOutlined style={{ fontSize: 20 }} />
-              </div>
+          <div style={{ background: 'white', borderRadius: 16, padding: '20px 22px', border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden' }} className="admin-stat-card">
+            <div style={{ position: 'absolute', right: -12, bottom: -12, width: 80, height: 80, borderRadius: '50%', backgroundColor: '#e0e7ff18' }} />
+            <div style={{ width: 40, height: 40, borderRadius: 10, backgroundColor: '#e0e7ff', color: '#4f46e5', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+              <SafetyCertificateOutlined style={{ fontSize: 20 }} />
             </div>
-            <Text style={{ color: '#6b7280', fontSize: 13, fontWeight: 600 }}>Quản trị viên</Text>
-            <Title level={2} style={{ margin: '4px 0 0', fontWeight: 800 }}>{adminCount}</Title>
-          </Card>
+            <div style={{ color: '#64748b', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Quản trị viên</div>
+            <div style={{ fontSize: 28, fontWeight: 800, color: '#0f172a' }}>{adminCount}</div>
+          </div>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card bordered={false} bodyStyle={{ padding: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-              <div style={{ padding: 8, borderRadius: 8, background: '#00a67d', color: '#ffffff' }}>
+          <div style={{ background: 'white', borderRadius: 16, padding: '20px 22px', border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden' }} className="admin-stat-card">
+            <div style={{ position: 'absolute', right: -12, bottom: -12, width: 80, height: 80, borderRadius: '50%', backgroundColor: '#dcfce718' }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, backgroundColor: '#dcfce7', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <UserOutlined style={{ fontSize: 20 }} />
               </div>
-              <Text style={{ color: '#059669', fontWeight: 600 }}>98% Đang hoạt động</Text>
+              <div style={{ background: '#dcfce7', padding: '3px 8px', borderRadius: 8, fontWeight: 700, fontSize: 11, color: '#15803d' }}>98% ↗</div>
             </div>
-            <Text style={{ color: '#6b7280', fontSize: 13, fontWeight: 600 }}>Đang hoạt động</Text>
-            <Title level={2} style={{ margin: '4px 0 0', fontWeight: 800 }}>{activeCount.toLocaleString()}</Title>
-          </Card>
+            <div style={{ color: '#64748b', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Đang hoạt động</div>
+            <div style={{ fontSize: 28, fontWeight: 800, color: '#0f172a' }}>{activeCount.toLocaleString()}</div>
+          </div>
         </Col>
         <Col xs={24} sm={12} lg={6}>
-          <Card bordered={false} bodyStyle={{ padding: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-              <div style={{ padding: 8, borderRadius: 8, background: '#fee2e2', color: '#dc2626' }}>
-                <WarningOutlined style={{ fontSize: 20 }} />
-              </div>
+          <div style={{ background: 'white', borderRadius: 16, padding: '20px 22px', border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.04)', position: 'relative', overflow: 'hidden' }} className="admin-stat-card">
+            <div style={{ position: 'absolute', right: -12, bottom: -12, width: 80, height: 80, borderRadius: '50%', backgroundColor: '#fee2e218' }} />
+            <div style={{ width: 40, height: 40, borderRadius: 10, backgroundColor: '#fee2e2', color: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+              <WarningOutlined style={{ fontSize: 20 }} />
             </div>
-            <Text style={{ color: '#6b7280', fontSize: 13, fontWeight: 600 }}>Bị chặn</Text>
-            <Title level={2} style={{ margin: '4px 0 0', fontWeight: 800 }}>{bannedCount}</Title>
-          </Card>
+            <div style={{ color: '#64748b', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Bị chặn</div>
+            <div style={{ fontSize: 28, fontWeight: 800, color: '#dc2626' }}>{bannedCount}</div>
+          </div>
         </Col>
       </Row>
 
