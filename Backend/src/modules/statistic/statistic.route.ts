@@ -7,3 +7,4 @@ export const statisticRouters: Router = Router();
 statisticRouters.get('/pitch-revenue', authUser, authAdmin, Statistic.getMonthlyRevenue);
 statisticRouters.get('/top-spenders', authUser, Statistic.getTopSpenders);
 statisticRouters.get('/system-overview', authUser, authAdmin, Statistic.getSystemOverview);
+statisticRouters.get('/export-revenue', authUser, authAdmin, Statistic.exportFileExcel);

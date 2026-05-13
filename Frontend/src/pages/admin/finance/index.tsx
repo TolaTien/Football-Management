@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
-import { Card, Table, Tag, Row, Col, DatePicker, Select, Space, Button } from 'antd';
+import { Card, Table, Tag, Row, Col, DatePicker, Select, Space, Button, message } from 'antd';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { DownloadOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import axios from 'axios'; // We can use axios for this
 
 const { RangePicker } = DatePicker;
 
@@ -24,6 +25,35 @@ const revenueBreakdown = [
 const COLORS = ['#004d40', '#48bb78', '#ecc94b', '#f6ad55'];
 
 const AdminFinance: React.FC = () => {
+  const [exporting, setExporting] = useState(false);
+
+  const handleExportExcel = async () => {
+    try {
+      setExporting(true);
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:3000/api/statistic/export-revenue', {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: 'blob',
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Bao_Cao_Doanh_Thu.xlsx'); 
+      document.body.appendChild(link);
+      link.click();
+      
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      message.success('Xuất file thành công!');
+    } catch (error) {
+      console.error('Lỗi xuất file:', error);
+      message.error('Có lỗi xảy ra khi xuất file Excel.');
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const columns = [
     { title: 'Mã GD', dataIndex: 'id', key: 'id', render: (text: string) => <code>{text}</code> },
     { title: 'Thời gian', dataIndex: 'date', key: 'date' },
@@ -103,7 +133,7 @@ const AdminFinance: React.FC = () => {
                   <Select.Option value="service">Tiền dịch vụ</Select.Option>
                 </Select>
               </Space>
-              <Button icon={<DownloadOutlined />}>Xuất Excel</Button>
+              <Button icon={<DownloadOutlined />} onClick={handleExportExcel} loading={exporting} type="primary">Xuất Excel</Button>
             </div>
             <Table columns={columns} dataSource={transactionData} rowKey="id" pagination={{ pageSize: 5 }} />
           </Card>
