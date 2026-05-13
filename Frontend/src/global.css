@@ -1,5 +1,5 @@
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap');
 
 @tailwind base;
@@ -7,7 +7,6 @@
 @tailwind utilities;
 
 @layer base {
-
   *,
   *::before,
   *::after {
@@ -18,9 +17,9 @@
 
   html,
   body {
-    background-color: #f9f9f9;
+    background-color: #f4f6f9;
     color: #1a1c1c;
-    font-family: 'Be Vietnam Pro', sans-serif;
+    font-family: 'Inter', 'Be Vietnam Pro', sans-serif;
     font-size: 14px;
     line-height: 1.5;
     min-height: 100vh;
@@ -50,4 +49,277 @@
       linear-gradient(90deg, #ededed 1px, transparent 1px);
     background-size: 40px 40px;
   }
+}
+
+/* ═══════════════════════════════════════════════════════
+   PREMIUM ADMIN GLOBAL STYLES
+   ═══════════════════════════════════════════════════════ */
+
+/* --- Ant Design Table Premium Override --- */
+.ant-table {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th {
+  background: #f8fafc !important;
+  color: #64748b !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  padding: 14px 16px !important;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr > td {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  color: #334155 !important;
+  font-size: 13.5px !important;
+  vertical-align: middle !important;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr:hover > td {
+  background: #f0fdf4 !important;
+  transition: background 0.18s ease !important;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr:last-child > td {
+  border-bottom: none !important;
+}
+
+/* --- Stat Cards --- */
+.admin-stat-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* --- Modal Premium --- */
+.ant-modal-content {
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.18) !important;
+}
+
+.ant-modal-header {
+  display: none !important;
+}
+
+.ant-modal-close {
+  top: 16px !important;
+  right: 16px !important;
+  color: #94a3b8 !important;
+  z-index: 10 !important;
+}
+
+.ant-modal-close:hover {
+  color: #475569 !important;
+  background: #f1f5f9 !important;
+  border-radius: 8px !important;
+}
+
+/* --- Card Override --- */
+.ant-card {
+  border-radius: 16px !important;
+}
+
+.ant-card-body {
+  border-radius: 16px !important;
+}
+
+/* --- Form Input Premium --- */
+.ant-input,
+.ant-input-number,
+.ant-picker,
+.ant-select-selector {
+  border-radius: 10px !important;
+  font-family: 'Inter', sans-serif !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.ant-input:focus,
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused,
+.ant-input-number-focused,
+.ant-picker-focused,
+.ant-select-focused .ant-select-selector {
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 3px rgba(5,150,105,0.12) !important;
+}
+
+.ant-input:hover,
+.ant-input-number:hover,
+.ant-picker:hover,
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: #059669 !important;
+}
+
+/* --- Button Overrides --- */
+.ant-btn-primary {
+  background: #059669 !important;
+  border-color: #059669 !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  font-family: 'Inter', sans-serif !important;
+  transition: all 0.2s !important;
+}
+
+.ant-btn-primary:hover {
+  background: #047857 !important;
+  border-color: #047857 !important;
+  box-shadow: 0 4px 12px rgba(5,150,105,0.35) !important;
+  transform: translateY(-1px) !important;
+}
+
+.ant-btn:not(.ant-btn-primary):not(.ant-btn-danger):not(.ant-btn-link) {
+  border-radius: 10px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 500 !important;
+  transition: all 0.2s !important;
+}
+
+.ant-btn:not(.ant-btn-primary):not(.ant-btn-danger):not(.ant-btn-link):hover {
+  border-color: #059669 !important;
+  color: #059669 !important;
+}
+
+/* --- Tags Premium --- */
+.ant-tag {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.03em !important;
+  border: none !important;
+  padding: 3px 10px !important;
+}
+
+/* --- Pagination --- */
+.ant-pagination-item-active {
+  background: #059669 !important;
+  border-color: #059669 !important;
+}
+
+.ant-pagination-item-active a {
+  color: white !important;
+}
+
+/* --- Page Container Header --- */
+.ant-pro-page-container-warp-page-header {
+  background: white !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  padding: 20px 24px !important;
+}
+
+/* --- Tabs Premium --- */
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #059669 !important;
+  font-weight: 700 !important;
+}
+
+.ant-tabs-ink-bar {
+  background: #059669 !important;
+  height: 3px !important;
+  border-radius: 2px !important;
+}
+
+.ant-tabs-tab:hover .ant-tabs-tab-btn {
+  color: #059669 !important;
+}
+
+/* --- Switch Premium --- */
+.ant-switch-checked {
+  background: #059669 !important;
+}
+
+/* --- Select Dropdown --- */
+.ant-select-dropdown .ant-select-item-option-selected {
+  background: #ecfdf5 !important;
+  color: #059669 !important;
+  font-weight: 600 !important;
+}
+
+/* --- Scrollbar Premium --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* --- Animation utilities --- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(5,150,105,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(5,150,105,0); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* --- Table row clickable effect --- */
+.ant-table-tbody > tr {
+  cursor: default;
+  transition: background 0.15s ease;
+}
+
+/* --- InputNumber Width Fix --- */
+.ant-input-number {
+  width: 100% !important;
+}
+
+/* --- Form Label --- */
+.ant-form-item-label > label {
+  font-weight: 600 !important;
+  color: #374151 !important;
+  font-size: 13px !important;
+}
+
+/* --- Popconfirm button --- */
+.ant-popconfirm-buttons .ant-btn-primary {
+  background: #dc2626 !important;
+  border-color: #dc2626 !important;
+}
+
+/* --- Badge --- */
+.ant-badge-count {
+  background: #dc2626 !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+}
+
+/* ── Upload Dragger ── */
+.ant-upload-drag {
+  border-radius: 12px !important;
+  border-color: #d1d5db !important;
+  background: #f9fafb !important;
+  transition: border-color 0.2s, background 0.2s !important;
+}
+
+.ant-upload-drag:hover {
+  border-color: #059669 !important;
+  background: #f0fdf4 !important;
 }
