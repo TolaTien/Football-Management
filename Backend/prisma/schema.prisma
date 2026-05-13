@@ -25,6 +25,7 @@ model booking {
   bookingservices     bookingservices[]
   cancelrequests      cancelrequests[]
   payments            payments[]
+  notification        notification[]
 
   @@index([pitchId], map: "pitchId")
   @@index([userId], map: "userId")
@@ -124,6 +125,7 @@ model post {
   comments    comments[]
   users       users?       @relation(fields: [hostId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "post_ibfk_1")
   postlike    postlike[]
+  notification notification[]
 
   @@index([hostId], map: "hostId")
 }
@@ -180,6 +182,28 @@ model users {
   comments    comments[]
   post        post[]
   postlike    postlike[]
+  notification notification[]
+}
+
+model notification {
+  id          String              @id @db.VarChar(50)
+  userId      String              @db.VarChar(50)
+  title       String              @db.VarChar(255)
+  content     String              @db.Text
+  type        notification_type?  @default(system)
+  isRead      Boolean?            @default(false)
+  bookId      String?             @db.VarChar(50)
+  postId      String?             @db.VarChar(50)
+  createdAt   DateTime?           @default(now()) @db.Timestamp(0)
+  updatedAt   DateTime?           @updatedAt @db.Timestamp(0)
+
+  users       users               @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "notification_ibfk_1")
+  booking     booking?            @relation(fields: [bookId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "notification_ibfk_2")
+  post        post?               @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: NoAction, map: "notification_ibfk_3")
+
+  @@index([userId], map: "userId")
+  @@index([bookId], map: "bookId")
+  @@index([postId], map: "postId")
 }
 
 enum users_role {
@@ -197,8 +221,6 @@ enum pitch_status {
   active
   maintenance
 }
-
-
 
 enum post_status {
   open
@@ -221,4 +243,11 @@ enum booking_paymentStatus {
   pending
   partial
   paid
+}
+
+enum notification_type {
+  system
+  booking
+  post
+  payment
 }
