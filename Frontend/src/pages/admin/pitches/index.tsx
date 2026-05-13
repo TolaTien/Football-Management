@@ -81,9 +81,9 @@ const AdminPitchesList: React.FC = () => {
       <Row gutter={[24, 24]}>
         {pitches.map(p => (
           <Col xs={24} sm={12} lg={8} xl={6} key={p.id}>
-            <Card 
+            <Card
               hoverable
-              bordered={false} 
+              bordered={false}
               bodyStyle={{ padding: 0 }}
               style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)' }}
             >
@@ -104,7 +104,7 @@ const AdminPitchesList: React.FC = () => {
                   </Space>
                 </div>
                 <div style={{ color: '#6b7280', fontSize: 13, marginBottom: 16 }}>{p.desc}</div>
-                
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: 12, borderBottom: '1px dashed #e5e7eb', marginBottom: 12 }}>
                   <div style={{ color: '#6b7280', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
                     🌱 Tình trạng mặt cỏ:
@@ -113,7 +113,7 @@ const AdminPitchesList: React.FC = () => {
                     {p.grassStatus}
                   </div>
                 </div>
-                
+
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <div style={{ color: '#6b7280', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
                     📅 {p.status === 'constructing' ? 'Ngày hoàn tất:' : 'Lịch bảo trì:'}
@@ -129,10 +129,10 @@ const AdminPitchesList: React.FC = () => {
 
         {/* Card Thêm sân mới */}
         <Col xs={24} sm={12} lg={8} xl={6}>
-          <div 
+          <div
             onClick={() => setIsModalOpen(true)}
-            style={{ 
-              height: '100%', minHeight: 320, borderRadius: 16, border: '2px dashed #cbd5e1', 
+            style={{
+              height: '100%', minHeight: 320, borderRadius: 16, border: '2px dashed #cbd5e1',
               backgroundColor: '#f8fafc', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               cursor: 'pointer', transition: 'all 0.2s', padding: 24
             }}
@@ -154,7 +154,7 @@ const AdminPitchesList: React.FC = () => {
           <div style={{ fontSize: 16, fontWeight: 700, color: '#1f2937' }}>Chi tiết bảo trì tiếp theo</div>
           <a style={{ color: '#00a67d', fontWeight: 600, fontSize: 14 }}>Xem tất cả lịch →</a>
         </div>
-        
+
         <div style={{ padding: 24 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', paddingBottom: 16, borderBottom: '1px solid #f3f4f6', color: '#6b7280', fontWeight: 600, fontSize: 13 }}>
             <div>Tên sân</div>
@@ -163,7 +163,7 @@ const AdminPitchesList: React.FC = () => {
             <div>Nhân viên phụ trách</div>
             <div style={{ textAlign: 'right' }}>Trạng thái</div>
           </div>
-          
+
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', padding: '16px 0', borderBottom: '1px solid #f3f4f6', alignItems: 'center' }}>
             <div style={{ fontWeight: 600, color: '#1f2937' }}>Sân 5 - A1</div>
             <div style={{ color: '#4b5563', fontSize: 14 }}>Cắt tỉa & Bón phân định kỳ</div>
