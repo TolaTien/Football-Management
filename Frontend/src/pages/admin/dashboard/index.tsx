@@ -8,5 +8,4 @@ const AdminDashboard: React.FC = () => {
     </PageContainer>
   );
 };
-
 export default AdminDashboard;
