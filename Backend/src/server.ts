@@ -7,6 +7,7 @@ import { Routers } from "./routes/index.js";
 import { errorHandlingMiddleware } from "./middlewares/error.middleware.js";
 import { startCron } from "./utils/cron.js";
 
+
 const PORT = 3000;
 const app = express()
 app.use(express.json({ limit: "10mb" }));
