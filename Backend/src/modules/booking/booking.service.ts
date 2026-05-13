@@ -341,6 +341,7 @@ export class BookingService {
                         avt: true
                     }
                 },
+                cancelrequests: true,
                 pitch: true,
                 bookingservices: {
                     include: { services: { select: { nameProduct: true }}}
