@@ -1,5 +1,3 @@
 .env
 node_modules/
-
 *.md
-# đưa các file .md vào .gitignore để tránh commit các file tài liệu không cần thiết
