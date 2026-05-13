@@ -242,7 +242,7 @@ export class StatisticService {
         const title = worksheet.addRow(['BÁO CÁO DOANH THU SÂN BÓNG VĂN TIẾN']);
         title.font = { name: 'Arial', size: 16, bold: true, color: { 'argb': '#FF0000' } };
         worksheet.mergeCells('A1:N1');
-        title.alignment.horizontal = 'center'
+        title.alignment = { horizontal: 'center' }
 
         const timeString = dto.year && dto.month ? `Tháng ${dto.month}/${dto.year}` : "Tất cả thời gian";
         const timeRow = worksheet.addRow([`Thời gian: ${timeString}`]);
