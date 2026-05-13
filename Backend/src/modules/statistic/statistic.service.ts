@@ -240,7 +240,7 @@ export class StatisticService {
         const worksheet = workbook.addWorksheet("Báo Cáo Doanh Thu");
 
         const title = worksheet.addRow(['BÁO CÁO DOANH THU SÂN BÓNG VĂN TIẾN']);
-        title.font = { name: 'Arial', size: 16, bold: true, color: { 'argb': '#FF0000' } };
+        title.font = { name: 'Arial', size: 16, bold: true, color: { 'argb': 'FF0000' } };
         worksheet.mergeCells('A1:N1');
         title.alignment = { horizontal: 'center' }
 
