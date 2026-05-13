@@ -19,23 +19,26 @@ class Statistic {
     };
 
     async exportFileExcel(req: Request, res: Response) {
-        try {
-            const dto: GetRevenueInput = {
-                month: req.query.month ? Number(req.query.month) : undefined,
-                year: req.query.year ? Number(req.query.year) : undefined,
-                address: req.query.address as string | undefined
-            };
-            const workbook = await StatisticService.exportFileExcel(dto);
-            
-            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            res.setHeader('Content-Disposition', 'attachment; filename="Bao_Cao_Doanh_Thu.xlsx"');
 
-            await workbook.xlsx.write(res);
-            res.end();
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Lỗi khi xuất file Excel" });
-        }
+
+        
+        // try {
+        //     const dto: GetRevenueInput = {
+        //         month: req.query.month ? Number(req.query.month) : undefined,
+        //         year: req.query.year ? Number(req.query.year) : undefined,
+        //         address: req.query.address as string | undefined
+        //     };
+        //     const workbook = await StatisticService.exportFileExcel(dto);
+            
+        //     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        //     res.setHeader('Content-Disposition', 'attachment; filename="Bao_Cao_Doanh_Thu.xlsx"');
+
+        //     await workbook.xlsx.write(res);
+        //     res.end();
+        // } catch (error) {
+        //     console.error(error);
+        //     return res.status(500).json({ message: "Lỗi khi xuất file Excel" });
+        // }
     }
 
 };
