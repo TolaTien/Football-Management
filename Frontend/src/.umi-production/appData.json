@@ -17,7 +17,8 @@
       "antd": "^5.22.0",
       "axios": "^1.15.2",
       "react": "^19.2.5",
-      "react-dom": "^19.2.5"
+      "react-dom": "^19.2.5",
+      "umi-request": "^1.4.0"
     },
     "devDependencies": {
       "@types/node": "^24.12.2",
@@ -55,7 +56,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 18
+        "register": 25
       },
       "enableBy": "register"
     },
@@ -68,7 +69,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 7
+        "register": 10
       },
       "enableBy": "register"
     },
@@ -85,7 +86,7 @@
             0
           ]
         },
-        "register": 4
+        "register": 5
       },
       "enableBy": "register"
     },
@@ -102,7 +103,7 @@
             5
           ]
         },
-        "register": 3
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -132,7 +133,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -146,10 +147,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            51
+            55
           ]
         },
-        "register": 30
+        "register": 40
       },
       "enableBy": "register"
     },
@@ -179,7 +180,7 @@
             0
           ],
           "onCheck": [
-            0
+            1
           ]
         },
         "register": 2
@@ -199,7 +200,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -229,7 +230,7 @@
             0
           ]
         },
-        "register": 11
+        "register": 14
       },
       "enableBy": "register"
     },
@@ -804,7 +805,7 @@
       "enableBy": "register",
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       }
     },
     "virtual: config-extraPostCSSPlugins": {
@@ -1081,7 +1082,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1124,7 +1125,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 105
+        "register": 148
       },
       "enableBy": "register"
     },
@@ -1137,7 +1138,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 45
+        "register": 68
       },
       "enableBy": "config"
     },
@@ -1150,7 +1151,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 17
+        "register": 214
       },
       "enableBy": "config"
     },
@@ -1193,7 +1194,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 4
       },
       "enableBy": "config"
     },
@@ -1206,7 +1207,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 38
+        "register": 57
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mpa/mpa": {
@@ -1273,7 +1274,7 @@
             1
           ]
         },
-        "register": 2
+        "register": 3
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/polyfill/publicPathPolyfill": {
@@ -1311,7 +1312,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1337,7 +1338,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1350,7 +1351,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 6
+        "register": 8
       },
       "enableBy": "register"
     },
@@ -1363,7 +1364,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -1388,7 +1389,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 5
       },
       "enableBy": "config"
     },
@@ -1401,7 +1402,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1414,7 +1415,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 6
       },
       "enableBy": "register"
     },
@@ -1427,7 +1428,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 7
+        "register": 8
       },
       "enableBy": "config"
     },
@@ -1453,7 +1454,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 6
+        "register": 10
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/monorepo/redirect": {
@@ -1465,7 +1466,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 25
+        "register": 38
       },
       "enableBy": "config"
     },
@@ -1490,7 +1491,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/legacy/legacy": {
@@ -1502,7 +1503,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -1515,7 +1516,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1528,7 +1529,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/swc/swc": {
@@ -1541,10 +1542,10 @@
       "time": {
         "hooks": {
           "addOnDemandDeps": [
-            1
+            0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1557,7 +1558,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 5
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mako/mako": {
@@ -1582,7 +1583,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/hmrGuardian/hmrGuardian": {
@@ -1594,7 +1595,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/routePreloadOnLoad/routePreloadOnLoad": {
@@ -1606,7 +1607,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 38
+        "register": 57
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/forget/forget": {
@@ -1631,7 +1632,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1644,7 +1645,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 12
+        "register": 17
       },
       "enableBy": "register"
     },
@@ -1657,7 +1658,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 52
+        "register": 77
       },
       "enableBy": "register"
     },
@@ -1670,7 +1671,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 57
+        "register": 77
       }
     },
     "./node_modules/@umijs/preset-umi/dist/commands/help": {
@@ -1721,7 +1722,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1734,7 +1735,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1747,7 +1748,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1812,7 +1813,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1825,7 +1826,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1838,7 +1839,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1851,7 +1852,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1864,7 +1865,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1916,7 +1917,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 29
+        "register": 43
       },
       "enableBy": "register"
     },
@@ -1942,7 +1943,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1955,7 +1956,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1983,7 +1984,7 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            6
+            7
           ],
           "modifyAppData": [
             0
@@ -1992,7 +1993,7 @@
             0
           ]
         },
-        "register": 10
+        "register": 11
       }
     },
     "./node_modules/@umijs/plugins/dist/dva": {
@@ -2004,7 +2005,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 7
+        "register": 11
       },
       "enableBy": "config"
     },
@@ -2032,7 +2033,7 @@
       },
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "enableBy": "config"
     },
@@ -2045,7 +2046,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 4
       },
       "enableBy": "config"
     },
@@ -2058,7 +2059,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2071,7 +2072,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2097,7 +2098,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -2122,7 +2123,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       }
     },
     "./node_modules/@umijs/plugins/dist/react-query": {
@@ -2134,7 +2135,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2173,7 +2174,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2203,7 +2204,7 @@
             0
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -2220,7 +2221,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2250,7 +2251,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     }
@@ -2261,6 +2262,15 @@
     "_": []
   },
   "userConfig": {
+    "proxy": {
+      "/api": {
+        "target": "http://localhost:3000",
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/api": ""
+        }
+      }
+    },
     "antd": {},
     "tailwindcss": {},
     "access": {},
@@ -2371,6 +2381,15 @@
       "regenerator-runtime": "C:\\Users\\T14s Gen 3\\Downloads\\Football Pitches Management System\\Football-Management\\Frontend\\node_modules\\regenerator-runtime",
       "antd": "C:\\Users\\T14s Gen 3\\Downloads\\Football Pitches Management System\\Football-Management\\Frontend\\node_modules\\antd",
       "@umijs/max": "@@/exports"
+    },
+    "proxy": {
+      "/api": {
+        "target": "http://localhost:3000",
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/api": ""
+        }
+      }
     },
     "antd": {},
     "tailwindcss": {},
@@ -3366,7 +3385,7 @@
       "file": "@/pages/auth/login/index.tsx",
       "id": "2",
       "absPath": "/auth/login",
-      "__content": "import React, { useState } from 'react';\nimport { history } from '@umijs/max';\n\n// Test account\nconst TEST_ACCOUNTS = [\n  { email: 'user@pitchhub.com', password: 'user123', role: 'user' },\n  { email: 'test@pitchhub.com', password: '123456', role: 'user' },\n];\n\nconst PlayerLogin: React.FC = () => {\n  const [email, setEmail] = useState('');\n  const [password, setPassword] = useState('');\n  const [error, setError] = useState('');\n  const [loading, setLoading] = useState(false);\n\n  const handleLogin = (e: React.FormEvent) => {\n    e.preventDefault();\n    setError('');\n    setLoading(true);\n\n    setTimeout(() => {\n      const account = TEST_ACCOUNTS.find(\n        (a) => a.email === email && a.password === password,\n      );\n\n      if (account) {\n        localStorage.setItem('pitchhub_user', JSON.stringify({ email, role: account.role }));\n        history.push('/user/dashboard');\n      } else {\n        setError('Email hoặc mật khẩu không đúng. Thử: user@pitchhub.com / user123');\n        setLoading(false);\n      }\n    }, 600);\n  };\n\n  return (\n    <div className=\"min-h-screen bg-background flex items-center justify-center relative\">\n      <div className=\"absolute inset-0 pitch-grid pointer-events-none opacity-40\"></div>\n\n      <main className=\"w-full max-w-[440px] px-md relative z-10\">\n\n        <div className=\"flex flex-col items-center mb-xl\">\n          <div className=\"w-16 h-16 bg-primary-container rounded-xl flex items-center justify-center mb-md shadow-lg\">\n            <span className=\"material-symbols-outlined text-on-primary-container text-[40px]\" data-icon=\"sports_soccer\">sports_soccer</span>\n          </div>\n          <h1 className=\"font-h1 text-h1 text-primary\">PitchMaster</h1>\n          <p className=\"font-body-md text-secondary mt-xs\">Elevate Your Game</p>\n        </div>\n\n        <div className=\"bg-surface-container-lowest border border-outline-variant rounded-xl p-xl shadow-md\">\n          <div className=\"mb-lg\">\n            <h2 className=\"font-h2 text-h2 text-on-surface\">Welcome Back</h2>\n            <p className=\"font-body-md text-secondary\">Enter your credentials to access the portal</p>\n          </div>\n\n          {/* Demo credentials hint */}\n          <div className=\"mb-lg bg-emerald-50 border border-emerald-200 rounded-lg p-md\">\n            <p className=\"text-xs font-label-caps text-emerald-700 mb-xs\">TEST ACCOUNT</p>\n            <p className=\"text-sm font-body-md text-emerald-900\">\n              📧 <strong>user@pitchhub.com</strong><br />\n              🔑 <strong>user123</strong>\n            </p>\n          </div>\n\n          <form className=\"space-y-lg\" onSubmit={handleLogin}>\n            <div className=\"space-y-sm\">\n              <label className=\"font-label-caps text-label-caps text-on-surface-variant block\" htmlFor=\"email\">EMAIL ADDRESS</label>\n              <div className=\"relative\">\n                <span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\" data-icon=\"mail\">mail</span>\n                <input\n                  className=\"w-full bg-surface border border-outline-variant rounded-lg pl-[44px] pr-md py-sm font-body-md focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition-all outline-none\"\n                  id=\"email\"\n                  name=\"email\"\n                  placeholder=\"player@pitchmaster.com\"\n                  type=\"email\"\n                  value={email}\n                  onChange={(e) => setEmail(e.target.value)}\n                  required\n                />\n              </div>\n            </div>\n            <div className=\"space-y-sm\">\n              <div className=\"flex justify-between items-center\">\n                <label className=\"font-label-caps text-label-caps text-on-surface-variant\" htmlFor=\"password\">PASSWORD</label>\n                <a className=\"font-button text-[12px] text-primary hover:underline\" href=\"#\">Forgot password?</a>\n              </div>\n              <div className=\"relative\">\n                <span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\" data-icon=\"lock\">lock</span>\n                <input\n                  className=\"w-full bg-surface border border-outline-variant rounded-lg pl-[44px] pr-md py-sm font-body-md focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition-all outline-none\"\n                  id=\"password\"\n                  name=\"password\"\n                  placeholder=\"••••••••\"\n                  type=\"password\"\n                  value={password}\n                  onChange={(e) => setPassword(e.target.value)}\n                  required\n                />\n              </div>\n            </div>\n\n            {error && (\n              <div className=\"bg-error-container border border-error/20 rounded-lg px-md py-sm\">\n                <p className=\"text-sm font-body-md text-on-error-container\">{error}</p>\n              </div>\n            )}\n\n            <div className=\"flex items-center gap-sm\">\n              <input className=\"w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary/20\" id=\"remember\" name=\"remember\" type=\"checkbox\" />\n              <label className=\"font-body-md text-on-surface-variant select-none\" htmlFor=\"remember\">Remember me</label>\n            </div>\n\n            <button\n              className=\"w-full bg-primary text-white font-button text-button py-md rounded-lg hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm disabled:opacity-60\"\n              type=\"submit\"\n              disabled={loading}\n            >\n              {loading ? 'Đang đăng nhập...' : 'Login to Dashboard'}\n            </button>\n          </form>\n\n          <div className=\"mt-xl\">\n            <div className=\"relative flex items-center justify-center mb-lg\">\n              <div className=\"border-t border-outline-variant w-full\"></div>\n              <span className=\"absolute bg-surface-container-lowest px-md font-label-caps text-label-caps text-outline\">OR CONTINUE WITH</span>\n            </div>\n            <div className=\"grid grid-cols-2 gap-md\">\n              <button className=\"flex items-center justify-center gap-sm py-sm border border-outline-variant rounded-lg hover:bg-surface transition-colors active:scale-[0.98]\">\n                <img alt=\"Google\" className=\"w-5 h-5\" src=\"https://lh3.googleusercontent.com/aida-public/AB6AXuDoJXV-O63DUxDWwnqd_anJsycaA_UCEGrA1ce-pmeLDaML_6u_8rV1wpUGy8hsHS4nQiwMYxDXHUvq3Ad-gw8ZEit2_i8_NA_BfrRKCyxAtn6sA74KG827zdUGnb1T_ZHe_EVbLN9a_8o2v2Or3noFIuYmYzY6EJCy11dws_T_W7djaN40pTSOJZCHT83vST1NEoz814xX75Bhfxj9fc34GD39V4CakM4acrWHO82gf0UtNFuYuSOgugKsTDHu_tnbOm9Jw2paL2k\" />\n                <span className=\"font-button text-button text-on-surface\">Google</span>\n              </button>\n              <button className=\"flex items-center justify-center gap-sm py-sm border border-outline-variant rounded-lg hover:bg-surface transition-colors active:scale-[0.98]\">\n                <span className=\"material-symbols-outlined text-[20px]\">ios</span>\n                <span className=\"font-button text-button text-on-surface\">Apple</span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <p className=\"text-center mt-xl font-body-md text-secondary\">\n          New player on the field?{' '}\n          <a className=\"text-primary font-button hover:underline ml-xs\" href=\"/auth/signup\">Sign Up Now</a>\n        </p>\n\n      </main>\n    </div>\n  );\n};\n\nexport default PlayerLogin;\n",
+      "__content": "import React, { useState } from 'react';\nimport { useNavigate, useModel } from '@umijs/max';\nimport { AuthService } from '@/shared/api/auth/auth.service';\nimport { message } from 'antd';\n\nconst PlayerLogin: React.FC = () => {\n  const [email, setEmail] = useState('');\n  const [password, setPassword] = useState('');\n  const [error, setError] = useState('');\n  const [loading, setLoading] = useState(false);\n\n  const navigate = useNavigate();\n  const { setInitialState } = useModel('@@initialState');\n\n  const handleLogin = async (e: React.FormEvent) => {\n    e.preventDefault();\n    setError('');\n    setLoading(true);\n\n    try {\n      // 1. Gọi API đăng nhập\n      const res = await AuthService.login({ email, password });\n      \n      // 2. Lưu User vào Global State (res.data chứa userId, email, role, ...)\n      await setInitialState((s: any) => ({ \n        ...s, \n        currentUser: res.data \n      }));\n\n      message.success('Đăng nhập thành công!');\n\n      // 3. Chuyển hướng theo role\n      if (res.data.role === 'admin') {\n        navigate('/admin/dashboard');\n      } else {\n        navigate('/user/dashboard');\n      }\n    } catch (err: any) {\n      // 4. Hiển thị lỗi\n      setError(err.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');\n    } finally {\n      setLoading(false);\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen bg-background flex items-center justify-center relative\">\n      <div className=\"absolute inset-0 pitch-grid pointer-events-none opacity-40\"></div>\n\n      <main className=\"w-full max-w-[440px] px-md relative z-10\">\n\n        <div className=\"flex flex-col items-center mb-xl\">\n          <div className=\"w-16 h-16 bg-primary-container rounded-xl flex items-center justify-center mb-md shadow-lg\">\n            <span className=\"material-symbols-outlined text-on-primary-container text-[40px]\" data-icon=\"sports_soccer\">sports_soccer</span>\n          </div>\n          <h1 className=\"font-h1 text-h1 text-primary\">PitchMaster</h1>\n          <p className=\"font-body-md text-secondary mt-xs\">Elevate Your Game</p>\n        </div>\n\n        <div className=\"bg-surface-container-lowest border border-outline-variant rounded-xl p-xl shadow-md\">\n          <div className=\"mb-lg\">\n            <h2 className=\"font-h2 text-h2 text-on-surface\">Welcome Back</h2>\n            <p className=\"font-body-md text-secondary\">Enter your credentials to access the portal</p>\n          </div>\n\n          <form className=\"space-y-lg\" onSubmit={handleLogin}>\n            <div className=\"space-y-sm\">\n              <label className=\"font-label-caps text-label-caps text-on-surface-variant block\" htmlFor=\"email\">EMAIL ADDRESS</label>\n              <div className=\"relative\">\n                <span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\" data-icon=\"mail\">mail</span>\n                <input\n                  className=\"w-full bg-surface border border-outline-variant rounded-lg pl-[44px] pr-md py-sm font-body-md focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition-all outline-none\"\n                  id=\"email\"\n                  name=\"email\"\n                  placeholder=\"player@pitchmaster.com\"\n                  type=\"email\"\n                  value={email}\n                  onChange={(e) => setEmail(e.target.value)}\n                  required\n                />\n              </div>\n            </div>\n            <div className=\"space-y-sm\">\n              <div className=\"flex justify-between items-center\">\n                <label className=\"font-label-caps text-label-caps text-on-surface-variant\" htmlFor=\"password\">PASSWORD</label>\n                <a className=\"font-button text-[12px] text-primary hover:underline\" href=\"#\">Forgot password?</a>\n              </div>\n              <div className=\"relative\">\n                <span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\" data-icon=\"lock\">lock</span>\n                <input\n                  className=\"w-full bg-surface border border-outline-variant rounded-lg pl-[44px] pr-md py-sm font-body-md focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition-all outline-none\"\n                  id=\"password\"\n                  name=\"password\"\n                  placeholder=\"••••••••\"\n                  type=\"password\"\n                  value={password}\n                  onChange={(e) => setPassword(e.target.value)}\n                  required\n                />\n              </div>\n            </div>\n\n            {error && (\n              <div className=\"bg-error-container border border-error/20 rounded-lg px-md py-sm\">\n                <p className=\"text-sm font-body-md text-on-error-container\">{error}</p>\n              </div>\n            )}\n\n            <div className=\"flex items-center gap-sm\">\n              <input className=\"w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary/20\" id=\"remember\" name=\"remember\" type=\"checkbox\" />\n              <label className=\"font-body-md text-on-surface-variant select-none\" htmlFor=\"remember\">Remember me</label>\n            </div>\n\n            <button\n              className=\"w-full bg-primary text-white font-button text-button py-md rounded-lg hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm flex justify-center items-center gap-2 disabled:opacity-60\"\n              type=\"submit\"\n              disabled={loading}\n            >\n              {loading ? (\n                <>\n                  <span className=\"material-symbols-outlined animate-spin\">refresh</span>\n                  Logging in...\n                </>\n              ) : (\n                'Login to Dashboard'\n              )}\n            </button>\n\n            <div className=\"text-center mt-md\">\n              <p className=\"text-secondary font-body-md\">\n                New player on the field?{' '}\n                <a className=\"text-primary font-bold hover:underline cursor-pointer\" onClick={(e) => { e.preventDefault(); navigate('/auth/signup'); }}>Sign Up Now</a>\n              </p>\n            </div>\n          </form>\n\n          <div className=\"mt-xl\">\n            <div className=\"relative flex items-center justify-center mb-lg\">\n              <div className=\"border-t border-outline-variant w-full\"></div>\n              <span className=\"absolute bg-surface-container-lowest px-md font-label-caps text-label-caps text-outline\">OR CONTINUE WITH</span>\n            </div>\n            <div className=\"grid grid-cols-2 gap-md\">\n              <button className=\"flex items-center justify-center gap-sm py-sm border border-outline-variant rounded-lg hover:bg-surface transition-colors active:scale-[0.98]\">\n                <img alt=\"Google\" className=\"w-5 h-5\" src=\"https://lh3.googleusercontent.com/aida-public/AB6AXuDoJXV-O63DUxDWwnqd_anJsycaA_UCEGrA1ce-pmeLDaML_6u_8rV1wpUGy8hsHS4nQiwMYxDXHUvq3Ad-gw8ZEit2_i8_NA_BfrRKCyxAtn6sA74KG827zdUGnb1T_ZHe_EVbLN9a_8o2v2Or3noFIuYmYzY6EJCy11dws_T_W7djaN40pTSOJZCHT83vST1NEoz814xX75Bhfxj9fc34GD39V4CakM4acrWHO82gf0UtNFuYuSOgugKsTDHu_tnbOm9Jw2paL2k\" />\n                <span className=\"font-button text-button text-on-surface\">Google</span>\n              </button>\n              <button className=\"flex items-center justify-center gap-sm py-sm border border-outline-variant rounded-lg hover:bg-surface transition-colors active:scale-[0.98]\">\n                <span className=\"material-symbols-outlined text-[20px]\">ios</span>\n                <span className=\"font-button text-button text-on-surface\">Apple</span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n      </main>\n    </div>\n  );\n};\n\nexport default PlayerLogin;\n",
       "__isJSFile": true,
       "__absFile": "C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/pages/auth/login/index.tsx"
     },
@@ -3375,7 +3394,7 @@
       "file": "@/pages/auth/signup/index.tsx",
       "id": "3",
       "absPath": "/auth/signup",
-      "__content": "import React from 'react';\n\nconst PlayerSignUp: React.FC = () => {\n  return (\n    <div className=\"min-h-screen bg-background\">\n      \n\n<div className=\"fixed inset-0 pitch-grid-bg opacity-30 pointer-events-none z-0\"></div>\n<main className=\"relative z-10 w-full max-w-[540px]\">\n\n<div className=\"text-center mb-xl\">\n<h1 className=\"font-h1 text-h1 text-primary mb-xs\">PitchMaster</h1>\n<p className=\"font-body-lg text-body-lg text-secondary\">Precision booking for the beautiful game.</p>\n</div>\n\n<div className=\"bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.04)] overflow-hidden\">\n\n<div className=\"h-1 bg-primary w-full\"></div>\n<div className=\"p-lg md:p-xl\">\n<div className=\"mb-lg\">\n<h2 className=\"font-h2 text-h2 text-primary\">Create Your Player Profile</h2>\n<p className=\"text-secondary font-body-md mt-xs\">Step onto the field. Join thousands of local players.</p>\n</div>\n<form className=\"space-y-lg\">\n\n<div className=\"flex items-center gap-sm mb-lg\">\n<div className=\"h-1.5 flex-1 bg-primary rounded-full\"></div>\n<div className=\"h-1.5 flex-1 bg-secondary-container rounded-full\"></div>\n<div className=\"h-1.5 flex-1 bg-secondary-container rounded-full\"></div>\n</div>\n\n<div className=\"space-y-xs\">\n<label className=\"font-label-caps text-label-caps text-on-surface-variant\" htmlFor=\"full_name\">Full Name</label>\n<div className=\"relative\">\n<span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\">person</span>\n<input className=\"w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md\" id=\"full_name\" name=\"full_name\" placeholder=\"Cristiano Ronaldo\" type=\"text\"/>\n</div>\n</div>\n\n<div className=\"grid grid-cols-1 md:grid-cols-2 gap-md\">\n<div className=\"space-y-xs\">\n<label className=\"font-label-caps text-label-caps text-on-surface-variant\" htmlFor=\"email\">Email Address</label>\n<div className=\"relative\">\n<span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\">mail</span>\n<input className=\"w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md\" id=\"email\" name=\"email\" placeholder=\"player@pitchmaster.com\" type=\"email\"/>\n</div>\n</div>\n<div className=\"space-y-xs\">\n<label className=\"font-label-caps text-label-caps text-on-surface-variant\" htmlFor=\"phone\">Phone Number</label>\n<div className=\"relative\">\n<span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\">phone_android</span>\n<input className=\"w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md\" id=\"phone\" name=\"phone\" placeholder=\"+1 (555) 000-0000\" type=\"tel\"/>\n</div>\n</div>\n</div>\n\n<div className=\"space-y-xs\">\n<label className=\"font-label-caps text-label-caps text-on-surface-variant\" htmlFor=\"password\">Password</label>\n<div className=\"relative\">\n<span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\">lock</span>\n<input className=\"w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md\" id=\"password\" name=\"password\" placeholder=\"••••••••\" type=\"password\"/>\n</div>\n<p className=\"text-[11px] text-outline italic\">Must be at least 8 characters with one special symbol.</p>\n</div>\n\n<div className=\"flex items-start gap-sm py-sm\">\n<input className=\"mt-xs h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary cursor-pointer\" id=\"terms\" name=\"terms\" type=\"checkbox\"/>\n<label className=\"text-body-md text-secondary leading-tight cursor-pointer\" htmlFor=\"terms\">\n                            I agree to the <a className=\"text-primary font-semibold hover:underline\" href=\"#\">Terms of Service</a> and \n                            <a className=\"text-primary font-semibold hover:underline\" href=\"#\">Privacy Policy</a>. I understand my data will be used to manage bookings.\n                        </label>\n</div>\n\n<button className=\"w-full bg-primary text-on-primary font-button text-button py-md rounded-lg hover:opacity-90 active:scale-[0.98] transition-all flex justify-center items-center gap-sm\" type=\"submit\">\n                        Create Account\n                        <span className=\"material-symbols-outlined\">arrow_forward</span>\n</button>\n</form>\n\n<div className=\"mt-xl pt-lg border-t border-outline-variant text-center\">\n<p className=\"text-secondary font-body-md\">\n                        Already have a PitchMaster account? \n                        <a className=\"text-primary font-bold ml-xs hover:underline\" href=\"#\">Login here</a>\n</p>\n</div>\n</div>\n</div>\n\n<div className=\"mt-lg flex flex-col md:flex-row items-center justify-between gap-md px-md opacity-70\">\n<div className=\"flex items-center gap-xs\">\n<span className=\"material-symbols-outlined text-primary\" style={{\"fontVariationSettings\":\"'FILL' 1\"}}>verified</span>\n<span className=\"font-label-caps text-label-caps\">Secure Player Data</span>\n</div>\n<div className=\"flex items-center gap-xs\">\n<span className=\"material-symbols-outlined text-primary\" style={{\"fontVariationSettings\":\"'FILL' 1\"}}>sports_soccer</span>\n<span className=\"font-label-caps text-label-caps\">2,500+ Active Pitches</span>\n</div>\n<div className=\"flex items-center gap-xs\">\n<span className=\"material-symbols-outlined text-primary\" style={{\"fontVariationSettings\":\"'FILL' 1\"}}>bolt</span>\n<span className=\"font-label-caps text-label-caps\">Instant Booking</span>\n</div>\n</div>\n</main>\n\n<div className=\"fixed bottom-lg right-lg hidden xl:block z-0\">\n<div className=\"bg-surface-container-high p-lg rounded-xl border border-outline-variant max-w-[280px] shadow-sm\">\n<div className=\"flex items-center gap-md mb-md\">\n<img alt=\"Recent Player\" className=\"w-12 h-12 rounded-full object-cover border-2 border-primary\" data-alt=\"A professional close-up shot of a young, athletic football player smiling warmly. He is wearing a crisp white training kit with subtle forest green trim. The background is a softly blurred modern football stadium at sunset, with golden hour light catching the dewy blades of grass. The overall aesthetic is clean, professional, and inspiring, using a high-key lighting style to match a premium light-mode UI.\" src=\"https://lh3.googleusercontent.com/aida-public/AB6AXuBvWIylF8Uue7RHzcgh4OxSWrzF8TUFPdyZPaR_ZSbLtlU1ClqQQGcIq5Szo0szNVX61VuQ3FZChoWzNnnzEl7Sjit5T4tRRlkhhbJDIsbbHEpvEPqNZNwI3wodLgc_AnZFOrIIruJnqXvLjF1XOAKxn5LO4StWSvbzN6UK0XhtKEm9aZUDzuMKuikAIJ_9HPDi2_efSbHLd288h0abG8bFtynyCW65xW2y0OLHWsNndH-_cBVU0MnBsoD3TyI2HFtijg8uOh78ews\"/>\n<div>\n<p className=\"font-button text-primary\">Marcus J.</p>\n<p className=\"text-[12px] text-secondary\">Joined 2 mins ago</p>\n</div>\n</div>\n<p className=\"text-body-md text-on-surface-variant italic\">\"Found a local 5-a-side match within minutes. The best pitch management platform I've used.\"</p>\n</div>\n</div>\n\n    </div>\n  );\n};\n\nexport default PlayerSignUp;\n",
+      "__content": "import React, { useState } from 'react';\nimport { useNavigate, useModel } from '@umijs/max';\nimport { AuthService } from '../../../shared/api/auth/auth.service';\nimport { message } from 'antd';\n\nconst PlayerSignUp: React.FC = () => {\n  const [fullName, setFullName] = useState('');\n  const [email, setEmail] = useState('');\n  const [phone, setPhone] = useState('');\n  const [password, setPassword] = useState('');\n  const [terms, setTerms] = useState(false);\n  \n  const [error, setError] = useState('');\n  const [loading, setLoading] = useState(false);\n\n  const navigate = useNavigate();\n  const { setInitialState } = useModel('@@initialState');\n\n  const handleRegister = async (e: React.FormEvent) => {\n    e.preventDefault();\n    setError('');\n\n    // Basic Validation\n    if (!terms) {\n      setError('Vui lòng đồng ý với Điều khoản và Chính sách bảo mật.');\n      return;\n    }\n    if (password.length < 6) {\n      setError('Mật khẩu phải có ít nhất 6 ký tự.');\n      return;\n    }\n\n    setLoading(true);\n\n    try {\n      // 1. Gọi API đăng ký\n      const res = await AuthService.register({\n        fullName,\n        email,\n        phone,\n        password,\n      });\n\n      // 2. Backend của bạn tự set HttpOnly cookie sau khi đăng ký thành công.\n      // Cập nhật thông tin vào Global state để chuyển sang trạng thái đã đăng nhập.\n      await setInitialState((s: any) => ({ \n        ...s, \n        currentUser: res.data \n      }));\n\n      message.success('Tạo tài khoản thành công!');\n      \n      // 3. Chuyển hướng người dùng vào Dashboard\n      navigate('/user/dashboard');\n    } catch (err: any) {\n      setError(err.response?.data?.message || 'Đăng ký thất bại. Email hoặc số điện thoại có thể đã tồn tại.');\n    } finally {\n      setLoading(false);\n    }\n  };\n\n  return (\n    <div className=\"min-h-screen bg-background\">\n      <div className=\"fixed inset-0 pitch-grid-bg opacity-30 pointer-events-none z-0\"></div>\n      <main className=\"relative z-10 w-full max-w-[540px] mx-auto py-xl\">\n        <div className=\"text-center mb-xl\">\n          <h1 className=\"font-h1 text-h1 text-primary mb-xs\">PitchMaster</h1>\n          <p className=\"font-body-lg text-body-lg text-secondary\">Precision booking for the beautiful game.</p>\n        </div>\n\n        <div className=\"bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.04)] overflow-hidden\">\n          <div className=\"h-1 bg-primary w-full\"></div>\n          <div className=\"p-lg md:p-xl\">\n            <div className=\"mb-lg\">\n              <h2 className=\"font-h2 text-h2 text-primary\">Create Your Player Profile</h2>\n              <p className=\"text-secondary font-body-md mt-xs\">Step onto the field. Join thousands of local players.</p>\n            </div>\n            \n            <form className=\"space-y-lg\" onSubmit={handleRegister}>\n              <div className=\"flex items-center gap-sm mb-lg\">\n                <div className=\"h-1.5 flex-1 bg-primary rounded-full\"></div>\n                <div className=\"h-1.5 flex-1 bg-secondary-container rounded-full\"></div>\n                <div className=\"h-1.5 flex-1 bg-secondary-container rounded-full\"></div>\n              </div>\n\n              <div className=\"space-y-xs\">\n                <label className=\"font-label-caps text-label-caps text-on-surface-variant\" htmlFor=\"full_name\">Full Name</label>\n                <div className=\"relative\">\n                  <span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\">person</span>\n                  <input \n                    className=\"w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md\" \n                    id=\"full_name\" \n                    name=\"full_name\" \n                    placeholder=\"Cristiano Ronaldo\" \n                    type=\"text\"\n                    value={fullName}\n                    onChange={(e) => setFullName(e.target.value)}\n                    required\n                  />\n                </div>\n              </div>\n\n              <div className=\"grid grid-cols-1 md:grid-cols-2 gap-md\">\n                <div className=\"space-y-xs\">\n                  <label className=\"font-label-caps text-label-caps text-on-surface-variant\" htmlFor=\"email\">Email Address</label>\n                  <div className=\"relative\">\n                    <span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\">mail</span>\n                    <input \n                      className=\"w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md\" \n                      id=\"email\" \n                      name=\"email\" \n                      placeholder=\"player@pitchmaster.com\" \n                      type=\"email\"\n                      value={email}\n                      onChange={(e) => setEmail(e.target.value)}\n                      required\n                    />\n                  </div>\n                </div>\n                <div className=\"space-y-xs\">\n                  <label className=\"font-label-caps text-label-caps text-on-surface-variant\" htmlFor=\"phone\">Phone Number</label>\n                  <div className=\"relative\">\n                    <span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\">phone_android</span>\n                    <input \n                      className=\"w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md\" \n                      id=\"phone\" \n                      name=\"phone\" \n                      placeholder=\"0987654321\" \n                      type=\"tel\"\n                      value={phone}\n                      onChange={(e) => setPhone(e.target.value)}\n                      required\n                    />\n                  </div>\n                </div>\n              </div>\n\n              <div className=\"space-y-xs\">\n                <label className=\"font-label-caps text-label-caps text-on-surface-variant\" htmlFor=\"password\">Password</label>\n                <div className=\"relative\">\n                  <span className=\"material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline\">lock</span>\n                  <input \n                    className=\"w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md\" \n                    id=\"password\" \n                    name=\"password\" \n                    placeholder=\"••••••••\" \n                    type=\"password\"\n                    value={password}\n                    onChange={(e) => setPassword(e.target.value)}\n                    required\n                  />\n                </div>\n                <p className=\"text-[11px] text-outline italic\">Must be at least 6 characters.</p>\n              </div>\n\n              {error && (\n                <div className=\"bg-error-container border border-error/20 rounded-lg px-md py-sm\">\n                  <p className=\"text-sm font-body-md text-on-error-container\">{error}</p>\n                </div>\n              )}\n\n              <div className=\"flex items-start gap-sm py-sm\">\n                <input \n                  className=\"mt-xs h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary cursor-pointer\" \n                  id=\"terms\" \n                  name=\"terms\" \n                  type=\"checkbox\"\n                  checked={terms}\n                  onChange={(e) => setTerms(e.target.checked)}\n                />\n                <label className=\"text-body-md text-secondary leading-tight cursor-pointer\" htmlFor=\"terms\">\n                  I agree to the <a className=\"text-primary font-semibold hover:underline\" href=\"#\">Terms of Service</a> and \n                  <a className=\"text-primary font-semibold hover:underline\" href=\"#\">Privacy Policy</a>. I understand my data will be used to manage bookings.\n                </label>\n              </div>\n\n              <button \n                className=\"w-full bg-primary text-on-primary font-button text-button py-md rounded-lg hover:opacity-90 active:scale-[0.98] transition-all flex justify-center items-center gap-sm disabled:opacity-60\" \n                type=\"submit\"\n                disabled={loading}\n              >\n                {loading ? 'Creating Account...' : 'Create Account'}\n                {!loading && <span className=\"material-symbols-outlined\">arrow_forward</span>}\n              </button>\n\n              <div className=\"text-center mt-md\">\n                <p className=\"text-secondary font-body-md\">\n                  Already have a PitchMaster account?{' '}\n                  <a className=\"text-primary font-bold hover:underline cursor-pointer\" onClick={(e) => { e.preventDefault(); navigate('/auth/login'); }}>Login here</a>\n                </p>\n              </div>\n            </form>\n          </div>\n        </div>\n\n        <div className=\"mt-lg flex flex-col md:flex-row items-center justify-between gap-md px-md opacity-70\">\n          <div className=\"flex items-center gap-xs\">\n            <span className=\"material-symbols-outlined text-primary\" style={{\"fontVariationSettings\":\"'FILL' 1\"}}>verified</span>\n            <span className=\"font-label-caps text-label-caps\">Secure Player Data</span>\n          </div>\n          <div className=\"flex items-center gap-xs\">\n            <span className=\"material-symbols-outlined text-primary\" style={{\"fontVariationSettings\":\"'FILL' 1\"}}>sports_soccer</span>\n            <span className=\"font-label-caps text-label-caps\">2,500+ Active Pitches</span>\n          </div>\n          <div className=\"flex items-center gap-xs\">\n            <span className=\"material-symbols-outlined text-primary\" style={{\"fontVariationSettings\":\"'FILL' 1\"}}>bolt</span>\n            <span className=\"font-label-caps text-label-caps\">Instant Booking</span>\n          </div>\n        </div>\n      </main>\n\n      <div className=\"fixed bottom-lg right-lg hidden xl:block z-0\">\n        <div className=\"bg-surface-container-high p-lg rounded-xl border border-outline-variant max-w-[280px] shadow-sm\">\n          <div className=\"flex items-center gap-md mb-md\">\n            <img alt=\"Recent Player\" className=\"w-12 h-12 rounded-full object-cover border-2 border-primary\" src=\"https://lh3.googleusercontent.com/aida-public/AB6AXuBvWIylF8Uue7RHzcgh4OxSWrzF8TUFPdyZPaR_ZSbLtlU1ClqQQGcIq5Szo0szNVX61VuQ3FZChoWzNnnzEl7Sjit5T4tRRlkhhbJDIsbbHEpvEPqNZNwI3wodLgc_AnZFOrIIruJnqXvLjF1XOAKxn5LO4StWSvbzN6UK0XhtKEm9aZUDzuMKuikAIJ_9HPDi2_efSbHLd288h0abG8bFtynyCW65xW2y0OLHWsNndH-_cBVU0MnBsoD3TyI2HFtijg8uOh78ews\"/>\n            <div>\n              <p className=\"font-button text-primary\">Marcus J.</p>\n              <p className=\"text-[12px] text-secondary\">Joined 2 mins ago</p>\n            </div>\n          </div>\n          <p className=\"text-body-md text-on-surface-variant italic\">\"Found a local 5-a-side match within minutes. The best pitch management platform I've used.\"</p>\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default PlayerSignUp;\n",
       "__isJSFile": true,
       "__absFile": "C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/pages/auth/signup/index.tsx"
     },
@@ -3444,7 +3463,7 @@
       "parentId": "4",
       "id": "10",
       "absPath": "/matchmaking/feed",
-      "__content": "import React from 'react';\n\nconst SocialMatchmakingFeed: React.FC = () => {\n  return (\n    <div className=\"p-8\">\n      <div className=\"flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4\">\n        <div>\n          <h2 className=\"font-h1 text-h1 text-emerald-900\">Team Matchmaking</h2>\n          <p className=\"font-body-md text-gray-500 mt-1\">Find opponent teams for your next competitive or casual fixture.</p>\n        </div>\n        <div className=\"flex items-center gap-3\">\n          <div className=\"flex items-center bg-white border border-gray-200 rounded-lg px-3 py-2 gap-2\">\n            <span className=\"text-xs font-label-caps text-gray-400\">SKILL LEVEL:</span>\n            <select className=\"border-none bg-transparent text-sm font-bold text-emerald-900 focus:ring-0 p-0\">\n              <option>All Levels</option>\n              <option>Amateur</option>\n              <option>Intermediate</option>\n              <option>Professional</option>\n            </select>\n          </div>\n          <button className=\"bg-emerald-50 text-emerald-900 px-4 py-2 rounded-lg font-button flex items-center gap-2 hover:bg-emerald-100 transition-colors\">\n            <span className=\"material-symbols-outlined text-sm\">filter_list</span>\n            More Filters\n          </button>\n        </div>\n      </div>\n\n      <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n        {/* Match Card 1 */}\n        <div className=\"bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group relative\">\n          <div className=\"absolute top-0 left-0 h-full w-1 bg-primary\"></div>\n          <div className=\"p-6\">\n            <div className=\"flex justify-between items-start mb-4\">\n              <span className=\"bg-emerald-900 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider\">Professional</span>\n              <span className=\"text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full flex items-center gap-1\">\n                <span className=\"w-2 h-2 rounded-full bg-emerald-500 animate-pulse\"></span>\n                Waiting\n              </span>\n            </div>\n            <h3 className=\"font-h3 text-h3 text-emerald-900 mb-2\">Wembley Arena - Pitch 4</h3>\n            <div className=\"space-y-2 mb-6\">\n              <div className=\"flex items-center text-gray-500 text-sm gap-2\">\n                <span className=\"material-symbols-outlined text-sm\">calendar_today</span>\n                <span>Saturday, Oct 24 • 19:00 - 20:30</span>\n              </div>\n              <div className=\"flex items-center text-emerald-900 font-bold text-sm gap-2 mt-4\">\n                <span className=\"material-symbols-outlined text-sm\">sports_kabaddi</span>\n                <span>Opponent Wanted</span>\n              </div>\n            </div>\n            <div className=\"flex items-center justify-between\">\n              <div className=\"flex -space-x-2\">\n                <div className=\"w-8 h-8 rounded-full border-2 border-white bg-emerald-900 flex items-center justify-center text-[10px] font-bold text-white\">FC</div>\n                <div className=\"w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-400\">+8</div>\n              </div>\n              <button className=\"bg-primary text-white px-4 py-2 rounded-lg text-xs font-button\">Challenge</button>\n            </div>\n          </div>\n        </div>\n\n        {/* Match Card 2 */}\n        <div className=\"bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group relative\">\n          <div className=\"p-6\">\n            <div className=\"flex justify-between items-start mb-4\">\n              <span className=\"bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider\">Amateur</span>\n              <span className=\"text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full flex items-center gap-1\">\n                <span className=\"w-2 h-2 rounded-full bg-emerald-500 animate-pulse\"></span>\n                Waiting\n              </span>\n            </div>\n            <h3 className=\"font-h3 text-h3 text-emerald-900 mb-2\">Central Park Turf</h3>\n            <div className=\"space-y-2 mb-6\">\n              <div className=\"flex items-center text-gray-500 text-sm gap-2\">\n                <span className=\"material-symbols-outlined text-sm\">calendar_today</span>\n                <span>Today • 17:30 - 18:30</span>\n              </div>\n            </div>\n            <div className=\"flex items-center justify-between\">\n              <div className=\"flex -space-x-2\">\n                <div className=\"w-8 h-8 rounded-full border-2 border-white bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white\">TX</div>\n              </div>\n              <button className=\"bg-primary text-white px-4 py-2 rounded-lg text-xs font-button\">Challenge</button>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div className=\"mt-12 flex justify-center\">\n        <button className=\"border border-gray-200 bg-white text-emerald-900 px-8 py-3 rounded-lg font-button hover:bg-gray-50 transition-all flex items-center gap-2\">\n          Load More Opportunities\n          <span className=\"material-symbols-outlined text-sm\">expand_more</span>\n        </button>\n      </div>\n\n      <div className=\"fixed bottom-8 right-8\">\n        <button className=\"bg-emerald-900 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all group\">\n          <span className=\"material-symbols-outlined\">add</span>\n          <span className=\"absolute right-full mr-4 bg-emerald-900 text-white px-4 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none font-button\">Host a Match</span>\n        </button>\n      </div>\n    </div>\n  );\n};\n\nexport default SocialMatchmakingFeed;\n",
+      "__content": "import React from 'react';\n\nconst SocialMatchmakingFeed: React.FC = () => {\n  return (\n    <div className=\"p-8\">\n      <div className=\"flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4\">\n        <div>\n          <h2 className=\"font-h1 text-h1 text-emerald-900\">Team Matchmaking</h2>\n          <p className=\"font-body-md text-gray-500 mt-1\">Find opponent teams for your next competitive or casual fixture.</p>\n        </div>\n        <div className=\"flex items-center gap-3\">\n          <div className=\"flex items-center bg-white border border-gray-200 rounded-lg px-3 py-2 gap-2\">\n            <span className=\"text-xs font-label-caps text-gray-400\">SKILL LEVEL:</span>\n            <select className=\"border-none bg-transparent text-sm font-bold text-emerald-900 focus:ring-0 p-0\">\n              <option>All Levels</option>\n              <option>Amateur</option>\n              <option>Intermediate</option>\n              <option>Professional</option>\n            </select>\n          </div>\n          <button className=\"bg-emerald-50 text-emerald-900 px-4 py-2 rounded-lg font-button flex items-center gap-2 hover:bg-emerald-100 transition-colors\">\n            <span className=\"material-symbols-outlined text-sm\">filter_list</span>\n            More Filters\n          </button>\n        </div>\n      </div>\n\n      <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n        {/* Match Card 1 */}\n        <div className=\"bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group relative\">\n          <div className=\"absolute top-0 left-0 h-full w-1 bg-primary\"></div>\n          <div className=\"p-6\">\n            <div className=\"flex justify-between items-start mb-4\">\n              <span className=\"bg-emerald-900 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider\">Professional</span>\n              <span className=\"text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full flex items-center gap-1\">\n                <span className=\"w-2 h-2 rounded-full bg-emerald-500 animate-pulse\"></span>\n                Waiting\n              </span>\n            </div>\n            <h3 className=\"font-h3 text-h3 text-emerald-900 mb-2\">Wembley Arena - Pitch 4</h3>\n            <div className=\"space-y-2 mb-6\">\n              <div className=\"flex items-center text-gray-500 text-sm gap-2\">\n                <span className=\"material-symbols-outlined text-sm\">calendar_today</span>\n                <span>Saturday, Oct 24 • 19:00 - 20:30</span>\n              </div>\n              <div className=\"flex items-center text-emerald-900 font-bold text-sm gap-2 mt-4\">\n                <span className=\"material-symbols-outlined text-sm\">sports_kabaddi</span>\n                <span>Opponent Wanted</span>\n              </div>\n            </div>\n            <div className=\"flex items-center justify-between\">\n              <div className=\"flex -space-x-2\">\n                <div className=\"w-8 h-8 rounded-full border-2 border-white bg-emerald-900 flex items-center justify-center text-[10px] font-bold text-white\">FC</div>\n                <div className=\"w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-400\">+8</div>\n              </div>\n              <div className=\"flex gap-2\">\n                <button className=\"flex items-center gap-1 text-gray-500 hover:text-emerald-900 transition-colors\">\n                  <span className=\"material-symbols-outlined text-[18px]\">thumb_up</span>\n                  <span className=\"text-xs font-bold font-button\">Like</span>\n                </button>\n                <button className=\"flex items-center gap-1 text-gray-500 hover:text-emerald-900 transition-colors\">\n                  <span className=\"material-symbols-outlined text-[18px]\">chat_bubble_outline</span>\n                  <span className=\"text-xs font-bold font-button\">Comment</span>\n                </button>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        {/* Match Card 2 */}\n        <div className=\"bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group relative\">\n          <div className=\"p-6\">\n            <div className=\"flex justify-between items-start mb-4\">\n              <span className=\"bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider\">Amateur</span>\n              <span className=\"text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full flex items-center gap-1\">\n                <span className=\"w-2 h-2 rounded-full bg-emerald-500 animate-pulse\"></span>\n                Waiting\n              </span>\n            </div>\n            <h3 className=\"font-h3 text-h3 text-emerald-900 mb-2\">Central Park Turf</h3>\n            <div className=\"space-y-2 mb-6\">\n              <div className=\"flex items-center text-gray-500 text-sm gap-2\">\n                <span className=\"material-symbols-outlined text-sm\">calendar_today</span>\n                <span>Today • 17:30 - 18:30</span>\n              </div>\n            </div>\n            <div className=\"flex items-center justify-between\">\n              <div className=\"flex -space-x-2\">\n                <div className=\"w-8 h-8 rounded-full border-2 border-white bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white\">TX</div>\n              </div>\n              <div className=\"flex gap-2\">\n                <button className=\"flex items-center gap-1 text-gray-500 hover:text-emerald-900 transition-colors\">\n                  <span className=\"material-symbols-outlined text-[18px]\">thumb_up</span>\n                  <span className=\"text-xs font-bold font-button\">Like</span>\n                </button>\n                <button className=\"flex items-center gap-1 text-gray-500 hover:text-emerald-900 transition-colors\">\n                  <span className=\"material-symbols-outlined text-[18px]\">chat_bubble_outline</span>\n                  <span className=\"text-xs font-bold font-button\">Comment</span>\n                </button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div className=\"mt-12 flex justify-center\">\n        <button className=\"border border-gray-200 bg-white text-emerald-900 px-8 py-3 rounded-lg font-button hover:bg-gray-50 transition-all flex items-center gap-2\">\n          Load More Opportunities\n          <span className=\"material-symbols-outlined text-sm\">expand_more</span>\n        </button>\n      </div>\n\n      <div className=\"fixed bottom-8 right-8\">\n        <button className=\"bg-emerald-900 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all group\">\n          <span className=\"material-symbols-outlined\">add</span>\n          <span className=\"absolute right-full mr-4 bg-emerald-900 text-white px-4 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none font-button\">Host a Match</span>\n        </button>\n      </div>\n    </div>\n  );\n};\n\nexport default SocialMatchmakingFeed;\n",
       "__isJSFile": true,
       "__absFile": "C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/pages/matchmaking/feed/index.tsx"
     },
@@ -3501,7 +3520,7 @@
     "path": "C:\\Users\\T14s Gen 3\\Downloads\\Football Pitches Management System\\Football-Management\\Frontend\\src\\app.ts",
     "exports": [
       "getInitialState",
-      "layout"
+      "request"
     ]
   },
   "locale": "en-US",

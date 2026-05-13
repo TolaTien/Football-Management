@@ -1,8 +1,15 @@
 import { defineConfig } from '@umijs/max';
 
 export default defineConfig({
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3000',
+      changeOrigin: true,
+      pathRewrite: { '^/api': '' },
+    },
+  },
   antd: {},
-  tailwindcss: {},
+  tailwindcss: { checkTimeout: 20000 },
   access: {},
   model: {},
   initialState: {},

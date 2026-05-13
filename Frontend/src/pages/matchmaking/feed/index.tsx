@@ -53,7 +53,16 @@ const SocialMatchmakingFeed: React.FC = () => {
                 <div className="w-8 h-8 rounded-full border-2 border-white bg-emerald-900 flex items-center justify-center text-[10px] font-bold text-white">FC</div>
                 <div className="w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-400">+8</div>
               </div>
-              <button className="bg-primary text-white px-4 py-2 rounded-lg text-xs font-button">Challenge</button>
+              <div className="flex gap-2">
+                <button className="flex items-center gap-1 text-gray-500 hover:text-emerald-900 transition-colors">
+                  <span className="material-symbols-outlined text-[18px]">thumb_up</span>
+                  <span className="text-xs font-bold font-button">Like</span>
+                </button>
+                <button className="flex items-center gap-1 text-gray-500 hover:text-emerald-900 transition-colors">
+                  <span className="material-symbols-outlined text-[18px]">chat_bubble_outline</span>
+                  <span className="text-xs font-bold font-button">Comment</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -79,7 +88,16 @@ const SocialMatchmakingFeed: React.FC = () => {
               <div className="flex -space-x-2">
                 <div className="w-8 h-8 rounded-full border-2 border-white bg-blue-500 flex items-center justify-center text-[10px] font-bold text-white">TX</div>
               </div>
-              <button className="bg-primary text-white px-4 py-2 rounded-lg text-xs font-button">Challenge</button>
+              <div className="flex gap-2">
+                <button className="flex items-center gap-1 text-gray-500 hover:text-emerald-900 transition-colors">
+                  <span className="material-symbols-outlined text-[18px]">thumb_up</span>
+                  <span className="text-xs font-bold font-button">Like</span>
+                </button>
+                <button className="flex items-center gap-1 text-gray-500 hover:text-emerald-900 transition-colors">
+                  <span className="material-symbols-outlined text-[18px]">chat_bubble_outline</span>
+                  <span className="text-xs font-bold font-button">Comment</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

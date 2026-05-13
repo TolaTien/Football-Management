@@ -14,7 +14,7 @@ async function main() {
         pitchId: uuidv4(),
         namePitch: `Sân bóng ${faker.person.lastName()}`,
         status: 'active',
-        pitchCategory: faker.helpers.arrayElement(['five', 'seven', 'eleven']),
+        pitchCategory: faker.helpers.arrayElement([5, 7, 11]),
         address: faker.location.streetAddress(),
       },
     });

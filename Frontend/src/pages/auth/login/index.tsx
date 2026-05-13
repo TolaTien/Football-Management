@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import { history } from '@umijs/max';
-
-// Test account
-const TEST_ACCOUNTS = [
-  { email: 'user@pitchhub.com', password: 'user123', role: 'user' },
-  { email: 'test@pitchhub.com', password: '123456', role: 'user' },
-];
+import { useNavigate, useModel } from '@umijs/max';
+import { AuthService } from '@/shared/api/auth/auth.service';
+import { message } from 'antd';
 
 const PlayerLogin: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -13,24 +9,38 @@ const PlayerLogin: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+  const { setInitialState } = useModel('@@initialState');
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    setTimeout(() => {
-      const account = TEST_ACCOUNTS.find(
-        (a) => a.email === email && a.password === password,
-      );
+    try {
+      // 1. Gọi API đăng nhập
+      const res = await AuthService.login({ email, password });
+      
+      // 2. Lưu User vào Global State (res.data chứa userId, email, role, ...)
+      await setInitialState((s: any) => ({ 
+        ...s, 
+        currentUser: res.data 
+      }));
 
-      if (account) {
-        localStorage.setItem('pitchhub_user', JSON.stringify({ email, role: account.role }));
-        history.push('/user/dashboard');
+      message.success('Đăng nhập thành công!');
+
+      // 3. Chuyển hướng theo role
+      if (res.data.role === 'admin') {
+        navigate('/admin/dashboard');
       } else {
-        setError('Email hoặc mật khẩu không đúng. Thử: user@pitchhub.com / user123');
-        setLoading(false);
+        navigate('/user/dashboard');
       }
-    }, 600);
+    } catch (err: any) {
+      // 4. Hiển thị lỗi
+      setError(err.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,15 +61,6 @@ const PlayerLogin: React.FC = () => {
           <div className="mb-lg">
             <h2 className="font-h2 text-h2 text-on-surface">Welcome Back</h2>
             <p className="font-body-md text-secondary">Enter your credentials to access the portal</p>
-          </div>
-
-          {/* Demo credentials hint */}
-          <div className="mb-lg bg-emerald-50 border border-emerald-200 rounded-lg p-md">
-            <p className="text-xs font-label-caps text-emerald-700 mb-xs">TEST ACCOUNT</p>
-            <p className="text-sm font-body-md text-emerald-900">
-              📧 <strong>user@pitchhub.com</strong><br />
-              🔑 <strong>user123</strong>
-            </p>
           </div>
 
           <form className="space-y-lg" onSubmit={handleLogin}>
@@ -111,12 +112,26 @@ const PlayerLogin: React.FC = () => {
             </div>
 
             <button
-              className="w-full bg-primary text-white font-button text-button py-md rounded-lg hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm disabled:opacity-60"
+              className="w-full bg-primary text-white font-button text-button py-md rounded-lg hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm flex justify-center items-center gap-2 disabled:opacity-60"
               type="submit"
               disabled={loading}
             >
-              {loading ? 'Đang đăng nhập...' : 'Login to Dashboard'}
+              {loading ? (
+                <>
+                  <span className="material-symbols-outlined animate-spin">refresh</span>
+                  Logging in...
+                </>
+              ) : (
+                'Login to Dashboard'
+              )}
             </button>
+
+            <div className="text-center mt-md">
+              <p className="text-secondary font-body-md">
+                New player on the field?{' '}
+                <a className="text-primary font-bold hover:underline cursor-pointer" onClick={(e) => { e.preventDefault(); navigate('/auth/signup'); }}>Sign Up Now</a>
+              </p>
+            </div>
           </form>
 
           <div className="mt-xl">
@@ -136,11 +151,6 @@ const PlayerLogin: React.FC = () => {
             </div>
           </div>
         </div>
-
-        <p className="text-center mt-xl font-body-md text-secondary">
-          New player on the field?{' '}
-          <a className="text-primary font-button hover:underline ml-xs" href="/auth/signup">Sign Up Now</a>
-        </p>
 
       </main>
     </div>
