@@ -6,6 +6,7 @@ import { bookingRouters } from "../modules/booking/booking.route.js";
 import { adminRouters } from '../modules/admin/admin.route.js';
 import { serviceRouters } from "../modules/services/services.route.js";
 import { commentRouters } from "../modules/comments/comments.route.js";
+import { postAdminRouters } from "../modules/posts/posts.admin.route.js";
 
 export const Routers: Router = Router();
 
@@ -16,3 +17,4 @@ Routers.use('/booking', bookingRouters);
 Routers.use('/admin', adminRouters);
 Routers.use('/services', serviceRouters);
 Routers.use('/comments', commentRouters);
+Routers.use("/admin/posts", postAdminRouters);
