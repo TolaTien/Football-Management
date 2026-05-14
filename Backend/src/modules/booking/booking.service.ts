@@ -1,15 +1,41 @@
 import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/ApiError.js";
-import { BookPitchForUser, CancelBookingForUser, Payment } from "./booking.schema.js";
+import { bookingPitchForAdmin, BookPitchForUser, CancelBookingForUser, Payment } from "./booking.schema.js";
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
 
 export class BookingService {
     static async bookPitchForUser(dto: BookPitchForUser, userId: string){
         if(!await prisma.users.findUnique({ where: { userId}})) {
             throw new ApiError(StatusCodes.BAD_REQUEST, "Người dùng không tồn tại")
         }
+
+        const startTime = new Date(dto.startTime);
+        const endTime = new Date(dto.endTime);
+
         const booking = await prisma.$transaction( async (tx) => {
+            const pitch = await tx.pitch.findUnique({ where: { pitchId: dto.pitchId } });
+            if (!pitch) {
+                throw new ApiError(StatusCodes.BAD_REQUEST, "Sân không tồn tại");
+            }
+
+            const checkBooked = await tx.booking.findFirst({
+                where: {
+                    pitchId: dto.pitchId,
+                    status: { in: ['pending', 'approved'] },
+                    AND: [
+                        { startTime: { lt: endTime }},
+                        { endTime: { gt: startTime }}
+                    ]
+                }
+            });
+
+            if (checkBooked) {
+                throw new ApiError(StatusCodes.BAD_REQUEST, "Sân đã được đặt trong khoảng thời gian này");
+            }
+
+            const bookingDeposit = Math.floor(dto.pitchPriceAtBooking / 2);
 
             const booking = await tx.booking.create({
                 data: {
@@ -18,34 +44,36 @@ export class BookingService {
                     pitchId: dto.pitchId,
                     phone: dto.phone,
                     status: 'pending',
-                    startTime: dto.startTime,
-                    endTime: dto.endTime,
+                    startTime,
+                    endTime,
                     paymentStatus: 'pending',
                     pitchPriceAtBooking: dto.pitchPriceAtBooking,
-                    total: 0,
+                    total: bookingDeposit,
                 }
             });
 
-            let newServices;
-            if(dto.service && dto.service.length > 0){
+            let totalServices = 0;
+            if(dto.service?.length > 0){
                 //Note: duyệt mảng service để check xem trong kho còn đủ sp không
-                for (const item of dto.service) {
-                    const svc = await tx.services.findUnique({ where: { serviceId: item.serviceId }});
-                    if (!svc) {
+                for (const items of dto.service) {
+                    const item = await tx.services.findUnique({ where: { serviceId: items.serviceId }});
+                    if (!item) {
                         throw new ApiError(StatusCodes.BAD_REQUEST, `Dịch vụ không tồn tại`);
                     }
-                    const available = (svc.totalQuantity ?? 0) - (svc.borrowed ?? 0) + (svc.returned ?? 0);
-                    if (available < item.quantity) {
-                        throw new ApiError(StatusCodes.BAD_REQUEST, `Dịch vụ ${svc.nameProduct} tạm hết hàng`);
+                    const available = (item.totalQuantity ?? 0) - (item.borrowed ?? 0) + (item.returned ?? 0);
+                    if (available < items.quantity) {
+                        throw new ApiError(StatusCodes.BAD_REQUEST, `Dịch vụ ${item.nameProduct} tạm hết hàng`);
                     }
                     
                     await tx.services.update({
-                        where: { serviceId: item.serviceId },
-                        data: { borrowed: (svc.borrowed ?? 0) + item.quantity }
+                        where: { serviceId: items.serviceId },
+                        data: { borrowed: (item.borrowed ?? 0) + items.quantity }
                     });
+
+                    totalServices += (items.servicePriceAtBooking ?? 0) * (items.quantity ?? 0);
                 };
 
-                 newServices =  await Promise.all(dto.service.map((x) => {
+                 await Promise.all(dto.service.map((x) => {
                       return tx.bookingservices.create({
                         data: {
                             id: uuidv4(),
@@ -56,15 +84,33 @@ export class BookingService {
                         }
                     })
                 }));
-                const totalServices = newServices.reduce((sum, ser) => (sum + (ser.servicePriceAtBooking ?? 0)  * (ser.quantity ?? 0)), 0);
-
-                const updatedBooking = await tx.booking.update({
-                    where: { bookId: booking.bookId},
-                    data: {total: (booking.pitchPriceAtBooking ?? 0) / 2 + totalServices}
-                });
-                return { booking: updatedBooking, newServices }
             };
-            return { booking, newServices}
+
+            const updatedBooking = await tx.booking.update({
+                where: { bookId: booking.bookId},
+                data: { total: bookingDeposit + totalServices }
+            });
+
+            const order = await tx.booking.findUnique({
+                where: { bookId: updatedBooking.bookId},
+                include: {
+                    users: {
+                        select: {
+                            fullName: true,
+                            avt: true,
+                            phone: true,
+                            email: true
+                        }
+                    },
+                    bookingservices: {
+                        include: {
+                            services: true
+                        }
+                    },
+                    pitch: true,
+                }
+            });
+            return order;
         });
 
         return booking;
@@ -89,6 +135,7 @@ export class BookingService {
     };
 
     static async cancelBookingForUser(dto: CancelBookingForUser, userId: string){
+        
         const booking = await prisma.booking.findUnique({ where: { bookId: dto.bookId}});
         const user = await prisma.users.findUnique({ where: { userId} });
 
@@ -97,8 +144,9 @@ export class BookingService {
         if(booking.status === 'rejected') throw new ApiError(400, "Đơn đã bị hủy trước đó");
 
         const hoursBeforeStart = (booking.startTime!.getTime() - Date.now()) / (1000 * 60 * 60);
-        const canRefundDeposit = hoursBeforeStart > 24;
-        if (booking.paymentStatus === "pending" || ( booking.paymentStatus === "partial" && !canRefundDeposit )) {
+        const isRefund = hoursBeforeStart > 24;
+        
+        if (booking.paymentStatus === "pending" || ( booking.paymentStatus === "partial" && !isRefund )) {
             return prisma.$transaction(async (tx) => {
                 const bookingUpdate = await tx.booking.update({
                     where: { bookId: dto.bookId },
@@ -114,11 +162,24 @@ export class BookingService {
                     }
                 });
 
+                const bookingServices = await tx.bookingservices.findMany({ where: { bookId: dto.bookId } });
+                for (const items of bookingServices) {
+                    if (items.quantity && items.serviceId) {
+                        const item = await tx.services.findUnique({ where: { serviceId: items.serviceId } });
+                        if (item) {
+                            await tx.services.update({
+                                where: { serviceId: item.serviceId },
+                                data: { returned: (item.returned ?? 0) + items.quantity }
+                            });
+                        }
+                    }
+                };
+
                 return { bookingUpdate, cancelRequest };
             });
         }
 
-        if (booking.paymentStatus === "partial" && canRefundDeposit) {
+        if (booking.paymentStatus === "partial" && isRefund) {
 
             return prisma.$transaction(async (tx) => {
                 const bookingUpdate = await tx.booking.update({
@@ -128,12 +189,11 @@ export class BookingService {
                         payments: {
                             updateMany: {
                                 where: { type: 'deposit' },
-                                data: { type: 'refund' }
+                                data: { type: 'pending' }
                             }
                         }
                     }
                 });
-
 
                 const cancelRequest = await tx.cancelrequests.create({
                     data: {
@@ -143,9 +203,156 @@ export class BookingService {
                         content: dto.content
                     }
                 });
+
+                const bookingServices = await tx.bookingservices.findMany({ where: { bookId: dto.bookId } });
+                for (const items of bookingServices) {
+                    if (items.quantity && items.serviceId) {
+                        const item = await tx.services.findUnique({ where: { serviceId: items.serviceId } });
+                        if (item) {
+                            await tx.services.update({
+                                where: { serviceId: item.serviceId },
+                                data: { returned: (item.returned ?? 0) + items.quantity }
+                            });
+                        }
+                    }
+                }
+
+                return { bookingUpdate, cancelRequest};
             })
         }
+    };
 
-        throw new ApiError(StatusCodes.BAD_REQUEST, "Trạng thái thanh toán không hỗ trợ hủy đơn");
+    static async bookingPitchForAdmin(dto: bookingPitchForAdmin){
+        const checkBooked = await prisma.booking.findFirst({
+            where: {
+                pitchId: dto.pitchId,
+                status: { in: ['pending', 'approved'] },
+                AND: [
+                    { startTime: { lt: dto.endTime } },
+                    { endTime: { gt: dto.startTime } }
+                ]
+            }
+        });
+
+        if (checkBooked) {
+            throw new ApiError(StatusCodes.BAD_REQUEST, "Sân đã được đặt trong khoảng thời gian này");
+        }
+
+        const booking = await prisma.$transaction( async (tx) => {
+            let targetUserId = null;
+
+            if (dto.phone) {
+                const existingUser = await tx.users.findFirst({ where: { phone: dto.phone } });
+                if (existingUser) {
+                    targetUserId = existingUser.userId;
+                } else {
+                    const salt = await bcrypt.genSalt(12);
+                    const hashPassword = await bcrypt.hash(uuidv4(), salt);
+
+                    const shadowUser = await tx.users.create({
+                        data: {
+                            userId: uuidv4(),
+                            email: `guest_${dto.phone}@gmail.com`,
+                            password: hashPassword,
+                            fullName: `Khách vãng lai ${dto.phone}`,
+                            phone: dto.phone,
+                            role: 'user'
+                        }
+                    });
+                    targetUserId = shadowUser.userId;
+                }
+            }
+
+            const booking = await tx.booking.create({
+                data: {
+                    userId: targetUserId,
+                    bookId: uuidv4(),
+                    pitchId: dto.pitchId,
+                    phone: dto.phone,
+                    status: 'approved',
+                    startTime: dto.startTime,
+                    endTime: dto.endTime,
+                    paymentStatus: 'partial',
+                    pitchPriceAtBooking: dto.pitchPriceAtBooking,
+                    total: dto.pitchPriceAtBooking / 2
+                }
+            });
+            
+            let newServices;
+            let totalServices = 0;
+            if( dto.service?.length >0){
+                for(const items of dto.service){
+                    const item = await tx.services.findUnique({ where: { serviceId: items.serviceId}});
+                    if(!item) throw new ApiError(400, "Không tìm thấy sản phẩm");
+                    
+                    const available = (item.totalQuantity ?? 0) - (item.borrowed ?? 0) + (item.returned ?? 0);
+                    if(items.quantity > available) throw new ApiError(400, `Dịch vụ ${item.nameProduct} tạm thời hết hàng`);
+
+                    await tx.services.update({
+                        where: { serviceId: item.serviceId},
+                        data: { borrowed: (item.borrowed ?? 0) + items.quantity }
+                    });
+
+                    totalServices += (items.servicePriceAtBooking ?? 0) * (items.quantity ?? 0);
+                };
+
+                newServices =  await Promise.all(dto.service.map((x) => {
+                      return tx.bookingservices.create({
+                        data: {
+                            id: uuidv4(),
+                            bookId: booking.bookId,
+                            serviceId: x.serviceId,
+                            quantity: x.quantity ,
+                            servicePriceAtBooking: x.servicePriceAtBooking 
+                        }
+                    })
+                }));
+
+                const updatedBooking = await tx.booking.update({
+                    where: { bookId: booking.bookId},
+                    data: {total: (booking.pitchPriceAtBooking ?? 0) / 2 + totalServices}
+                });
+
+                return { booking: updatedBooking, newServices}
+            };
+        });
+        return booking
+    };
+
+    static async getAllRequestForAdmin(query: any){
+        const page = Number(query.page) || 1;
+        const perpage = 10;
+        const skip = ( page - 1) * 10;
+
+        const booking = await prisma.booking.findMany({
+            where: {status: 'pending'},
+            skip,
+            take: perpage,
+            orderBy: {
+                createdAt: 'asc'
+            },
+            include: {
+                users: {
+                    select: {
+                        userId: true,
+                        fullName: true,
+                        email: true,
+                        phone: true,
+                        avt: true
+                    }
+                },
+                cancelrequests: true,
+                pitch: true,
+                bookingservices: {
+                    include: { services: { select: { nameProduct: true }}}
+                },
+                payments: true
+            } 
+        });
+
+        const totalRequest = await prisma.booking.count({ where: { status: 'pending'}})
+        const numberPage = Math.ceil(totalRequest/10);
+        return { booking, pagination: { numberPage, page, totalRequest, perpage} };
     }
+
 }

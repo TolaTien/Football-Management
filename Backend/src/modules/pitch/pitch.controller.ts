@@ -22,7 +22,7 @@ class Pitch {
         const { pitchId, config } = req.body; //Note: config ở đây phải là 1 mảng []
         const update = await PitchService.updatePitchPrice(config, pitchId);
         res.status(200).json({ message: "Cập nhật giá sân thành công", data: update});
-    }
+    };
 }
 
 export default new Pitch();
