@@ -145,12 +145,18 @@ export class AdminService {
         return update;
     };
 
-    static async getAllHistoryOfUser(dto: GetAllHistoryOfUser) {
+    static async getAllHistoryOfUser(dto: GetAllHistoryOfUser, query: any) {
         const user = await prisma.users.findUnique({ where: { userId: dto.userId } });
         if (!user) throw new ApiError(400, "Không tìm thấy người dùng");
 
+        const page = Number(query.page) || 1;
+        const perpage = 10;
+        const skip = (page - 1) * perpage;
+
         const history = await prisma.booking.findMany({
             where: { userId: user.userId },
+            skip,
+            take: perpage,
             orderBy: {
                 createdAt: 'desc'
             },
@@ -164,7 +170,13 @@ export class AdminService {
                 }
             }
         });
-        return history;
+
+        const totalRequest = await prisma.booking.count({
+            where: { userId: user.userId }
+        });
+        const numberPage = Math.ceil(totalRequest / perpage);
+
+        return { history, pagination: { numberPage, page, totalRequest, perpage } };
     };
 
     static async verifyPaymentOfUser(dto: VerifyPaymentOfUser) {
