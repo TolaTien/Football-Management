@@ -1,6 +1,8 @@
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import { verifyToken } from '../utils/jwt.js';
+import type { Payload } from './types.js';
 
 const app = express();
 const server = createServer(app);
@@ -13,13 +15,42 @@ const io = new Server(server, {
     }
 });
 
+const getCookieValue = (cookieHeader: string | undefined, key: string) => {
+    if (!cookieHeader) return undefined;
+
+    const cookies = cookieHeader.split(';').map((cookie) => cookie.trim());
+    const targetCookie = cookies.find((cookie) => cookie.startsWith(`${key}=`));
+
+    return targetCookie?.slice(key.length + 1);
+};
+
+io.use((socket, next) => {
+    try {
+        const accessToken = getCookieValue(socket.handshake.headers.cookie, 'accessToken');
+        if (!accessToken) {
+            return next(new Error('Vui lòng đăng nhập'));
+        }
+
+        socket.data.user = verifyToken(accessToken) as Payload;
+        return next();
+    } catch {
+        return next(new Error('Token không hợp lệ'));
+    }
+});
+
 io.on("connection", (socket) => {
-    console.log("A user connected")
+    const user = socket.data.user as Payload;
+
+    if (user.role === 'admin') {
+        socket.join('admins');
+    }
+
+    console.log(`User ${user.userId} connected via socket`);
     socket.on("disconnect", () => {
-        console.log("A user disconnected")
+        console.log(`User ${user.userId} disconnected from socket`);
     })
 });
 
-export { app, server};
+export { app, server, io};
 
 
