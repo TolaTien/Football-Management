@@ -41,13 +41,15 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
     const user = socket.data.user as Payload;
 
+    socket.join(user.userId);
+
     if (user.role === 'admin') {
         socket.join('admins');
     }
 
-    console.log(`User ${user.userId} connected via socket`);
+    console.log(`User ${user.userId} connected `);
     socket.on("disconnect", () => {
-        console.log(`User ${user.userId} disconnected from socket`);
+        console.log(`User ${user.userId} disconnected `);
     })
 });
 
