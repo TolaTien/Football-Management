@@ -27,7 +27,6 @@ class Statistic {
 
         await workbook.xlsx.write(res);
         res.end();
-        return res.status(200).json({message: "Xuất file báo cáo thành công"});
     }
 
 };
