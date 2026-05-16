@@ -15,6 +15,9 @@ export class AuthService {
         if(!user){
             throw new ApiError(StatusCodes.BAD_REQUEST, "User không tồn tại");
         };
+        if(user.status === "banned"){
+            throw new ApiError(StatusCodes.FORBIDDEN, "Tài khoản của bạn đã bị khóa");
+        };
         const checkPassword = await bcrypt.compare(dto.password, user.password);
         if(!checkPassword){
             throw new ApiError(StatusCodes.BAD_REQUEST, "Mật khẩu không chính xác");
@@ -77,6 +80,9 @@ export class AuthService {
         if(!user){
             throw new ApiError(StatusCodes.UNAUTHORIZED, "Người dùng không tồn tại");
         }
+        if(user.status === "banned"){
+            throw new ApiError(StatusCodes.FORBIDDEN, "Tài khoản của bạn đã bị khóa");
+        }
         return {user};
     };
 
@@ -93,6 +99,9 @@ export class AuthService {
         const user = await prisma.users.findUnique({ where: {userId: decoded.userId}});
         if(!user){
             throw new ApiError(StatusCodes.UNAUTHORIZED, "User không tồn tại")
+        }
+        if(user.status === "banned"){
+            throw new ApiError(StatusCodes.FORBIDDEN, "Tài khoản của bạn đã bị khóa");
         }
 
         if(!user.role){

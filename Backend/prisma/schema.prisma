@@ -173,6 +173,7 @@ model users {
   fullName    String        @db.VarChar(255)
   avt         String?       @db.VarChar(500)
   role        users_role?   @default(user)
+  status      users_status? @default(active)
   phone       String?       @db.VarChar(20)
   createdAt   DateTime?     @default(now()) @db.Timestamp(0)
   updatedAt   DateTime?     @updatedAt @db.Timestamp(0)
@@ -208,6 +209,11 @@ model notification {
 enum users_role {
   user
   admin
+}
+
+enum users_status {
+  active
+  banned
 }
 
 enum payments_type {
