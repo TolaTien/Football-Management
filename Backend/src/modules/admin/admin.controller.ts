@@ -20,7 +20,7 @@ class Admin {
 
     async getAllHistoryOfUser(req: Request, res: Response){
         const userId = req.params.userId as string;
-        const history = await AdminService.getAllHistoryOfUser({ userId });
+        const history = await AdminService.getAllHistoryOfUser({ userId }, req.query);
         return res.status(200).json({ message: "Lấy lịch sử thành công", data: history});
     };
 

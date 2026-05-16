@@ -188,7 +188,6 @@ model users {
 model notification {
   id          String              @id @db.VarChar(50)
   userId      String              @db.VarChar(50)
-  title       String              @db.VarChar(255)
   content     String              @db.Text
   type        notification_type?  @default(system)
   isRead      Boolean?            @default(false)

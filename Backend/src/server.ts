@@ -6,13 +6,18 @@ import { connectDB } from "./config/prisma.js";
 import { Routers } from "./routes/index.js";
 import { errorHandlingMiddleware } from "./middlewares/error.middleware.js";
 import { startCron } from "./utils/cron.js";
-
+import cors from 'cors';
+import { server, app } from "./config/socket.js";
 
 const PORT = 3000;
-const app = express()
+
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser())
+app.use(cors({
+    origin: process.env.NODE_ENV === "production" ? process.env.CLIENT_URL : "http://localhost:8000",
+    credentials: true
+}));
 app.use(Routers)
 
 app.get('/', (req: Request, res: Response) =>{
@@ -26,7 +31,7 @@ async function init() {
     await connectDB();
     startCron(); 
     
-    app.listen(PORT, "0.0.0.0", async () =>{
+    server.listen(PORT, "0.0.0.0", async () =>{
         console.log(`Server is running on port ${PORT}`);
     });
 }
