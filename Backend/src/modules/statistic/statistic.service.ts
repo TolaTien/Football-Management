@@ -3,6 +3,17 @@ import { GetRevenueInput, GetSystemOverview } from "./statistic.schema.js";
 import ExcelJS from 'exceljs'
 
 export class StatisticService {
+    static async buildMonthlyRevenueEmailReport(dto: Required<Pick<GetRevenueInput, 'month' | 'year'>>) {
+        const summary = await this.getMonthlyRevenue(dto);
+        const workbook = await this.exportFileExcel(dto);
+        const excelBuffer = await workbook.xlsx.writeBuffer();
+
+        return {
+            summary,
+            excelBuffer,
+        };
+    }
+
     static async getMonthlyRevenue(dto: GetRevenueInput) {
         if (!dto.month && !dto.year && !dto.address) {
             const totalPitches = await prisma.pitch.count({
@@ -299,10 +310,10 @@ export class StatisticService {
             }, 0);
             const remaining = (b.total || 0) - paidAmout;
 
-            if(b.status === 'approved' && ['paid', 'parital'].includes(b.paymentStatus!)){
+            if(b.status === 'approved' && ['paid', 'partial'].includes(b.paymentStatus!)){
                 totalRevenue += b.total || 0;
             } else if(b.status === 'rejected' && b.paymentStatus === 'partial') {
-                totalRevenue += b.pitchPriceAtBooking || 0;
+                totalRevenue += (b.pitchPriceAtBooking || 0) / 2;
             }
 
 
