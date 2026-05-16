@@ -40,8 +40,8 @@ function bookingGridCol(start: string, end: string) {
 
 const PAY_CFG: Record<string, { bg: string; label: string }> = {
   deposited: { bg: '#10b981', label: 'Đã cọc' },
-  paid:      { bg: '#059669', label: 'Đã thanh toán' },
-  unpaid:    { bg: '#f87171', label: 'Chưa TT' },
+  paid: { bg: '#059669', label: 'Đã thanh toán' },
+  unpaid: { bg: '#f87171', label: 'Chưa TT' },
 };
 
 const SRC_LABEL: Record<string, string> = {

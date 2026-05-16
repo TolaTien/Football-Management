@@ -12,7 +12,7 @@ const { Title, Text } = Typography;
 
 const AdminPitchesList: React.FC = () => {
   const { pitches, addPitch, updatePitch, deletePitch } = useModel('adminPitches');
-  
+
   // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPitch, setEditingPitch] = useState<Pitch | null>(null);
@@ -58,7 +58,7 @@ const AdminPitchesList: React.FC = () => {
       addPitch(pitchData);
       message.success('Đã thêm sân mới thành công!');
     }
-    
+
     setIsModalOpen(false);
     form.resetFields();
     setEditingPitch(null);
@@ -205,7 +205,7 @@ const AdminPitchesList: React.FC = () => {
         </div>
 
         <div style={{ padding: 24 }}>
-           {/* Mock Data cho Lịch bảo trì */}
+          {/* Mock Data cho Lịch bảo trì */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', paddingBottom: 16, borderBottom: '1px solid #f3f4f6', color: '#6b7280', fontWeight: 600, fontSize: 13 }}>
             <div>Tên sân</div>
             <div>Hoạt động</div>
@@ -225,7 +225,7 @@ const AdminPitchesList: React.FC = () => {
             <div style={{ textAlign: 'right' }}><Tag color="blue" style={{ borderRadius: 12, border: 'none', backgroundColor: '#e0e7ff', color: '#4f46e5', fontWeight: 600 }}>ĐÃ LÊN LỊCH</Tag></div>
           </div>
 
-           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', padding: '16px 0', borderBottom: '1px solid #f3f4f6', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1.5fr 1.5fr 1fr', padding: '16px 0', borderBottom: '1px solid #f3f4f6', alignItems: 'center' }}>
             <div style={{ fontWeight: 600, color: '#1f2937' }}>Sân 7 - B2</div>
             <div style={{ color: '#4b5563', fontSize: 14 }}>Kiểm tra hệ thống thoát nước</div>
             <div style={{ color: '#4b5563', fontSize: 14 }}>18/10/2023 (Chiều)</div>
