@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { PostAdminLogic } from "./posts.admin.service.js";
 
+
 const PostAdminController = {
     getAll: async (req: Request, res: Response) => {
         try {
@@ -30,7 +31,6 @@ const PostAdminController = {
         }
     },
 
-    // Đổi trạng thái (Khóa/Mở bài viết)
     changeStatus: async (req: Request, res: Response) => {
         try {
             if ((req as any).user.role !== "admin") return res.status(403).send();
@@ -51,6 +51,28 @@ const PostAdminController = {
             res.status(404).json({ message: error.message });
         }
     },
+    createPost: async (req: Request, res: Response) => {
+        try {
+            const user = (req as any).user;
+            
+            // Chốt chặn 1: Bắt buộc phải là Admin
+            if (user.role !== "admin") {
+                return res.status(403).json({ message: "Quyền truy cập bị từ chối" });
+            }
+
+            const { description } = req.body;
+            if (!description) {
+                return res.status(400).json({ message: "Nội dung bài viết không được để trống" });
+            }
+
+            const newPost = await PostLogic.createAdminPost(user.userId, description);
+            
+            res.status(201).json({ message: "Admin đã tạo bài đăng thành công!", data: newPost });
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
 };
 
 export default PostAdminController;
