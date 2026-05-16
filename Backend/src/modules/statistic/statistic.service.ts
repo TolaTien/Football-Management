@@ -1,9 +1,9 @@
 import { prisma } from "../../config/prisma.js";
-import { GetRevenueInput, GetSystemOverview } from "./statistic.schema.js";
+import { DataForEmailReport, GetRevenueInput, GetSystemOverview } from "./statistic.schema.js";
 import ExcelJS from 'exceljs'
 
 export class StatisticService {
-    static async buildMonthlyRevenueEmailReport(dto: Required<Pick<GetRevenueInput, 'month' | 'year'>>) {
+    static async dataForEmailReport(dto: DataForEmailReport) {
         const summary = await this.getMonthlyRevenue(dto);
         const workbook = await this.exportFileExcel(dto);
         const excelBuffer = await workbook.xlsx.writeBuffer();

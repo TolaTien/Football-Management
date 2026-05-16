@@ -4,10 +4,7 @@ import { StatisticService } from '../modules/statistic/statistic.service.js';
 import { sendEmail } from './email.js';
 
 const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-    }).format(value);
+    return value.toLocaleString('vi-VN') + 'VNĐ';
 };
 
 const getPreviousMonth = (date: Date) => {
@@ -75,7 +72,7 @@ export const startCron = () => {
         }
     })
 
-    cron.schedule('* 8 1 * *', async () => {
+    cron.schedule('0 8 1 * *', async () => {
         try {
             const { month, year } = getPreviousMonth(new Date());
             const admins = await prisma.users.findMany({
@@ -83,13 +80,12 @@ export const startCron = () => {
                 select: { email: true },
             });
 
-            const { summary, excelBuffer } = await StatisticService.buildMonthlyRevenueEmailReport({
+            const { summary, excelBuffer } = await StatisticService.dataForEmailReport({
                 month,
                 year,
             });
 
             const html = buildMonthlyRevenueEmailHtml(summary);
-            const filename = `Bao_Cao_Doanh_Thu_Thang_${month}_${year}.xlsx`;
 
             await Promise.all(
                 admins.map((admin) => {
@@ -99,7 +95,7 @@ export const startCron = () => {
                         html,
                         [
                             {
-                                filename,
+                                filename: `Bao_Cao_Doanh_Thu_Thang_${month}_${year}.xlsx`,
                                 content: Buffer.from(excelBuffer),
                             },
                         ],
