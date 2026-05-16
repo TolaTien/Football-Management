@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "max dev",
+    "dev": "PORT=8888 max dev",
     "build": "max build",
     "postinstall": "max setup",
     "setup": "max setup",

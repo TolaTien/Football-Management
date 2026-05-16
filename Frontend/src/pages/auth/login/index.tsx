@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useModel } from '@umijs/max';
-import { AuthService } from '@/shared/api/auth/auth.service';
+import { AuthService } from '../../../shared/api/auth/auth.service';
 import { message } from 'antd';
 
 const PlayerLogin: React.FC = () => {

@@ -3,9 +3,6 @@ import { message } from 'antd';
 import { AuthService } from './shared/api/auth/auth.service';
 import { UserInfo } from './shared/api/auth/types';
 
-// ==========================================
-// 1. Initial State (Quản lý trạng thái toàn cục)
-// ==========================================
 export async function getInitialState(): Promise<{
   currentUser?: UserInfo;
   fetchUserInfo?: () => Promise<UserInfo | undefined>;
@@ -15,7 +12,6 @@ export async function getInitialState(): Promise<{
       const response = await AuthService.checkAuth();
       return response.data;
     } catch (error) {
-      // Nếu lỗi (chưa đăng nhập, token hết hạn), trả về undefined
       return undefined;
     }
   };
@@ -35,13 +31,9 @@ export async function getInitialState(): Promise<{
   };
 }
 
-// ==========================================
-// 2. Request Configuration (Interceptor)
-// ==========================================
 export const request: RequestConfig = {
   timeout: 10000,
   
-  // Xử lý lỗi tập trung
   errorConfig: {
     errorHandler: (error: any, opts: any) => {
       if (opts?.skipErrorHandler) throw error;
@@ -56,39 +48,39 @@ export const request: RequestConfig = {
     },
   },
 
-  // Interceptor gửi Request: Luôn đính kèm Cookie (credentials: include)
   requestInterceptors: [
     (url, options) => {
+      const token = localStorage.getItem('pitchhub_token');
+      const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+      
       return {
         url,
-        options: { ...options, credentials: 'include' },
+        options: { 
+          ...options, 
+          headers: { ...options.headers, ...authHeader },
+          credentials: 'include' 
+        },
       };
     },
   ],
 
-  // Interceptor nhận Response: Xử lý tự động Refresh Token
   responseInterceptors: [
     [
-      // Success response handler
-      (response) => {
-        return response;
-      },
-      // Error response handler
+      (response) => response,
       async (error: any) => {
         const { config, response } = error;
         
-        // Nếu lỗi 401 Unauthorized và không phải request gọi login/refresh-token
         if (response?.status === 401 && config && !config.url.includes('/auth/refresh-token') && !config.url.includes('/auth/login')) {
            try {
-             // Thử gọi refresh token ngầm
-             await AuthService.refreshToken();
-             
-             // Nếu thành công, tự động gọi lại API gốc vừa bị fail
-             const axios = require('axios');
-             config.credentials = 'include'; // Đảm bảo gọi lại vẫn mang cookie mới
-             return axios(config);
+             const refreshRes = await AuthService.refreshToken();
+             if (refreshRes.accessToken) {
+               localStorage.setItem('pitchhub_token', refreshRes.accessToken);
+               const { request: umiRequest } = require('@umijs/max');
+               return umiRequest(config.url, { ...config, headers: { ...config.headers, Authorization: `Bearer ${refreshRes.accessToken}` } });
+             }
            } catch (refreshError) {
-             // Nếu refresh token cũng thất bại (hết hạn 7 ngày), đá về trang đăng nhập
+             localStorage.removeItem('pitchhub_token');
+             localStorage.removeItem('pitchhub_user');
              window.location.href = '/auth/login';
              return Promise.reject(refreshError);
            }
