@@ -5,7 +5,7 @@ import { ApiError } from "../utils/ApiError.js";
 
 export const authUser =  (req: Request, res: Response, next: NextFunction) => {
     try{
-        const token = req.cookies?.accessToken;
+        const token = req.cookies?.accessToken || req.headers.authorization?.split(' ')[1];
         if(!token) {
             return res.status(401).json({ message: "Vui lòng đăng nhập"})
         }
@@ -19,6 +19,21 @@ export const authUser =  (req: Request, res: Response, next: NextFunction) => {
     }catch(err) {
         console.log(err);
         return res.status(500).json({ message: "Lỗi xác thực người dùng" });
+    }
+}
+
+export const optionalAuth = (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const token = req.cookies?.accessToken || req.headers.authorization?.split(' ')[1];
+        if (token) {
+            const decode = verifyToken(token);
+            if (decode) {
+                req.user = decode;
+            }
+        }
+        next();
+    } catch (err) {
+        next();
     }
 }
 

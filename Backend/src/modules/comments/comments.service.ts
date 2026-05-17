@@ -3,19 +3,28 @@ import crypto from "crypto";
 
 export const CommentLogic = {
     createComment: async (userId: string, data: { content: string, postId: string, parentId?: string }) => {
-        return await prisma.comments.create({
+        const newComment = await prisma.comments.create({
             data: {
                 commentId: `CMT-${crypto.randomUUID().substring(0, 8)}`,
                 content: data.content,
                 postId: data.postId,
                 userId: userId,
                 parentId: data.parentId || null 
+            },
+            include: {
+                users: { 
+                    select: { fullName: true, avt: true } 
+                },
+                _count: { 
+                    select: { commentlike: true } 
+                }
             }
         });
+        return { ...newComment, isLiked: false };
     },
 
-    getCommentsByPost: async (postId: string) => {
-        return await prisma.comments.findMany({
+    getCommentsByPost: async (postId: string, userId?: string) => {
+        const comments = await prisma.comments.findMany({
             where: { 
                 postId: postId,
                 parentId: null 
@@ -27,16 +36,34 @@ export const CommentLogic = {
                 _count: { 
                     select: { commentlike: true } 
                 },
+                commentlike: userId ? {
+                    where: { userId: userId }
+                } : false,
                 other_comments: { // Kéo các bình luận con (reply)
                     include: {
                         users: { select: { fullName: true, avt: true } },
-                        _count: { select: { commentlike: true } }
+                        _count: { select: { commentlike: true } },
+                        commentlike: userId ? {
+                            where: { userId: userId }
+                        } : false,
                     },
                     orderBy: { createdAt: 'asc' } 
                 }
             },
             orderBy: { createdAt: 'desc' }
         });
+
+        // Map để thêm isLiked boolean cho FE
+        return comments.map(comment => ({
+            ...comment,
+            isLiked: (userId && (comment as any).commentlike) ? (comment as any).commentlike.length > 0 : false,
+            commentlike: undefined, // Xóa array trung gian
+            other_comments: comment.other_comments.map(reply => ({
+                ...reply,
+                isLiked: (userId && (reply as any).commentlike) ? (reply as any).commentlike.length > 0 : false,
+                commentlike: undefined
+            }))
+        }));
     },
 
     deleteComment: async (userId: string, userRole: string, commentId: string) => {
