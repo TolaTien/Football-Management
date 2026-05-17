@@ -2,6 +2,17 @@ import { Request, Response } from "express";
 import { AdminService } from "./admin.service.js";
 
 class Admin {
+    async banUser(req: Request, res: Response) {
+        const userId = req.params.userId as string;
+        const { status } = req.body 
+
+        const update = await AdminService.banUser({ userId, status });
+        return res.status(200).json({
+            message: status === 'banned' ? "Khóa người dùng thành công" : "Mở khóa người dùng thành công",
+            data: update,
+        });
+    }
+
     async approveRequestUser(req: Request, res: Response) {
         const approve = await AdminService.approveRequestUser(req.body);
 
@@ -20,7 +31,7 @@ class Admin {
 
     async getAllHistoryOfUser(req: Request, res: Response){
         const userId = req.params.userId as string;
-        const history = await AdminService.getAllHistoryOfUser({ userId });
+        const history = await AdminService.getAllHistoryOfUser({ userId }, req.query);
         return res.status(200).json({ message: "Lấy lịch sử thành công", data: history});
     };
 
@@ -29,10 +40,10 @@ class Admin {
         return res.status(200).json({ message: "Xác nhận thanh toán thành công", data: verify});
     }
 
-    async getAllUsers(req: Request, res: Response) {
-        const result = await AdminService.getAllUsers(req.query);
-        return res.status(200).json({ message: "Lấy danh sách người dùng thành công", data: result });
-    }
+    // async getAllUsers(req: Request, res: Response) {
+    //     const result = await AdminService.getAllUsers(req.query);
+    //     return res.status(200).json({ message: "Lấy danh sách người dùng thành công", data: result });
+    // }
 };
 
 export default new Admin();

@@ -1,22 +1,34 @@
 import { Request, Response } from "express";
 import { StatisticService } from "./statistic.service.js";
+import { GetRevenueInput } from "./statistic.schema.js";
 
 class Statistic {
-    async statisticForAdmin(req: Request, res: Response) {
-        
-    }
-
     async getMonthlyRevenue(req: Request, res: Response) {
-        try {
-            const month = parseInt(req.query.month as string);
-            const year = parseInt(req.query.year as string);
-
-            const data = await StatisticService.getMonthlyRevenue({ month, year });
-            return res.status(200).json({ message: "Thống kê doanh thu thành công", data });
-        } catch (error: any) {
-             return res.status(500).json({ message: "Lỗi server khi thống kê doanh thu", error: error.message });
-        }
+        const data = await StatisticService.getMonthlyRevenue(req.query);
+        return res.status(200).json({ message: "Thống kê doanh thu thành công", data });
     }
+
+    async getTopSpenders(req: Request, res: Response) {
+        const data = await StatisticService.getTopSpenders();
+        return res.status(200).json({ message: "Lấy top 10 người dùng chi tiêu nhiều nhất thành công", data });
+    }
+
+    async getSystemOverview(req: Request, res: Response) {
+        const data = await StatisticService.getSystemOverview(req.query);
+        return res.status(200).json({ message: "Lấy thông tin thành công", data });
+    };
+
+    async exportFileExcel(req: Request, res: Response) {
+
+        const workbook = await StatisticService.exportFileExcel(req.query);
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename="Bao_Cao_Doanh_Thu.xlsx"');
+
+        await workbook.xlsx.write(res);
+        res.end();
+    }
+
 };
 
 export default new Statistic();
