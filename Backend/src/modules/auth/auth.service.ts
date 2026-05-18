@@ -1,6 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import { generateRefreshToken, generateToken, verifyToken } from "../../utils/jwt.js";
-import { CheckAuthDto, LoginDto, RefreshToken, RegisterDto } from "./auth.schema.js";
+import { CheckAuthDto, GoogleLogin, LoginDto, RefreshToken, RegisterDto } from "./auth.schema.js";
 import bcrypt, { genSalt } from 'bcrypt';
 import { v4 as uuidv4 } from "uuid"
 import { ApiError } from "../../utils/ApiError.js";
@@ -30,6 +30,10 @@ export class AuthService {
         
         return { accessToken, refreshToken, user };
     };
+
+    static async googleLogin(dto: GoogleLogin){
+
+    }
 
     static async register(dto: RegisterDto) {
         //note: phone

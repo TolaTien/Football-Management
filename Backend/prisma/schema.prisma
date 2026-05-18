@@ -175,6 +175,7 @@ model users {
   role        users_role?   @default(user)
   status      users_status? @default(active)
   phone       String?       @db.VarChar(20)
+  isEmailVerified Boolean   @default(false)
   createdAt   DateTime?     @default(now()) @db.Timestamp(0)
   updatedAt   DateTime?     @updatedAt @db.Timestamp(0)
   booking     booking[]

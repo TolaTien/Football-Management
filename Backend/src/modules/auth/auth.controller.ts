@@ -22,6 +22,10 @@ class Auth {
         return res.status(200).json({ message: "Đăng nhập thành công", data: result})
     };
 
+    async googleLogin(req: Request, res: Response){
+        
+    }
+
     async register(req: Request, res: Response) {
         const {email, phone, password, fullName} = req.body;
         const newUser = await AuthService.register({ email, password, fullName, phone});

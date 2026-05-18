@@ -19,3 +19,7 @@ export interface CheckAuthDto {
 export interface RefreshToken {
   refreshToken: string;
 }
+
+export interface GoogleLogin {
+  token: string
+}
