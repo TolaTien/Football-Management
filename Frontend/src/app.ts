@@ -50,18 +50,13 @@ export const request: RequestConfig = {
   },
 
   requestInterceptors: [
-    (url, options) => {
+    (config: any) => {
       const token = localStorage.getItem('pitchhub_token');
-      const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
-      
-      return {
-        url,
-        options: { 
-          ...options, 
-          headers: { ...options.headers, ...authHeader },
-          credentials: 'include' 
-        },
-      };
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      config.credentials = 'include';
+      return config;
     },
   ],
 

@@ -305,7 +305,7 @@ const UserProfilePage: React.FC = () => {
                   <span className="material-symbols-outlined">history</span>
                   Booking History
                 </h3>
-                <Button onClick={fetchBookings} size="small" type="ghost">Refresh</Button>
+                <Button onClick={fetchBookings} size="small" ghost>Refresh</Button>
               </div>
               <div className="p-6">
                 {bookingsLoading ? (
