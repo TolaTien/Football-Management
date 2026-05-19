@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const ServicesSchema = {
-    // 1. Kiểm tra data khi TẠO MỚI dịch vụ
     create: z.object({
         body: z.object({
             nameProduct: z.string({

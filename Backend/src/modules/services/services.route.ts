@@ -10,4 +10,4 @@ serviceRouters.get("/", authUser, ServiceController.getAll);
 serviceRouters.get("/:id", authUser, validate(ServicesSchema.paramsId), ServiceController.getOne);
 serviceRouters.post("/", authUser, validate(ServicesSchema.create), ServiceController.create);
 serviceRouters.put("/:id", authUser, validate(ServicesSchema.paramsId), validate(ServicesSchema.update), ServiceController.update);
-serviceRouters.delete("/:id", authUser, validate(ServicesSchema.paramsId), ServiceController.delete);
+serviceRouters.delete("/:id", authUser, validate(ServicesSchema.paramsId), ServiceController.delete); 
