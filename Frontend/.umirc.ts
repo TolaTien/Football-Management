@@ -1,0 +1,97 @@
+import { defineConfig } from '@umijs/max';
+
+export default defineConfig({
+  antd: {},
+  tailwindcss: {},
+  access: {},
+  model: {},
+  initialState: {},
+  request: {},
+  layout: false, // Disable the built-in Pro Layout globally, we manage our own
+  routes: [
+    {
+      path: '/',
+      redirect: '/auth/login',
+    },
+    // Auth pages
+    {
+      path: '/auth/login',
+      component: './auth/login',
+    },
+    {
+      path: '/auth/signup',
+      component: './auth/signup',
+    },
+    // User routes sharing UserLayout
+    {
+      path: '/',
+      component: '@/layouts/UserLayout',
+      routes: [
+        { path: '/user/dashboard', component: './user/dashboard' },
+        { path: '/user/activity', component: './user/activity' },
+        { path: '/user/team', component: './user/team' },
+        { path: '/user/wallet', component: './user/wallet' },
+        { path: '/booking/availability', component: './booking/availability' },
+        { path: '/matchmaking/feed', component: './matchmaking/feed' },
+        { path: '/matchmaking/messages', component: './matchmaking/messages' },
+      ],
+    },
+    // Admin routes
+    {
+      path: '/admin',
+      component: '@/layouts/AdminLayout',
+      routes: [
+        {
+          path: '/admin/dashboard',
+          component: './admin/dashboard',
+        },
+        {
+          name: 'Schedule',
+          path: '/admin/schedule',
+          component: './admin/schedule',
+        },
+        {
+          name: 'Pitches',
+          path: '/admin/pitches',
+          component: './admin/pitches', 
+        },
+        {
+          name: 'Pricing',
+          path: '/admin/pricing',
+          component: './admin/pricing', 
+        },
+        {
+          name: 'Customers',
+          path: '/admin/customers',
+          component: './admin/customers',
+        },
+        {
+          name: 'Finance',
+          path: '/admin/finance',
+          component: './admin/finance',
+        },
+        {
+          name: 'Services',
+          path: '/admin/services',
+          component: './admin/services',
+        },
+        {
+          name: 'Forum',
+          path: '/admin/forum',
+          component: './admin/forum',
+        },
+      ],
+    },
+  ],
+  alias: {
+    '@': __dirname + '/src',
+    '@shared': __dirname + '/src/shared',
+    '@entities': __dirname + '/src/entities',
+    '@features': __dirname + '/src/features',
+    '@widgets': __dirname + '/src/widgets',
+    '@pages': __dirname + '/src/pages',
+    '@app': __dirname + '/src/app',
+  },
+  npmClient: 'npm',
+  esbuildMinifyIIFE: true,
+});

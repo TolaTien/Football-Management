@@ -6,7 +6,6 @@ export interface BookPitchForUser {
     startTime: Date,
     endTime: Date,
     pitchPriceAtBooking: number,
-    total: number,
     service: Array<{
         serviceId: string,
         quantity: number,
@@ -24,4 +23,18 @@ export interface Payment {
 export interface CancelBookingForUser {
     bookId: string,
     content: string
+}
+
+
+export interface bookingPitchForAdmin {
+    pitchId: string,
+    phone: string,
+    startTime: Date,
+    endTime: Date,
+    pitchPriceAtBooking: number,
+    service: Array<{
+        serviceId: string,
+        quantity: number,
+        servicePriceAtBooking: number,
+    }>;  
 }

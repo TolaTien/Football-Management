@@ -1,13 +1,23 @@
 import { Router } from "express";
+import { authAdmin, authUser } from "../../middlewares/auth.middleware.js";
+import Admin from './admin.controller.js'
+
+export  const adminRouters: Router = Router();
+
+adminRouters.post('/approve-request-user', authUser, authAdmin, Admin.approveRequestUser);
+adminRouters.post('/cancel-booking-admin', authUser, authAdmin, Admin.cancelBookingForAdmin);
+adminRouters.post('/refund-user', authUser, authAdmin, Admin.refundForUser);
+adminRouters.post('/verify-payment-user', authUser, authAdmin, Admin.verifyPaymentOfUser);
+adminRouters.get('/get-all-history-user/:userId', authUser, authAdmin, Admin.getAllHistoryOfUser);
+
+
+
+
 import AdminUserController from "./admin-user.controller.js";
-import { authUser, authAdmin } from "../../middlewares/auth.middleware.js";
 
-export const adminRouters: Router = Router();
 
-// Kẹp middleware: Phải đi qua authUser để có req.user, rồi mới tới authAdmin check role
 adminRouters.use(authUser, authAdmin);
 
-// Các endpoint quản lý User
 adminRouters.get("/users", AdminUserController.getAll);
 adminRouters.get("/users/:id", AdminUserController.getById);
 adminRouters.post("/users", AdminUserController.create);

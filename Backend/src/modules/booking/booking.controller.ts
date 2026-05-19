@@ -21,7 +21,19 @@ class Booking {
         const userId = req.user?.userId as string; 
         const cancelBooking = await BookingService.cancelBookingForUser({ bookId, content }, userId);
         return res.status(200).json({ message: "Hủy đơn đặt sân thành công", data: cancelBooking });
+    };
+
+    async bookingPitchForAdmin(req: Request, res: Response){
+        const booking = await BookingService.bookingPitchForAdmin(req.body);
+
+        return res.status(201).json({ message: "Tạo đơn đặt sân thành công", data: booking});
     }
+
+    async getAllRequestForAdmin(req: Request, res: Response){
+        const request = await BookingService.getAllRequestForAdmin(req.query);
+
+        return res.status(200).json({ message: "Lấy các request thành công", data: request});
+    };
 }
 
 export default new Booking();
