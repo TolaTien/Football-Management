@@ -5,12 +5,14 @@ import { v4 as uuidv4 } from "uuid";
 import { ADMIN_AI_SYSTEM_PROMPT, POLICY_CONTEXT, USER_AI_SYSTEM_PROMPT } from "./ai.prompt.js";
 import { StatisticService } from "../statistic/statistic.service.js";
 import { CreateConversationInput, GetConversations, GetMessages, SendMessage } from "./ai.schema.js";
+import { GoogleGenAI } from "@google/genai";
 
 type Role = "user" | "admin";
 type GeminiContent = {
   role: "user" | "model";
   parts: { text: string }[];
 };
+
 
 export class AiService {
   static async createConversation(dto: CreateConversationInput) {
@@ -66,7 +68,7 @@ export class AiService {
       take: 20,
     });
 
-    const domainContext = await this.buildDomainContext(dto.role, dto.content);
+    const Context = await this.buildContext(dto.role, dto.content);
     const history: GeminiContent[] = recentMessages.map((item) => ({
       role: item.sender,
       parts: [{ text: item.content }],
@@ -76,15 +78,7 @@ export class AiService {
       ...history,
       {
         role: "user",
-        parts: [{
-          text: `
-Ngữ cảnh hệ thống:
-${domainContext}
-
-Câu hỏi hiện tại của người dùng:
-${dto.content}
-          `.trim(),
-        }],
+        parts: [{ text: `Ngữ cảnh hệ thống: ${Context}. Câu hỏi hiện tại của người dùng: ${dto.content}`.trim()}],
       },
     ];
 
@@ -121,7 +115,7 @@ ${dto.content}
   }
 
 
-  private static async buildDomainContext(role: Role, message: string) {
+  private static async buildContext(role: Role, message: string) {
     const normalized = message.toLowerCase();
     const [pitchInfo, availablePitchInfo, revenueInfo] = await Promise.all([
       this.getPitchInformation(),
@@ -134,7 +128,7 @@ ${dto.content}
       pitchInfo,
       availablePitchInfo,
       revenueInfo,
-    ].filter(Boolean).join("\n\n");
+    ]
   }
 
   private static shouldCheckAvailability(message: string) {
@@ -256,36 +250,18 @@ ${pitches.map((pitch) => `- ${pitch.namePitch} | loại sân ${pitch.pitchCatego
   }
 
   private static async callGemini(role: Role, contents: GeminiContent[]) {
-    const apiKey = process.env.GEMINI_API_KEY;
     const model = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
 
-    if (!apiKey) {
-      throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, "Chưa cấu hình GEMINI_API_KEY");
-    }
-
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": apiKey,
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const response = await ai.models.generateContent({
+      model,
+      contents,
+      config: {
+        systemInstruction: role === "admin" ? ADMIN_AI_SYSTEM_PROMPT : USER_AI_SYSTEM_PROMPT,
       },
-      body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: role === "admin" ? ADMIN_AI_SYSTEM_PROMPT : USER_AI_SYSTEM_PROMPT }],
-        },
-        contents,
-      }),
     });
 
-    if (!response.ok) {
-      throw new ApiError(StatusCodes.BAD_GATEWAY, "Không thể kết nối Gemini API");
-    }
-
-    const data = await response.json() as {
-      candidates?: { content?: { parts?: { text?: string }[] } }[];
-    };
-
-    const text = data.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("").trim();
+    const text = response.text?.trim();
     if (!text) {
       throw new ApiError(StatusCodes.BAD_GATEWAY, "Gemini không trả về nội dung");
     }
