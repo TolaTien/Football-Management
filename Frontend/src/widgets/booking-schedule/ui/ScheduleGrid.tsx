@@ -1,106 +1,57 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { PitchHeaderCell } from '../../../entities/pitch/ui/PitchHeaderCell';
-import { TimeAxis } from '../../../entities/booking/ui/TimeAxis';
+import { TimeAxis, TIME_SLOTS } from '../../../entities/booking/ui/TimeAxis';
 import { BookingBlock } from '../../../entities/booking/ui/BookingBlock';
+import { PitchItem } from '@/shared/api/pitch/pitch.service';
+import dayjs from 'dayjs';
 
 interface ScheduleGridProps {
-  onTimeSlotSelect: (pitchIndex: number, startHour: number, endHour: number) => void;
+  pitches: PitchItem[];
+  onTimeSlotSelect: (pitchIndex: number, timeSlot: string) => void;
 }
 
-export const ScheduleGrid: React.FC<ScheduleGridProps> = ({ onTimeSlotSelect }) => {
-  const startHour = 8;
-  const endHour = 23;
-  const pixelsPerHour = 48; // h-12 = 48px
-  const snapPixels = 24; // 30 minutes snap
-
-  const contentRef = useRef<HTMLDivElement>(null);
+export const ScheduleGrid: React.FC<ScheduleGridProps> = ({ pitches = [], onTimeSlotSelect }) => {
   
-  // Track dragging state
-  const [dragState, setDragState] = useState<{
-    colIndex: number;
-    startY: number;
-    currentY: number;
-  } | null>(null);
+  const getBookingForSlot = (pitch: PitchItem, slot: string) => {
+    if (!pitch || !pitch.booking || !Array.isArray(pitch.booking) || pitch.booking.length === 0) return null;
 
-  // Helper to calculate top absolute position
-  const calculateTop = (hour: number, minute: number) => {
-    return (hour - startHour) * pixelsPerHour + (minute / 60) * pixelsPerHour;
-  };
+    const [slotStartStr] = slot.split(' - ');
+    if (!slotStartStr) return null;
+    
+    const [hours, minutes] = slotStartStr.split(':').map(n => parseInt(n));
+    const slotStart = dayjs().set('hour', hours).set('minute', minutes).set('second', 0).set('millisecond', 0);
 
-  const handleMouseDown = (e: React.MouseEvent, colIndex: number) => {
-    // Only left click
-    if (e.button !== 0 || !contentRef.current) return;
-    
-    // The rect of the inner moving content
-    const rect = contentRef.current.getBoundingClientRect();
-    // Since contentRef is moving up when scrolling, rect.top becomes negative, naturally accounting for scroll.
-    const y = e.clientY - rect.top;
-    
-    // Snap to 30-minute blocks
-    const snappedY = Math.floor(y / snapPixels) * snapPixels;
-    
-    setDragState({
-      colIndex,
-      startY: snappedY,
-      currentY: snappedY,
+    const booking = pitch.booking.find(b => {
+      const bStart = dayjs(b.startTime);
+      const bEnd = dayjs(b.endTime);
+      // Check if slot start time falls within the booking interval (ignoring date for simpler grid mapping)
+      // Since the grid is "Day view", we only compare hours and minutes
+      const bStartHour = bStart.hour();
+      const bStartMin = bStart.minute();
+      const bEndHour = bEnd.hour();
+      const bEndMin = bEnd.minute();
+      
+      const slotHour = slotStart.hour();
+      const slotMin = slotStart.minute();
+      
+      const slotVal = slotHour * 60 + slotMin;
+      const startVal = bStartHour * 60 + bStartMin;
+      const endVal = bEndHour * 60 + bEndMin;
+      
+      return slotVal >= startVal && slotVal < endVal;
     });
-  };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!dragState || !contentRef.current) return;
-    
-    const rect = contentRef.current.getBoundingClientRect();
-    const y = e.clientY - rect.top;
-    const snappedY = Math.floor(y / snapPixels) * snapPixels;
-    
-    setDragState(prev => prev ? { ...prev, currentY: snappedY } : null);
-  };
-
-  const handleMouseUp = () => {
-    if (!dragState) return;
-    
-    const startY = Math.min(dragState.startY, dragState.currentY);
-    let endY = Math.max(dragState.startY, dragState.currentY) + snapPixels;
-    
-    // Tối đa 2 tiếng = 4 blocks 30 phút (4 * 24 = 96px)
-    if (endY - startY > 96) {
-      endY = startY + 96;
+    if (booking) {
+      return {
+        status: (booking.status === 'approved' ? 'booked' : 'pending') as 'booked' | 'pending',
+        title: booking.status === 'approved' ? 'Confirmed' : 'Pending'
+      };
     }
 
-    const startH = startHour + (startY / pixelsPerHour);
-    const endH = startHour + (endY / pixelsPerHour);
-
-    onTimeSlotSelect(dragState.colIndex, startH, endH);
-    setDragState(null);
+    return null;
   };
 
-  // Render the temporary draft block while user is dragging
-  const renderDraftBlock = (colIndex: number) => {
-    if (!dragState || dragState.colIndex !== colIndex) return null;
-    
-    const startY = Math.min(dragState.startY, dragState.currentY);
-    let endY = Math.max(dragState.startY, dragState.currentY) + snapPixels;
-    
-    // Tối đa 2 tiếng
-    if (endY - startY > 96) {
-      endY = startY + 96;
-    }
-
-    const height = endY - startY;
-    const price = `$${(height / pixelsPerHour) * 60}.00`; // Mock: $60/hr
-
-    return (
-      <BookingBlock 
-        status="draft" 
-        title="Draft" 
-        top={startY} 
-        height={height}
-        left="0%" 
-        width="100%" 
-        price={price}
-      />
-    );
-  };
+  const safePitches = Array.isArray(pitches) ? pitches : [];
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col h-[calc(100vh-250px)]">
@@ -110,58 +61,56 @@ export const ScheduleGrid: React.FC<ScheduleGridProps> = ({ onTimeSlotSelect }) 
           <span className="material-symbols-outlined text-gray-400" data-icon="schedule">schedule</span>
         </div>
         <div className="flex-1 grid grid-cols-4">
-          <PitchHeaderCell name="Pitch 1" type="5-A-SIDE • TURF" />
-          <PitchHeaderCell name="Pitch 2" type="7-A-SIDE • HYBRID" />
-          <PitchHeaderCell name="Pitch 3" type="5-A-SIDE • TURF" />
-          <PitchHeaderCell name="Pitch 4" type="11-A-SIDE • GRASS" isLast />
+          {safePitches.slice(0, 4).map((pitch, idx) => (
+            <PitchHeaderCell 
+              key={pitch.pitchId} 
+              name={pitch.namePitch} 
+              type={`${pitch.pitchCategory}-A-SIDE`} 
+              isLast={idx === 3 || idx === safePitches.length - 1} 
+            />
+          ))}
+          {safePitches.length === 0 && [1, 2, 3, 4].map(i => (
+            <PitchHeaderCell key={i} name={`Pitch ${i}`} type="Loading..." isLast={i === 4} />
+          ))}
         </div>
       </div>
 
       {/* Grid Body - Scrollable Container */}
       <div className="flex-1 flex overflow-y-auto relative">
-        <TimeAxis startHour={startHour} endHour={endHour} />
+        <TimeAxis />
 
-        {/* Interactive Grid Cells - Inner Content Wrapper */}
-        <div 
-          className="flex-1 grid grid-cols-4 relative pitch-grid-line" 
-          ref={contentRef}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          style={{ minHeight: `${(endHour - startHour + 1) * pixelsPerHour}px` }}
-        >
-          {[0, 1, 2, 3].map(colIndex => (
-            <div 
-              key={colIndex}
-              className="border-r border-gray-100 hover:bg-primary/5 transition-colors cursor-pointer relative select-none"
-              onMouseDown={(e) => handleMouseDown(e, colIndex)}
-              onDragStart={(e) => e.preventDefault()}
-            >
-              {/* Draft interaction block */}
-              {renderDraftBlock(colIndex)}
-              
-              {/* Mock Existing Bookings */}
-              {colIndex === 0 && (
-                <BookingBlock 
-                  status="booked" 
-                  title="League Match #204" 
-                  top={calculateTop(9, 0)} 
-                  height={pixelsPerHour * 3} 
-                  left="0%" width="100%" 
-                />
-              )}
-              
-              {colIndex === 1 && (
-                <BookingBlock 
-                  status="pending" 
-                  title="Training Session" 
-                  top={calculateTop(16, 0)} 
-                  height={pixelsPerHour * 1} 
-                  left="0%" width="100%" 
-                />
-              )}
-            </div>
-          ))}
+        {/* Interactive Grid Cells */}
+        <div className="flex-1 grid grid-cols-4">
+          {[0, 1, 2, 3].map(colIndex => {
+            const pitch = safePitches[colIndex];
+            return (
+              <div key={colIndex} className="border-r border-gray-100 flex flex-col">
+                {TIME_SLOTS.map((slot) => {
+                  const booking = pitch ? getBookingForSlot(pitch, slot) : null;
+                  
+                  return (
+                    <div 
+                      key={slot}
+                      className="flex-1 min-h-[80px] border-b border-gray-100 last:border-b-0 relative group"
+                      onClick={() => {
+                        if (!booking && pitch) {
+                          onTimeSlotSelect(colIndex, slot);
+                        }
+                      }}
+                    >
+                      {booking ? (
+                        <BookingBlock status={booking.status} title={booking.title} />
+                      ) : (
+                        <div className="w-full h-full hover:bg-primary/10 transition-colors cursor-pointer flex items-center justify-center opacity-0 group-hover:opacity-100">
+                          <span className="text-primary font-bold text-sm">+ Book Now</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

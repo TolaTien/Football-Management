@@ -1,29 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScheduleToolbar } from '../../../widgets/booking-schedule/ui/ScheduleToolbar';
 import { ScheduleGrid } from '../../../widgets/booking-schedule/ui/ScheduleGrid';
 import { ScheduleLegend } from '../../../widgets/booking-schedule/ui/ScheduleLegend';
 import { QuickConfirmModal } from '../../../features/booking-pitch/ui/QuickConfirmModal';
+import { PitchService, PitchItem } from '@/shared/api/pitch/pitch.service';
+import { message, Spin } from 'antd';
 
 const BookingAvailabilityPage: React.FC = () => {
   const [showConfirm, setShowConfirm] = useState(false);
-  const [selectedSlot, setSelectedSlot] = useState({ pitchName: '', timeSlot: '', price: '' });
+  const [selectedSlot, setSelectedSlot] = useState({ pitchName: '', timeSlot: '', price: '', pitchId: '' });
+  const [pitches, setPitches] = useState<PitchItem[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const formatTime = (totalHours: number) => {
-    const h = Math.floor(totalHours);
-    const m = Math.round((totalHours - h) * 60);
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    const displayH = h > 12 ? h - 12 : (h === 0 ? 12 : h);
-    return `${displayH.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
+  useEffect(() => {
+    fetchPitches();
+  }, []);
+
+  const fetchPitches = async () => {
+    setLoading(true);
+    try {
+      const res = await PitchService.getAllPitches();
+      setPitches(res.pitches);
+    } catch (err) {
+      message.error('Không thể tải danh sách sân');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleTimeSlotSelect = (pitchIndex: number, startHour: number, endHour: number) => {
-    const pitchName = `Pitch ${pitchIndex + 1}`;
-    const timeSlot = `${formatTime(startHour)} - ${formatTime(endHour)}`;
-    const duration = endHour - startHour;
-    const price = `$${duration * 60}.00`; // Mock price: $60/hr
+  const handleTimeSlotSelect = (pitchIndex: number, timeSlot: string) => {
+    const pitch = pitches[pitchIndex];
+    if (!pitch) return;
+
+    const pitchName = pitch.namePitch;
+    const pitchId = pitch.pitchId;
     
-    setSelectedSlot({ pitchName, timeSlot, price });
+    // Find price for this slot if available in pitchprice
+    // For now use mock or default
+    const price = `120,000 VNĐ`; 
+    
+    setSelectedSlot({ pitchName, timeSlot, price, pitchId });
     setShowConfirm(true);
+  };
+
+  const handleBookingSuccess = () => {
+    setShowConfirm(false);
+    fetchPitches(); // Refresh the grid
   };
 
   return (
@@ -32,17 +54,27 @@ const BookingAvailabilityPage: React.FC = () => {
       
       {/* Schedule Grid + Legend */}
       <div className="flex-1 flex flex-col min-h-0">
-        <ScheduleGrid onTimeSlotSelect={handleTimeSlotSelect} />
+        {loading ? (
+          <div className="flex-1 flex items-center justify-center bg-white rounded-xl border border-gray-200">
+            <Spin size="large" tip="Loading schedule...">
+              <div className="p-8" />
+            </Spin>
+          </div>
+        ) : (
+          <ScheduleGrid pitches={pitches} onTimeSlotSelect={handleTimeSlotSelect} />
+        )}
         <ScheduleLegend />
       </div>
 
       {/* Booking Confirmation Modal */}
       <QuickConfirmModal 
         isOpen={showConfirm} 
-        onClose={() => setShowConfirm(false)} 
+        onClose={() => setShowConfirm(false)}
+        onSuccess={handleBookingSuccess}
         pitchName={selectedSlot.pitchName}
         timeSlot={selectedSlot.timeSlot}
         price={selectedSlot.price}
+        pitchId={selectedSlot.pitchId}
       />
 
       {/* Floating Status Helper */}

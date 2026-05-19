@@ -5,19 +5,15 @@ export type BookingStatus = 'booked' | 'pending' | 'draft';
 interface BookingBlockProps {
   status: BookingStatus;
   title: string;
-  top: number; // in pixels
-  height: number; // in pixels
-  left?: string; // e.g. '0%', '25%'
-  width?: string; // e.g. '25%'
   price?: string; // For draft state
 }
 
-export const BookingBlock: React.FC<BookingBlockProps> = ({ status, title, top, height, left = '0', width = '100%', price }) => {
+export const BookingBlock: React.FC<BookingBlockProps> = ({ status, title, price }) => {
   // Base styles based on status
   const styles = {
     booked: 'bg-error/10 border-l-4 border-error',
     pending: 'bg-tertiary-container/20 border-l-4 border-tertiary-container',
-    draft: 'bg-primary/20 border-2 border-primary border-dashed z-20 flex items-center justify-center active-drag-shadow',
+    draft: 'bg-primary/20 border-2 border-primary border-dashed z-20 flex items-center justify-center active-drag-shadow cursor-pointer',
   };
 
   const textStyles = {
@@ -28,8 +24,7 @@ export const BookingBlock: React.FC<BookingBlockProps> = ({ status, title, top, 
 
   return (
     <div 
-      className={`absolute p-3 z-10 ${styles[status]}`}
-      style={{ top: `${top}px`, height: `${height}px`, left, width }}
+      className={`w-full h-full p-3 ${styles[status]}`}
     >
       {status === 'draft' ? (
         <div className="bg-white px-3 py-1 rounded-md shadow-lg flex items-center gap-2 border border-primary/20">
