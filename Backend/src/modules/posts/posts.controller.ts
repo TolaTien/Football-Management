@@ -36,7 +36,7 @@ export const PostController = {
         try {
             const userId = (req as any).user.userId;
             await PostLogic.deletePost(userId, req.params.postId);
-            res.status(200).json({ message: "User đã tự xóa bài viết thành công" });
+            res.status(200).json({ message: "User đã tự xóa bài viết thành công" }); 
         } catch (error: any) { res.status(403).json({ message: error.message }); }
     }
 };

@@ -2,22 +2,19 @@ import { prisma } from "../../config/prisma.js";
 import crypto from "crypto";
 
 export const PostLogic = {
-    // 1. LẤY DANH SÁCH BÀI VIẾT - ĐỘ THÊM PHÂN TRANG (Không cần sửa DB)
     getAllPosts: async (page: number = 1, limit: number = 10) => {
         const skip = (page - 1) * limit;
-
-        // Dùng Transaction song song để vừa lấy dữ liệu vừa đếm tổng số bài cùng lúc cho nhanh
         const [posts, totalPosts] = await prisma.$transaction([
             prisma.post.findMany({
-                take: limit, // Giới hạn số bài lấy ra
-                skip: skip,  // Bỏ qua các bài của trang trước
+                take: limit, 
+                skip: skip,  
                 orderBy: { createdAt: 'desc' },
                 include: { 
                     users: { select: { fullName: true, avt: true } },
                     _count: { select: { comments: true, postlike: true } }
                 }
             }),
-            prisma.post.count() // Đếm tổng số bài viết đang có trong DB
+            prisma.post.count()
         ]);
 
         return {
@@ -31,7 +28,6 @@ export const PostLogic = {
         };
     },
 
-    // 2. XEM CHI TIẾT (Giữ nguyên cấu trúc cũ của mày)
     getPostById: async (postId: string) => {
         const post = await prisma.post.findUnique({
             where: { postId },
@@ -44,7 +40,6 @@ export const PostLogic = {
         return post;
     },
 
-    // 3. ĐĂNG BÀI (Giữ nguyên)
     createPost: async (userId: string, data: { description: string }) => {
         return await prisma.post.create({
             data: {
@@ -55,8 +50,6 @@ export const PostLogic = {
             }
         });
     },
-
-    // 4. SỬA BÀI (Giữ nguyên)
     updatePost: async (userId: string, postId: string, data: { description?: string, status?: any }) => {
         const post = await prisma.post.findUnique({ where: { postId } });
         if (!post) throw new Error("Bài đăng không tồn tại");
@@ -67,8 +60,6 @@ export const PostLogic = {
             data: { description: data.description ?? post.description, status: data.status ?? post.status }
         });
     },
-
-    // 5. XÓA BÀI (Giữ nguyên bản Hard Delete xóa hẳn khỏi DB như cũ của mày)
     deletePost: async (userId: string, postId: string) => {
         const post = await prisma.post.findUnique({ where: { postId } });
         if (!post) throw new Error("Bài đăng không tồn tại");
