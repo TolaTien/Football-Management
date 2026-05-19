@@ -11,11 +11,8 @@ export const validate = (schema: AnyZodObject) => {
             });
             next();
         } catch (error: any) {
-            // Lớp bảo vệ 1: Bắt chuẩn ZodError bằng cả 2 cách
             if (error instanceof ZodError || error.name === 'ZodError') {
-                
-                // Lớp bảo vệ 2: Phòng hờ mảng bị undefined
-                const issues = error.errors || error.issues || [];
+                                const issues = error.errors || error.issues || [];
                 
                 const errorMessages = issues.map((issue: any) => ({
                     field: issue.path.join('.'), 
@@ -27,10 +24,8 @@ export const validate = (schema: AnyZodObject) => {
                     message: 'Dữ liệu đầu vào không hợp lệ',
                     errors: errorMessages,
                 });
-                return; // 👈 Chặn đứng luồng chạy tại đây!
+                return;
             }
-            
-            // Nếu là lỗi lạ không phải do Zod, đá nó sang cho error.middleware lo
             next(error); 
         }
     };
