@@ -5,6 +5,4 @@ import { validate } from "../../middlewares/validate.middleware.js";
 import { PostLikesSchema } from "./postlikes.schema.js";
 
 export const postLikeRouters: Router = Router();
-
-// Chặn cửa xét Schema -> Nhận diện User -> Vào Controller
 postLikeRouters.post("/:postId/like", authUser, validate(PostLikesSchema.toggleLike), PostLikeController.toggleLike);

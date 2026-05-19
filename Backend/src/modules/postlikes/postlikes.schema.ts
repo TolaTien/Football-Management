@@ -5,5 +5,5 @@ export const PostLikesSchema = {
         params: z.object({
             postId: z.string({ required_error: "Thiếu mã bài viết (postId) trên URL" }).min(1)
         })
-    })
+    }) 
 };
