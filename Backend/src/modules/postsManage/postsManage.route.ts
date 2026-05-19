@@ -9,4 +9,4 @@ export const postsManageRouters: Router = Router();
 postsManageRouters.get("/", authUser, PostsManageController.getAll);
 postsManageRouters.post("/", authUser, PostsManageController.create);
 postsManageRouters.put("/:postId", authUser, PostsManageController.update);
-postsManageRouters.delete("/:postId", authUser, PostsManageController.delete);
+postsManageRouters.delete("/:postId", authUser, PostsManageController.delete); 

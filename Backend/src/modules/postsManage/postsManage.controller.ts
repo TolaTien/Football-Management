@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { PostsManageLogic } from "./postsManage.service.js";
-
-// Hàm tiện ích chặn cửa non-admin
 const requireAdmin = (req: Request) => {
     if ((req as any).user.role !== 'admin') throw new Error("Chỉ Admin mới có quyền truy cập!");
     return (req as any).user.userId;

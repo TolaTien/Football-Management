@@ -35,7 +35,7 @@ export const PostsManageLogic = {
             where: { postId },
             data: { description: data.description ?? post.description, status: data.status ?? post.status }
         });
-    },
+    }, 
 
     deleteAnyPost: async (postId: string) => {
         const post = await prisma.post.findUnique({ where: { postId } });

@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const PostsManageSchema = {
-    // 1. Kiểm tra khi Admin TẠO BÀI (Bắt buộc có nội dung)
     create: z.object({
         body: z.object({
             description: z.string({
@@ -10,7 +9,6 @@ export const PostsManageSchema = {
         })
     }),
 
-    // 2. Kiểm tra khi Admin SỬA BÀI (Cần check cả ID trên URL và Body)
     update: z.object({
         body: z.object({
             description: z.string().min(1, "Nội dung bài viết không được để trống").optional(),
@@ -23,7 +21,6 @@ export const PostsManageSchema = {
         })
     }),
 
-    // 3. Kiểm tra ID trên URL cho hành động XÓA
     paramsId: z.object({
         params: z.object({
             postId: z.string({
