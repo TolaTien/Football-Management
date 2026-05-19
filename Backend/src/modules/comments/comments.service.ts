@@ -3,11 +3,7 @@ import crypto from "crypto";
 import { io } from "../../config/socket.js";
 
 export const CommentLogic = {
-    // ==========================================
-    // 1. TẠO BÌNH LUẬN (Mới nhất auto đẻ bản ghi mới, Front-end đọc mượt)
-    // ==========================================
     createComment: async (userId: string, data: { postId: string, content: string, parentId?: string }) => {
-        // Chặn Spam 10s
         const lastComment = await prisma.comments.findFirst({
             where: { userId: userId },
             orderBy: { createdAt: 'desc' }
@@ -55,7 +51,6 @@ export const CommentLogic = {
                 ? `${commenterName} đã trả lời bình luận của bạn.` 
                 : `${commenterName} đã bình luận bài viết của bạn.`;
 
-            // Mỗi comment đẻ 1 notif riêng -> Tự động xếp lên đầu theo mốc thời gian vừa tạo
             const notif = await prisma.notification.create({
                 data: {
                     id: `NOTIF-${crypto.randomUUID().substring(0, 8)}`,
@@ -72,9 +67,7 @@ export const CommentLogic = {
         return newComment;
     },
 
-    // ==========================================
-    // 2. LẤY BÌNH LUẬN DẠNG CÂY (Đã sửa: Mới nhất lên đầu)
-    // ==========================================
+
     getCommentsTree: async (postId: string) => {
         const flatComments = await prisma.comments.findMany({
             where: { postId },
@@ -94,9 +87,6 @@ export const CommentLogic = {
         return tree;
     },
 
-    // ==========================================
-    // 3. LIKE BÌNH LUẬN (Mới nhất đẻ bản ghi mới, unlike tự động thu hồi)
-    // ==========================================
     toggleLikeComment: async (userId: string, commentId: string) => {
         const comment = await prisma.comments.findUnique({ where: { commentId } });
         if (!comment) throw new Error("Bình luận không tồn tại");
