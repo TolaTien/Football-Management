@@ -35,7 +35,7 @@ export const AuthService = {
    * Lấy thông tin user hiện tại (Dùng Cookie)
    */
   checkAuth: async () => {
-    return request<{ message: string, data: UserInfo }>('/api/auth/checkAuth', {
+    return request<{ message: string, data: { user: UserInfo } }>('/api/auth/checkAuth', {
       method: 'GET',
     });
   },

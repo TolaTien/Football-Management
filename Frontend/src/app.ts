@@ -11,7 +11,7 @@ export async function getInitialState(): Promise<{
   const fetchUserInfo = async () => {
     try {
       const response = await AuthService.checkAuth();
-      return response.data;
+      return response.data.user;
     } catch (error) {
       return undefined;
     }
