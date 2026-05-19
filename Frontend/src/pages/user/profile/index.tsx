@@ -39,6 +39,15 @@ const UserProfilePage: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (user) {
+      setFullName(user.fullName || '');
+      setEmail(user.email || '');
+      setPhone(user.phone || '');
+      if (user.avt) setAvatarPreview(user.avt);
+    }
+  }, [user]);
+
+  useEffect(() => {
     if (activeTab === 'bookings') {
       fetchBookings();
     } else if (activeTab === 'notifications') {
@@ -327,7 +336,142 @@ const UserProfilePage: React.FC = () => {
             </section>
           )}
 
-          {/* ... (bookings, notifications, security sections) */}
+          {activeTab === 'bookings' && (
+            <section className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+              <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
+                  <span className="material-symbols-outlined">history</span>
+                  Booking History
+                </h3>
+                <Button onClick={fetchBookings} size="small" ghost>Refresh</Button>
+              </div>
+              <div className="p-6">
+                {bookingsLoading ? (
+                  <div className="flex justify-center py-10"><Spin /></div>
+                ) : bookings.length === 0 ? (
+                  <Empty description="No bookings found" />
+                ) : (
+                  <div className="space-y-4">
+                    {bookings.map((booking) => (
+                      <div key={booking.bookId} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors gap-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600">
+                            <span className="material-symbols-outlined">sports_soccer</span>
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-emerald-900">{booking.pitch?.namePitch || 'Sân bóng'}</h4>
+                            <p className="text-xs text-secondary">
+                              {dayjs(booking.startTime).format('DD/MM/YYYY')} • {dayjs(booking.startTime).format('HH:mm')} - {dayjs(booking.endTime).format('HH:mm')}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4 justify-between sm:justify-end">
+                          <div className="text-right">
+                            <p className="text-sm font-bold text-primary">{Number(booking.total || 0).toLocaleString()} VNĐ</p>
+                            {getStatusTag(booking.status)}
+                          </div>
+                          {booking.status?.toLowerCase() === 'pending' && (
+                            <Button 
+                              danger 
+                              size="small" 
+                              onClick={() => handleCancelBooking(booking.bookId)}
+                            >
+                              Cancel
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          {activeTab === 'notifications' && (
+            <section className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+              <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
+                  <span className="material-symbols-outlined">notifications_active</span>
+                  My Notifications
+                </h3>
+                {notifications.length > 0 && (
+                  <Button size="small" onClick={handleMarkReadAll}>Mark all as read</Button>
+                )}
+              </div>
+              <div className="p-0">
+                {notifLoading ? (
+                  <div className="flex justify-center py-10"><Spin /></div>
+                ) : notifications.length === 0 ? (
+                  <div className="p-10 text-center"><Empty description="No notifications" /></div>
+                ) : (
+                  <List
+                    itemLayout="horizontal"
+                    dataSource={notifications}
+                    renderItem={(item) => (
+                      <List.Item 
+                        className={`px-6 cursor-pointer transition-colors ${!item.isRead ? 'bg-emerald-50/50' : 'hover:bg-gray-50'}`}
+                        onClick={async () => {
+                          if (!item.isRead) {
+                            await NotificationsService.markRead(item.id);
+                            fetchNotifications();
+                          }
+                        }}
+                      >
+                        <List.Item.Meta
+                          avatar={<Avatar icon={<span className="material-symbols-outlined text-sm">notifications</span>} className={item.isRead ? 'bg-gray-200' : 'bg-primary'} />}
+                          title={<span className={item.isRead ? 'font-medium text-secondary' : 'font-bold text-primary'}>{item.title || (item.type ? item.type.toUpperCase() : 'Notification')}</span>}
+                          description={
+                            <div>
+                              <p className="text-sm text-on-surface mb-1">{item.content}</p>
+                              <span className="text-[10px] text-gray-400 font-medium uppercase">{dayjs(item.createdAt).fromNow()}</span>
+                            </div>
+                          }
+                        />
+                      </List.Item>
+                    )}
+                  />
+                )}
+              </div>
+            </section>
+          )}
+
+          {activeTab === 'security' && (
+            <section className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+              <div className="p-6 border-b border-gray-100">
+                <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
+                  <span className="material-symbols-outlined">security</span>
+                  Privacy & Security
+                </h3>
+              </div>
+              <div className="p-6 space-y-6">
+                 <div>
+                    <h4 className="text-sm font-bold text-on-surface mb-4">Notification Preferences</h4>
+                    <div className="divide-y divide-gray-100">
+                      {[
+                        { key: 'match', title: 'Match Alerts', desc: 'Get notified about upcoming bookings and matchmaking invites.', value: notifMatch, setter: setNotifMatch },
+                        { key: 'chat', title: 'Chat Notifications', desc: 'Receive push alerts for team messages and community chats.', value: notifChat, setter: setNotifChat },
+                        { key: 'marketing', title: 'Marketing & News', desc: 'Occasional emails about pitch discounts and facility updates.', value: notifMarketing, setter: setNotifMarketing },
+                      ].map((item) => (
+                        <div key={item.key} className="flex items-center justify-between py-4">
+                          <div>
+                            <h4 className="text-sm font-bold text-on-surface">{item.title}</h4>
+                            <p className="text-xs text-secondary mt-0.5">{item.desc}</p>
+                          </div>
+                          <label className="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" className="sr-only peer" checked={item.value} onChange={(e) => item.setter(e.target.checked)} />
+                            <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary" />
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                 </div>
+                 <div className="pt-6 border-t border-gray-100">
+                    <p className="text-sm text-secondary">Advanced security settings — coming soon.</p>
+                 </div>
+              </div>
+            </section>
+          )}
 
           {activeTab === 'personal' && isEditingProfile && (
             <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
