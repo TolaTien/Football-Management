@@ -3,15 +3,15 @@
 // DO NOT CHANGE IT MANUALLY!
 import React, { useEffect, useState } from 'react';
 import { ApplyPluginsType } from 'umi';
-import { renderClient, RenderClientOpts } from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/node_modules/@umijs/renderer-react';
+import { renderClient, RenderClientOpts } from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/node_modules/@umijs/renderer-react';
 import { createHistory } from './core/history';
 import { createPluginManager } from './core/plugin';
 import { getRoutes } from './core/route';
 import type { Location } from 'history';
 
-import Loading from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/loading.tsx';
+import Loading from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/src/loading.tsx';
 
-import 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/global.css';
+import 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/src/global.css';
 import 'antd/dist/reset.css';
 const publicPath = '/';
 const runtimePublicPath = false;

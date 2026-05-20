@@ -4,7 +4,7 @@
 import React from 'react';
 
 export async function getRoutes() {
-  const routes = {"1":{"path":"/","redirect":"/auth/login","id":"1"},"2":{"path":"/auth/login","id":"2"},"3":{"path":"/auth/signup","id":"3"},"4":{"path":"/","id":"4"},"5":{"path":"/user/dashboard","parentId":"4","id":"5"},"6":{"path":"/user/activity","parentId":"4","id":"6"},"7":{"path":"/user/team","parentId":"4","id":"7"},"8":{"path":"/user/wallet","parentId":"4","id":"8"},"9":{"path":"/booking/availability","parentId":"4","id":"9"},"10":{"path":"/matchmaking/feed","parentId":"4","id":"10"},"11":{"path":"/matchmaking/messages","parentId":"4","id":"11"},"12":{"path":"/admin","id":"12"},"13":{"path":"/admin/dashboard","parentId":"12","id":"13"}} as const;
+  const routes = {"1":{"path":"/","redirect":"/auth/login","id":"1"},"2":{"path":"/auth/login","id":"2"},"3":{"path":"/auth/signup","id":"3"},"4":{"path":"/","id":"4"},"5":{"path":"/user/dashboard","parentId":"4","id":"5"},"6":{"path":"/user/activity","parentId":"4","id":"6"},"7":{"path":"/user/team","parentId":"4","id":"7"},"8":{"path":"/user/wallet","parentId":"4","id":"8"},"9":{"path":"/booking/availability","parentId":"4","id":"9"},"10":{"path":"/matchmaking/feed","parentId":"4","id":"10"},"11":{"path":"/matchmaking/messages","parentId":"4","id":"11"},"12":{"path":"/admin","id":"12"},"13":{"path":"/admin/dashboard","parentId":"12","id":"13"},"14":{"name":"Schedule","path":"/admin/schedule","parentId":"12","id":"14"},"15":{"name":"Pitches","path":"/admin/pitches","parentId":"12","id":"15"},"16":{"name":"Pricing","path":"/admin/pricing","parentId":"12","id":"16"},"17":{"name":"Customers","path":"/admin/customers","parentId":"12","id":"17"},"18":{"name":"Finance","path":"/admin/finance","parentId":"12","id":"18"},"19":{"name":"Services","path":"/admin/services","parentId":"12","id":"19"},"20":{"name":"Forum","path":"/admin/forum","parentId":"12","id":"20"}} as const;
   return {
     routes,
     routeComponents: {
@@ -21,6 +21,13 @@ export async function getRoutes() {
 '11': React.lazy(() => import(/* webpackChunkName: "p__matchmaking__messages__index" */'@/pages/matchmaking/messages/index.tsx')),
 '12': React.lazy(() => import('./EmptyRoute')),
 '13': React.lazy(() => import(/* webpackChunkName: "p__admin__dashboard__index" */'@/pages/admin/dashboard/index.tsx')),
+'14': React.lazy(() => import(/* webpackChunkName: "p__admin__schedule__index" */'@/pages/admin/schedule/index.tsx')),
+'15': React.lazy(() => import(/* webpackChunkName: "p__admin__pitches__index" */'@/pages/admin/pitches/index.tsx')),
+'16': React.lazy(() => import(/* webpackChunkName: "p__admin__pricing__index" */'@/pages/admin/pricing/index.tsx')),
+'17': React.lazy(() => import(/* webpackChunkName: "p__admin__customers__index" */'@/pages/admin/customers/index.tsx')),
+'18': React.lazy(() => import(/* webpackChunkName: "p__admin__finance__index" */'@/pages/admin/finance/index.tsx')),
+'19': React.lazy(() => import(/* webpackChunkName: "p__admin__services__index" */'@/pages/admin/services/index.tsx')),
+'20': React.lazy(() => import(/* webpackChunkName: "p__admin__forum__index" */'@/pages/admin/forum/index.tsx')),
 },
   };
 }

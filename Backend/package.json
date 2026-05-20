@@ -29,6 +29,7 @@
     "node-cron": "^4.2.1",
     "nodemailer": "^8.0.7",
     "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
     "streamifier": "^0.1.1",
     "uuid": "^14.0.0"
   },

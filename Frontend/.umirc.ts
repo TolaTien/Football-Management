@@ -44,6 +44,41 @@ export default defineConfig({
           path: '/admin/dashboard',
           component: './admin/dashboard',
         },
+        {
+          name: 'Schedule',
+          path: '/admin/schedule',
+          component: './admin/schedule',
+        },
+        {
+          name: 'Pitches',
+          path: '/admin/pitches',
+          component: './admin/pitches',
+        },
+        {
+          name: 'Pricing',
+          path: '/admin/pricing',
+          component: './admin/pricing',
+        },
+        {
+          name: 'Customers',
+          path: '/admin/customers',
+          component: './admin/customers',
+        },
+        {
+          name: 'Finance',
+          path: '/admin/finance',
+          component: './admin/finance',
+        },
+        {
+          name: 'Services',
+          path: '/admin/services',
+          component: './admin/services',
+        },
+        {
+          name: 'Forum',
+          path: '/admin/forum',
+          component: './admin/forum',
+        },
       ],
     },
   ],

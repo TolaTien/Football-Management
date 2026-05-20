@@ -40,8 +40,8 @@ const COLORS = ['#059669', '#34d399', '#fbbf24', '#f87171'];
 
 const METHOD_STYLES: Record<string, { bg: string; color: string; icon: string }> = {
   'Chuyển khoản': { bg: '#dbeafe', color: '#1d4ed8', icon: '🏦' },
-  'Tiền mặt':     { bg: '#dcfce7', color: '#15803d', icon: '💵' },
-  'Ví điện tử':   { bg: '#ede9fe', color: '#6d28d9', icon: '📱' },
+  'Tiền mặt': { bg: '#dcfce7', color: '#15803d', icon: '💵' },
+  'Ví điện tử': { bg: '#ede9fe', color: '#6d28d9', icon: '📱' },
 };
 
 const AdminFinance: React.FC = () => {
@@ -155,8 +155,8 @@ const AdminFinance: React.FC = () => {
         {[
           { icon: <WalletOutlined />, label: 'Tổng doanh thu', value: `${(totalRevenue / 1e6).toFixed(1)}M đ`, trend: '+14%', color: '#059669', bg: '#dcfce7', gradient: 'linear-gradient(135deg, #059669 0%, #047857 100%)' },
           { icon: <TransactionOutlined />, label: 'Giao dịch tháng này', value: `${totalTxn} GD`, trend: '+8%', color: '#2563eb', bg: '#dbeafe', gradient: undefined },
-          { icon: <CheckCircleOutlined />, label: 'Thành công', value: `${successTxn} GD`, trend: `${Math.round(successTxn/totalTxn*100)}%`, color: '#7c3aed', bg: '#ede9fe', gradient: undefined },
-          { icon: <ReloadOutlined />, label: 'Hoàn tiền', value: `${(refundedAmount/1000).toFixed(0)}K đ`, trend: '-2%', color: '#dc2626', bg: '#fee2e2', gradient: undefined },
+          { icon: <CheckCircleOutlined />, label: 'Thành công', value: `${successTxn} GD`, trend: `${Math.round(successTxn / totalTxn * 100)}%`, color: '#7c3aed', bg: '#ede9fe', gradient: undefined },
+          { icon: <ReloadOutlined />, label: 'Hoàn tiền', value: `${(refundedAmount / 1000).toFixed(0)}K đ`, trend: '-2%', color: '#dc2626', bg: '#fee2e2', gradient: undefined },
         ].map((item, i) => (
           <Col xs={24} sm={12} lg={6} key={i}>
             <div style={{
@@ -266,7 +266,7 @@ const AdminFinance: React.FC = () => {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                   <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10 }} tickFormatter={v => `${(v/1e6).toFixed(0)}M`} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10 }} tickFormatter={v => `${(v / 1e6).toFixed(0)}M`} />
                   <Tooltip formatter={(val: any) => [`${Number(val).toLocaleString()}đ`, 'Doanh thu']} contentStyle={{ borderRadius: 10, border: 'none', fontSize: 12 }} />
                   <Area type="monotone" dataKey="revenue" stroke="#059669" strokeWidth={2.5} fill="url(#areaGreen)" dot={{ fill: '#059669', strokeWidth: 0, r: 4 }} activeDot={{ r: 6 }} />
                 </AreaChart>

@@ -14,7 +14,7 @@ const CommentController = {
     getByPost: async (req: Request, res: Response) => {
         try {
             const postId = req.params.postId;
-            const comments = await CommentLogic.getCommentsByPost(postId);
+            const comments = await CommentLogic.getCommentsByPost(postId as string);
             res.status(200).json(comments);
         } catch (error: any) {
             res.status(500).json({ message: "Lỗi tải bình luận", error: error.message });
@@ -26,7 +26,7 @@ const CommentController = {
             const userRole = (req as any).user.role; // Kéo thêm Role để check Admin
             const commentId = req.params.id;
 
-            await CommentLogic.deleteComment(userId, userRole, commentId);
+            await CommentLogic.deleteComment(userId, userRole, commentId as string);
             res.status(200).json({ message: "Đã xóa bình luận thành công" });
         } catch (error: any) {
             const status = error.message.includes("Không có quyền") ? 403 : 404;
@@ -36,9 +36,9 @@ const CommentController = {
 
     likeComment: async (req: Request, res: Response) => {
         try {
-            const userId = (req as any).user.userId; 
+            const userId = (req as any).user.userId;
             const commentId = req.params.id;
-            const result = await CommentLogic.toggleLike(userId, commentId);
+            const result = await CommentLogic.toggleLike(userId, commentId as string);
             res.status(200).json(result);
         } catch (error: any) {
             res.status(404).json({ message: error.message });

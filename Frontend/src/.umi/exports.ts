@@ -5,18 +5,18 @@
 export { defineApp } from './core/defineApp'
 export type { RuntimeConfig } from './core/defineApp'
 // plugins
-export { Access, useAccess, useAccessMarkedRoutes } from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-access';
-export { Provider, useModel } from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-model';
-export { useRequest, UseRequestProvider, request, getRequestInstance } from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-request';
+export { Access, useAccess, useAccessMarkedRoutes } from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/src/.umi/plugin-access';
+export { Provider, useModel } from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/src/.umi/plugin-model';
+export { useRequest, UseRequestProvider, request, getRequestInstance } from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/src/.umi/plugin-request';
 // plugins types.d.ts
-export * from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-access/types.d';
-export * from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-antd/types.d';
-export * from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/src/.umi/plugin-request/types.d';
+export * from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/src/.umi/plugin-access/types.d';
+export * from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/src/.umi/plugin-antd/types.d';
+export * from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/src/.umi/plugin-request/types.d';
 // @umijs/renderer-*
-export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/node_modules/@umijs/renderer-react';
-export type { History, ClientLoader } from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/node_modules/@umijs/renderer-react'
+export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/node_modules/@umijs/renderer-react';
+export type { History, ClientLoader } from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/node_modules/@umijs/renderer-react'
 // umi/client/client/plugin
-export { ApplyPluginsType, PluginManager } from 'C:/Users/T14s Gen 3/Downloads/Football Pitches Management System/Football-Management/Frontend/node_modules/umi/client/client/plugin.js';
+export { ApplyPluginsType, PluginManager } from 'D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/node_modules/umi/client/client/plugin.js';
 export { history, createHistory } from './core/history';
 export { terminal } from './core/terminal';
 // react ssr

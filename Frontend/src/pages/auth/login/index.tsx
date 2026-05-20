@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { history } from '@umijs/max';
+import api from '@/services/api';
 
 // Test account
 const TEST_ACCOUNTS = [
+  { email: 'admin@turfmanager.com', password: 'admin123', role: 'admin' },
   { email: 'user@pitchhub.com', password: 'user123', role: 'user' },
   { email: 'test@pitchhub.com', password: '123456', role: 'user' },
 ];
@@ -13,24 +15,35 @@ const PlayerLogin: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
-    setTimeout(() => {
-      const account = TEST_ACCOUNTS.find(
-        (a) => a.email === email && a.password === password,
-      );
-
-      if (account) {
-        localStorage.setItem('pitchhub_user', JSON.stringify({ email, role: account.role }));
-        history.push('/user/dashboard');
+    try {
+      // goij api tuwf be
+      const response = await api.post('/auth/login', { email, password });
+      const loginResult = response.data?.data || response.data;
+      const user = loginResult?.user || loginResult; // BE trả về { accessToken, refreshToken, user }
+      
+      // luu thong tin user vao localStorage
+      localStorage.setItem('pitchhub_user', JSON.stringify({
+        email: user.email,
+        fullName: user.fullName || user.name,
+        role: user.role,
+        userId: user.userId || user.id
+      }));
+      // dieu huong vao vai tro
+      if (user.role === 'admin') {
+        history.push('/admin/dashboard');
       } else {
-        setError('Email hoặc mật khẩu không đúng. Thử: user@pitchhub.com / user123');
-        setLoading(false);
+        history.push('/user/dashboard');
       }
-    }, 600);
+    } catch (err: any) {
+      const errMsg = err.response?.data?.message || "Đăng nhập thất bại";
+      setError(errMsg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,34 +57,39 @@ const PlayerLogin: React.FC = () => {
             <span className="material-symbols-outlined text-on-primary-container text-[40px]" data-icon="sports_soccer">sports_soccer</span>
           </div>
           <h1 className="font-h1 text-h1 text-primary">PitchMaster</h1>
-          <p className="font-body-md text-secondary mt-xs">Elevate Your Game</p>
+          <p className="font-body-md text-secondary mt-xs">Quản lý và đặt sân bóng dễ dàng</p>
         </div>
 
         <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-xl shadow-md">
           <div className="mb-lg">
-            <h2 className="font-h2 text-h2 text-on-surface">Welcome Back</h2>
-            <p className="font-body-md text-secondary">Enter your credentials to access the portal</p>
+            <h2 className="font-h2 text-h2 text-on-surface">Chào mừng quay lại</h2>
+            <p className="font-body-md text-secondary">Nhập thông tin của bạn để truy cập hệ thống</p>
           </div>
 
           {/* Demo credentials hint */}
           <div className="mb-lg bg-emerald-50 border border-emerald-200 rounded-lg p-md">
-            <p className="text-xs font-label-caps text-emerald-700 mb-xs">TEST ACCOUNT</p>
-            <p className="text-sm font-body-md text-emerald-900">
-              📧 <strong>user@pitchhub.com</strong><br />
-              🔑 <strong>user123</strong>
-            </p>
+            <p className="text-xs font-label-caps text-emerald-700 mb-xs">TÀI KHOẢN MẪU (TEST)</p>
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <p className="text-[11px] font-bold text-emerald-800 mb-1">ADMIN (DATABASE CỦA BẠN)</p>
+                <p className="text-sm font-body-md text-emerald-900">
+                  📧 admin@gmail.com<br />
+                  🔑 admin123
+                </p>
+              </div>
+            </div>
           </div>
 
           <form className="space-y-lg" onSubmit={handleLogin}>
             <div className="space-y-sm">
-              <label className="font-label-caps text-label-caps text-on-surface-variant block" htmlFor="email">EMAIL ADDRESS</label>
+              <label className="font-label-caps text-label-caps text-on-surface-variant block" htmlFor="email">ĐỊA CHỈ EMAIL</label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline" data-icon="mail">mail</span>
                 <input
                   className="w-full bg-surface border border-outline-variant rounded-lg pl-[44px] pr-md py-sm font-body-md focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition-all outline-none"
                   id="email"
                   name="email"
-                  placeholder="player@pitchmaster.com"
+                  placeholder="admin@gmail.com"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -81,8 +99,8 @@ const PlayerLogin: React.FC = () => {
             </div>
             <div className="space-y-sm">
               <div className="flex justify-between items-center">
-                <label className="font-label-caps text-label-caps text-on-surface-variant" htmlFor="password">PASSWORD</label>
-                <a className="font-button text-[12px] text-primary hover:underline" href="#">Forgot password?</a>
+                <label className="font-label-caps text-label-caps text-on-surface-variant" htmlFor="password">MẬT KHẨU</label>
+                <a className="font-button text-[12px] text-primary hover:underline" href="#">Quên mật khẩu?</a>
               </div>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline" data-icon="lock">lock</span>
@@ -107,7 +125,7 @@ const PlayerLogin: React.FC = () => {
 
             <div className="flex items-center gap-sm">
               <input className="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary/20" id="remember" name="remember" type="checkbox" />
-              <label className="font-body-md text-on-surface-variant select-none" htmlFor="remember">Remember me</label>
+              <label className="font-body-md text-on-surface-variant select-none" htmlFor="remember">Ghi nhớ tài khoản</label>
             </div>
 
             <button
@@ -115,14 +133,14 @@ const PlayerLogin: React.FC = () => {
               type="submit"
               disabled={loading}
             >
-              {loading ? 'Đang đăng nhập...' : 'Login to Dashboard'}
+              {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </button>
           </form>
 
           <div className="mt-xl">
             <div className="relative flex items-center justify-center mb-lg">
               <div className="border-t border-outline-variant w-full"></div>
-              <span className="absolute bg-surface-container-lowest px-md font-label-caps text-label-caps text-outline">OR CONTINUE WITH</span>
+              <span className="absolute bg-surface-container-lowest px-md font-label-caps text-label-caps text-outline">HOẶC ĐĂNG NHẬP VỚI</span>
             </div>
             <div className="grid grid-cols-2 gap-md">
               <button className="flex items-center justify-center gap-sm py-sm border border-outline-variant rounded-lg hover:bg-surface transition-colors active:scale-[0.98]">
@@ -135,12 +153,20 @@ const PlayerLogin: React.FC = () => {
               </button>
             </div>
           </div>
-        </div>
 
-        <p className="text-center mt-xl font-body-md text-secondary">
-          New player on the field?{' '}
-          <a className="text-primary font-button hover:underline ml-xs" href="/auth/signup">Sign Up Now</a>
-        </p>
+          <div className="mt-xl pt-lg border-t border-outline-variant text-center">
+            <p className="font-body-md text-secondary">
+              Bạn là người chơi mới?{' '}
+              <a 
+                className="text-primary font-bold hover:underline ml-xs cursor-pointer" 
+                onClick={() => history.push('/auth/signup')}
+              >
+                Đăng ký ngay
+              </a>
+            </p>
+          </div>
+
+        </div>
 
       </main>
     </div>
