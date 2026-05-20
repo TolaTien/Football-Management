@@ -3,7 +3,6 @@ import { history } from '@umijs/max';
 
 // Test account
 const TEST_ACCOUNTS = [
-  { email: 'admin@turfmanager.com', password: 'admin123', role: 'admin' },
   { email: 'user@pitchhub.com', password: 'user123', role: 'user' },
   { email: 'test@pitchhub.com', password: '123456', role: 'user' },
 ];
@@ -26,14 +25,9 @@ const PlayerLogin: React.FC = () => {
 
       if (account) {
         localStorage.setItem('pitchhub_user', JSON.stringify({ email, role: account.role }));
-        
-        if (account.role === 'admin') {
-          history.push('/admin/dashboard');
-        } else {
-          history.push('/user/dashboard');
-        }
+        history.push('/user/dashboard');
       } else {
-        setError('Email hoặc mật khẩu không đúng. Thử: admin@turfmanager.com / admin123');
+        setError('Email hoặc mật khẩu không đúng. Thử: user@pitchhub.com / user123');
         setLoading(false);
       }
     }, 600);
@@ -61,23 +55,11 @@ const PlayerLogin: React.FC = () => {
 
           {/* Demo credentials hint */}
           <div className="mb-lg bg-emerald-50 border border-emerald-200 rounded-lg p-md">
-            <p className="text-xs font-label-caps text-emerald-700 mb-xs">TÀI KHOẢN MẪU (TEST)</p>
-            <div className="flex gap-4">
-              <div className="flex-1">
-                <p className="text-[11px] font-bold text-emerald-800 mb-1">ADMIN</p>
-                <p className="text-sm font-body-md text-emerald-900">
-                  📧 admin@turfmanager.com<br />
-                  🔑 admin123
-                </p>
-              </div>
-              <div className="flex-1">
-                <p className="text-[11px] font-bold text-emerald-800 mb-1">USER</p>
-                <p className="text-sm font-body-md text-emerald-900">
-                  📧 user@pitchhub.com<br />
-                  🔑 user123
-                </p>
-              </div>
-            </div>
+            <p className="text-xs font-label-caps text-emerald-700 mb-xs">TEST ACCOUNT</p>
+            <p className="text-sm font-body-md text-emerald-900">
+              📧 <strong>user@pitchhub.com</strong><br />
+              🔑 <strong>user123</strong>
+            </p>
           </div>
 
           <form className="space-y-lg" onSubmit={handleLogin}>

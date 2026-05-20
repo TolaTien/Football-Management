@@ -36,49 +36,13 @@ export default defineConfig({
         { path: '/matchmaking/messages', component: './matchmaking/messages' },
       ],
     },
-    // Admin routes
+    // Admin routes (if they still need the Pro layout, we can re-enable it locally but for now let's keep it simple)
     {
       path: '/admin',
-      component: '@/layouts/AdminLayout',
       routes: [
         {
           path: '/admin/dashboard',
           component: './admin/dashboard',
-        },
-        {
-          name: 'Schedule',
-          path: '/admin/schedule',
-          component: './admin/schedule',
-        },
-        {
-          name: 'Pitches',
-          path: '/admin/pitches',
-          component: './admin/pitches', 
-        },
-        {
-          name: 'Pricing',
-          path: '/admin/pricing',
-          component: './admin/pricing', 
-        },
-        {
-          name: 'Customers',
-          path: '/admin/customers',
-          component: './admin/customers',
-        },
-        {
-          name: 'Finance',
-          path: '/admin/finance',
-          component: './admin/finance',
-        },
-        {
-          name: 'Services',
-          path: '/admin/services',
-          component: './admin/services',
-        },
-        {
-          name: 'Forum',
-          path: '/admin/forum',
-          component: './admin/forum',
         },
       ],
     },
@@ -93,5 +57,4 @@ export default defineConfig({
     '@app': __dirname + '/src/app',
   },
   npmClient: 'npm',
-  esbuildMinifyIIFE: true,
 });
