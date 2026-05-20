@@ -36,9 +36,10 @@ export default defineConfig({
         { path: '/matchmaking/messages', component: './matchmaking/messages' },
       ],
     },
-    // Admin routes (if they still need the Pro layout, we can re-enable it locally but for now let's keep it simple)
+    // Admin routes sharing AdminLayout
     {
       path: '/admin',
+      component: '@/layouts/AdminLayout',
       routes: [
         {
           path: '/admin/dashboard',
