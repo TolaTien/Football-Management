@@ -5,14 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 import { ADMIN_AI_SYSTEM_PROMPT, POLICY_CONTEXT, USER_AI_SYSTEM_PROMPT } from "./ai.prompt.js";
 import { StatisticService } from "../statistic/statistic.service.js";
 import { CreateConversationInput, GetConversations, GetMessages, SendMessage } from "./ai.schema.js";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 
 type Role = "user" | "admin";
 type GeminiContent = {
   role: "user" | "model";
-  parts: { text: string }[];
+  parts: any[];
 };
-
 
 export class AiService {
   static async createConversation(dto: CreateConversationInput) {
@@ -39,7 +38,6 @@ export class AiService {
   }
 
   static async getMessages(dto: GetMessages) {
-
     const conversation = await prisma.ai_conversation.findFirst({
       where: {userId: dto.userId, conversationId: dto.conversationId}
     });
@@ -64,11 +62,10 @@ export class AiService {
 
     const recentMessages = await prisma.ai_message.findMany({
       where: { conversationId: dto.conversationId },
-      orderBy: { createdAt: "asc" },
+      orderBy: { createdAt: "desc" },
       take: 20,
     });
 
-    const Context = await this.buildContext(dto.role, dto.content);
     const history: GeminiContent[] = recentMessages.map((item) => ({
       role: item.sender,
       parts: [{ text: item.content }],
@@ -78,12 +75,11 @@ export class AiService {
       ...history,
       {
         role: "user",
-        parts: [{ text: `Ngữ cảnh hệ thống: ${Context}. Câu hỏi hiện tại của người dùng: ${dto.content}`.trim()}],
+        parts: [{ text: dto.content.trim() }],
       },
     ];
 
-    const reply = await this.callGemini(dto.role, contents);
-
+    const reply = await this.callGeminiWithTools(dto.role, contents);
     const [, assistantMessage] = await prisma.$transaction([
       prisma.ai_message.create({
         data: {
@@ -114,29 +110,106 @@ export class AiService {
     return assistantMessage;
   }
 
+  private static getGeminiTools(role: Role) {
+    const tools: any[] = [
+      {
+        name: "check_pitch_availability",
+        description: "Kiểm tra xem còn sân bóng nào trống trong một khoảng thời gian cụ thể hay không.",
+        parameters: {
+          type: Type.OBJECT,
+          properties: {
+            date: { type: Type.STRING, description: "Ngày muốn đặt sân, định dạng YYYY-MM-DD. Ví dụ: 2026-05-20. Nếu người dùng nói hôm nay/ngày mai, phải tự tính ra ngày chính xác." },
+            startTime: { type: Type.STRING, description: "Thời gian bắt đầu, định dạng HH:mm. Ví dụ: 17:30" },
+            endTime: { type: Type.STRING, description: "Thời gian kết thúc, định dạng HH:mm. Ví dụ: 19:00" },
+          },
+          required: ["date", "startTime", "endTime"],
+        },
+      },
+      {
+        name: "get_pitch_information",
+        description: "Lấy danh sách các sân bóng đang hoạt động, bao gồm loại sân, địa chỉ và bảng giá. Dùng khi người dùng hỏi về danh sách sân, thông tin một sân hoặc giá tiền chung.",
+        parameters: {
+          type: Type.OBJECT,
+          properties: {},
+        },
+      }
+    ];
 
-  private static async buildContext(role: Role, message: string) {
-    const normalized = message.toLowerCase();
-    const [pitchInfo, availablePitchInfo, revenueInfo] = await Promise.all([
-      this.getPitchInformation(),
-      this.shouldCheckAvailability(normalized) ? this.getAvailabilityContext(message) : Promise.resolve(""),
-      role === "admin" && this.shouldAnalyzeRevenue(normalized) ? this.getRevenueContext() : Promise.resolve(""),
-    ]);
+    if (role === "admin") {
+      tools.push({
+        name: "get_revenue_statistics",
+        description: "Lấy báo cáo thống kê doanh thu, số lượng booking và tỷ lệ lấp đầy. CHỈ dành cho admin.",
+        parameters: {
+          type: Type.OBJECT,
+          properties: {
+            month: { type: Type.INTEGER, description: "Tháng (1-12)" },
+            year: { type: Type.INTEGER, description: "Năm (YYYY)" }
+          },
+          required: ["month", "year"]
+        }
+      });
+    }
 
-    return [
-      POLICY_CONTEXT,
-      pitchInfo,
-      availablePitchInfo,
-      revenueInfo,
-    ]
+    return [{ functionDeclarations: tools }];
   }
 
-  private static shouldCheckAvailability(message: string) {
-    return ["trống", "còn sân", "sân nào", "đặt sân", "available"].some((keyword) => message.includes(keyword));
-  }
+  private static async callGeminiWithTools(role: Role, contents: GeminiContent[]) {
+    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-  private static shouldAnalyzeRevenue(message: string) {
-    return ["doanh thu", "booking", "lấp đầy", "phân tích", "thống kê"].some((keyword) => message.includes(keyword));
+    const basePrompt = role === "admin" ? ADMIN_AI_SYSTEM_PROMPT : USER_AI_SYSTEM_PROMPT;
+    const systemInstruction = `${basePrompt}\n\n${POLICY_CONTEXT}\n\nHôm nay là ngày: ${new Date().toISOString().split('T')[0]}\nMúi giờ: GMT+7.`;
+
+    let response = await ai.models.generateContent({
+      model,
+      contents,
+      config: {
+        systemInstruction,
+        tools: this.getGeminiTools(role),
+      },
+    });
+
+    if (response.functionCalls && response.functionCalls.length > 0) {
+      const call = response.functionCalls[0];
+      let toolResult: any;
+
+      try {
+        if (call.name === "check_pitch_availability") {
+          const args = call.args as { date: string, startTime: string, endTime: string };
+          toolResult = await this.getAvailabilityContextByArgs(args.date, args.startTime, args.endTime);
+        } else if (call.name === "get_pitch_information") {
+          toolResult = await this.getPitchInformation();
+        } else if (call.name === "get_revenue_statistics" && role === "admin") {
+          const args = call.args as { month: number, year: number };
+          toolResult = await this.getRevenueContextByArgs(args.month, args.year);
+        } else {
+          toolResult = "Không tìm thấy công cụ hoặc bạn không có quyền.";
+        }
+      } catch (error: any) {
+        toolResult = `Lỗi khi thực thi công cụ: ${error.message}`;
+      }
+
+      contents.push(
+        { role: "model", parts: [{ functionCall: call }] },
+        { role: "user", parts: [{ functionResponse: { name: call.name, response: { result: toolResult } } }] }
+      );
+
+      response = await ai.models.generateContent({
+        model,
+        contents,
+        config: {
+          systemInstruction,
+          tools: this.getGeminiTools(role),
+        },
+      });
+    }
+
+    const text = response.text?.trim();
+    if (!text) {
+      throw new ApiError(StatusCodes.BAD_GATEWAY, "Gemini không trả về nội dung");
+    }
+
+    return text;
   }
 
   private static async getPitchInformation() {
@@ -150,8 +223,6 @@ export class AiService {
       orderBy: { namePitch: "asc" },
     });
 
-    if (!pitches.length) return "Hiện chưa có sân hoạt động trong hệ thống.";
-
     return `Danh sách sân đang hoạt động:
 ${pitches.map((pitch) => {
   const prices = pitch.pitchprice.map((item) => {
@@ -164,16 +235,9 @@ ${pitches.map((pitch) => {
 }).join("\n")}`;
   }
 
-  private static async getAvailabilityContext(message: string) {
-    const date = this.extractDate(message);
-    const timeRange = this.extractTimeRange(message);
-
-    if (!date || !timeRange) {
-      return "Để kiểm tra sân trống chính xác, cần có ngày và khung giờ cụ thể.";
-    }
-
-    const startTime = new Date(`${date}T${timeRange.start}:00+07:00`);
-    const endTime = new Date(`${date}T${timeRange.end}:00+07:00`);
+  private static async getAvailabilityContextByArgs(date: string, startTimeStr: string, endTimeStr: string) {
+    const startTime = new Date(`${date}T${startTimeStr}:00+07:00`);
+    const endTime = new Date(`${date}T${endTimeStr}:00+07:00`);
 
     const pitches = await prisma.pitch.findMany({
       where: {
@@ -192,41 +256,13 @@ ${pitches.map((pitch) => {
     });
 
     if (!pitches.length) {
-      return `Không còn sân trống ngày ${date} từ ${timeRange.start} đến ${timeRange.end}.`;
+      return `Không còn sân trống ngày ${date} từ ${startTimeStr} đến ${endTimeStr}.`;
     }
 
-    return `Sân trống ngày ${date} từ ${timeRange.start} đến ${timeRange.end}:
-${pitches.map((pitch) => `- ${pitch.namePitch} | loại sân ${pitch.pitchCategory ?? "không rõ"} | ${pitch.address ?? "chưa có địa chỉ"}`).join("\n")}`;
+    return `Sân trống ngày ${date} từ ${startTimeStr} đến ${endTimeStr}:\n${pitches.map((pitch) => `- ${pitch.namePitch} | loại sân ${pitch.pitchCategory ?? "không rõ"} | ${pitch.address ?? "chưa có địa chỉ"}`).join("\n")}`;
   }
 
-  private static extractDate(message: string) {
-    const isoDate = message.match(/\b(20\d{2})-(\d{2})-(\d{2})\b/);
-    if (isoDate) return isoDate[0];
-
-    const slashDate = message.match(/\b(\d{1,2})\/(\d{1,2})\/(20\d{2})\b/);
-    if (slashDate) {
-      const [, day, month, year] = slashDate;
-      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    }
-
-    return null;
-  }
-
-  private static extractTimeRange(message: string) {
-    const match = message.match(/\b(\d{1,2})(?::(\d{2}))?\s*(?:-|đến|toi|to)\s*(\d{1,2})(?::(\d{2}))?\b/i);
-    if (!match) return null;
-
-    const [, startHour, startMinute = "00", endHour, endMinute = "00"] = match;
-    return {
-      start: `${startHour.padStart(2, "0")}:${startMinute}`,
-      end: `${endHour.padStart(2, "0")}:${endMinute}`,
-    };
-  }
-
-  private static async getRevenueContext() {
-    const now = new Date();
-    const month = now.getMonth() + 1;
-    const year = now.getFullYear();
+  private static async getRevenueContextByArgs(month: number, year: number) {
     const current = await StatisticService.getMonthlyRevenue({ month, year });
 
     const previousMonthDate = new Date(year, month - 2, 1);
@@ -241,31 +277,11 @@ ${pitches.map((pitch) => `- ${pitch.namePitch} | loại sân ${pitch.pitchCatego
       : Number((((current.totalRevenue - previousRevenue) / previousRevenue) * 100).toFixed(2));
 
     return `Dữ liệu doanh thu cho admin:
-- Tháng hiện tại: ${month}/${year}
-- Doanh thu hiện tại: ${current.totalRevenue}đ
+- Tháng được yêu cầu: ${month}/${year}
+- Doanh thu: ${current.totalRevenue}đ
 - Tổng booking thành công: ${current.totalBookings}
 - Tỷ lệ lấp đầy: ${current.rate}%
 - Doanh thu tháng trước: ${previousRevenue}đ
 - Mức thay đổi so với tháng trước: ${changePercent === null ? "chưa đủ dữ liệu để so sánh" : `${changePercent}%`}`;
-  }
-
-  private static async callGemini(role: Role, contents: GeminiContent[]) {
-    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
-
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-    const response = await ai.models.generateContent({
-      model,
-      contents,
-      config: {
-        systemInstruction: role === "admin" ? ADMIN_AI_SYSTEM_PROMPT : USER_AI_SYSTEM_PROMPT,
-      },
-    });
-
-    const text = response.text?.trim();
-    if (!text) {
-      throw new ApiError(StatusCodes.BAD_GATEWAY, "Gemini không trả về nội dung");
-    }
-
-    return text;
   }
 }
