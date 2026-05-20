@@ -58,7 +58,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 12
+        "register": 6
       },
       "enableBy": "register"
     },
@@ -71,7 +71,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 7
       },
       "enableBy": "register"
     },
@@ -88,7 +88,7 @@
             0
           ]
         },
-        "register": 4
+        "register": 5
       },
       "enableBy": "register"
     },
@@ -105,7 +105,7 @@
             2
           ]
         },
-        "register": 2
+        "register": 6
       },
       "enableBy": "register"
     },
@@ -149,10 +149,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            32
+            33
           ]
         },
-        "register": 20
+        "register": 22
       },
       "enableBy": "register"
     },
@@ -165,7 +165,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -182,7 +182,7 @@
             0
           ],
           "onCheck": [
-            0
+            1
           ]
         },
         "register": 1
@@ -199,7 +199,7 @@
       "time": {
         "hooks": {
           "onCheck": [
-            1
+            0
           ]
         },
         "register": 0
@@ -1084,7 +1084,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1098,7 +1098,7 @@
       "time": {
         "hooks": {
           "onStart": [
-            0
+            1
           ]
         },
         "register": 1
@@ -1114,7 +1114,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1127,7 +1127,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 77
+        "register": 79
       },
       "enableBy": "register"
     },
@@ -1140,7 +1140,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 43
+        "register": 37
       },
       "enableBy": "config"
     },
@@ -1153,7 +1153,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 21
+        "register": 20
       },
       "enableBy": "config"
     },
@@ -1167,7 +1167,7 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            1
+            0
           ]
         },
         "register": 0
@@ -1210,10 +1210,10 @@
       "time": {
         "hooks": {
           "onStart": [
-            2
+            1
           ]
         },
-        "register": 30
+        "register": 31
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mpa/mpa": {
@@ -1250,7 +1250,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1277,7 +1277,7 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            1
+            0
           ]
         },
         "register": 2
@@ -1318,7 +1318,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -1357,7 +1357,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1370,7 +1370,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1395,7 +1395,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1421,7 +1421,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1460,7 +1460,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 6
+        "register": 5
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/monorepo/redirect": {
@@ -1485,7 +1485,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/clickToComponent/clickToComponent": {
@@ -1565,7 +1565,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mako/mako": {
@@ -1602,7 +1602,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/routePreloadOnLoad/routePreloadOnLoad": {
@@ -1614,7 +1614,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 29
+        "register": 30
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/forget/forget": {
@@ -1639,7 +1639,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1652,7 +1652,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       },
       "enableBy": "register"
     },
@@ -1665,7 +1665,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 38
+        "register": 34
       },
       "enableBy": "register"
     },
@@ -1679,10 +1679,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            19
+            27
           ]
         },
-        "register": 35
+        "register": 34
       }
     },
     "./node_modules/@umijs/preset-umi/dist/commands/help": {
@@ -1694,7 +1694,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1772,7 +1772,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1798,7 +1798,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1811,7 +1811,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1837,7 +1837,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1850,7 +1850,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1863,7 +1863,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1876,7 +1876,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1889,7 +1889,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1928,7 +1928,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 25
+        "register": 21
       },
       "enableBy": "register"
     },
@@ -1954,7 +1954,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1982,7 +1982,7 @@
       },
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       }
     },
     "./node_modules/@umijs/plugins/dist/antd": {
@@ -1995,7 +1995,7 @@
       "time": {
         "hooks": {
           "modifyConfig": [
-            1
+            2
           ],
           "modifyAppData": [
             0
@@ -2070,7 +2070,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2083,7 +2083,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2134,7 +2134,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       }
     },
     "./node_modules/@umijs/plugins/dist/react-query": {
@@ -2146,7 +2146,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2262,7 +2262,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     }
@@ -3614,7 +3614,7 @@
       "parentId": "12",
       "id": "18",
       "absPath": "/admin/finance",
-      "__content": "import React, { useState } from 'react';\r\nimport { PageContainer } from '@ant-design/pro-components';\r\nimport { Card, Table, Tag, Row, Col, DatePicker, Select, Space, Button, Typography } from 'antd';\r\nimport { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend, AreaChart, Area, XAxis, YAxis, CartesianGrid } from 'recharts';\r\nimport {\r\n  DownloadOutlined, WalletOutlined, ArrowUpOutlined,\r\n  TransactionOutlined, ReloadOutlined, CheckCircleOutlined,\r\n} from '@ant-design/icons';\r\nimport dayjs from 'dayjs';\r\nimport axios from 'axios'; // We can use axios for this\r\n\r\nconst { RangePicker } = DatePicker;\r\nconst { Text } = Typography;\r\n\r\nconst transactionData = [\r\n  { id: 'TXN001', date: '2026-05-09 18:30', user: 'Nguyễn Văn A', type: 'Đặt sân', amount: 450000, method: 'Chuyển khoản', status: 'success' },\r\n  { id: 'TXN002', date: '2026-05-09 19:00', user: 'Nguyễn Văn A', type: 'Dịch vụ (Nước, Áo)', amount: 150000, method: 'Tiền mặt', status: 'success' },\r\n  { id: 'TXN003', date: '2026-05-08 20:00', user: 'Trần B', type: 'Đặt sân', amount: 800000, method: 'Ví điện tử', status: 'refunded' },\r\n  { id: 'TXN004', date: '2026-05-08 17:00', user: 'Lê C', type: 'Đặt sân', amount: 300000, method: 'Chuyển khoản', status: 'success' },\r\n  { id: 'TXN005', date: '2026-05-07 19:30', user: 'FC Hàng Cuối', type: 'Đặt sân + Dịch vụ', amount: 650000, method: 'Tiền mặt', status: 'success' },\r\n];\r\n\r\nconst revenueBreakdown = [\r\n  { name: 'Tiền thuê sân', value: 45000000 },\r\n  { name: 'Nước giải khát', value: 8500000 },\r\n  { name: 'Thuê áo, bóng', value: 3200000 },\r\n  { name: 'Tổ chức giải đấu', value: 12000000 },\r\n];\r\n\r\nconst trendData = [\r\n  { day: 'T2', revenue: 8400000 },\r\n  { day: 'T3', revenue: 12000000 },\r\n  { day: 'T4', revenue: 9500000 },\r\n  { day: 'T5', revenue: 14000000 },\r\n  { day: 'T6', revenue: 18000000 },\r\n  { day: 'T7', revenue: 22000000 },\r\n  { day: 'CN', revenue: 16000000 },\r\n];\r\n\r\nconst COLORS = ['#059669', '#34d399', '#fbbf24', '#f87171'];\r\n\r\nconst METHOD_STYLES: Record<string, { bg: string; color: string; icon: string }> = {\r\n  'Chuyển khoản': { bg: '#dbeafe', color: '#1d4ed8', icon: '🏦' },\r\n  'Tiền mặt':     { bg: '#dcfce7', color: '#15803d', icon: '💵' },\r\n  'Ví điện tử':   { bg: '#ede9fe', color: '#6d28d9', icon: '📱' },\r\n};\r\n\r\nconst AdminFinance: React.FC = () => {\r\n  const totalRevenue = 68700000;\r\n  const totalTxn = transactionData.length;\r\n  const successTxn = transactionData.filter(t => t.status === 'success').length;\r\n  const refundedAmount = transactionData.filter(t => t.status === 'refunded').reduce((s, t) => s + t.amount, 0);\r\n\r\n  const columns = [\r\n    {\r\n      title: 'Mã GD',\r\n      dataIndex: 'id',\r\n      key: 'id',\r\n      render: (text: string) => (\r\n        <span style={{\r\n          fontFamily: 'monospace', fontSize: 12, fontWeight: 700,\r\n          background: '#f1f5f9', padding: '3px 8px', borderRadius: 6, color: '#475569',\r\n        }}>\r\n          {text}\r\n        </span>\r\n      ),\r\n    },\r\n    {\r\n      title: 'Khách hàng',\r\n      dataIndex: 'user',\r\n      key: 'user',\r\n      render: (text: string) => (\r\n        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>\r\n          <div style={{\r\n            width: 30, height: 30, borderRadius: '50%',\r\n            background: 'linear-gradient(135deg, #059669, #34d399)',\r\n            color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',\r\n            fontWeight: 700, fontSize: 11, flexShrink: 0,\r\n          }}>\r\n            {text.substring(0, 2).toUpperCase()}\r\n          </div>\r\n          <span style={{ fontWeight: 600, color: '#0f172a', fontSize: 13 }}>{text}</span>\r\n        </div>\r\n      ),\r\n    },\r\n    { title: 'Loại', dataIndex: 'type', key: 'type', render: (text: string) => <Text style={{ color: '#475569', fontSize: 13 }}>{text}</Text> },\r\n    {\r\n      title: 'Phương thức',\r\n      dataIndex: 'method',\r\n      key: 'method',\r\n      render: (method: string) => {\r\n        const cfg = METHOD_STYLES[method] || { bg: '#f1f5f9', color: '#475569', icon: '💳' };\r\n        return (\r\n          <div style={{\r\n            display: 'inline-flex', alignItems: 'center', gap: 5,\r\n            padding: '3px 10px', borderRadius: 20,\r\n            backgroundColor: cfg.bg, color: cfg.color,\r\n            fontWeight: 600, fontSize: 12,\r\n          }}>\r\n            {cfg.icon} {method}\r\n          </div>\r\n        );\r\n      },\r\n    },\r\n    {\r\n      title: 'Số tiền',\r\n      dataIndex: 'amount',\r\n      key: 'amount',\r\n      render: (val: number, record: any) => (\r\n        <div>\r\n          <div style={{ fontWeight: 800, fontSize: 14, color: record.status === 'refunded' ? '#dc2626' : '#059669' }}>\r\n            {record.status === 'refunded' ? '-' : '+'}{val.toLocaleString()}đ\r\n          </div>\r\n          <div style={{ fontSize: 10, color: '#cbd5e1' }}>{record.date}</div>\r\n        </div>\r\n      ),\r\n    },\r\n    {\r\n      title: 'Trạng thái',\r\n      dataIndex: 'status',\r\n      key: 'status',\r\n      render: (status: string) => {\r\n        if (status === 'success') return (\r\n          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, background: '#dcfce7', color: '#15803d', fontWeight: 700, fontSize: 11 }}>\r\n            <CheckCircleOutlined /> Thành công\r\n          </div>\r\n        );\r\n        if (status === 'refunded') return (\r\n          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, background: '#fee2e2', color: '#dc2626', fontWeight: 700, fontSize: 11 }}>\r\n            <ReloadOutlined /> Hoàn tiền\r\n          </div>\r\n        );\r\n        return <Tag>Chờ xử lý</Tag>;\r\n      },\r\n    },\r\n  ];\r\n\r\n  return (\r\n    <PageContainer\r\n      header={{\r\n        title: (\r\n          <div>\r\n            <div style={{ fontWeight: 800, fontSize: 22, color: '#0f172a' }}>Báo cáo & Tài chính</div>\r\n            <Text style={{ color: '#94a3b8', fontSize: 13 }}>Theo dõi dòng tiền và phân tích cơ cấu doanh thu</Text>\r\n          </div>\r\n        ),\r\n        extra: [\r\n          <Button key=\"export\" icon={<DownloadOutlined />} style={{ height: 40, fontWeight: 600, borderRadius: 10 }}>\r\n            Xuất Excel\r\n          </Button>,\r\n        ],\r\n      }}\r\n    >\r\n      {/* Summary Stats */}\r\n      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>\r\n        {[\r\n          { icon: <WalletOutlined />, label: 'Tổng doanh thu', value: `${(totalRevenue / 1e6).toFixed(1)}M đ`, trend: '+14%', color: '#059669', bg: '#dcfce7', gradient: 'linear-gradient(135deg, #059669 0%, #047857 100%)' },\r\n          { icon: <TransactionOutlined />, label: 'Giao dịch tháng này', value: `${totalTxn} GD`, trend: '+8%', color: '#2563eb', bg: '#dbeafe', gradient: undefined },\r\n          { icon: <CheckCircleOutlined />, label: 'Thành công', value: `${successTxn} GD`, trend: `${Math.round(successTxn/totalTxn*100)}%`, color: '#7c3aed', bg: '#ede9fe', gradient: undefined },\r\n          { icon: <ReloadOutlined />, label: 'Hoàn tiền', value: `${(refundedAmount/1000).toFixed(0)}K đ`, trend: '-2%', color: '#dc2626', bg: '#fee2e2', gradient: undefined },\r\n        ].map((item, i) => (\r\n          <Col xs={24} sm={12} lg={6} key={i}>\r\n            <div style={{\r\n              background: item.gradient || 'white',\r\n              borderRadius: 16, padding: '20px 22px',\r\n              border: item.gradient ? 'none' : '1px solid #e2e8f0',\r\n              boxShadow: '0 1px 4px rgba(0,0,0,0.04)',\r\n              position: 'relative', overflow: 'hidden',\r\n              transition: 'transform 0.2s, box-shadow 0.2s',\r\n            }} className=\"admin-stat-card\">\r\n              <div style={{ position: 'absolute', right: -12, bottom: -12, width: 80, height: 80, borderRadius: '50%', backgroundColor: item.gradient ? 'rgba(255,255,255,0.08)' : `${item.color}12` }} />\r\n              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>\r\n                <div style={{\r\n                  width: 40, height: 40, borderRadius: 10,\r\n                  background: item.gradient ? 'rgba(255,255,255,0.2)' : item.bg,\r\n                  color: item.gradient ? '#fff' : item.color,\r\n                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18,\r\n                }}>\r\n                  {item.icon}\r\n                </div>\r\n                <div style={{\r\n                  display: 'flex', alignItems: 'center', gap: 3,\r\n                  color: item.gradient ? '#a7f3d0' : (item.trend.startsWith('+') ? '#059669' : '#dc2626'),\r\n                  background: item.gradient ? 'rgba(255,255,255,0.15)' : (item.trend.startsWith('+') ? '#dcfce7' : '#fee2e2'),\r\n                  padding: '3px 8px', borderRadius: 8, fontWeight: 700, fontSize: 11,\r\n                }}>\r\n                  {item.trend.startsWith('+') ? <ArrowUpOutlined /> : null}\r\n                  {item.trend}\r\n                </div>\r\n              </div>\r\n              <div style={{ color: item.gradient ? 'rgba(255,255,255,0.75)' : '#64748b', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>{item.label}</div>\r\n              <div style={{ fontSize: 24, fontWeight: 800, color: item.gradient ? '#fff' : '#0f172a' }}>{item.value}</div>\r\n            </div>\r\n          </Col>\r\n        ))}\r\n      </Row>\r\n\r\n      <Row gutter={[20, 20]}>\r\n        {/* Pie Chart */}\r\n        <Col xs={24} md={8}>\r\n          <Card\r\n            bordered={false}\r\n            style={{ borderRadius: 16, border: '1px solid #e2e8f0', height: '100%', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}\r\n            bodyStyle={{ padding: 24 }}\r\n          >\r\n            <div style={{ marginBottom: 20 }}>\r\n              <div style={{ fontWeight: 700, fontSize: 15, color: '#0f172a' }}>Cơ cấu doanh thu</div>\r\n              <Text style={{ color: '#94a3b8', fontSize: 12 }}>Phân tích theo nguồn thu tháng này</Text>\r\n            </div>\r\n            <div style={{ height: 220 }}>\r\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\r\n                <PieChart>\r\n                  <Pie\r\n                    data={revenueBreakdown}\r\n                    cx=\"50%\" cy=\"50%\"\r\n                    innerRadius={55} outerRadius={80}\r\n                    paddingAngle={4} dataKey=\"value\"\r\n                    stroke=\"none\"\r\n                  >\r\n                    {revenueBreakdown.map((entry, index) => (\r\n                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />\r\n                    ))}\r\n                  </Pie>\r\n                  <Tooltip formatter={(value) => `${Number(value).toLocaleString()}đ`} contentStyle={{ borderRadius: 10, border: 'none', fontSize: 12 }} />\r\n                </PieChart>\r\n              </ResponsiveContainer>\r\n            </div>\r\n            {/* Center label */}\r\n            <div style={{ textAlign: 'center', marginTop: -8, marginBottom: 16 }}>\r\n              <div style={{ fontSize: 22, fontWeight: 800, color: '#059669' }}>\r\n                {(totalRevenue / 1e6).toFixed(1)}M đ\r\n              </div>\r\n              <div style={{ color: '#94a3b8', fontSize: 11, fontWeight: 600 }}>Tổng doanh thu</div>\r\n            </div>\r\n            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>\r\n              {revenueBreakdown.map((item, i) => (\r\n                <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>\r\n                  <div style={{ width: 10, height: 10, borderRadius: 3, backgroundColor: COLORS[i], flexShrink: 0 }} />\r\n                  <span style={{ color: '#64748b', fontSize: 12, flex: 1 }}>{item.name}</span>\r\n                  <span style={{ fontWeight: 700, color: '#0f172a', fontSize: 12 }}>{(item.value / 1e6).toFixed(1)}M</span>\r\n                </div>\r\n              ))}\r\n            </div>\r\n          </Card>\r\n        </Col>\r\n\r\n        {/* Area Chart + Table */}\r\n        <Col xs={24} md={16}>\r\n          {/* Trend chart */}\r\n          <Card\r\n            bordered={false}\r\n            style={{ borderRadius: 16, border: '1px solid #e2e8f0', marginBottom: 20, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}\r\n            bodyStyle={{ padding: 24 }}\r\n          >\r\n            <div style={{ marginBottom: 16 }}>\r\n              <div style={{ fontWeight: 700, fontSize: 15, color: '#0f172a' }}>Xu hướng doanh thu 7 ngày</div>\r\n              <Text style={{ color: '#94a3b8', fontSize: 12 }}>Biến động doanh thu theo từng ngày trong tuần</Text>\r\n            </div>\r\n            <div style={{ height: 160 }}>\r\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\r\n                <AreaChart data={trendData} margin={{ top: 5, right: 5, bottom: 0, left: 0 }}>\r\n                  <defs>\r\n                    <linearGradient id=\"areaGreen\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\r\n                      <stop offset=\"0%\" stopColor=\"#059669\" stopOpacity={0.2} />\r\n                      <stop offset=\"100%\" stopColor=\"#059669\" stopOpacity={0} />\r\n                    </linearGradient>\r\n                  </defs>\r\n                  <CartesianGrid strokeDasharray=\"3 3\" vertical={false} stroke=\"#f1f5f9\" />\r\n                  <XAxis dataKey=\"day\" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }} />\r\n                  <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10 }} tickFormatter={v => `${(v/1e6).toFixed(0)}M`} />\r\n                  <Tooltip formatter={(val: any) => [`${Number(val).toLocaleString()}đ`, 'Doanh thu']} contentStyle={{ borderRadius: 10, border: 'none', fontSize: 12 }} />\r\n                  <Area type=\"monotone\" dataKey=\"revenue\" stroke=\"#059669\" strokeWidth={2.5} fill=\"url(#areaGreen)\" dot={{ fill: '#059669', strokeWidth: 0, r: 4 }} activeDot={{ r: 6 }} />\r\n                </AreaChart>\r\n              </ResponsiveContainer>\r\n            </div>\r\n          </Card>\r\n\r\n          {/* Transaction Table */}\r\n          <Card\r\n            bordered={false}\r\n            style={{ borderRadius: 16, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}\r\n            bodyStyle={{ padding: 0 }}\r\n          >\r\n            <div style={{ padding: '16px 24px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>\r\n              <div>\r\n                <div style={{ fontWeight: 700, color: '#0f172a', fontSize: 15 }}>Lịch sử giao dịch</div>\r\n                <Text style={{ color: '#94a3b8', fontSize: 12 }}>{transactionData.length} giao dịch gần nhất</Text>\r\n              </div>\r\n              <Space wrap>\r\n                <RangePicker\r\n                  defaultValue={[dayjs().subtract(7, 'days'), dayjs()]}\r\n                  format=\"DD/MM/YYYY\"\r\n                  style={{ borderRadius: 8 }}\r\n                />\r\n                <Select defaultValue=\"all\" style={{ width: 130 }} size=\"middle\" options={[\r\n                  { value: 'all', label: 'Tất cả TT' },\r\n                  { value: 'success', label: 'Thành công' },\r\n                  { value: 'refunded', label: 'Hoàn tiền' },\r\n                ]} />\r\n              </Space>\r\n            </div>\r\n            <Table\r\n              columns={columns}\r\n              dataSource={transactionData}\r\n              rowKey=\"id\"\r\n              pagination={{ pageSize: 5, size: 'small' }}\r\n              style={{ borderRadius: 0 }}\r\n            />\r\n          </Card>\r\n        </Col>\r\n      </Row>\r\n    </PageContainer>\r\n  );\r\n};\r\n\r\nexport default AdminFinance;\r\n",
+      "__content": "import React from 'react';\r\nimport { PageContainer } from '@ant-design/pro-components';\r\nimport { Card, Table, Tag, Row, Col, DatePicker, Select, Space, Button, Typography } from 'antd';\r\nimport { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend, AreaChart, Area, XAxis, YAxis, CartesianGrid } from 'recharts';\r\nimport {\r\n  DownloadOutlined, WalletOutlined, ArrowUpOutlined,\r\n  TransactionOutlined, ReloadOutlined, CheckCircleOutlined,\r\n} from '@ant-design/icons';\r\nimport dayjs from 'dayjs';\r\n\r\nconst { RangePicker } = DatePicker;\r\nconst { Text } = Typography;\r\n\r\nconst transactionData = [\r\n  { id: 'TXN001', date: '2026-05-09 18:30', user: 'Nguyễn Văn A', type: 'Đặt sân', amount: 450000, method: 'Chuyển khoản', status: 'success' },\r\n  { id: 'TXN002', date: '2026-05-09 19:00', user: 'Nguyễn Văn A', type: 'Dịch vụ (Nước, Áo)', amount: 150000, method: 'Tiền mặt', status: 'success' },\r\n  { id: 'TXN003', date: '2026-05-08 20:00', user: 'Trần B', type: 'Đặt sân', amount: 800000, method: 'Ví điện tử', status: 'refunded' },\r\n  { id: 'TXN004', date: '2026-05-08 17:00', user: 'Lê C', type: 'Đặt sân', amount: 300000, method: 'Chuyển khoản', status: 'success' },\r\n  { id: 'TXN005', date: '2026-05-07 19:30', user: 'FC Hàng Cuối', type: 'Đặt sân + Dịch vụ', amount: 650000, method: 'Tiền mặt', status: 'success' },\r\n];\r\n\r\nconst revenueBreakdown = [\r\n  { name: 'Tiền thuê sân', value: 45000000 },\r\n  { name: 'Nước giải khát', value: 8500000 },\r\n  { name: 'Thuê áo, bóng', value: 3200000 },\r\n  { name: 'Tổ chức giải đấu', value: 12000000 },\r\n];\r\n\r\nconst trendData = [\r\n  { day: 'T2', revenue: 8400000 },\r\n  { day: 'T3', revenue: 12000000 },\r\n  { day: 'T4', revenue: 9500000 },\r\n  { day: 'T5', revenue: 14000000 },\r\n  { day: 'T6', revenue: 18000000 },\r\n  { day: 'T7', revenue: 22000000 },\r\n  { day: 'CN', revenue: 16000000 },\r\n];\r\n\r\nconst COLORS = ['#059669', '#34d399', '#fbbf24', '#f87171'];\r\n\r\nconst METHOD_STYLES: Record<string, { bg: string; color: string; icon: string }> = {\r\n  'Chuyển khoản': { bg: '#dbeafe', color: '#1d4ed8', icon: '🏦' },\r\n  'Tiền mặt':     { bg: '#dcfce7', color: '#15803d', icon: '💵' },\r\n  'Ví điện tử':   { bg: '#ede9fe', color: '#6d28d9', icon: '📱' },\r\n};\r\n\r\nconst AdminFinance: React.FC = () => {\r\n  const totalRevenue = 68700000;\r\n  const totalTxn = transactionData.length;\r\n  const successTxn = transactionData.filter(t => t.status === 'success').length;\r\n  const refundedAmount = transactionData.filter(t => t.status === 'refunded').reduce((s, t) => s + t.amount, 0);\r\n\r\n  const columns = [\r\n    {\r\n      title: 'Mã GD',\r\n      dataIndex: 'id',\r\n      key: 'id',\r\n      render: (text: string) => (\r\n        <span style={{\r\n          fontFamily: 'monospace', fontSize: 12, fontWeight: 700,\r\n          background: '#f1f5f9', padding: '3px 8px', borderRadius: 6, color: '#475569',\r\n        }}>\r\n          {text}\r\n        </span>\r\n      ),\r\n    },\r\n    {\r\n      title: 'Khách hàng',\r\n      dataIndex: 'user',\r\n      key: 'user',\r\n      render: (text: string) => (\r\n        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>\r\n          <div style={{\r\n            width: 30, height: 30, borderRadius: '50%',\r\n            background: 'linear-gradient(135deg, #059669, #34d399)',\r\n            color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',\r\n            fontWeight: 700, fontSize: 11, flexShrink: 0,\r\n          }}>\r\n            {text.substring(0, 2).toUpperCase()}\r\n          </div>\r\n          <span style={{ fontWeight: 600, color: '#0f172a', fontSize: 13 }}>{text}</span>\r\n        </div>\r\n      ),\r\n    },\r\n    { title: 'Loại', dataIndex: 'type', key: 'type', render: (text: string) => <Text style={{ color: '#475569', fontSize: 13 }}>{text}</Text> },\r\n    {\r\n      title: 'Phương thức',\r\n      dataIndex: 'method',\r\n      key: 'method',\r\n      render: (method: string) => {\r\n        const cfg = METHOD_STYLES[method] || { bg: '#f1f5f9', color: '#475569', icon: '💳' };\r\n        return (\r\n          <div style={{\r\n            display: 'inline-flex', alignItems: 'center', gap: 5,\r\n            padding: '3px 10px', borderRadius: 20,\r\n            backgroundColor: cfg.bg, color: cfg.color,\r\n            fontWeight: 600, fontSize: 12,\r\n          }}>\r\n            {cfg.icon} {method}\r\n          </div>\r\n        );\r\n      },\r\n    },\r\n    {\r\n      title: 'Số tiền',\r\n      dataIndex: 'amount',\r\n      key: 'amount',\r\n      render: (val: number, record: any) => (\r\n        <div>\r\n          <div style={{ fontWeight: 800, fontSize: 14, color: record.status === 'refunded' ? '#dc2626' : '#059669' }}>\r\n            {record.status === 'refunded' ? '-' : '+'}{val.toLocaleString()}đ\r\n          </div>\r\n          <div style={{ fontSize: 10, color: '#cbd5e1' }}>{record.date}</div>\r\n        </div>\r\n      ),\r\n    },\r\n    {\r\n      title: 'Trạng thái',\r\n      dataIndex: 'status',\r\n      key: 'status',\r\n      render: (status: string) => {\r\n        if (status === 'success') return (\r\n          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, background: '#dcfce7', color: '#15803d', fontWeight: 700, fontSize: 11 }}>\r\n            <CheckCircleOutlined /> Thành công\r\n          </div>\r\n        );\r\n        if (status === 'refunded') return (\r\n          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, background: '#fee2e2', color: '#dc2626', fontWeight: 700, fontSize: 11 }}>\r\n            <ReloadOutlined /> Hoàn tiền\r\n          </div>\r\n        );\r\n        return <Tag>Chờ xử lý</Tag>;\r\n      },\r\n    },\r\n  ];\r\n\r\n  return (\r\n    <PageContainer\r\n      header={{\r\n        title: (\r\n          <div>\r\n            <div style={{ fontWeight: 800, fontSize: 22, color: '#0f172a' }}>Báo cáo & Tài chính</div>\r\n            <Text style={{ color: '#94a3b8', fontSize: 13 }}>Theo dõi dòng tiền và phân tích cơ cấu doanh thu</Text>\r\n          </div>\r\n        ),\r\n        extra: [\r\n          <Button key=\"export\" icon={<DownloadOutlined />} style={{ height: 40, fontWeight: 600, borderRadius: 10 }}>\r\n            Xuất Excel\r\n          </Button>,\r\n        ],\r\n      }}\r\n    >\r\n      {/* Summary Stats */}\r\n      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>\r\n        {[\r\n          { icon: <WalletOutlined />, label: 'Tổng doanh thu', value: `${(totalRevenue / 1e6).toFixed(1)}M đ`, trend: '+14%', color: '#059669', bg: '#dcfce7', gradient: 'linear-gradient(135deg, #059669 0%, #047857 100%)' },\r\n          { icon: <TransactionOutlined />, label: 'Giao dịch tháng này', value: `${totalTxn} GD`, trend: '+8%', color: '#2563eb', bg: '#dbeafe', gradient: undefined },\r\n          { icon: <CheckCircleOutlined />, label: 'Thành công', value: `${successTxn} GD`, trend: `${Math.round(successTxn/totalTxn*100)}%`, color: '#7c3aed', bg: '#ede9fe', gradient: undefined },\r\n          { icon: <ReloadOutlined />, label: 'Hoàn tiền', value: `${(refundedAmount/1000).toFixed(0)}K đ`, trend: '-2%', color: '#dc2626', bg: '#fee2e2', gradient: undefined },\r\n        ].map((item, i) => (\r\n          <Col xs={24} sm={12} lg={6} key={i}>\r\n            <div style={{\r\n              background: item.gradient || 'white',\r\n              borderRadius: 16, padding: '20px 22px',\r\n              border: item.gradient ? 'none' : '1px solid #e2e8f0',\r\n              boxShadow: '0 1px 4px rgba(0,0,0,0.04)',\r\n              position: 'relative', overflow: 'hidden',\r\n              transition: 'transform 0.2s, box-shadow 0.2s',\r\n            }} className=\"admin-stat-card\">\r\n              <div style={{ position: 'absolute', right: -12, bottom: -12, width: 80, height: 80, borderRadius: '50%', backgroundColor: item.gradient ? 'rgba(255,255,255,0.08)' : `${item.color}12` }} />\r\n              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>\r\n                <div style={{\r\n                  width: 40, height: 40, borderRadius: 10,\r\n                  background: item.gradient ? 'rgba(255,255,255,0.2)' : item.bg,\r\n                  color: item.gradient ? '#fff' : item.color,\r\n                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18,\r\n                }}>\r\n                  {item.icon}\r\n                </div>\r\n                <div style={{\r\n                  display: 'flex', alignItems: 'center', gap: 3,\r\n                  color: item.gradient ? '#a7f3d0' : (item.trend.startsWith('+') ? '#059669' : '#dc2626'),\r\n                  background: item.gradient ? 'rgba(255,255,255,0.15)' : (item.trend.startsWith('+') ? '#dcfce7' : '#fee2e2'),\r\n                  padding: '3px 8px', borderRadius: 8, fontWeight: 700, fontSize: 11,\r\n                }}>\r\n                  {item.trend.startsWith('+') ? <ArrowUpOutlined /> : null}\r\n                  {item.trend}\r\n                </div>\r\n              </div>\r\n              <div style={{ color: item.gradient ? 'rgba(255,255,255,0.75)' : '#64748b', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>{item.label}</div>\r\n              <div style={{ fontSize: 24, fontWeight: 800, color: item.gradient ? '#fff' : '#0f172a' }}>{item.value}</div>\r\n            </div>\r\n          </Col>\r\n        ))}\r\n      </Row>\r\n\r\n      <Row gutter={[20, 20]}>\r\n        {/* Pie Chart */}\r\n        <Col xs={24} md={8}>\r\n          <Card\r\n            bordered={false}\r\n            style={{ borderRadius: 16, border: '1px solid #e2e8f0', height: '100%', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}\r\n            bodyStyle={{ padding: 24 }}\r\n          >\r\n            <div style={{ marginBottom: 20 }}>\r\n              <div style={{ fontWeight: 700, fontSize: 15, color: '#0f172a' }}>Cơ cấu doanh thu</div>\r\n              <Text style={{ color: '#94a3b8', fontSize: 12 }}>Phân tích theo nguồn thu tháng này</Text>\r\n            </div>\r\n            <div style={{ height: 220 }}>\r\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\r\n                <PieChart>\r\n                  <Pie\r\n                    data={revenueBreakdown}\r\n                    cx=\"50%\" cy=\"50%\"\r\n                    innerRadius={55} outerRadius={80}\r\n                    paddingAngle={4} dataKey=\"value\"\r\n                    stroke=\"none\"\r\n                  >\r\n                    {revenueBreakdown.map((entry, index) => (\r\n                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />\r\n                    ))}\r\n                  </Pie>\r\n                  <Tooltip formatter={(value) => `${Number(value).toLocaleString()}đ`} contentStyle={{ borderRadius: 10, border: 'none', fontSize: 12 }} />\r\n                </PieChart>\r\n              </ResponsiveContainer>\r\n            </div>\r\n            {/* Center label */}\r\n            <div style={{ textAlign: 'center', marginTop: -8, marginBottom: 16 }}>\r\n              <div style={{ fontSize: 22, fontWeight: 800, color: '#059669' }}>\r\n                {(totalRevenue / 1e6).toFixed(1)}M đ\r\n              </div>\r\n              <div style={{ color: '#94a3b8', fontSize: 11, fontWeight: 600 }}>Tổng doanh thu</div>\r\n            </div>\r\n            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>\r\n              {revenueBreakdown.map((item, i) => (\r\n                <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>\r\n                  <div style={{ width: 10, height: 10, borderRadius: 3, backgroundColor: COLORS[i], flexShrink: 0 }} />\r\n                  <span style={{ color: '#64748b', fontSize: 12, flex: 1 }}>{item.name}</span>\r\n                  <span style={{ fontWeight: 700, color: '#0f172a', fontSize: 12 }}>{(item.value / 1e6).toFixed(1)}M</span>\r\n                </div>\r\n              ))}\r\n            </div>\r\n          </Card>\r\n        </Col>\r\n\r\n        {/* Area Chart + Table */}\r\n        <Col xs={24} md={16}>\r\n          {/* Trend chart */}\r\n          <Card\r\n            bordered={false}\r\n            style={{ borderRadius: 16, border: '1px solid #e2e8f0', marginBottom: 20, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}\r\n            bodyStyle={{ padding: 24 }}\r\n          >\r\n            <div style={{ marginBottom: 16 }}>\r\n              <div style={{ fontWeight: 700, fontSize: 15, color: '#0f172a' }}>Xu hướng doanh thu 7 ngày</div>\r\n              <Text style={{ color: '#94a3b8', fontSize: 12 }}>Biến động doanh thu theo từng ngày trong tuần</Text>\r\n            </div>\r\n            <div style={{ height: 160 }}>\r\n              <ResponsiveContainer width=\"100%\" height=\"100%\">\r\n                <AreaChart data={trendData} margin={{ top: 5, right: 5, bottom: 0, left: 0 }}>\r\n                  <defs>\r\n                    <linearGradient id=\"areaGreen\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\r\n                      <stop offset=\"0%\" stopColor=\"#059669\" stopOpacity={0.2} />\r\n                      <stop offset=\"100%\" stopColor=\"#059669\" stopOpacity={0} />\r\n                    </linearGradient>\r\n                  </defs>\r\n                  <CartesianGrid strokeDasharray=\"3 3\" vertical={false} stroke=\"#f1f5f9\" />\r\n                  <XAxis dataKey=\"day\" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }} />\r\n                  <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10 }} tickFormatter={v => `${(v/1e6).toFixed(0)}M`} />\r\n                  <Tooltip formatter={(val: any) => [`${Number(val).toLocaleString()}đ`, 'Doanh thu']} contentStyle={{ borderRadius: 10, border: 'none', fontSize: 12 }} />\r\n                  <Area type=\"monotone\" dataKey=\"revenue\" stroke=\"#059669\" strokeWidth={2.5} fill=\"url(#areaGreen)\" dot={{ fill: '#059669', strokeWidth: 0, r: 4 }} activeDot={{ r: 6 }} />\r\n                </AreaChart>\r\n              </ResponsiveContainer>\r\n            </div>\r\n          </Card>\r\n\r\n          {/* Transaction Table */}\r\n          <Card\r\n            bordered={false}\r\n            style={{ borderRadius: 16, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}\r\n            bodyStyle={{ padding: 0 }}\r\n          >\r\n            <div style={{ padding: '16px 24px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>\r\n              <div>\r\n                <div style={{ fontWeight: 700, color: '#0f172a', fontSize: 15 }}>Lịch sử giao dịch</div>\r\n                <Text style={{ color: '#94a3b8', fontSize: 12 }}>{transactionData.length} giao dịch gần nhất</Text>\r\n              </div>\r\n              <Space wrap>\r\n                <RangePicker\r\n                  defaultValue={[dayjs().subtract(7, 'days'), dayjs()]}\r\n                  format=\"DD/MM/YYYY\"\r\n                  style={{ borderRadius: 8 }}\r\n                />\r\n                <Select defaultValue=\"all\" style={{ width: 130 }} size=\"middle\" options={[\r\n                  { value: 'all', label: 'Tất cả TT' },\r\n                  { value: 'success', label: 'Thành công' },\r\n                  { value: 'refunded', label: 'Hoàn tiền' },\r\n                ]} />\r\n              </Space>\r\n            </div>\r\n            <Table\r\n              columns={columns}\r\n              dataSource={transactionData}\r\n              rowKey=\"id\"\r\n              pagination={{ pageSize: 5, size: 'small' }}\r\n              style={{ borderRadius: 0 }}\r\n            />\r\n          </Card>\r\n        </Col>\r\n      </Row>\r\n    </PageContainer>\r\n  );\r\n};\r\n\r\nexport default AdminFinance;\r\n",
       "__isJSFile": true,
       "__absFile": "D:/PTIT/TH_Laptrinhweb/Football-Management/Frontend/src/pages/admin/finance/index.tsx"
     },
