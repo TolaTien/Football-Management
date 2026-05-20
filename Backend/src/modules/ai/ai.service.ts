@@ -66,6 +66,8 @@ export class AiService {
       take: 20,
     });
 
+    recentMessages.reverse();
+
     const history: GeminiContent[] = recentMessages.map((item) => ({
       role: item.sender,
       parts: [{ text: item.content }],
