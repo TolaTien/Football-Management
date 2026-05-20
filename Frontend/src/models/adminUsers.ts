@@ -1,36 +1,146 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import api from '@/services/api';
+import { message } from 'antd';
+
+export interface UserItem {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: 'Quản trị' | 'Khách hàng';
+  status: 'active' | 'banned';
+}
 
 export default function useAdminUsersModel() {
-  const [users, setUsers] = useState([
-    { id: '1', name: 'Johnathan Doe', email: 'john.doe@arena-manager.com', phone: '+84 123 456 789', role: 'Quản trị', status: 'active', bookingsCount: 12, lastBooking: '2023-10-24' },
-    { id: '2', name: 'Sarah Rodriguez', email: 'sarah.r@gmail.com', phone: '+84 987 654 321', role: 'Khách hàng', status: 'active', bookingsCount: 5, lastBooking: '2023-10-20' },
-    { id: '3', name: 'Marcus Knight', email: 'm.knight@academy.com', phone: '+84 444 221 100', role: 'Khách hàng', status: 'banned', bookingsCount: 2, lastBooking: '2023-09-15' },
-    { id: '4', name: 'Phạm Quang Dũng', email: 'dung.pq@gmail.com', phone: '+84 909 888 777', role: 'Khách hàng', status: 'active', bookingsCount: 24, lastBooking: '2023-10-25' },
-  ]);
+  const [users, setUsers] = useState<UserItem[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const toggleBanStatus = useCallback((id: string) => {
-    setUsers((prev) =>
-      prev.map((u) => {
-        if (u.id === id) {
-          return { ...u, status: u.status === 'active' ? 'banned' : 'active' };
-        }
-        return u;
-      })
-    );
+  // Lấy danh sách bị chặn từ localStorage
+  const getBannedUserIds = (): string[] => {
+    try {
+      const banned = localStorage.getItem('banned_user_ids');
+      return banned ? JSON.parse(banned) : [];
+    } catch {
+      return [];
+    }
+  };
+
+  // Tải danh sách người dùng từ BE
+  const fetchUsers = useCallback(async (page = 1, limit = 100, search = '') => {
+    setLoading(true);
+    try {
+      const response = await api.get(`/admin/users`, {
+        params: { page, limit, search }
+      });
+      const backendUsers = response.data?.data?.users || [];
+      const bannedIds = getBannedUserIds();
+
+      const mappedUsers: UserItem[] = backendUsers.map((u: any) => ({
+        id: u.userId,
+        name: u.fullName,
+        email: u.email,
+        phone: u.phone || '—',
+        role: u.role === 'admin' ? 'Quản trị' : 'Khách hàng',
+        status: bannedIds.includes(u.userId) ? 'banned' : 'active'
+      }));
+
+      setUsers(mappedUsers);
+    } catch (error) {
+      console.error("Lỗi tải người dùng:", error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const addUser = useCallback((user: any) => {
-    setUsers((prev) => [{ ...user, id: `u${Date.now()}`, status: 'active', bookingsCount: 0, lastBooking: '-' }, ...prev]);
-  }, []);
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
-  const deleteUser = useCallback((id: string) => {
-    setUsers((prev) => prev.filter((u) => u.id !== id));
+  // Thêm người dùng mới
+  const addUser = useCallback(async (userData: any) => {
+    try {
+      // Map vai trò và họ tên
+      const backendRole = userData.role === 'Quản trị' ? 'admin' : 'user';
+      const defaultPassword = userData.password || '123456'; // Mật khẩu mặc định
+
+      await api.post('/admin/users', {
+        email: userData.email,
+        fullName: userData.name,
+        phone: userData.phone,
+        role: backendRole,
+        password: defaultPassword
+      });
+
+      message.success('Thêm người dùng mới thành công!');
+      fetchUsers();
+    } catch (error: any) {
+      console.error("Lỗi thêm người dùng:", error);
+      message.error(error.response?.data?.message || 'Lỗi thêm người dùng');
+    }
+  }, [fetchUsers]);
+
+  // Cập nhật người dùng
+  const updateUser = useCallback(async (userId: string, userData: any) => {
+    try {
+      const backendRole = userData.role ? (userData.role === 'Quản trị' ? 'admin' : 'user') : undefined;
+      await api.put(`/admin/users/${userId}`, {
+        email: userData.email,
+        fullName: userData.name,
+        phone: userData.phone,
+        role: backendRole,
+        password: userData.password
+      });
+      fetchUsers();
+    } catch (error: any) {
+      console.error("Lỗi cập nhật người dùng:", error);
+      message.error(error.response?.data?.message || 'Lỗi cập nhật người dùng');
+    }
+  }, [fetchUsers]);
+
+  // Xóa người dùng
+  const deleteUser = useCallback(async (userId: string) => {
+    try {
+      await api.delete(`/admin/users/${userId}`);
+      message.success('Xóa người dùng thành công!');
+      fetchUsers();
+    } catch (error: any) {
+      console.error("Lỗi xóa người dùng:", error);
+      message.error(error.response?.data?.message || 'Lỗi xóa người dùng');
+    }
+  }, [fetchUsers]);
+
+  // Chặn / Bỏ chặn người dùng bằng localStorage
+  const toggleBanStatus = useCallback((userId: string) => {
+    const bannedIds = getBannedUserIds();
+    let newBannedIds: string[];
+
+    if (bannedIds.includes(userId)) {
+      newBannedIds = bannedIds.filter(id => id !== userId);
+    } else {
+      newBannedIds = [...bannedIds, userId];
+    }
+
+    localStorage.setItem('banned_user_ids', JSON.stringify(newBannedIds));
+
+    // Cập nhật local state ngay lập tức để đồng bộ UI
+    setUsers(prev => prev.map(u => {
+      if (u.id === userId) {
+        return {
+          ...u,
+          status: u.status === 'active' ? 'banned' : 'active'
+        };
+      }
+      return u;
+    }));
   }, []);
 
   return {
     users,
-    toggleBanStatus,
+    loading,
+    fetchUsers,
     addUser,
+    updateUser,
     deleteUser,
+    toggleBanStatus
   };
 }
