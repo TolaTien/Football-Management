@@ -12,7 +12,10 @@ import {
 } from '@ant-design/icons';
 import { useModel } from '@umijs/max';
 import dayjs, { Dayjs } from 'dayjs';
+import 'dayjs/locale/vi';
 import type { Booking } from '@/models/adminBookings';
+
+dayjs.locale('vi');
 
 const { Title, Text } = Typography;
 

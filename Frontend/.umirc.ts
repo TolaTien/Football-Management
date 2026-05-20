@@ -53,12 +53,12 @@ export default defineConfig({
         {
           name: 'Pitches',
           path: '/admin/pitches',
-          component: './admin/pitches', 
+          component: './admin/pitches',
         },
         {
           name: 'Pricing',
           path: '/admin/pricing',
-          component: './admin/pricing', 
+          component: './admin/pricing',
         },
         {
           name: 'Customers',

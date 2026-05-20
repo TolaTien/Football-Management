@@ -45,7 +45,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -58,7 +58,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 10
+        "register": 9
       },
       "enableBy": "register"
     },
@@ -88,7 +88,7 @@
             0
           ]
         },
-        "register": 2
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -149,7 +149,7 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            17
+            18
           ]
         },
         "register": 15
@@ -165,7 +165,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -182,7 +182,7 @@
             0
           ],
           "onCheck": [
-            1
+            0
           ]
         },
         "register": 1
@@ -199,7 +199,7 @@
       "time": {
         "hooks": {
           "onCheck": [
-            4
+            0
           ]
         },
         "register": 0
@@ -215,7 +215,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -232,7 +232,7 @@
             0
           ]
         },
-        "register": 4
+        "register": 7
       },
       "enableBy": "register"
     },
@@ -1084,7 +1084,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1098,7 +1098,7 @@
       "time": {
         "hooks": {
           "onStart": [
-            0
+            1
           ]
         },
         "register": 1
@@ -1114,7 +1114,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1127,7 +1127,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 60
+        "register": 57
       },
       "enableBy": "register"
     },
@@ -1140,7 +1140,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 31
+        "register": 28
       },
       "enableBy": "config"
     },
@@ -1153,7 +1153,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 22
+        "register": 14
       },
       "enableBy": "config"
     },
@@ -1167,10 +1167,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            0
+            1
           ]
         },
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1183,7 +1183,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1196,7 +1196,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1213,7 +1213,7 @@
             1
           ]
         },
-        "register": 25
+        "register": 22
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mpa/mpa": {
@@ -1238,7 +1238,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 2
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/overrides/overrides": {
@@ -1292,7 +1292,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1395,7 +1395,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 4
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -1408,7 +1408,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 5
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1421,7 +1421,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 6
+        "register": 3
       },
       "enableBy": "register"
     },
@@ -1460,7 +1460,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 6
+        "register": 5
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/monorepo/redirect": {
@@ -1472,7 +1472,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 22
+        "register": 17
       },
       "enableBy": "config"
     },
@@ -1497,7 +1497,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1523,7 +1523,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1536,7 +1536,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 0
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/swc/swc": {
@@ -1552,7 +1552,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1565,7 +1565,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 4
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/mako/mako": {
@@ -1577,7 +1577,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -1602,7 +1602,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/routePreloadOnLoad/routePreloadOnLoad": {
@@ -1614,7 +1614,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 21
+        "register": 28
       }
     },
     "./node_modules/@umijs/preset-umi/dist/features/forget/forget": {
@@ -1626,7 +1626,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -1639,7 +1639,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1652,7 +1652,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 3
+        "register": 2
       },
       "enableBy": "register"
     },
@@ -1665,7 +1665,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 26
+        "register": 27
       },
       "enableBy": "register"
     },
@@ -1679,10 +1679,10 @@
       "time": {
         "hooks": {
           "modifyAppData": [
-            18
+            22
           ]
         },
-        "register": 28
+        "register": 27
       }
     },
     "./node_modules/@umijs/preset-umi/dist/commands/help": {
@@ -1694,7 +1694,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1720,7 +1720,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1733,7 +1733,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1824,7 +1824,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1850,7 +1850,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1863,7 +1863,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1889,7 +1889,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -1902,7 +1902,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "register"
     },
@@ -1915,7 +1915,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2029,7 +2029,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2044,7 +2044,7 @@
       },
       "time": {
         "hooks": {},
-        "register": 2
+        "register": 3
       },
       "enableBy": "config"
     },
@@ -2070,7 +2070,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 2
       },
       "enableBy": "config"
     },
@@ -2096,7 +2096,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2109,7 +2109,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2172,7 +2172,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2185,7 +2185,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 1
+        "register": 0
       },
       "enableBy": "config"
     },
@@ -2198,7 +2198,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "config"
     },
@@ -2232,7 +2232,7 @@
             0
           ]
         },
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     },
@@ -2262,7 +2262,7 @@
       "config": {},
       "time": {
         "hooks": {},
-        "register": 0
+        "register": 1
       },
       "enableBy": "register"
     }
@@ -3549,7 +3549,7 @@
       "file": "@/layouts/AdminLayout.tsx",
       "id": "12",
       "absPath": "/admin",
-      "__content": "import React, { useEffect, useState } from 'react';\r\nimport { Outlet, Link, useLocation, history } from '@umijs/max';\r\n\r\nconst ADMIN_NAV_ITEMS = [\r\n  { icon: 'dashboard', label: 'Tổng quan', path: '/admin/dashboard' },\r\n  { icon: 'calendar_month', label: 'Lịch đặt sân', path: '/admin/schedule' },\r\n  { icon: 'sports_soccer', label: 'Quản lý sân', path: '/admin/pitches' },\r\n  { icon: 'assessment', label: 'Báo cáo doanh thu', path: '/admin/finance' },\r\n  { icon: 'group', label: 'Người dùng', path: '/admin/customers' },\r\n  { icon: 'payments', label: 'Cấu hình giá', path: '/admin/pricing' },\r\n  { icon: 'inventory_2', label: 'Kho & Sản phẩm', path: '/admin/services' },\r\n  { icon: 'forum', label: 'Diễn đàn', path: '/admin/forum' },\r\n];\r\n\r\nconst AdminLayout: React.FC = () => {\r\n  const location = useLocation();\r\n  const [admin, setAdmin] = useState<{ email: string; role: string } | null>(null);\r\n\r\n  useEffect(() => {\r\n    // Check if user is logged in as admin\r\n    const adminStr = localStorage.getItem('pitchhub_user');\r\n    if (!adminStr) {\r\n      history.push('/auth/login');\r\n      return;\r\n    }\r\n    \r\n    try {\r\n      const parsed = JSON.parse(adminStr);\r\n      if (parsed.role !== 'admin') {\r\n        history.push('/auth/login');\r\n        return;\r\n      }\r\n      setAdmin(parsed);\r\n    } catch (e) {\r\n      history.push('/auth/login');\r\n    }\r\n  }, [location.pathname]);\r\n\r\n  const handleLogout = () => {\r\n    localStorage.removeItem('pitchhub_user');\r\n    history.push('/auth/login');\r\n  };\r\n\r\n  if (!admin) {\r\n    return null; // or a loading spinner\r\n  }\r\n\r\n  const avatarChar = admin.email.charAt(0).toUpperCase();\r\n\r\n  return (\r\n    <div className=\"min-h-screen bg-[#f9fafb] flex\">\r\n      {/* Sidebar */}\r\n      <aside className=\"fixed left-0 top-0 h-screen w-[260px] border-r border-gray-200 bg-white flex flex-col z-50\">\r\n        <div className=\"px-6 py-6 flex items-center gap-3\">\r\n          <div className=\"w-8 h-8 bg-emerald-600 rounded-md flex items-center justify-center\">\r\n            <span className=\"material-symbols-outlined text-white text-lg\">shield_person</span>\r\n          </div>\r\n          <div>\r\n            <h1 className=\"text-lg font-bold text-emerald-900 leading-tight\">TurfManager</h1>\r\n            <p className=\"text-[10px] font-semibold text-gray-500 uppercase tracking-wider\">Admin Portal</p>\r\n          </div>\r\n        </div>\r\n\r\n        <nav className=\"flex-1 px-4 space-y-1.5 mt-4 overflow-y-auto\">\r\n          {ADMIN_NAV_ITEMS.map((item) => {\r\n            const isActive = location.pathname.startsWith(item.path);\r\n            return (\r\n              <Link\r\n                key={item.path}\r\n                to={item.path}\r\n                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all no-underline ${\r\n                  isActive\r\n                    ? 'bg-emerald-500 text-white font-semibold shadow-sm'\r\n                    : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 font-medium'\r\n                }`}\r\n              >\r\n                <span className=\"material-symbols-outlined text-[20px]\">{item.icon}</span>\r\n                <span className=\"text-sm\">{item.label}</span>\r\n              </Link>\r\n            );\r\n          })}\r\n        </nav>\r\n\r\n        {/* User Profile at bottom */}\r\n        <div className=\"mt-auto p-4 border-t border-gray-100\">\r\n          <div className=\"bg-gray-50 rounded-xl p-3 flex items-center justify-between border border-gray-100\">\r\n            <div className=\"flex items-center gap-3\">\r\n              <div className=\"w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-white font-bold text-sm shadow-sm\">\r\n                {avatarChar}\r\n              </div>\r\n              <div>\r\n                <p className=\"text-sm font-bold text-gray-900\">{admin.email.split('@')[0]}</p>\r\n                <p className=\"text-xs text-gray-500\">Quản trị viên</p>\r\n              </div>\r\n            </div>\r\n            <button \r\n              onClick={handleLogout}\r\n              className=\"text-gray-400 hover:text-red-500 transition-colors p-1.5 rounded-md hover:bg-red-50\"\r\n              title=\"Đăng xuất\"\r\n            >\r\n              <span className=\"material-symbols-outlined text-[20px]\">logout</span>\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </aside>\r\n\r\n      {/* Header */}\r\n      <header className=\"fixed top-0 left-[260px] right-0 h-16 bg-white border-b border-gray-200 shadow-sm flex justify-between items-center px-8 z-40\">\r\n        <div className=\"flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-full px-4 py-2 w-96 focus-within:bg-white focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-100 transition-all\">\r\n          <span className=\"material-symbols-outlined text-gray-400 text-[18px]\">search</span>\r\n          <input\r\n            className=\"bg-transparent border-none outline-none text-sm w-full text-gray-700 placeholder-gray-400\"\r\n            placeholder=\"Tìm kiếm giao dịch, sân bóng, người dùng...\"\r\n            type=\"text\"\r\n          />\r\n        </div>\r\n        \r\n        <div className=\"flex items-center gap-4\">\r\n          <button className=\"relative text-gray-500 hover:text-emerald-600 transition-colors p-1\">\r\n            <span className=\"material-symbols-outlined\">notifications</span>\r\n            <span className=\"absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border border-white\"></span>\r\n          </button>\r\n          <button className=\"text-gray-500 hover:text-emerald-600 transition-colors p-1\">\r\n            <span className=\"material-symbols-outlined\">settings</span>\r\n          </button>\r\n        </div>\r\n      </header>\r\n\r\n      {/* Main Content Area */}\r\n      <main className=\"ml-[260px] pt-16 flex-1 min-h-screen\">\r\n        <div className=\"p-8\">\r\n          <Outlet />\r\n        </div>\r\n      </main>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default AdminLayout;\r\n",
+      "__content": "import React, { useEffect, useState } from 'react';\r\nimport { Outlet, Link, useLocation, history } from '@umijs/max';\r\nimport { ConfigProvider } from 'antd';\r\nimport viVN from 'antd/locale/vi_VN';\r\nimport dayjs from 'dayjs';\r\nimport 'dayjs/locale/vi';\r\n\r\ndayjs.locale('vi');\r\n\r\nconst ADMIN_NAV_ITEMS = [\r\n  { icon: 'dashboard', label: 'Tổng quan', path: '/admin/dashboard' },\r\n  { icon: 'calendar_month', label: 'Lịch đặt sân', path: '/admin/schedule' },\r\n  { icon: 'sports_soccer', label: 'Quản lý sân', path: '/admin/pitches' },\r\n  { icon: 'assessment', label: 'Báo cáo doanh thu', path: '/admin/finance' },\r\n  { icon: 'group', label: 'Người dùng', path: '/admin/customers' },\r\n  { icon: 'payments', label: 'Cấu hình giá', path: '/admin/pricing' },\r\n  { icon: 'inventory_2', label: 'Kho & Sản phẩm', path: '/admin/services' },\r\n  { icon: 'forum', label: 'Diễn đàn', path: '/admin/forum' },\r\n];\r\n\r\nconst AdminLayout: React.FC = () => {\r\n  const location = useLocation();\r\n  const [admin, setAdmin] = useState<{ email: string; role: string } | null>(null);\r\n\r\n  useEffect(() => {\r\n    // Check if user is logged in as admin\r\n    const adminStr = localStorage.getItem('pitchhub_user');\r\n    if (!adminStr) {\r\n      history.push('/auth/login');\r\n      return;\r\n    }\r\n    \r\n    try {\r\n      const parsed = JSON.parse(adminStr);\r\n      if (parsed.role !== 'admin') {\r\n        history.push('/auth/login');\r\n        return;\r\n      }\r\n      setAdmin(parsed);\r\n    } catch (e) {\r\n      history.push('/auth/login');\r\n    }\r\n  }, [location.pathname]);\r\n\r\n  const handleLogout = () => {\r\n    localStorage.removeItem('pitchhub_user');\r\n    history.push('/auth/login');\r\n  };\r\n\r\n  if (!admin) {\r\n    return null; // or a loading spinner\r\n  }\r\n\r\n  const avatarChar = admin.email.charAt(0).toUpperCase();\r\n\r\n  return (\r\n    <ConfigProvider locale={viVN}>\r\n    <div className=\"min-h-screen bg-[#f9fafb] flex\">\r\n      {/* Sidebar */}\r\n      <aside className=\"fixed left-0 top-0 h-screen w-[260px] border-r border-gray-200 bg-white flex flex-col z-50\">\r\n        <div className=\"px-6 py-6 flex items-center gap-3\">\r\n          <div className=\"w-8 h-8 bg-emerald-600 rounded-md flex items-center justify-center\">\r\n            <span className=\"material-symbols-outlined text-white text-lg\">shield_person</span>\r\n          </div>\r\n          <div>\r\n            <h1 className=\"text-lg font-bold text-emerald-900 leading-tight\">TurfManager</h1>\r\n            <p className=\"text-[10px] font-semibold text-gray-500 uppercase tracking-wider\">Admin Portal</p>\r\n          </div>\r\n        </div>\r\n\r\n        <nav className=\"flex-1 px-4 space-y-1.5 mt-4 overflow-y-auto\">\r\n          {ADMIN_NAV_ITEMS.map((item) => {\r\n            const isActive = location.pathname.startsWith(item.path);\r\n            return (\r\n              <Link\r\n                key={item.path}\r\n                to={item.path}\r\n                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all no-underline ${\r\n                  isActive\r\n                    ? 'bg-emerald-500 text-white font-semibold shadow-sm'\r\n                    : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 font-medium'\r\n                }`}\r\n              >\r\n                <span className=\"material-symbols-outlined text-[20px]\">{item.icon}</span>\r\n                <span className=\"text-sm\">{item.label}</span>\r\n              </Link>\r\n            );\r\n          })}\r\n        </nav>\r\n\r\n        {/* User Profile at bottom */}\r\n        <div className=\"mt-auto p-4 border-t border-gray-100\">\r\n          <div className=\"bg-gray-50 rounded-xl p-3 flex items-center justify-between border border-gray-100\">\r\n            <div className=\"flex items-center gap-3\">\r\n              <div className=\"w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-white font-bold text-sm shadow-sm\">\r\n                {avatarChar}\r\n              </div>\r\n              <div>\r\n                <p className=\"text-sm font-bold text-gray-900\">{admin.email.split('@')[0]}</p>\r\n                <p className=\"text-xs text-gray-500\">Quản trị viên</p>\r\n              </div>\r\n            </div>\r\n            <button \r\n              onClick={handleLogout}\r\n              className=\"text-gray-400 hover:text-red-500 transition-colors p-1.5 rounded-md hover:bg-red-50\"\r\n              title=\"Đăng xuất\"\r\n            >\r\n              <span className=\"material-symbols-outlined text-[20px]\">logout</span>\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </aside>\r\n\r\n      {/* Header */}\r\n      <header className=\"fixed top-0 left-[260px] right-0 h-16 bg-white border-b border-gray-200 shadow-sm flex justify-between items-center px-8 z-40\">\r\n        <div className=\"flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-full px-4 py-2 w-96 focus-within:bg-white focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-100 transition-all\">\r\n          <span className=\"material-symbols-outlined text-gray-400 text-[18px]\">search</span>\r\n          <input\r\n            className=\"bg-transparent border-none outline-none text-sm w-full text-gray-700 placeholder-gray-400\"\r\n            placeholder=\"Tìm kiếm giao dịch, sân bóng, người dùng...\"\r\n            type=\"text\"\r\n          />\r\n        </div>\r\n        \r\n        <div className=\"flex items-center gap-4\">\r\n          <button className=\"relative text-gray-500 hover:text-emerald-600 transition-colors p-1\">\r\n            <span className=\"material-symbols-outlined\">notifications</span>\r\n            <span className=\"absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border border-white\"></span>\r\n          </button>\r\n          <button className=\"text-gray-500 hover:text-emerald-600 transition-colors p-1\">\r\n            <span className=\"material-symbols-outlined\">settings</span>\r\n          </button>\r\n        </div>\r\n      </header>\r\n\r\n      {/* Main Content Area */}\r\n      <main className=\"ml-[260px] pt-16 flex-1 min-h-screen\">\r\n        <div className=\"p-8\">\r\n          <Outlet />\r\n        </div>\r\n      </main>\r\n    </div>\r\n    </ConfigProvider>\r\n  );\r\n};\r\n\r\nexport default AdminLayout;\r\n",
       "__isJSFile": true,
       "__absFile": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/layouts/AdminLayout.tsx"
     },
@@ -3570,7 +3570,7 @@
       "parentId": "12",
       "id": "14",
       "absPath": "/admin/schedule",
-      "__content": "import React, { useState, useMemo } from 'react';\r\nimport { PageContainer } from '@ant-design/pro-components';\r\nimport {\r\n  Row, Col, Card, Typography, Button, Select, DatePicker,\r\n  Modal, Form, Input, TimePicker, Tag, Tooltip, message, Popconfirm, Badge,\r\n} from 'antd';\r\nimport {\r\n  CalendarOutlined, FilterOutlined, PlusOutlined,\r\n  AreaChartOutlined, MoneyCollectOutlined, FieldTimeOutlined,\r\n  CheckCircleOutlined, CloseCircleOutlined, DeleteOutlined,\r\n  PhoneOutlined, UserOutlined, ClockCircleOutlined, TeamOutlined,\r\n} from '@ant-design/icons';\r\nimport { useModel } from '@umijs/max';\r\nimport dayjs, { Dayjs } from 'dayjs';\r\nimport type { Booking } from '@/models/adminBookings';\r\n\r\nconst { Title, Text } = Typography;\r\n\r\n// Grid: 30-min slots from 06:00 to 22:00 = 32 slots\r\nconst SLOT_MIN = 30;\r\nconst START_HOUR = 6;\r\nconst END_HOUR = 22;\r\nconst START_MIN_VAL = START_HOUR * 60;\r\nconst SLOT_COUNT = ((END_HOUR - START_HOUR) * 60) / SLOT_MIN; // 32\r\n\r\nconst HOUR_LABELS = Array.from({ length: END_HOUR - START_HOUR }, (_, i) =>\r\n  `${String(START_HOUR + i).padStart(2, '0')}:00`\r\n);\r\n\r\nfunction toMin(t: string) {\r\n  const [h, m] = t.split(':').map(Number);\r\n  return h * 60 + m;\r\n}\r\n\r\nfunction bookingGridCol(start: string, end: string) {\r\n  const s = Math.round((toMin(start) - START_MIN_VAL) / SLOT_MIN);\r\n  const e = Math.round((toMin(end) - START_MIN_VAL) / SLOT_MIN);\r\n  return { gridColumnStart: s + 2, gridColumnEnd: e + 2 };\r\n}\r\n\r\nconst PAY_CFG: Record<string, { bg: string; label: string }> = {\r\n  deposited: { bg: '#10b981', label: 'Đã cọc' },\r\n  paid: { bg: '#059669', label: 'Đã thanh toán' },\r\n  unpaid: { bg: '#f87171', label: 'Chưa TT' },\r\n};\r\n\r\nconst SRC_LABEL: Record<string, string> = {\r\n  app: '📱 App', phone: '📞 Điện thoại', admin: '🖥️ Admin',\r\n};\r\n\r\nconst GRID_TPL = `160px repeat(${SLOT_COUNT}, minmax(28px, 1fr))`;\r\n\r\nconst AdminScheduleGrid: React.FC = () => {\r\n  const { bookings, updateBookingStatus, updatePaymentStatus, addManualBooking, deleteBooking } = useModel('adminBookings');\r\n  const { pitches } = useModel('adminPitches');\r\n\r\n  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs('2023-10-24'));\r\n  const [filterPitch, setFilterPitch] = useState('all');\r\n  const [filterPayment, setFilterPayment] = useState('all');\r\n  const [showAdd, setShowAdd] = useState(false);\r\n  const [detail, setDetail] = useState<Booking | null>(null);\r\n  const [addForm] = Form.useForm();\r\n\r\n  const dateStr = selectedDate.format('YYYY-MM-DD');\r\n\r\n  const filtered = useMemo(() =>\r\n    bookings.filter(b =>\r\n      b.date === dateStr &&\r\n      (filterPitch === 'all' || b.pitchId === filterPitch) &&\r\n      (filterPayment === 'all' || b.paymentStatus === filterPayment)\r\n    ), [bookings, dateStr, filterPitch, filterPayment]);\r\n\r\n  const displayPitches = useMemo(() =>\r\n    filterPitch === 'all' ? pitches : pitches.filter(p => p.id === filterPitch),\r\n    [pitches, filterPitch]);\r\n\r\n  const unpaidCount = filtered.filter(b => b.paymentStatus === 'unpaid').length;\r\n  const totalRev = filtered.reduce((s, b) => s + b.price, 0);\r\n  const occupancy = pitches.length ? Math.min(100, Math.round((filtered.length / (pitches.length * 4)) * 100)) : 0;\r\n\r\n  const handleAdd = () => {\r\n    addForm.validateFields().then(v => {\r\n      const pitch = pitches.find(p => p.id === v.pitchId);\r\n      addManualBooking({\r\n        userName: v.userName, phone: v.phone,\r\n        pitchId: v.pitchId, pitchName: pitch?.name || '',\r\n        date: v.date.format('YYYY-MM-DD'),\r\n        startTime: v.startTime.format('HH:mm'),\r\n        endTime: v.endTime.format('HH:mm'),\r\n        status: 'approved', paymentStatus: 'unpaid',\r\n        price: Number(v.price), source: 'admin', note: v.note,\r\n      });\r\n      message.success('Đã thêm đặt sân!');\r\n      setShowAdd(false);\r\n      addForm.resetFields();\r\n    });\r\n  };\r\n\r\n  return (\r\n    <PageContainer\r\n      header={{\r\n        title: <Title level={2} style={{ margin: 0, fontWeight: 700, color: '#00a67d' }}>Lịch đặt sân chi tiết</Title>,\r\n        subTitle: (\r\n          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 12px', background: '#f3f4f6', borderRadius: 16, marginTop: 8 }}>\r\n            <CalendarOutlined style={{ color: '#4b5563' }} />\r\n            <Text style={{ color: '#4b5563', fontWeight: 600 }}>{selectedDate.format('dddd, DD/MM/YYYY')}</Text>\r\n          </div>\r\n        ),\r\n        extra: [\r\n          <Button key=\"add\" type=\"primary\" icon={<PlusOutlined />} onClick={() => setShowAdd(true)}\r\n            style={{ background: '#00a67d', borderRadius: 8, fontWeight: 600, height: 40 }}>\r\n            Đặt sân mới\r\n          </Button>\r\n        ],\r\n      }}\r\n    >\r\n      {/* Filter */}\r\n      <Card bordered={false} style={{ marginBottom: 24, borderRadius: 12, border: '1px solid #e5e7eb' }}\r\n        bodyStyle={{ padding: '16px 24px' }}>\r\n        <Row gutter={16} align=\"bottom\">\r\n          <Col span={6}>\r\n            <div style={{ fontSize: 12, fontWeight: 600, color: '#4b5563', marginBottom: 6 }}>Ngày xem lịch</div>\r\n            <DatePicker value={selectedDate} onChange={v => v && setSelectedDate(v)}\r\n              style={{ width: '100%', height: 40, borderRadius: 8 }} format=\"DD/MM/YYYY\" />\r\n          </Col>\r\n          <Col span={6}>\r\n            <div style={{ fontSize: 12, fontWeight: 600, color: '#4b5563', marginBottom: 6 }}>Chọn khu vực sân</div>\r\n            <Select value={filterPitch} onChange={setFilterPitch} style={{ width: '100%', height: 40 }}\r\n              options={[{ value: 'all', label: 'Tất cả các sân' }, ...pitches.map(p => ({ value: p.id, label: p.name }))]} />\r\n          </Col>\r\n          <Col span={6}>\r\n            <div style={{ fontSize: 12, fontWeight: 600, color: '#4b5563', marginBottom: 6 }}>Trạng thái thanh toán</div>\r\n            <Select value={filterPayment} onChange={setFilterPayment} style={{ width: '100%', height: 40 }}\r\n              options={[\r\n                { value: 'all', label: 'Tất cả trạng thái' },\r\n                { value: 'deposited', label: 'Đã cọc' },\r\n                { value: 'paid', label: 'Đã thanh toán' },\r\n                { value: 'unpaid', label: 'Chưa thanh toán' },\r\n              ]} />\r\n          </Col>\r\n          <Col span={6}>\r\n            <Button icon={<FilterOutlined />} onClick={() => { setFilterPitch('all'); setFilterPayment('all'); }}\r\n              style={{ width: '100%', height: 40, borderRadius: 8, background: '#e0e7ff', color: '#4f46e5', border: 'none', fontWeight: 600 }}>\r\n              Lọc kết quả\r\n            </Button>\r\n          </Col>\r\n        </Row>\r\n      </Card>\r\n\r\n      {/* Grid Timeline */}\r\n      <Card bordered={false} bodyStyle={{ padding: 0 }}\r\n        style={{ borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden' }}>\r\n        {/* Legend */}\r\n        <div style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '12px 20px', borderBottom: '1px solid #e5e7eb', background: '#f9fafb' }}>\r\n          {[\r\n            { bg: '#10b981', label: 'Đã cọc' },\r\n            { bg: '#059669', label: 'Đã thanh toán' },\r\n            { bg: '#f87171', label: 'Chưa thanh toán' },\r\n          ].map(({ bg, label }) => (\r\n            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: '#4b5563' }}>\r\n              <div style={{ width: 10, height: 10, borderRadius: '50%', background: bg }} />{label}\r\n            </div>\r\n          ))}\r\n          <div style={{ marginLeft: 'auto' }}>\r\n            <Badge count={filtered.length} showZero color=\"#00a67d\" />\r\n            <span style={{ marginLeft: 6, fontSize: 13, color: '#4b5563' }}>lượt đặt</span>\r\n          </div>\r\n        </div>\r\n\r\n        <div style={{ overflowX: 'auto' }}>\r\n          <div style={{ minWidth: 960 }}>\r\n\r\n            {/* Header row */}\r\n            <div style={{ display: 'grid', gridTemplateColumns: GRID_TPL, background: '#e0e7ff', borderBottom: '2px solid #c7d2fe' }}>\r\n              <div style={{ padding: '10px 14px', borderRight: '1px solid #c7d2fe', fontWeight: 800, color: '#3730a3', fontSize: 13, gridColumn: '1' }}>\r\n                SÂN / GIỜ\r\n              </div>\r\n              {HOUR_LABELS.map((lbl, i) => (\r\n                <div key={lbl} style={{\r\n                  gridColumn: `${i * 2 + 2} / ${i * 2 + 4}`,\r\n                  gridRow: '1',\r\n                  padding: '10px 4px',\r\n                  textAlign: 'center',\r\n                  fontWeight: 700,\r\n                  color: '#1f2937',\r\n                  fontSize: 12,\r\n                  borderRight: '1px solid #c7d2fe',\r\n                }}>\r\n                  {lbl}\r\n                </div>\r\n              ))}\r\n            </div>\r\n\r\n            {/* Pitch rows */}\r\n            {displayPitches.map(pitch => {\r\n              const pitchBookings = filtered.filter(b => b.pitchId === pitch.id);\r\n              return (\r\n                <div key={pitch.id} style={{\r\n                  display: 'grid',\r\n                  gridTemplateColumns: GRID_TPL,\r\n                  gridTemplateRows: '72px',\r\n                  borderBottom: '1px solid #e5e7eb',\r\n                  alignItems: 'stretch',\r\n                }}>\r\n                  {/* Pitch label */}\r\n                  <div style={{ gridColumn: '1', gridRow: '1', padding: '10px 14px', background: '#f9fafb', borderRight: '1px solid #e5e7eb', zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>\r\n                    <div style={{ fontWeight: 800, color: '#1f2937', fontSize: 14 }}>{pitch.name}</div>\r\n                    <div style={{ fontSize: 10, fontWeight: 700, color: pitch.type?.includes('7') || pitch.type?.includes('11') ? '#1d4ed8' : '#059669', textTransform: 'uppercase', marginTop: 2 }}>\r\n                      {pitch.type}\r\n                    </div>\r\n                  </div>\r\n\r\n                  {/* Background slot lines */}\r\n                  {Array.from({ length: SLOT_COUNT }, (_, i) => (\r\n                    <div key={i} style={{\r\n                      gridColumn: `${i + 2}`,\r\n                      gridRow: '1',\r\n                      borderRight: i % 2 === 1 ? '1px solid #e5e7eb' : '1px solid #f3f4f6',\r\n                    }} />\r\n                  ))}\r\n\r\n                  {/* Booking blocks */}\r\n                  {pitchBookings.map(b => {\r\n                    const cfg = PAY_CFG[b.paymentStatus] || PAY_CFG.unpaid;\r\n                    const { gridColumnStart, gridColumnEnd } = bookingGridCol(b.startTime, b.endTime);\r\n                    return (\r\n                      <Tooltip key={b.id} title={`${b.userName} · ${b.startTime}–${b.endTime} · ${cfg.label}`}>\r\n                        <div\r\n                          onClick={() => setDetail(b)}\r\n                          style={{\r\n                            gridColumn: `${gridColumnStart} / ${gridColumnEnd}`,\r\n                            gridRow: '1',\r\n                            margin: '6px 3px',\r\n                            background: cfg.bg,\r\n                            borderRadius: 6,\r\n                            padding: '5px 8px',\r\n                            color: '#fff',\r\n                            cursor: 'pointer',\r\n                            overflow: 'hidden',\r\n                            zIndex: 2,\r\n                            boxShadow: '0 2px 6px rgba(0,0,0,0.15)',\r\n                            transition: 'filter 0.15s',\r\n                          }}\r\n                          onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.1)')}\r\n                          onMouseLeave={e => (e.currentTarget.style.filter = 'brightness(1)')}\r\n                        >\r\n                          <div style={{ fontWeight: 700, fontSize: 11, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{b.userName}</div>\r\n                          <div style={{ fontSize: 10, opacity: 0.88 }}>{b.startTime}–{b.endTime}</div>\r\n                        </div>\r\n                      </Tooltip>\r\n                    );\r\n                  })}\r\n                </div>\r\n              );\r\n            })}\r\n\r\n            {displayPitches.length === 0 && (\r\n              <div style={{ padding: 48, textAlign: 'center', color: '#9ca3af' }}>Không có sân nào</div>\r\n            )}\r\n          </div>\r\n        </div>\r\n      </Card>\r\n\r\n      {/* Stats */}\r\n      <Row gutter={[24, 24]} style={{ marginTop: 24 }}>\r\n        {[\r\n          { icon: <CalendarOutlined />, bg: '#059669', iconColor: '#fff', label: 'Tổng lượt đặt hôm nay', value: `${filtered.length} lượt`, valColor: '#1f2937' },\r\n          { icon: <AreaChartOutlined />, bg: '#e0e7ff', iconColor: '#4f46e5', label: 'Tỷ lệ lấp đầy', value: `${occupancy}%`, valColor: '#1f2937' },\r\n          { icon: <MoneyCollectOutlined />, bg: '#fee2e2', iconColor: '#dc2626', label: 'Doanh thu dự kiến', value: `${totalRev.toLocaleString()} VNĐ`, valColor: '#1f2937' },\r\n          { icon: <FieldTimeOutlined />, bg: '#f3f4f6', iconColor: '#4b5563', label: 'Lượt chưa thanh toán', value: `${String(unpaidCount).padStart(2, '0')} lượt`, valColor: unpaidCount > 0 ? '#dc2626' : '#1f2937' },\r\n        ].map(({ icon, bg, iconColor, label, value, valColor }) => (\r\n          <Col xs={24} sm={12} lg={6} key={label}>\r\n            <Card bordered={false} bodyStyle={{ padding: 20, display: 'flex', alignItems: 'center', gap: 16 }}\r\n              style={{ borderRadius: 12, border: '1px solid #e5e7eb' }}>\r\n              <div style={{ width: 48, height: 48, borderRadius: '50%', background: bg, color: iconColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>\r\n                {icon}\r\n              </div>\r\n              <div>\r\n                <div style={{ color: '#4b5563', fontSize: 12, fontWeight: 600 }}>{label}</div>\r\n                <div style={{ fontSize: 20, fontWeight: 800, color: valColor }}>{value}</div>\r\n              </div>\r\n            </Card>\r\n          </Col>\r\n        ))}\r\n      </Row>\r\n\r\n      {/* ── ADD MODAL ── */}\r\n      <Modal open={showAdd} onCancel={() => { setShowAdd(false); addForm.resetFields(); }}\r\n        footer={null} width={580} bodyStyle={{ padding: 0 }} style={{ borderRadius: 12, overflow: 'hidden' }}>\r\n        <div style={{ display: 'flex', minHeight: 420 }}>\r\n          {/* Left sidebar */}\r\n          <div style={{ width: 180, background: 'linear-gradient(160deg,#00a67d,#007a5c)', padding: 28, display: 'flex', flexDirection: 'column', gap: 10 }}>\r\n            <div style={{ fontSize: 36 }}>📋</div>\r\n            <div style={{ color: '#fff', fontWeight: 800, fontSize: 17, lineHeight: 1.3 }}>Đặt sân mới</div>\r\n            <div style={{ color: 'rgba(255,255,255,0.78)', fontSize: 12, marginTop: 4 }}>Điền thông tin để tạo lịch đặt sân cho khách hàng</div>\r\n            <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 8 }}>\r\n              {['✅ Xác nhận ngay', '✅ Ghi chú linh hoạt', '✅ Quản lý tập trung'].map(t => (\r\n                <div key={t} style={{ color: 'rgba(255,255,255,0.7)', fontSize: 11 }}>{t}</div>\r\n              ))}\r\n            </div>\r\n          </div>\r\n\r\n          {/* Right form */}\r\n          <div style={{ flex: 1, padding: '24px 28px', display: 'flex', flexDirection: 'column' }}>\r\n            <div style={{ fontWeight: 700, fontSize: 16, color: '#1f2937', marginBottom: 20 }}>Thông tin đặt sân</div>\r\n            <Form form={addForm} layout=\"vertical\" style={{ flex: 1 }}>\r\n              <Row gutter={12}>\r\n                <Col span={13}>\r\n                  <Form.Item name=\"userName\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Tên khách hàng</span>}\r\n                    rules={[{ required: true, message: 'Nhập tên!' }]}>\r\n                    <Input prefix={<UserOutlined style={{ color: '#9ca3af' }} />} placeholder=\"Nguyễn Văn A\" style={{ borderRadius: 8, height: 38 }} />\r\n                  </Form.Item>\r\n                </Col>\r\n                <Col span={11}>\r\n                  <Form.Item name=\"phone\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Số điện thoại</span>}>\r\n                    <Input prefix={<PhoneOutlined style={{ color: '#9ca3af' }} />} placeholder=\"09xxxxxxxx\" style={{ borderRadius: 8, height: 38 }} />\r\n                  </Form.Item>\r\n                </Col>\r\n              </Row>\r\n\r\n              <Form.Item name=\"pitchId\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Chọn sân</span>}\r\n                rules={[{ required: true, message: 'Chọn sân!' }]}>\r\n                <Select placeholder=\"Chọn sân bóng\" style={{ height: 38 }}\r\n                  options={pitches.map(p => ({ value: p.id, label: `${p.name} — ${p.type}` }))} />\r\n              </Form.Item>\r\n\r\n              <Row gutter={12}>\r\n                <Col span={12}>\r\n                  <Form.Item name=\"date\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Ngày đặt</span>}\r\n                    initialValue={selectedDate} rules={[{ required: true, message: 'Chọn ngày!' }]}>\r\n                    <DatePicker style={{ width: '100%', height: 38, borderRadius: 8 }} format=\"DD/MM/YYYY\" />\r\n                  </Form.Item>\r\n                </Col>\r\n                <Col span={6}>\r\n                  <Form.Item name=\"startTime\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Bắt đầu</span>}\r\n                    rules={[{ required: true, message: 'Chọn giờ!' }]}>\r\n                    <TimePicker style={{ width: '100%', height: 38, borderRadius: 8 }} format=\"HH:mm\" minuteStep={30} />\r\n                  </Form.Item>\r\n                </Col>\r\n                <Col span={6}>\r\n                  <Form.Item name=\"endTime\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Kết thúc</span>}\r\n                    rules={[{ required: true, message: 'Chọn giờ!' }]}>\r\n                    <TimePicker style={{ width: '100%', height: 38, borderRadius: 8 }} format=\"HH:mm\" minuteStep={30} />\r\n                  </Form.Item>\r\n                </Col>\r\n              </Row>\r\n\r\n              <Form.Item name=\"price\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Giá tiền (VNĐ)</span>}\r\n                rules={[{ required: true, message: 'Nhập giá!' }]}>\r\n                <Input prefix={<MoneyCollectOutlined style={{ color: '#9ca3af' }} />} type=\"number\" placeholder=\"300000\" style={{ borderRadius: 8, height: 38 }} />\r\n              </Form.Item>\r\n\r\n              <Form.Item name=\"note\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Ghi chú</span>} style={{ marginBottom: 0 }}>\r\n                <Input.TextArea rows={2} placeholder=\"Ghi chú thêm...\" style={{ borderRadius: 8 }} />\r\n              </Form.Item>\r\n            </Form>\r\n\r\n            <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>\r\n              <Button onClick={() => { setShowAdd(false); addForm.resetFields(); }}\r\n                style={{ flex: 1, height: 42, borderRadius: 8, fontWeight: 600 }}>\r\n                Hủy\r\n              </Button>\r\n              <Button type=\"primary\" onClick={handleAdd}\r\n                style={{ flex: 2, height: 42, borderRadius: 8, background: '#00a67d', fontWeight: 700, fontSize: 14 }}>\r\n                ✅ Xác nhận đặt sân\r\n              </Button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </Modal>\r\n\r\n      {/* ── DETAIL MODAL ── */}\r\n      <Modal title={<span style={{ fontWeight: 700 }}>📋 Chi tiết đặt sân</span>}\r\n        open={!!detail} onCancel={() => setDetail(null)} footer={null} width={460}>\r\n        {detail && (\r\n          <div style={{ paddingTop: 8 }}>\r\n            <div style={{ background: '#f9fafb', borderRadius: 10, padding: 16, marginBottom: 16 }}>\r\n              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>\r\n                <div>\r\n                  <div style={{ fontWeight: 800, fontSize: 17, color: '#1f2937' }}>{detail.userName}</div>\r\n                  <div style={{ color: '#6b7280', fontSize: 13 }}><PhoneOutlined style={{ marginRight: 4 }} />{detail.phone || '—'}</div>\r\n                </div>\r\n                <Tag color={detail.paymentStatus === 'unpaid' ? 'red' : 'green'} style={{ fontWeight: 600 }}>\r\n                  {PAY_CFG[detail.paymentStatus]?.label}\r\n                </Tag>\r\n              </div>\r\n              {[\r\n                { icon: <CalendarOutlined />, label: 'Ngày', val: dayjs(detail.date).format('DD/MM/YYYY') },\r\n                { icon: <ClockCircleOutlined />, label: 'Giờ', val: `${detail.startTime} – ${detail.endTime}` },\r\n                { icon: <TeamOutlined />, label: 'Sân', val: detail.pitchName },\r\n                { icon: <MoneyCollectOutlined />, label: 'Giá', val: `${detail.price.toLocaleString()} VNĐ` },\r\n                { icon: <UserOutlined />, label: 'Nguồn', val: SRC_LABEL[detail.source || 'admin'] },\r\n              ].map(({ icon, label, val }) => (\r\n                <div key={label} style={{ display: 'flex', gap: 8, marginBottom: 7, fontSize: 14, alignItems: 'center' }}>\r\n                  <span style={{ color: '#9ca3af', width: 18 }}>{icon}</span>\r\n                  <span style={{ color: '#6b7280', width: 55 }}>{label}:</span>\r\n                  <span style={{ fontWeight: 600, color: '#1f2937' }}>{val}</span>\r\n                </div>\r\n              ))}\r\n              {detail.note && (\r\n                <div style={{ marginTop: 8, padding: '7px 12px', background: '#fef9c3', borderRadius: 8, fontSize: 13, color: '#854d0e' }}>\r\n                  📝 {detail.note}\r\n                </div>\r\n              )}\r\n            </div>\r\n            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>\r\n              {detail.paymentStatus === 'unpaid' && (\r\n                <Button icon={<CheckCircleOutlined />} type=\"primary\" style={{ background: '#10b981', flex: 1 }}\r\n                  onClick={() => { updatePaymentStatus(detail.id, 'deposited'); setDetail({ ...detail, paymentStatus: 'deposited' }); message.success('Cập nhật: Đã cọc'); }}>\r\n                  Xác nhận cọc\r\n                </Button>\r\n              )}\r\n              {detail.paymentStatus === 'deposited' && (\r\n                <Button icon={<CheckCircleOutlined />} type=\"primary\" style={{ background: '#059669', flex: 1 }}\r\n                  onClick={() => { updatePaymentStatus(detail.id, 'paid'); setDetail({ ...detail, paymentStatus: 'paid' }); message.success('Đã thanh toán đủ!'); }}>\r\n                  Thanh toán đủ\r\n                </Button>\r\n              )}\r\n              {detail.status !== 'cancelled' && (\r\n                <Button icon={<CloseCircleOutlined />} danger\r\n                  onClick={() => { updateBookingStatus(detail.id, 'cancelled'); setDetail({ ...detail, status: 'cancelled' }); message.warning('Đã hủy đặt sân'); }}>\r\n                  Hủy đặt\r\n                </Button>\r\n              )}\r\n              <Popconfirm title=\"Xác nhận xóa?\" onConfirm={() => { deleteBooking(detail.id); setDetail(null); message.success('Đã xóa!'); }} okText=\"Xóa\" cancelText=\"Thôi\">\r\n                <Button icon={<DeleteOutlined />} danger type=\"primary\">Xóa</Button>\r\n              </Popconfirm>\r\n            </div>\r\n          </div>\r\n        )}\r\n      </Modal>\r\n    </PageContainer>\r\n  );\r\n};\r\n\r\nexport default AdminScheduleGrid;\r\n",
+      "__content": "import React, { useState, useMemo } from 'react';\r\nimport { PageContainer } from '@ant-design/pro-components';\r\nimport {\r\n  Row, Col, Card, Typography, Button, Select, DatePicker,\r\n  Modal, Form, Input, TimePicker, Tag, Tooltip, message, Popconfirm, Badge,\r\n} from 'antd';\r\nimport {\r\n  CalendarOutlined, FilterOutlined, PlusOutlined,\r\n  AreaChartOutlined, MoneyCollectOutlined, FieldTimeOutlined,\r\n  CheckCircleOutlined, CloseCircleOutlined, DeleteOutlined,\r\n  PhoneOutlined, UserOutlined, ClockCircleOutlined, TeamOutlined,\r\n} from '@ant-design/icons';\r\nimport { useModel } from '@umijs/max';\r\nimport dayjs, { Dayjs } from 'dayjs';\r\nimport 'dayjs/locale/vi';\r\nimport type { Booking } from '@/models/adminBookings';\r\n\r\ndayjs.locale('vi');\r\n\r\nconst { Title, Text } = Typography;\r\n\r\n// Grid: 30-min slots from 06:00 to 22:00 = 32 slots\r\nconst SLOT_MIN = 30;\r\nconst START_HOUR = 6;\r\nconst END_HOUR = 22;\r\nconst START_MIN_VAL = START_HOUR * 60;\r\nconst SLOT_COUNT = ((END_HOUR - START_HOUR) * 60) / SLOT_MIN; // 32\r\n\r\nconst HOUR_LABELS = Array.from({ length: END_HOUR - START_HOUR }, (_, i) =>\r\n  `${String(START_HOUR + i).padStart(2, '0')}:00`\r\n);\r\n\r\nfunction toMin(t: string) {\r\n  const [h, m] = t.split(':').map(Number);\r\n  return h * 60 + m;\r\n}\r\n\r\nfunction bookingGridCol(start: string, end: string) {\r\n  const s = Math.round((toMin(start) - START_MIN_VAL) / SLOT_MIN);\r\n  const e = Math.round((toMin(end) - START_MIN_VAL) / SLOT_MIN);\r\n  return { gridColumnStart: s + 2, gridColumnEnd: e + 2 };\r\n}\r\n\r\nconst PAY_CFG: Record<string, { bg: string; label: string }> = {\r\n  deposited: { bg: '#10b981', label: 'Đã cọc' },\r\n  paid: { bg: '#059669', label: 'Đã thanh toán' },\r\n  unpaid: { bg: '#f87171', label: 'Chưa TT' },\r\n};\r\n\r\nconst SRC_LABEL: Record<string, string> = {\r\n  app: '📱 App', phone: '📞 Điện thoại', admin: '🖥️ Admin',\r\n};\r\n\r\nconst GRID_TPL = `160px repeat(${SLOT_COUNT}, minmax(28px, 1fr))`;\r\n\r\nconst AdminScheduleGrid: React.FC = () => {\r\n  const { bookings, updateBookingStatus, updatePaymentStatus, addManualBooking, deleteBooking } = useModel('adminBookings');\r\n  const { pitches } = useModel('adminPitches');\r\n\r\n  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs('2023-10-24'));\r\n  const [filterPitch, setFilterPitch] = useState('all');\r\n  const [filterPayment, setFilterPayment] = useState('all');\r\n  const [showAdd, setShowAdd] = useState(false);\r\n  const [detail, setDetail] = useState<Booking | null>(null);\r\n  const [addForm] = Form.useForm();\r\n\r\n  const dateStr = selectedDate.format('YYYY-MM-DD');\r\n\r\n  const filtered = useMemo(() =>\r\n    bookings.filter(b =>\r\n      b.date === dateStr &&\r\n      (filterPitch === 'all' || b.pitchId === filterPitch) &&\r\n      (filterPayment === 'all' || b.paymentStatus === filterPayment)\r\n    ), [bookings, dateStr, filterPitch, filterPayment]);\r\n\r\n  const displayPitches = useMemo(() =>\r\n    filterPitch === 'all' ? pitches : pitches.filter(p => p.id === filterPitch),\r\n    [pitches, filterPitch]);\r\n\r\n  const unpaidCount = filtered.filter(b => b.paymentStatus === 'unpaid').length;\r\n  const totalRev = filtered.reduce((s, b) => s + b.price, 0);\r\n  const occupancy = pitches.length ? Math.min(100, Math.round((filtered.length / (pitches.length * 4)) * 100)) : 0;\r\n\r\n  const handleAdd = () => {\r\n    addForm.validateFields().then(v => {\r\n      const pitch = pitches.find(p => p.id === v.pitchId);\r\n      addManualBooking({\r\n        userName: v.userName, phone: v.phone,\r\n        pitchId: v.pitchId, pitchName: pitch?.name || '',\r\n        date: v.date.format('YYYY-MM-DD'),\r\n        startTime: v.startTime.format('HH:mm'),\r\n        endTime: v.endTime.format('HH:mm'),\r\n        status: 'approved', paymentStatus: 'unpaid',\r\n        price: Number(v.price), source: 'admin', note: v.note,\r\n      });\r\n      message.success('Đã thêm đặt sân!');\r\n      setShowAdd(false);\r\n      addForm.resetFields();\r\n    });\r\n  };\r\n\r\n  return (\r\n    <PageContainer\r\n      header={{\r\n        title: <Title level={2} style={{ margin: 0, fontWeight: 700, color: '#00a67d' }}>Lịch đặt sân chi tiết</Title>,\r\n        subTitle: (\r\n          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 12px', background: '#f3f4f6', borderRadius: 16, marginTop: 8 }}>\r\n            <CalendarOutlined style={{ color: '#4b5563' }} />\r\n            <Text style={{ color: '#4b5563', fontWeight: 600 }}>{selectedDate.format('dddd, DD/MM/YYYY')}</Text>\r\n          </div>\r\n        ),\r\n        extra: [\r\n          <Button key=\"add\" type=\"primary\" icon={<PlusOutlined />} onClick={() => setShowAdd(true)}\r\n            style={{ background: '#00a67d', borderRadius: 8, fontWeight: 600, height: 40 }}>\r\n            Đặt sân mới\r\n          </Button>\r\n        ],\r\n      }}\r\n    >\r\n      {/* Filter */}\r\n      <Card bordered={false} style={{ marginBottom: 24, borderRadius: 12, border: '1px solid #e5e7eb' }}\r\n        bodyStyle={{ padding: '16px 24px' }}>\r\n        <Row gutter={16} align=\"bottom\">\r\n          <Col span={6}>\r\n            <div style={{ fontSize: 12, fontWeight: 600, color: '#4b5563', marginBottom: 6 }}>Ngày xem lịch</div>\r\n            <DatePicker value={selectedDate} onChange={v => v && setSelectedDate(v)}\r\n              style={{ width: '100%', height: 40, borderRadius: 8 }} format=\"DD/MM/YYYY\" />\r\n          </Col>\r\n          <Col span={6}>\r\n            <div style={{ fontSize: 12, fontWeight: 600, color: '#4b5563', marginBottom: 6 }}>Chọn khu vực sân</div>\r\n            <Select value={filterPitch} onChange={setFilterPitch} style={{ width: '100%', height: 40 }}\r\n              options={[{ value: 'all', label: 'Tất cả các sân' }, ...pitches.map(p => ({ value: p.id, label: p.name }))]} />\r\n          </Col>\r\n          <Col span={6}>\r\n            <div style={{ fontSize: 12, fontWeight: 600, color: '#4b5563', marginBottom: 6 }}>Trạng thái thanh toán</div>\r\n            <Select value={filterPayment} onChange={setFilterPayment} style={{ width: '100%', height: 40 }}\r\n              options={[\r\n                { value: 'all', label: 'Tất cả trạng thái' },\r\n                { value: 'deposited', label: 'Đã cọc' },\r\n                { value: 'paid', label: 'Đã thanh toán' },\r\n                { value: 'unpaid', label: 'Chưa thanh toán' },\r\n              ]} />\r\n          </Col>\r\n          <Col span={6}>\r\n            <Button icon={<FilterOutlined />} onClick={() => { setFilterPitch('all'); setFilterPayment('all'); }}\r\n              style={{ width: '100%', height: 40, borderRadius: 8, background: '#e0e7ff', color: '#4f46e5', border: 'none', fontWeight: 600 }}>\r\n              Lọc kết quả\r\n            </Button>\r\n          </Col>\r\n        </Row>\r\n      </Card>\r\n\r\n      {/* Grid Timeline */}\r\n      <Card bordered={false} bodyStyle={{ padding: 0 }}\r\n        style={{ borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden' }}>\r\n        {/* Legend */}\r\n        <div style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '12px 20px', borderBottom: '1px solid #e5e7eb', background: '#f9fafb' }}>\r\n          {[\r\n            { bg: '#10b981', label: 'Đã cọc' },\r\n            { bg: '#059669', label: 'Đã thanh toán' },\r\n            { bg: '#f87171', label: 'Chưa thanh toán' },\r\n          ].map(({ bg, label }) => (\r\n            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: '#4b5563' }}>\r\n              <div style={{ width: 10, height: 10, borderRadius: '50%', background: bg }} />{label}\r\n            </div>\r\n          ))}\r\n          <div style={{ marginLeft: 'auto' }}>\r\n            <Badge count={filtered.length} showZero color=\"#00a67d\" />\r\n            <span style={{ marginLeft: 6, fontSize: 13, color: '#4b5563' }}>lượt đặt</span>\r\n          </div>\r\n        </div>\r\n\r\n        <div style={{ overflowX: 'auto' }}>\r\n          <div style={{ minWidth: 960 }}>\r\n\r\n            {/* Header row */}\r\n            <div style={{ display: 'grid', gridTemplateColumns: GRID_TPL, background: '#e0e7ff', borderBottom: '2px solid #c7d2fe' }}>\r\n              <div style={{ padding: '10px 14px', borderRight: '1px solid #c7d2fe', fontWeight: 800, color: '#3730a3', fontSize: 13, gridColumn: '1' }}>\r\n                SÂN / GIỜ\r\n              </div>\r\n              {HOUR_LABELS.map((lbl, i) => (\r\n                <div key={lbl} style={{\r\n                  gridColumn: `${i * 2 + 2} / ${i * 2 + 4}`,\r\n                  gridRow: '1',\r\n                  padding: '10px 4px',\r\n                  textAlign: 'center',\r\n                  fontWeight: 700,\r\n                  color: '#1f2937',\r\n                  fontSize: 12,\r\n                  borderRight: '1px solid #c7d2fe',\r\n                }}>\r\n                  {lbl}\r\n                </div>\r\n              ))}\r\n            </div>\r\n\r\n            {/* Pitch rows */}\r\n            {displayPitches.map(pitch => {\r\n              const pitchBookings = filtered.filter(b => b.pitchId === pitch.id);\r\n              return (\r\n                <div key={pitch.id} style={{\r\n                  display: 'grid',\r\n                  gridTemplateColumns: GRID_TPL,\r\n                  gridTemplateRows: '72px',\r\n                  borderBottom: '1px solid #e5e7eb',\r\n                  alignItems: 'stretch',\r\n                }}>\r\n                  {/* Pitch label */}\r\n                  <div style={{ gridColumn: '1', gridRow: '1', padding: '10px 14px', background: '#f9fafb', borderRight: '1px solid #e5e7eb', zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>\r\n                    <div style={{ fontWeight: 800, color: '#1f2937', fontSize: 14 }}>{pitch.name}</div>\r\n                    <div style={{ fontSize: 10, fontWeight: 700, color: pitch.type?.includes('7') || pitch.type?.includes('11') ? '#1d4ed8' : '#059669', textTransform: 'uppercase', marginTop: 2 }}>\r\n                      {pitch.type}\r\n                    </div>\r\n                  </div>\r\n\r\n                  {/* Background slot lines */}\r\n                  {Array.from({ length: SLOT_COUNT }, (_, i) => (\r\n                    <div key={i} style={{\r\n                      gridColumn: `${i + 2}`,\r\n                      gridRow: '1',\r\n                      borderRight: i % 2 === 1 ? '1px solid #e5e7eb' : '1px solid #f3f4f6',\r\n                    }} />\r\n                  ))}\r\n\r\n                  {/* Booking blocks */}\r\n                  {pitchBookings.map(b => {\r\n                    const cfg = PAY_CFG[b.paymentStatus] || PAY_CFG.unpaid;\r\n                    const { gridColumnStart, gridColumnEnd } = bookingGridCol(b.startTime, b.endTime);\r\n                    return (\r\n                      <Tooltip key={b.id} title={`${b.userName} · ${b.startTime}–${b.endTime} · ${cfg.label}`}>\r\n                        <div\r\n                          onClick={() => setDetail(b)}\r\n                          style={{\r\n                            gridColumn: `${gridColumnStart} / ${gridColumnEnd}`,\r\n                            gridRow: '1',\r\n                            margin: '6px 3px',\r\n                            background: cfg.bg,\r\n                            borderRadius: 6,\r\n                            padding: '5px 8px',\r\n                            color: '#fff',\r\n                            cursor: 'pointer',\r\n                            overflow: 'hidden',\r\n                            zIndex: 2,\r\n                            boxShadow: '0 2px 6px rgba(0,0,0,0.15)',\r\n                            transition: 'filter 0.15s',\r\n                          }}\r\n                          onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.1)')}\r\n                          onMouseLeave={e => (e.currentTarget.style.filter = 'brightness(1)')}\r\n                        >\r\n                          <div style={{ fontWeight: 700, fontSize: 11, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{b.userName}</div>\r\n                          <div style={{ fontSize: 10, opacity: 0.88 }}>{b.startTime}–{b.endTime}</div>\r\n                        </div>\r\n                      </Tooltip>\r\n                    );\r\n                  })}\r\n                </div>\r\n              );\r\n            })}\r\n\r\n            {displayPitches.length === 0 && (\r\n              <div style={{ padding: 48, textAlign: 'center', color: '#9ca3af' }}>Không có sân nào</div>\r\n            )}\r\n          </div>\r\n        </div>\r\n      </Card>\r\n\r\n      {/* Stats */}\r\n      <Row gutter={[24, 24]} style={{ marginTop: 24 }}>\r\n        {[\r\n          { icon: <CalendarOutlined />, bg: '#059669', iconColor: '#fff', label: 'Tổng lượt đặt hôm nay', value: `${filtered.length} lượt`, valColor: '#1f2937' },\r\n          { icon: <AreaChartOutlined />, bg: '#e0e7ff', iconColor: '#4f46e5', label: 'Tỷ lệ lấp đầy', value: `${occupancy}%`, valColor: '#1f2937' },\r\n          { icon: <MoneyCollectOutlined />, bg: '#fee2e2', iconColor: '#dc2626', label: 'Doanh thu dự kiến', value: `${totalRev.toLocaleString()} VNĐ`, valColor: '#1f2937' },\r\n          { icon: <FieldTimeOutlined />, bg: '#f3f4f6', iconColor: '#4b5563', label: 'Lượt chưa thanh toán', value: `${String(unpaidCount).padStart(2, '0')} lượt`, valColor: unpaidCount > 0 ? '#dc2626' : '#1f2937' },\r\n        ].map(({ icon, bg, iconColor, label, value, valColor }) => (\r\n          <Col xs={24} sm={12} lg={6} key={label}>\r\n            <Card bordered={false} bodyStyle={{ padding: 20, display: 'flex', alignItems: 'center', gap: 16 }}\r\n              style={{ borderRadius: 12, border: '1px solid #e5e7eb' }}>\r\n              <div style={{ width: 48, height: 48, borderRadius: '50%', background: bg, color: iconColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>\r\n                {icon}\r\n              </div>\r\n              <div>\r\n                <div style={{ color: '#4b5563', fontSize: 12, fontWeight: 600 }}>{label}</div>\r\n                <div style={{ fontSize: 20, fontWeight: 800, color: valColor }}>{value}</div>\r\n              </div>\r\n            </Card>\r\n          </Col>\r\n        ))}\r\n      </Row>\r\n\r\n      {/* ── ADD MODAL ── */}\r\n      <Modal open={showAdd} onCancel={() => { setShowAdd(false); addForm.resetFields(); }}\r\n        footer={null} width={580} bodyStyle={{ padding: 0 }} style={{ borderRadius: 12, overflow: 'hidden' }}>\r\n        <div style={{ display: 'flex', minHeight: 420 }}>\r\n          {/* Left sidebar */}\r\n          <div style={{ width: 180, background: 'linear-gradient(160deg,#00a67d,#007a5c)', padding: 28, display: 'flex', flexDirection: 'column', gap: 10 }}>\r\n            <div style={{ fontSize: 36 }}>📋</div>\r\n            <div style={{ color: '#fff', fontWeight: 800, fontSize: 17, lineHeight: 1.3 }}>Đặt sân mới</div>\r\n            <div style={{ color: 'rgba(255,255,255,0.78)', fontSize: 12, marginTop: 4 }}>Điền thông tin để tạo lịch đặt sân cho khách hàng</div>\r\n            <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 8 }}>\r\n              {['✅ Xác nhận ngay', '✅ Ghi chú linh hoạt', '✅ Quản lý tập trung'].map(t => (\r\n                <div key={t} style={{ color: 'rgba(255,255,255,0.7)', fontSize: 11 }}>{t}</div>\r\n              ))}\r\n            </div>\r\n          </div>\r\n\r\n          {/* Right form */}\r\n          <div style={{ flex: 1, padding: '24px 28px', display: 'flex', flexDirection: 'column' }}>\r\n            <div style={{ fontWeight: 700, fontSize: 16, color: '#1f2937', marginBottom: 20 }}>Thông tin đặt sân</div>\r\n            <Form form={addForm} layout=\"vertical\" style={{ flex: 1 }}>\r\n              <Row gutter={12}>\r\n                <Col span={13}>\r\n                  <Form.Item name=\"userName\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Tên khách hàng</span>}\r\n                    rules={[{ required: true, message: 'Nhập tên!' }]}>\r\n                    <Input prefix={<UserOutlined style={{ color: '#9ca3af' }} />} placeholder=\"Nguyễn Văn A\" style={{ borderRadius: 8, height: 38 }} />\r\n                  </Form.Item>\r\n                </Col>\r\n                <Col span={11}>\r\n                  <Form.Item name=\"phone\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Số điện thoại</span>}>\r\n                    <Input prefix={<PhoneOutlined style={{ color: '#9ca3af' }} />} placeholder=\"09xxxxxxxx\" style={{ borderRadius: 8, height: 38 }} />\r\n                  </Form.Item>\r\n                </Col>\r\n              </Row>\r\n\r\n              <Form.Item name=\"pitchId\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Chọn sân</span>}\r\n                rules={[{ required: true, message: 'Chọn sân!' }]}>\r\n                <Select placeholder=\"Chọn sân bóng\" style={{ height: 38 }}\r\n                  options={pitches.map(p => ({ value: p.id, label: `${p.name} — ${p.type}` }))} />\r\n              </Form.Item>\r\n\r\n              <Row gutter={12}>\r\n                <Col span={12}>\r\n                  <Form.Item name=\"date\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Ngày đặt</span>}\r\n                    initialValue={selectedDate} rules={[{ required: true, message: 'Chọn ngày!' }]}>\r\n                    <DatePicker style={{ width: '100%', height: 38, borderRadius: 8 }} format=\"DD/MM/YYYY\" />\r\n                  </Form.Item>\r\n                </Col>\r\n                <Col span={6}>\r\n                  <Form.Item name=\"startTime\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Bắt đầu</span>}\r\n                    rules={[{ required: true, message: 'Chọn giờ!' }]}>\r\n                    <TimePicker style={{ width: '100%', height: 38, borderRadius: 8 }} format=\"HH:mm\" minuteStep={30} />\r\n                  </Form.Item>\r\n                </Col>\r\n                <Col span={6}>\r\n                  <Form.Item name=\"endTime\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Kết thúc</span>}\r\n                    rules={[{ required: true, message: 'Chọn giờ!' }]}>\r\n                    <TimePicker style={{ width: '100%', height: 38, borderRadius: 8 }} format=\"HH:mm\" minuteStep={30} />\r\n                  </Form.Item>\r\n                </Col>\r\n              </Row>\r\n\r\n              <Form.Item name=\"price\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Giá tiền (VNĐ)</span>}\r\n                rules={[{ required: true, message: 'Nhập giá!' }]}>\r\n                <Input prefix={<MoneyCollectOutlined style={{ color: '#9ca3af' }} />} type=\"number\" placeholder=\"300000\" style={{ borderRadius: 8, height: 38 }} />\r\n              </Form.Item>\r\n\r\n              <Form.Item name=\"note\" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Ghi chú</span>} style={{ marginBottom: 0 }}>\r\n                <Input.TextArea rows={2} placeholder=\"Ghi chú thêm...\" style={{ borderRadius: 8 }} />\r\n              </Form.Item>\r\n            </Form>\r\n\r\n            <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>\r\n              <Button onClick={() => { setShowAdd(false); addForm.resetFields(); }}\r\n                style={{ flex: 1, height: 42, borderRadius: 8, fontWeight: 600 }}>\r\n                Hủy\r\n              </Button>\r\n              <Button type=\"primary\" onClick={handleAdd}\r\n                style={{ flex: 2, height: 42, borderRadius: 8, background: '#00a67d', fontWeight: 700, fontSize: 14 }}>\r\n                ✅ Xác nhận đặt sân\r\n              </Button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </Modal>\r\n\r\n      {/* ── DETAIL MODAL ── */}\r\n      <Modal title={<span style={{ fontWeight: 700 }}>📋 Chi tiết đặt sân</span>}\r\n        open={!!detail} onCancel={() => setDetail(null)} footer={null} width={460}>\r\n        {detail && (\r\n          <div style={{ paddingTop: 8 }}>\r\n            <div style={{ background: '#f9fafb', borderRadius: 10, padding: 16, marginBottom: 16 }}>\r\n              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>\r\n                <div>\r\n                  <div style={{ fontWeight: 800, fontSize: 17, color: '#1f2937' }}>{detail.userName}</div>\r\n                  <div style={{ color: '#6b7280', fontSize: 13 }}><PhoneOutlined style={{ marginRight: 4 }} />{detail.phone || '—'}</div>\r\n                </div>\r\n                <Tag color={detail.paymentStatus === 'unpaid' ? 'red' : 'green'} style={{ fontWeight: 600 }}>\r\n                  {PAY_CFG[detail.paymentStatus]?.label}\r\n                </Tag>\r\n              </div>\r\n              {[\r\n                { icon: <CalendarOutlined />, label: 'Ngày', val: dayjs(detail.date).format('DD/MM/YYYY') },\r\n                { icon: <ClockCircleOutlined />, label: 'Giờ', val: `${detail.startTime} – ${detail.endTime}` },\r\n                { icon: <TeamOutlined />, label: 'Sân', val: detail.pitchName },\r\n                { icon: <MoneyCollectOutlined />, label: 'Giá', val: `${detail.price.toLocaleString()} VNĐ` },\r\n                { icon: <UserOutlined />, label: 'Nguồn', val: SRC_LABEL[detail.source || 'admin'] },\r\n              ].map(({ icon, label, val }) => (\r\n                <div key={label} style={{ display: 'flex', gap: 8, marginBottom: 7, fontSize: 14, alignItems: 'center' }}>\r\n                  <span style={{ color: '#9ca3af', width: 18 }}>{icon}</span>\r\n                  <span style={{ color: '#6b7280', width: 55 }}>{label}:</span>\r\n                  <span style={{ fontWeight: 600, color: '#1f2937' }}>{val}</span>\r\n                </div>\r\n              ))}\r\n              {detail.note && (\r\n                <div style={{ marginTop: 8, padding: '7px 12px', background: '#fef9c3', borderRadius: 8, fontSize: 13, color: '#854d0e' }}>\r\n                  📝 {detail.note}\r\n                </div>\r\n              )}\r\n            </div>\r\n            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>\r\n              {detail.paymentStatus === 'unpaid' && (\r\n                <Button icon={<CheckCircleOutlined />} type=\"primary\" style={{ background: '#10b981', flex: 1 }}\r\n                  onClick={() => { updatePaymentStatus(detail.id, 'deposited'); setDetail({ ...detail, paymentStatus: 'deposited' }); message.success('Cập nhật: Đã cọc'); }}>\r\n                  Xác nhận cọc\r\n                </Button>\r\n              )}\r\n              {detail.paymentStatus === 'deposited' && (\r\n                <Button icon={<CheckCircleOutlined />} type=\"primary\" style={{ background: '#059669', flex: 1 }}\r\n                  onClick={() => { updatePaymentStatus(detail.id, 'paid'); setDetail({ ...detail, paymentStatus: 'paid' }); message.success('Đã thanh toán đủ!'); }}>\r\n                  Thanh toán đủ\r\n                </Button>\r\n              )}\r\n              {detail.status !== 'cancelled' && (\r\n                <Button icon={<CloseCircleOutlined />} danger\r\n                  onClick={() => { updateBookingStatus(detail.id, 'cancelled'); setDetail({ ...detail, status: 'cancelled' }); message.warning('Đã hủy đặt sân'); }}>\r\n                  Hủy đặt\r\n                </Button>\r\n              )}\r\n              <Popconfirm title=\"Xác nhận xóa?\" onConfirm={() => { deleteBooking(detail.id); setDetail(null); message.success('Đã xóa!'); }} okText=\"Xóa\" cancelText=\"Thôi\">\r\n                <Button icon={<DeleteOutlined />} danger type=\"primary\">Xóa</Button>\r\n              </Popconfirm>\r\n            </div>\r\n          </div>\r\n        )}\r\n      </Modal>\r\n    </PageContainer>\r\n  );\r\n};\r\n\r\nexport default AdminScheduleGrid;\r\n",
       "__isJSFile": true,
       "__absFile": "C:/Users/Admin/Desktop/huy/web sân bóng/Football-Management/Frontend/src/pages/admin/schedule/index.tsx"
     },
