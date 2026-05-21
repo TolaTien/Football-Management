@@ -1,15 +1,30 @@
-import { UserRole } from '../../../shared/lib/rbac';
+export type UserRole = 'Quản trị' | 'Khách hàng';
+export type UserStatus = 'active' | 'banned';
 
-export interface User {
-    id: string;
-    email: string;
-    fullName: string;
-    role: UserRole;
-    avatar?: string;
+export interface UserItem {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: UserRole;
+  status: UserStatus;
 }
 
-export interface UserState {
-    data: User | null;
-    isAuthenticated: boolean;
-    loading: boolean;
+export interface CreateUserDto {
+  email: string;
+  fullName: string;
+  phone: string;
+  role: 'admin' | 'user';
+  password: string;
 }
+
+export interface UpdateUserDto {
+  email?: string;
+  fullName?: string;
+  phone?: string;
+  role?: 'admin' | 'user';
+  password?: string;
+}
+
+export type User = UserItem;
+

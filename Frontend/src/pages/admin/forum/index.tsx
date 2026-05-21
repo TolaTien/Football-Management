@@ -2,21 +2,24 @@ import React, { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
 import { Row, Col, Card, Typography, Button, Space, Input, Select, Form, message, Tag } from 'antd';
 import { EditOutlined, DeleteOutlined, PushpinOutlined, MessageFilled, FileTextOutlined, TagsOutlined, SaveOutlined } from '@ant-design/icons';
-import { useModel } from '@umijs/max';
+import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { addPost, deletePost } from '@/entities/forum/model/forumSlice';
+import type { CreateForumPostDto } from '@/entities/forum/model/types';
 
 const { Title, Text } = Typography;
 
 const AdminForum: React.FC = () => {
-  const { posts, deletePost, addPost } = useModel('adminForum');
+  const dispatch = useAppDispatch();
+  const { posts } = useAppSelector((state) => state.forum);
   const [form] = Form.useForm();
 
-  const handlePost = (values: any) => {
-    addPost({
+  const handlePost = (values: Omit<CreateForumPostDto, 'status'>) => {
+    dispatch(addPost({
       title: values.title,
       category: values.category,
       author: 'Admin',
       content: values.content
-    });
+    }));
     message.success('Đã đăng bài viết mới!');
     form.resetFields();
   };
@@ -73,7 +76,7 @@ const AdminForum: React.FC = () => {
                 </div>
                 <div style={{ textAlign: 'right', display: 'flex', justifyContent: 'flex-end', gap: 16, color: '#9ca3af', fontSize: 16 }}>
                   <EditOutlined style={{ cursor: 'pointer' }} />
-                  <DeleteOutlined style={{ cursor: 'pointer', color: '#dc2626' }} onClick={() => { deletePost(post.id); message.success('Đã xóa!'); }} />
+                  <DeleteOutlined style={{ cursor: 'pointer', color: '#dc2626' }} onClick={() => { dispatch(deletePost(post.id)); message.success('Đã xóa!'); }} />
                 </div>
               </div>
             ))}

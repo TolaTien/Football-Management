@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { history } from '@umijs/max';
-import api from '@/services/api';
+import { authService } from '@/entities/auth/api/authService';
 import { message } from 'antd';
 
 const PlayerSignUp: React.FC = () => {
@@ -28,7 +28,7 @@ const PlayerSignUp: React.FC = () => {
 
     setLoading(true);
     try {
-      await api.post('/auth/register', {
+      await authService.register({
         email,
         password,
         fullName,
@@ -37,9 +37,9 @@ const PlayerSignUp: React.FC = () => {
 
       message.success('Đăng ký tài khoản thành công!');
       history.push('/auth/login');
-    } catch (err: any) {
-      console.error('Lỗi đăng ký:', err);
-      const errMsg = err.response?.data?.message || 'Đăng ký thất bại, vui lòng kiểm tra lại thông tin.';
+    } catch (err: unknown) {
+      const axiosError = err as { response?: { data?: { message?: string } }; message?: string };
+      const errMsg = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Đăng ký thất bại, vui lòng kiểm tra lại thông tin.';
       setError(errMsg);
     } finally {
       setLoading(false);

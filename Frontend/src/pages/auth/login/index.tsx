@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { history } from '@umijs/max';
-import api from '@/services/api';
+import { authService } from '@/entities/auth/api/authService';
 
 // Test account
 const TEST_ACCOUNTS = [
@@ -20,11 +20,11 @@ const PlayerLogin: React.FC = () => {
     setError('');
     setLoading(true);
     try {
-      // goij api tuwf be
-      const response = await api.post('/auth/login', { email, password });
+      // goij api tuw be
+      const response = await authService.login({ email, password });
       const loginResult = response.data?.data || response.data;
       const user = loginResult?.user || loginResult; // BE trả về { accessToken, refreshToken, user }
-      
+
       // luu thong tin user vao localStorage
       localStorage.setItem('pitchhub_user', JSON.stringify({
         email: user.email,
@@ -38,8 +38,9 @@ const PlayerLogin: React.FC = () => {
       } else {
         history.push('/user/dashboard');
       }
-    } catch (err: any) {
-      const errMsg = err.response?.data?.message || "Đăng nhập thất bại";
+    } catch (err: unknown) {
+      const axiosError = err as { response?: { data?: { message?: string } }; message?: string };
+      const errMsg = axiosError?.response?.data?.message ?? axiosError?.message ?? 'Đăng nhập thất bại';
       setError(errMsg);
     } finally {
       setLoading(false);
@@ -157,8 +158,8 @@ const PlayerLogin: React.FC = () => {
           <div className="mt-xl pt-lg border-t border-outline-variant text-center">
             <p className="font-body-md text-secondary">
               Bạn là người chơi mới?{' '}
-              <a 
-                className="text-primary font-bold hover:underline ml-xs cursor-pointer" 
+              <a
+                className="text-primary font-bold hover:underline ml-xs cursor-pointer"
                 onClick={() => history.push('/auth/signup')}
               >
                 Đăng ký ngay

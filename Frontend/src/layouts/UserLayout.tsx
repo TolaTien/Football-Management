@@ -26,8 +26,8 @@ const UserLayout: React.FC = () => {
     if (userStr) {
       user = JSON.parse(userStr);
     }
-  } catch (e) {
-    console.error('Failed to parse user from localStorage', e);
+  } catch {
+    // silently fallback to default user
   }
   const initials = user.email.slice(0, 2).toUpperCase();
 
