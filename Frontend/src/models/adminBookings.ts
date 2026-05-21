@@ -151,7 +151,6 @@ export default function useAdminBookingsModel() {
         phone: booking.phone || '0000000000',
         startTime: startDateTime.toISOString(),
         endTime: endDateTime.toISOString(),
-        pitchPriceAtBooking: booking.price,
         service: []
       });
 

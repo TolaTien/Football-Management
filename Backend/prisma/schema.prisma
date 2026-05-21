@@ -78,14 +78,19 @@ model comments {
 }
 
 model payments {
-  id            String                  @id @db.VarChar(50)
-  bookingId     String?                 @db.VarChar(50)
-  type          payments_type?
-  amount        Int?               
-  paymentMethod payments_paymentMethod?
-  createdAt     DateTime?               @default(now()) @db.Timestamp(0)
-  updatedAt     DateTime?               @updatedAt @db.Timestamp(0)
-  booking       booking?                @relation(fields: [bookingId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "payments_ibfk_1")
+  id                   String                  @id @db.VarChar(50)
+  bookingId            String?                 @db.VarChar(50)
+  type                 payments_type?
+  amount               Int?               
+  paymentMethod        payments_paymentMethod?
+  gateway              String?                 @db.VarChar(30)
+  gatewayOrderId       String?                 @unique @db.VarChar(100)
+  gatewayTransactionId String?                 @db.VarChar(100)
+  gatewayStatus        String?                 @db.VarChar(50)
+  paidAt               DateTime?               @db.DateTime(0)
+  createdAt            DateTime?               @default(now()) @db.Timestamp(0)
+  updatedAt            DateTime?               @updatedAt @db.Timestamp(0)
+  booking              booking?                @relation(fields: [bookingId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "payments_ibfk_1")
 
   @@index([bookingId], map: "bookingId")
 }

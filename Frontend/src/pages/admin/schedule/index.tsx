@@ -91,7 +91,7 @@ const AdminScheduleGrid: React.FC = () => {
         startTime: v.startTime.format('HH:mm'),
         endTime: v.endTime.format('HH:mm'),
         status: 'approved', paymentStatus: 'unpaid',
-        price: Number(v.price), source: 'admin', note: v.note,
+        price: 0, source: 'admin', note: v.note,
       });
       message.success('Đã thêm đặt sân!');
       setShowAdd(false);
@@ -347,11 +347,6 @@ const AdminScheduleGrid: React.FC = () => {
                   </Form.Item>
                 </Col>
               </Row>
-
-              <Form.Item name="price" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Giá tiền (VNĐ)</span>}
-                rules={[{ required: true, message: 'Nhập giá!' }]}>
-                <Input prefix={<MoneyCollectOutlined style={{ color: '#9ca3af' }} />} type="number" placeholder="300000" style={{ borderRadius: 8, height: 38 }} />
-              </Form.Item>
 
               <Form.Item name="note" label={<span style={{ fontWeight: 600, fontSize: 12 }}>Ghi chú</span>} style={{ marginBottom: 0 }}>
                 <Input.TextArea rows={2} placeholder="Ghi chú thêm..." style={{ borderRadius: 8 }} />
