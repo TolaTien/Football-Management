@@ -9,7 +9,6 @@ adminRouters.post('/cancel-booking-admin', authUser, authAdmin, Admin.cancelBook
 adminRouters.post('/refund-user', authUser, authAdmin, Admin.refundForUser);
 adminRouters.post('/verify-payment-user', authUser, authAdmin, Admin.verifyPaymentOfUser);
 adminRouters.get('/get-all-history-user/:userId', authUser, authAdmin, Admin.getAllHistoryOfUser);
-adminRouters.patch('/ban-user/:userId', authUser, authAdmin, Admin.banUser);
 
 
 

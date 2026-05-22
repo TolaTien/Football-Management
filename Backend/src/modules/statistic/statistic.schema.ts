@@ -7,8 +7,3 @@ export interface GetRevenueInput {
 export interface GetSystemOverview {
     address?: string
 }
-
-export interface DataForEmailReport {
-    month: number;
-    year: number;
-}

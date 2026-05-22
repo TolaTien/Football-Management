@@ -8,7 +8,6 @@ import { errorHandlingMiddleware } from "./middlewares/error.middleware.js";
 import { startCron } from "./utils/cron.js";
 import cors from 'cors';
 import { server, app } from "./config/socket.js";
-import { initEmail } from "./utils/email.js";
 
 const PORT = 3000;
 
@@ -31,7 +30,7 @@ app.use(errorHandlingMiddleware);
 async function init() {
     await connectDB();
     startCron(); 
-    // await initEmail()
+    
     server.listen(PORT, "0.0.0.0", async () =>{
         console.log(`Server is running on port ${PORT}`);
     });

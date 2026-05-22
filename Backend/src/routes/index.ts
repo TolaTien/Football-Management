@@ -8,8 +8,9 @@ import { statisticRouters } from "../modules/statistic/statistic.route.js";
 import { serviceRouters } from "../modules/services/services.route.js";
 import { commentRouters } from "../modules/comments/comments.route.js";
 import { notificationRouters } from "../modules/notification/notification.route.js";
-import { aiRouters } from "../modules/ai/ai.route.js";
-
+import { postLikeRouters } from "../modules/postlikes/postlikes.route.js";
+import { postRouters } from "../modules/posts/posts.route.js";
+import { postsManageRouters } from "../modules/postsManage/postsManage.route.js";
 export const Routers: Router = Router();
 
 Routers.use('/auth', authRouters);
@@ -21,4 +22,6 @@ Routers.use('/statistic', statisticRouters);
 Routers.use('/services', serviceRouters);
 Routers.use('/comments', commentRouters);
 Routers.use('/notification', notificationRouters);
-Routers.use('/ai', aiRouters);
+Routers.use('/postlikes', postLikeRouters);
+Routers.use('/posts', postRouters);             
+Routers.use('/postsManage', postsManageRouters);
