@@ -106,15 +106,6 @@ export class BookingService {
                 content: `${user.fullName} đã gửi 1 yêu cầu đặt sân`,
                 bookId: booking.bookId
             }));
-            
-            // Add user notification
-            notifications.push({
-                id: uuidv4(),
-                userId: user.userId,
-                type: "booking" as const,
-                content: `Bạn đã đặt sân thành công và đang chờ admin xác nhận`,
-                bookId: booking.bookId
-            });
 
             await tx.notification.createMany({ data: notifications });
 
@@ -143,12 +134,6 @@ export class BookingService {
         io.to('admins').emit('newNotification', {
             type: "booking",
             content: `${user.fullName} đã gửi 1 yêu cầu đặt sân`,
-            bookId: booking?.bookId
-        });
-        
-        io.to(user.userId).emit('newNotification', {
-            type: "booking",
-            content: `Bạn đã đặt sân thành công và đang chờ admin xác nhận`,
             bookId: booking?.bookId
         });
 
@@ -180,20 +165,13 @@ export class BookingService {
 
         if (!user) throw new ApiError(400, "Không tìm thấy user");
         if (!booking) throw new ApiError(400, "Không tìm thấy hóa đơn");
-        
-        // Security check: ensure user owns the booking
-        if (booking.userId !== userId) {
-            throw new ApiError(403, "Bạn không có quyền hủy đơn đặt sân của người khác");
-        }
-        
         if (booking.status === 'rejected') throw new ApiError(400, "Đơn đã bị hủy trước đó");
 
-        const startTime = new Date(booking.startTime!);
-        const hoursBeforeStart = (startTime.getTime() - Date.now()) / (1000 * 60 * 60);
+        const hoursBeforeStart = (booking.startTime!.getTime() - Date.now()) / (1000 * 60 * 60);
         const isRefund = hoursBeforeStart > 24;
 
         if (booking.paymentStatus === "pending" || (booking.paymentStatus === "partial" && !isRefund)) {
-            const cancelResult = await prisma.$transaction(async (tx) => {
+            return prisma.$transaction(async (tx) => {
                 const bookingUpdate = await tx.booking.update({
                     where: { bookId: dto.bookId },
                     data: { status: 'rejected' }
@@ -221,45 +199,8 @@ export class BookingService {
                     }
                 };
 
-                const admins = await tx.users.findMany({
-                    where: { role: 'admin' },
-                    select: { userId: true }
-                });
-
-                const notifications = admins.map((admin) => ({
-                    id: uuidv4(),
-                    userId: admin.userId,
-                    type: "booking" as const,
-                    content: `Người dùng ${user.fullName} đã hủy yêu cầu đặt sân`,
-                    bookId: dto.bookId
-                }));
-
-                notifications.push({
-                    id: uuidv4(),
-                    userId: user.userId,
-                    type: "booking" as const,
-                    content: `Bạn đã hủy thành công yêu cầu đặt sân`,
-                    bookId: dto.bookId
-                });
-
-                await tx.notification.createMany({ data: notifications });
-
                 return { bookingUpdate, cancelRequest };
             });
-
-            io.to('admins').emit('newNotification', {
-                type: "booking",
-                content: `Người dùng ${user.fullName} đã hủy yêu cầu đặt sân`,
-                bookId: dto.bookId
-            });
-
-            io.to(user.userId).emit('newNotification', {
-                type: "booking",
-                content: `Bạn đã hủy thành công yêu cầu đặt sân`,
-                bookId: dto.bookId
-            });
-
-            return cancelResult;
         }
 
         if (booking.paymentStatus === "partial" && isRefund) {
@@ -313,14 +254,6 @@ export class BookingService {
                     bookId: dto.bookId
                 }));
 
-                notifications.push({
-                    id: uuidv4(),
-                    userId: user.userId,
-                    type: "payment" as const,
-                    content: `Bạn đã hủy thành công yêu cầu đặt sân và hệ thống sẽ xử lý hoàn tiền`,
-                    bookId: dto.bookId
-                });
-
                 await tx.notification.createMany({ data: notifications });
 
                 return { bookingUpdate, cancelRequest };
@@ -332,16 +265,8 @@ export class BookingService {
                 bookId: dto.bookId
             });
 
-            io.to(user.userId).emit('newNotification', {
-                type: "payment",
-                content: `Bạn đã hủy thành công yêu cầu đặt sân và hệ thống sẽ xử lý hoàn tiền`,
-                bookId: dto.bookId
-            });
-
             return cancelBooking;
         }
-
-        throw new ApiError(400, "Đơn hàng này không thể hủy theo chính sách của hệ thống");
     };
 
     static async bookingPitchForAdmin(dto: bookingPitchForAdmin) {

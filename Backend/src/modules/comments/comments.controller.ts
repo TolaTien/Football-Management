@@ -8,18 +8,15 @@ const CommentController = {
             const newComment = await CommentLogic.createComment(userId, req.body);
             res.status(201).json({ message: "Đã gửi bình luận", data: newComment });
         } catch (error: any) {
-            console.error("Error creating comment:", error);
             res.status(500).json({ message: "Lỗi tạo bình luận", error: error.message });
         }
     },
     getByPost: async (req: Request, res: Response) => {
         try {
             const postId = req.params.postId;
-            const userId = (req as any).user?.userId; // Lấy userId từ auth middleware nếu có
-            const comments = await CommentLogic.getCommentsByPost(postId, userId);
+            const comments = await CommentLogic.getCommentsByPost(postId);
             res.status(200).json(comments);
         } catch (error: any) {
-            console.error("Error fetching comments:", error);
             res.status(500).json({ message: "Lỗi tải bình luận", error: error.message });
         }
     },
