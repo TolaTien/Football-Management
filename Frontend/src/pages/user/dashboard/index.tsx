@@ -1,11 +1,10 @@
 import React from 'react';
-import { useModel } from '@umijs/max';
+import { useAppSelector } from '@/app/store/hooks';
 import { UpcomingMatchesList } from '@/widgets/upcoming-matches/ui/UpcomingMatchesList';
 import { DashboardStatsPanel } from '@/widgets/dashboard-stats/ui/DashboardStatsPanel';
 
 const DashboardPage: React.FC = () => {
-  const { initialState } = useModel('@@initialState');
-  const user = initialState?.currentUser;
+  const user = useAppSelector((state) => state.user.currentUser);
 
   return (
     <div className="animate-in fade-in duration-300 pb-xl">

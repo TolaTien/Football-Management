@@ -11,8 +11,6 @@ export default defineConfig({
   antd: {},
   tailwindcss: { checkTimeout: 20000 },
   access: {},
-  model: {},
-  initialState: {},
   request: {},
   layout: false, // Disable the built-in Pro Layout globally, we manage our own
   routes: [

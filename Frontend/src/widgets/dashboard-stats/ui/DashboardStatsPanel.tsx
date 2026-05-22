@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from '@umijs/max';
 import { message, Spin, Empty } from 'antd';
-import { NotificationsService, NotificationItem } from '@/shared/api/notifications/notifications.service';
+import { NotificationsService, NotificationItem } from '@/entities/notification/api/notificationService';
 import { StatCard } from '../../../entities/user/ui/StatCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';

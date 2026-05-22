@@ -1,14 +1,32 @@
-import React from 'react';
-import { Outlet, Navigate, useModel } from '@umijs/max';
+import React, { useEffect } from 'react';
+import { Outlet, Navigate } from '@umijs/max';
+import { Spin } from 'antd';
 import { UserSidebar } from '../widgets/user-sidebar';
 import { UserNavbar } from '../widgets/user-navbar';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
+import { fetchCurrentUser } from '@/entities/user/model/userSlice';
 
 const UserLayout: React.FC = () => {
-  const { initialState } = useModel('@@initialState');
-  const user = initialState?.currentUser;
+  const dispatch = useAppDispatch();
+  const { currentUser, isInitialized, loading } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!isInitialized) {
+      dispatch(fetchCurrentUser());
+    }
+  }, [dispatch, isInitialized]);
+
+  // Wait for initial auth check to complete
+  if (!isInitialized || loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-background">
+        <Spin size="large" tip="Đang tải thông tin..." />
+      </div>
+    );
+  }
 
   // Protect route: Redirect to login if not authenticated
-  if (!user) {
+  if (!currentUser) {
     return <Navigate to="/auth/login" replace />;
   }
 

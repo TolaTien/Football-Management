@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { message, Spin, Checkbox, InputNumber } from 'antd';
-import { ServicesService, ServiceItem } from '@/shared/api/services/services.service';
-import { BookingService } from '@/shared/api/booking/booking.service';
+import { ServicesService, ServiceItem } from '@/entities/service/api/servicesService';
+import { BookingService } from '@/entities/booking/api/bookingService';
 import dayjs from 'dayjs';
 
 interface QuickConfirmModalProps {

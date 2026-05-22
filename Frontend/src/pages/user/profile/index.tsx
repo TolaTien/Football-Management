@@ -1,17 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useModel } from '@umijs/max';
+import { useAppSelector, useAppDispatch } from '@/app/store/hooks';
+import { setCurrentUser } from '@/entities/user/model/userSlice';
 import { message, Spin, Empty, Button, Tag, List, Avatar, Modal } from 'antd';
-import { UsersService, BookingHistoryResponse } from '@/shared/api/users/users.service';
-import { NotificationsService, NotificationItem } from '@/shared/api/notifications/notifications.service';
-import { BookingService } from '@/shared/api/booking/booking.service';
+import { UsersService, BookingHistoryResponse } from '@/entities/user/api/userService';
+import { NotificationsService, NotificationItem } from '@/entities/notification/api/notificationService';
+import { BookingService } from '@/entities/booking/api/bookingService';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(relativeTime);
 
 const UserProfilePage: React.FC = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
-  const user = initialState?.currentUser;
+  const user = useAppSelector((state) => state.user.currentUser);
+  const dispatch = useAppDispatch();
 
   const [fullName, setFullName] = useState(user?.fullName || '');
   const [email, setEmail] = useState(user?.email || '');
@@ -140,10 +141,10 @@ const UserProfilePage: React.FC = () => {
       const payload = { fullName, email, phone };
       const updatedUser = await UsersService.updateProfileUser(payload, avatarFile || undefined);
 
-      await setInitialState((s: any) => ({
-        ...s,
-        currentUser: { ...s?.currentUser, ...updatedUser },
-      }));
+      dispatch(setCurrentUser({
+        ...user,
+        ...updatedUser
+      } as any));
 
       setAvatarFile(null);
       if (updatedUser.avt) setAvatarPreview(updatedUser.avt);

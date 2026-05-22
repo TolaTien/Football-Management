@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useModel } from '@umijs/max';
-import { commentsService, CommentItem } from '../../../shared/api/comments/comments.service';
+import { useAppSelector } from '@/app/store/hooks';
+import { commentsService, CommentItem } from '@/entities/comment/api/commentService';
 
 interface CommentModalProps {
   isOpen: boolean;
@@ -9,8 +9,7 @@ interface CommentModalProps {
 }
 
 export const CommentModal: React.FC<CommentModalProps> = ({ isOpen, onClose, postId }) => {
-  const { initialState } = useModel('@@initialState');
-  const currentUser = initialState?.currentUser;
+  const currentUser = useAppSelector((state) => state.user.currentUser);
 
   const [comments, setComments] = useState<CommentItem[]>([]);
   const [content, setContent] = useState('');

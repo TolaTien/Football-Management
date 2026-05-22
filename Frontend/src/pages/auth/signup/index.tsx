@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate, useModel } from '@umijs/max';
-import { AuthService } from '../../../shared/api/auth/auth.service';
+import { useNavigate } from '@umijs/max';
+import { AuthService } from '@/features/auth/api/authService';
 import { message } from 'antd';
+import { useAppDispatch } from '@/app/store/hooks';
+import { setCurrentUser } from '@/entities/user/model/userSlice';
 
 const PlayerSignUp: React.FC = () => {
   const [fullName, setFullName] = useState('');
@@ -14,7 +16,7 @@ const PlayerSignUp: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { setInitialState } = useModel('@@initialState');
+  const dispatch = useAppDispatch();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,11 +44,8 @@ const PlayerSignUp: React.FC = () => {
       });
 
       // 2. Backend của bạn tự set HttpOnly cookie sau khi đăng ký thành công.
-      // Cập nhật thông tin vào Global state để chuyển sang trạng thái đã đăng nhập.
-      await setInitialState((s: any) => ({ 
-        ...s, 
-        currentUser: res.data 
-      }));
+      // Cập nhật thông tin vào Redux state để chuyển sang trạng thái đã đăng nhập.
+      dispatch(setCurrentUser(res.data as any));
 
       message.success('Tạo tài khoản thành công!');
       

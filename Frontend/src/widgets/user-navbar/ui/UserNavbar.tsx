@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useModel, useNavigate } from '@umijs/max';
-import { AuthService } from '@/shared/api/auth/auth.service';
-import { NotificationsService, NotificationItem } from '@/shared/api/notifications/notifications.service';
+import { useNavigate } from '@umijs/max';
+import { useAppSelector, useAppDispatch } from '@/app/store/hooks';
+import { logout } from '@/entities/user/model/userSlice';
+import { AuthService } from '@/features/auth/api/authService';
+import { NotificationsService, NotificationItem } from '@/entities/notification/api/notificationService';
 import { getSocket, connectSocket, disconnectSocket } from '@/shared/api/socket';
 import { Badge, Popover, List, Spin, Empty, Avatar, notification } from 'antd';
 
 export const UserNavbar: React.FC = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const user = useAppSelector((state) => state.user.currentUser);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user = initialState?.currentUser;
   const [unreadCount, setUnreadCount] = useState(0);
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [loadingNotifs, setLoadingNotifs] = useState(false);
@@ -58,7 +60,7 @@ export const UserNavbar: React.FC = () => {
   const handleLogout = async () => {
     try {
       await AuthService.logout();
-      await setInitialState((s: any) => ({ ...s, currentUser: undefined }));
+      dispatch(logout());
       navigate('/auth/login');
     } catch (error) {
       console.error('Logout failed', error);

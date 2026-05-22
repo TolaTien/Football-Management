@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CommentModal } from '../../../features/matchmaking/ui/CommentModal';
-import { postService, PostItem } from '../../../shared/api/post/post.service';
+import { postService, PostItem } from '@/entities/matchmaking-post/api/postService';
 import { message } from 'antd';
 
 const SocialMatchmakingFeed: React.FC = () => {

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate, useModel } from '@umijs/max';
-import { AuthService } from '../../../shared/api/auth/auth.service';
+import { useNavigate } from '@umijs/max';
+import { AuthService } from '@/features/auth/api/authService';
 import { message } from 'antd';
+import { useAppDispatch } from '@/app/store/hooks';
+import { setCurrentUser } from '@/entities/user/model/userSlice';
 
 const PlayerLogin: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +12,7 @@ const PlayerLogin: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { setInitialState } = useModel('@@initialState');
+  const dispatch = useAppDispatch();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,11 +23,8 @@ const PlayerLogin: React.FC = () => {
       // 1. Gọi API đăng nhập
       const res = await AuthService.login({ email, password });
       
-      // 2. Lưu User vào Global State (res.data chứa userId, email, role, ...)
-      await setInitialState((s: any) => ({ 
-        ...s, 
-        currentUser: res.data 
-      }));
+      // 2. Lưu User vào Redux State
+      dispatch(setCurrentUser(res.data as any));
 
       message.success('Đăng nhập thành công!');
 

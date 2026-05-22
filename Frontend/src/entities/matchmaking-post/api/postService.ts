@@ -1,4 +1,4 @@
-import { $api } from '../base';
+import { $api } from '@/shared/api/axiosInstance';
 
 export interface PostUser {
   userId: string;

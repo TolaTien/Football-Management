@@ -3,7 +3,7 @@ import { ScheduleToolbar } from '../../../widgets/booking-schedule/ui/ScheduleTo
 import { ScheduleGrid } from '../../../widgets/booking-schedule/ui/ScheduleGrid';
 import { ScheduleLegend } from '../../../widgets/booking-schedule/ui/ScheduleLegend';
 import { QuickConfirmModal } from '../../../features/booking-pitch/ui/QuickConfirmModal';
-import { PitchService, PitchItem } from '@/shared/api/pitch/pitch.service';
+import { PitchService, PitchItem } from '@/entities/pitch/api/pitchService';
 import { message, Spin } from 'antd';
 
 const BookingAvailabilityPage: React.FC = () => {
