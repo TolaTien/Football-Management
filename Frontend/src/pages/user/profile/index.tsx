@@ -3,7 +3,13 @@ import { useAppSelector, useAppDispatch } from '@/app/store/hooks';
 import { setCurrentUser } from '@/entities/user/model/userSlice';
 import { message, Spin, Empty, Button, Tag, List, Avatar, Modal } from 'antd';
 import { UsersService, BookingHistoryResponse } from '@/entities/user/api/userService';
-import { NotificationsService, NotificationItem } from '@/entities/notification/api/notificationService';
+import { NotificationItem } from '@/entities/notification/api/notificationService';
+import { 
+  fetchNotifications, 
+  markNotificationRead, 
+  markAllNotificationsRead,
+  addNotification
+} from '@/entities/notification/model/notificationSlice';
 import { BookingService } from '@/entities/booking/api/bookingService';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -30,8 +36,8 @@ const UserProfilePage: React.FC = () => {
   const [bookingsLoading, setBookingsLoading] = useState(false);
 
   // Notification states
-  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
-  const [notifLoading, setNotifLoading] = useState(false);
+  const notifications = useAppSelector((state) => state.notification.list);
+  const notifLoading = useAppSelector((state) => state.notification.loading);
 
   const [notifMatch, setNotifMatch] = useState(true);
   const [notifChat, setNotifChat] = useState(true);
@@ -52,9 +58,9 @@ const UserProfilePage: React.FC = () => {
     if (activeTab === 'bookings') {
       fetchBookings();
     } else if (activeTab === 'notifications') {
-      fetchNotifications();
+      dispatch(fetchNotifications(1));
     }
-  }, [activeTab]);
+  }, [activeTab, dispatch]);
 
   const fetchBookings = async () => {
     setBookingsLoading(true);
@@ -68,17 +74,7 @@ const UserProfilePage: React.FC = () => {
     }
   };
 
-  const fetchNotifications = async () => {
-    setNotifLoading(true);
-    try {
-      const res = await NotificationsService.getAllNotifications(1);
-      setNotifications(res.notification);
-    } catch (err) {
-      message.error('Không thể tải thông báo');
-    } finally {
-      setNotifLoading(false);
-    }
-  };
+
 
   const handleCancelBooking = (bookingId: string) => {
     if (!bookingId) {
@@ -97,6 +93,14 @@ const UserProfilePage: React.FC = () => {
           console.log('Cancelling booking:', bookingId);
           const result = await BookingService.cancelBooking(bookingId);
           console.log('Cancel result:', result);
+          
+          dispatch(addNotification({
+            id: `cancel-${Date.now()}`,
+            title: 'Hủy đặt sân thành công',
+            content: `Yêu cầu hủy đặt sân (Mã đơn: ${bookingId}) đã được xử lý thành công.`,
+            type: 'booking'
+          }));
+
           message.success('Đã hủy đặt sân thành công');
           await fetchBookings();
         } catch (err: any) {
@@ -110,9 +114,8 @@ const UserProfilePage: React.FC = () => {
 
   const handleMarkReadAll = async () => {
     try {
-      await NotificationsService.markReadAll();
+      await dispatch(markAllNotificationsRead()).unwrap();
       message.success('Đã đánh dấu tất cả là đã đọc');
-      fetchNotifications();
     } catch (err) {
       message.error('Thao tác thất bại');
     }
@@ -412,10 +415,9 @@ const UserProfilePage: React.FC = () => {
                     renderItem={(item) => (
                       <List.Item 
                         className={`px-6 cursor-pointer transition-colors ${!item.isRead ? 'bg-emerald-50/50' : 'hover:bg-gray-50'}`}
-                        onClick={async () => {
+                        onClick={() => {
                           if (!item.isRead) {
-                            await NotificationsService.markRead(item.id);
-                            fetchNotifications();
+                            dispatch(markNotificationRead(item.id));
                           }
                         }}
                       >

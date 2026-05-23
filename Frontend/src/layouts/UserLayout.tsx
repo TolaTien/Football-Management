@@ -3,6 +3,7 @@ import { Outlet, Navigate } from '@umijs/max';
 import { Spin } from 'antd';
 import { UserSidebar } from '../widgets/user-sidebar';
 import { UserNavbar } from '../widgets/user-navbar';
+import { FloatingChatbot } from '@/widgets/floating-chatbot/ui/FloatingChatbot';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchCurrentUser } from '@/entities/user/model/userSlice';
 
@@ -45,6 +46,9 @@ const UserLayout: React.FC = () => {
           <Outlet />
         </main>
       </div>
+
+      {/* Global AI Chatbot Widget */}
+      <FloatingChatbot />
     </div>
   );
 };

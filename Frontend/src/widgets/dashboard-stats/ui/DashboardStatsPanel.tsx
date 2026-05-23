@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from '@umijs/max';
 import { message, Spin, Empty } from 'antd';
-import { NotificationsService, NotificationItem } from '@/entities/notification/api/notificationService';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
+import { 
+  fetchNotifications, 
+  markAllNotificationsRead 
+} from '@/entities/notification/model/notificationSlice';
 import { StatCard } from '../../../entities/user/ui/StatCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -10,31 +14,18 @@ dayjs.extend(relativeTime);
 
 export const DashboardStatsPanel: React.FC = () => {
   const navigate = useNavigate();
-  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const notifications = useAppSelector((state) => state.notification.list);
+  const loading = useAppSelector((state) => state.notification.loading);
 
   useEffect(() => {
-    fetchNotifications();
-  }, []);
-
-  const fetchNotifications = async () => {
-    setLoading(true);
-    try {
-      const res = await NotificationsService.getAllNotifications(1);
-      // Take top 3 for dashboard
-      setNotifications(res.notification.slice(0, 3));
-    } catch (err) {
-      console.error('Failed to fetch dashboard notifications', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    dispatch(fetchNotifications(1));
+  }, [dispatch]);
 
   const handleMarkReadAll = async () => {
     try {
-      await NotificationsService.markReadAll();
+      await dispatch(markAllNotificationsRead()).unwrap();
       message.success('Đã đánh dấu tất cả là đã đọc');
-      fetchNotifications();
     } catch (err) {
       message.error('Thao tác thất bại');
     }
@@ -59,14 +50,14 @@ export const DashboardStatsPanel: React.FC = () => {
         <div className="space-y-md min-h-[100px]">
           {loading ? (
             <div className="flex justify-center py-4"><Spin size="small" /></div>
-          ) : notifications.length === 0 ? (
+          ) : notifications.slice(0, 3).length === 0 ? (
             <Empty description="No notifications" image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
-            notifications.map(notif => (
+            notifications.slice(0, 3).map(notif => (
               <div key={notif.id} className={`flex gap-md group ${notif.isRead ? 'opacity-70' : ''}`}>
                 <div className={`w-2 h-2 rounded-full mt-2 ${!notif.isRead ? 'bg-primary' : 'bg-transparent border border-gray-300'}`}></div>
                 <div className="flex-1">
-                  <p className="text-sm font-button text-on-surface line-clamp-1">{notif.type ? notif.type.toUpperCase() : 'Notification'}</p>
+                  <p className="text-sm font-button text-on-surface line-clamp-1">{notif.title || (notif.type ? notif.type.toUpperCase() : 'Notification')}</p>
                   <p className="text-xs text-gray-500 line-clamp-2">{notif.content}</p>
                   <p className="text-[10px] text-gray-400 mt-1 uppercase font-label-caps">{dayjs(notif.createdAt).fromNow()}</p>
                 </div>
