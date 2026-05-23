@@ -1,21 +1,72 @@
 import React from 'react';
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
-export const ScheduleToolbar: React.FC = () => {
+interface ScheduleToolbarProps {
+  viewMode: 'day' | 'week';
+  onViewModeChange: (mode: 'day' | 'week') => void;
+  selectedDate: dayjs.Dayjs;
+  onDateChange: (date: dayjs.Dayjs) => void;
+}
+
+export const ScheduleToolbar: React.FC<ScheduleToolbarProps> = ({
+  viewMode,
+  onViewModeChange,
+  selectedDate,
+  onDateChange
+}) => {
+  const disabledDate = (current: dayjs.Dayjs) => {
+    // Can only select from today to today + 6 days (1 week)
+    const today = dayjs().startOf('day');
+    const maxDate = dayjs().add(6, 'day').endOf('day');
+    return current && (current < today || current > maxDate);
+  };
+
   return (
-    <div className="flex justify-between items-end mb-lg">
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-lg gap-4">
       <div>
         <h2 className="font-h1 text-h1 text-emerald-900">Pitch Schedule</h2>
         <p className="font-body-lg text-secondary">Manage and track real-time bookings across all facilities.</p>
       </div>
-      <div className="flex gap-md">
-        <div className="flex items-center bg-white border border-outline-variant rounded-lg p-xs h-10">
-          <button className="px-4 py-1 rounded-md bg-emerald-50 text-emerald-900 font-button text-xs transition-all">Day</button>
-          <button className="px-4 py-1 rounded-md text-gray-400 font-button text-xs hover:text-emerald-900 transition-all">Week</button>
+      
+      <div className="flex items-center gap-md self-stretch sm:self-auto justify-between sm:justify-start">
+        {/* Date Selector - Only shown in Day view */}
+        {viewMode === 'day' && (
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-gray-500 font-montserrat uppercase tracking-wider">Date:</span>
+            <DatePicker 
+              value={selectedDate} 
+              onChange={(val) => val && onDateChange(val)} 
+              disabledDate={disabledDate}
+              allowClear={false}
+              className="border-gray-200 rounded-lg h-10 hover:border-primary focus:border-primary"
+            />
+          </div>
+        )}
+
+        {/* View Mode Toggle */}
+        <div className="flex items-center bg-white border border-outline-variant rounded-lg p-xs h-10 shadow-sm">
+          <button 
+            onClick={() => onViewModeChange('day')}
+            className={`px-4 py-1.5 rounded-md font-button text-xs transition-all ${
+              viewMode === 'day' 
+              ? 'bg-emerald-50 text-emerald-900 font-bold' 
+              : 'text-gray-400 hover:text-emerald-900'
+            }`}
+          >
+            Day
+          </button>
+          <button 
+            onClick={() => onViewModeChange('week')}
+            className={`px-4 py-1.5 rounded-md font-button text-xs transition-all ${
+              viewMode === 'week' 
+              ? 'bg-emerald-50 text-emerald-900 font-bold' 
+              : 'text-gray-400 hover:text-emerald-900'
+            }`}
+          >
+            Week
+          </button>
         </div>
-        <button className="flex items-center gap-2 bg-primary text-on-primary px-6 py-2 rounded-lg font-button active:scale-95 transition-transform">
-          <span className="material-symbols-outlined text-sm" data-icon="add">add</span>
-          New Booking
-        </button>
       </div>
     </div>
   );

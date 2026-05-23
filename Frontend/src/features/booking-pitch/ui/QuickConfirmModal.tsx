@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { message, Spin, Checkbox, InputNumber } from 'antd';
 import { ServicesService, ServiceItem } from '@/entities/service/api/servicesService';
 import { BookingService } from '@/entities/booking/api/bookingService';
+import { useAppDispatch } from '@/app/store/hooks';
+import { addNotification } from '@/entities/notification/model/notificationSlice';
 import dayjs from 'dayjs';
 
 interface QuickConfirmModalProps {
@@ -12,6 +14,7 @@ interface QuickConfirmModalProps {
   timeSlot: string;
   price: string;
   pitchId?: string; // Optional for now, fallback to a mock if missing
+  selectedDate?: string;
 }
 
 export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({ 
@@ -21,8 +24,10 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
   pitchName, 
   timeSlot, 
   price,
-  pitchId = 'pitch-1'
+  pitchId = 'pitch-1',
+  selectedDate
 }) => {
+  const dispatch = useAppDispatch();
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -75,8 +80,9 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
     try {
       // Parse timeSlot "08:00 - 09:30"
       const [startStr, endStr] = timeSlot.split(' - ');
-      const startTime = dayjs().set('hour', parseInt(startStr.split(':')[0])).set('minute', parseInt(startStr.split(':')[1])).set('second', 0).set('millisecond', 0).toISOString();
-      const endTime = dayjs().set('hour', parseInt(endStr.split(':')[0])).set('minute', parseInt(endStr.split(':')[1])).set('second', 0).set('millisecond', 0).toISOString();
+      const baseDate = dayjs(selectedDate || new Date());
+      const startTime = baseDate.set('hour', parseInt(startStr.split(':')[0])).set('minute', parseInt(startStr.split(':')[1])).set('second', 0).set('millisecond', 0).toISOString();
+      const endTime = baseDate.set('hour', parseInt(endStr.split(':')[0])).set('minute', parseInt(endStr.split(':')[1])).set('second', 0).set('millisecond', 0).toISOString();
 
       const numericPrice = parseInt(price.replace(/[^0-9]/g, '')) || 120000;
 
@@ -98,6 +104,15 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
       };
 
       await BookingService.bookPitchForUser(payload);
+      
+      // Dispatch local notification
+      dispatch(addNotification({
+        id: `booking-${Date.now()}`,
+        title: 'Đặt sân thành công',
+        content: `Yêu cầu đặt sân ${pitchName} (${timeSlot}) ngày ${dayjs(selectedDate).format('DD/MM/YYYY')} đang được chờ phê duyệt.`,
+        type: 'booking'
+      }));
+
       message.success('Đặt sân thành công!');
       if (onSuccess) onSuccess();
       else onClose();
