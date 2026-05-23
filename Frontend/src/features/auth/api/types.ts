@@ -14,12 +14,10 @@ export interface ApiResponse<T = any> {
 
 export interface AuthResponse extends ApiResponse {
   data: {
-    userId: string;
-    email: string;
     accessToken: string;
     refreshToken: string;
-    role: string;
-  }; // Adjust based on exactly what backend returns inside 'data' for login
+    user: UserInfo;
+  };
 }
 
 export interface LoginPayload {

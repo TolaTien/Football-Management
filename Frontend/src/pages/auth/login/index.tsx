@@ -22,20 +22,31 @@ const PlayerLogin: React.FC = () => {
       // 1. Gọi API đăng nhập
       const res = await AuthService.login({ email, password });
 
-      // 2. Lưu User vào Redux State
-      dispatch(setCurrentUser(res.data as any));
+      const user = res.data?.user;
+      const accessToken = res.data?.accessToken;
+
+      if (!user) {
+        throw new Error('Không lấy được thông tin người dùng.');
+      }
+
+      // 2. Lưu User vào Redux State và localStorage
+      localStorage.setItem('pitchhub_user', JSON.stringify(user));
+      if (accessToken) {
+        localStorage.setItem('pitchhub_token', accessToken);
+      }
+      dispatch(setCurrentUser(user));
 
       message.success('Đăng nhập thành công!');
 
       // 3. Chuyển hướng theo role
-      if (res.data.role === 'admin') {
+      if (user.role === 'admin') {
         navigate('/admin/dashboard');
       } else {
         navigate('/user/dashboard');
       }
     } catch (err: any) {
       // 4. Hiển thị lỗi
-      setError(err.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
+      setError(err.response?.data?.message || err.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
     } finally {
       setLoading(false);
     }

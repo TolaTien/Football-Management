@@ -182,10 +182,13 @@ const userSlice = createSlice({
     },
     setCurrentUser: (state, action: PayloadAction<UserInfo | null>) => {
       state.currentUser = action.payload;
+      state.isInitialized = true;
     },
     logout: (state) => {
       state.currentUser = null;
+      state.isInitialized = true;
       localStorage.removeItem('pitchhub_token');
+      localStorage.removeItem('pitchhub_user');
     }
   },
   extraReducers: (builder) => {

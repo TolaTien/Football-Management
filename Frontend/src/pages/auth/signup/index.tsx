@@ -43,9 +43,19 @@ const PlayerSignUp: React.FC = () => {
         password,
       });
 
-      // 2. Backend của bạn tự set HttpOnly cookie sau khi đăng ký thành công.
-      // Cập nhật thông tin vào Redux state để chuyển sang trạng thái đã đăng nhập.
-      dispatch(setCurrentUser(res.data as any));
+      const user = res.data?.user || (res.data as any)?.newUser;
+      const accessToken = res.data?.accessToken;
+
+      if (!user) {
+        throw new Error('Không lấy được thông tin người dùng.');
+      }
+
+      // 2. Lưu User & Token vào localStorage và Redux state
+      localStorage.setItem('pitchhub_user', JSON.stringify(user));
+      if (accessToken) {
+        localStorage.setItem('pitchhub_token', accessToken);
+      }
+      dispatch(setCurrentUser(user));
 
       message.success('Tạo tài khoản thành công!');
 
