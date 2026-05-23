@@ -64,56 +64,56 @@ const SocialMatchmakingFeed: React.FC = () => {
         <div className="flex justify-center py-20">
           <span className="material-symbols-outlined animate-spin text-4xl text-emerald-600">autorenew</span>
         </div>
-      ) : posts.length === 0 ? (
+      ) : (!Array.isArray(posts) || posts.length === 0) ? (
         <div className="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
           <p className="text-gray-500 font-body-md">No posts found. Be the first to host a match!</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
-            <div key={post.postId} className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group relative">
+            <div key={post?.postId || Math.random()} className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group relative">
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center gap-2">
                     <img 
-                      src={post.users?.avt || `https://ui-avatars.com/api/?name=${post.users?.fullName || 'U'}&background=10b981&color=fff`} 
+                      src={post?.users?.avt || `https://ui-avatars.com/api/?name=${post?.users?.fullName || 'U'}&background=10b981&color=fff`} 
                       className="w-8 h-8 rounded-full border border-gray-100"
                       alt="avatar"
                     />
-                    <span className="text-sm font-bold text-gray-700">{post.users?.fullName || 'Anonymous'}</span>
+                    <span className="text-sm font-bold text-gray-700">{post?.users?.fullName || 'Anonymous'}</span>
                   </div>
                   <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider ${
-                    post.status === 'open' ? 'bg-emerald-900 text-white' : 'bg-gray-100 text-gray-600'
+                    post?.status === 'open' ? 'bg-emerald-900 text-white' : 'bg-gray-100 text-gray-600'
                   }`}>
-                    {post.status}
+                    {post?.status || 'unknown'}
                   </span>
                 </div>
                 <h3 className="font-h3 text-h3 text-emerald-900 mb-2 line-clamp-2 min-h-[3rem]">
-                  {post.description || 'No description provided'}
+                  {post?.description || 'No description provided'}
                 </h3>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-gray-500 text-sm gap-2">
                     <span className="material-symbols-outlined text-sm">calendar_today</span>
-                    <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                    <span>{post?.createdAt ? new Date(post.createdAt).toLocaleDateString() : 'N/A'}</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-xs text-gray-400 font-bold gap-3">
                     <span className="flex items-center gap-1">
                       <span className="material-symbols-outlined text-[16px]">chat_bubble</span>
-                      {post._count?.comments || 0}
+                      {post?._count?.comments || 0}
                     </span>
                   </div>
                   <div className="flex gap-2">
                     <button 
-                      onClick={() => handleToggleLikePost(post.postId)}
-                      className={`flex items-center gap-1 transition-colors ${likedPosts[post.postId] ? 'text-emerald-600' : 'text-gray-500 hover:text-emerald-900'}`}
+                      onClick={() => post?.postId && handleToggleLikePost(post.postId)}
+                      className={`flex items-center gap-1 transition-colors ${post?.postId && likedPosts[post.postId] ? 'text-emerald-600' : 'text-gray-500 hover:text-emerald-900'}`}
                     >
                       <span className="material-symbols-outlined text-[18px]">thumb_up</span>
                       <span className="text-xs font-bold font-button">Like</span>
                     </button>
                     <button 
-                      onClick={() => handleOpenComment(post.postId)}
+                      onClick={() => post?.postId && handleOpenComment(post.postId)}
                       className="flex items-center gap-1 text-gray-500 hover:text-emerald-900 transition-colors"
                     >
                       <span className="material-symbols-outlined text-[18px]">chat_bubble_outline</span>

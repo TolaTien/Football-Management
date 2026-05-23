@@ -33,10 +33,6 @@ export const commentsService = {
     return data.data;
   },
 
-  deleteComment: async (commentId: string): Promise<void> => {
-    await $api.delete(`/comments/${commentId}`);
-  },
-
   toggleLikeComment: async (commentId: string): Promise<{ action: 'liked' | 'unliked', message: string }> => {
     // Backend trả về { action, message } trực tiếp
     const { data } = await $api.post(`/comments/${commentId}/like`);
