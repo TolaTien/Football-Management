@@ -4,6 +4,12 @@ import { ServiceLogic } from "./services.service.js";
 const ServiceController = {
     create: async (req: Request, res: Response) => {
         try {
+<<<<<<< HEAD
+=======
+            const user = (req as any).user;
+            if (user.role !== 'admin') return res.status(403).json({ message: "Từ chối: Chỉ Admin mới được thêm dịch vụ" });
+
+>>>>>>> c3517840149118654f2ab2cd1889341c31ec390e
             const result = await ServiceLogic.create(req.body);
             res.status(201).json({ message: "Tạo dịch vụ thành công", data: result });
         } catch (error: any) {
@@ -32,15 +38,31 @@ const ServiceController = {
 
     update: async (req: Request, res: Response) => {
         try {
+<<<<<<< HEAD
             const result = await ServiceLogic.update(req.params.id as string, req.body);
             res.status(200).json({ message: "Cập nhật thành công", data: result });
         } catch (error) {
             res.status(400).json({ message: "Cập nhật thất bại, kiểm tra lại ID" });
+=======
+            const user = (req as any).user;
+            if (user.role !== 'admin') return res.status(403).json({ message: "Từ chối: Chỉ Admin mới được sửa dịch vụ" });
+
+            const result = await ServiceLogic.update(req.params.id as string, req.body);
+            res.status(200).json({ message: "Cập nhật thành công", data: result });
+        } catch (error: any) {
+            res.status(400).json({ message: error.message || "Cập nhật thất bại" });
+>>>>>>> c3517840149118654f2ab2cd1889341c31ec390e
         }
     },
 
     delete: async (req: Request, res: Response) => {
         try {
+<<<<<<< HEAD
+=======
+            const user = (req as any).user;
+            if (user.role !== 'admin') return res.status(403).json({ message: "Từ chối: Chỉ Admin mới được xóa dịch vụ" });
+
+>>>>>>> c3517840149118654f2ab2cd1889341c31ec390e
             await ServiceLogic.delete(req.params.id as string);
             res.status(200).json({ message: "Đã xóa dịch vụ vĩnh viễn" });
         } catch (error) {
@@ -49,4 +71,8 @@ const ServiceController = {
     }
 };
 
+<<<<<<< HEAD
 export default ServiceController; 
+=======
+export default ServiceController;
+>>>>>>> c3517840149118654f2ab2cd1889341c31ec390e

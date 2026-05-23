@@ -8,8 +8,11 @@ import { statisticRouters } from "../modules/statistic/statistic.route.js";
 import { serviceRouters } from "../modules/services/services.route.js";
 import { commentRouters } from "../modules/comments/comments.route.js";
 import { notificationRouters } from "../modules/notification/notification.route.js";
+<<<<<<< HEAD
 import { aiRouters } from "../modules/ai/ai.route.js";
 
+=======
+>>>>>>> c3517840149118654f2ab2cd1889341c31ec390e
 import { postLikeRouters } from "../modules/postlikes/postlikes.route.js";
 import { postRouters } from "../modules/posts/posts.route.js";
 import { postsManageRouters } from "../modules/postsManage/postsManage.route.js";
@@ -24,7 +27,13 @@ Routers.use('/statistic', statisticRouters);
 Routers.use('/services', serviceRouters);
 Routers.use('/comments', commentRouters);
 Routers.use('/notification', notificationRouters);
+<<<<<<< HEAD
 Routers.use('/ai', aiRouters);
 Routers.use('/postlikes', postLikeRouters);
 Routers.use('/posts', postRouters);             
 Routers.use('/postsManage', postsManageRouters);
+=======
+Routers.use('/postlikes', postLikeRouters);
+Routers.use('/posts', postRouters);             
+Routers.use('/postsManage', postsManageRouters);
+>>>>>>> c3517840149118654f2ab2cd1889341c31ec390e

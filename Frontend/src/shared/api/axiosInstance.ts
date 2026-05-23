@@ -1,34 +1,33 @@
 import axios from 'axios';
 
-export const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+export const API_URL = '/api';
 
-export const axiosInstance = axios.create({
+export const $api = axios.create({
   baseURL: API_URL,
-  timeout: 10000,
-  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+$api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('pitchhub_token');
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-axiosInstance.interceptors.response.use(
+$api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const is401 = error.response?.status === 401;
-    const isAuthPage = window.location.pathname.startsWith('/auth');
-    if (is401 && !isAuthPage) {
+    if (error.response?.status === 401) {
+      // Logic handle logout hoặc refresh token ở đây
       localStorage.removeItem('token');
-      localStorage.removeItem('pitchhub_user');
-      window.location.href = '/auth/login';
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
+
+export const axiosInstance = $api;
+

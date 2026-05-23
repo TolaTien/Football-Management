@@ -3,6 +3,8 @@ import { message } from 'antd';
 import { userService } from '../api/userService';
 import { extractErrorMessage } from '@/shared/lib/errorUtils';
 import type { UserItem, UserRole, UserStatus } from './types';
+import { AuthService } from '@/features/auth/api/authService';
+import type { UserInfo } from '@/features/auth/api/types';
 
 const BANNED_STORAGE_KEY = 'banned_user_ids';
 
@@ -132,16 +134,33 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+// Async thunk for fetching current user
+export const fetchCurrentUser = createAsyncThunk(
+  'user/fetchCurrentUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await AuthService.checkAuth();
+      return response.data.user as UserInfo;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to authenticate');
+    }
+  }
+);
+
 interface UserState {
   users: UserItem[];
+  currentUser: UserInfo | null;
   loading: boolean;
   error: string | null;
+  isInitialized: boolean;
 }
 
 const initialState: UserState = {
   users: [],
+  currentUser: null,
   loading: false,
   error: null,
+  isInitialized: false,
 };
 
 const userSlice = createSlice({
@@ -161,6 +180,13 @@ const userSlice = createSlice({
           : u
       );
     },
+    setCurrentUser: (state, action: PayloadAction<UserInfo | null>) => {
+      state.currentUser = action.payload;
+    },
+    logout: (state) => {
+      state.currentUser = null;
+      localStorage.removeItem('pitchhub_token');
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -175,9 +201,24 @@ const userSlice = createSlice({
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentUser = action.payload;
+        state.isInitialized = true;
+      })
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.loading = false;
+        state.currentUser = null;
+        state.isInitialized = true;
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { toggleBanStatus } = userSlice.actions;
+export const { toggleBanStatus, setCurrentUser, logout } = userSlice.actions;
 export default userSlice.reducer;

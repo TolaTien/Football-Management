@@ -1,5 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import crypto from "crypto";
+<<<<<<< HEAD
 
 export const PostsManageLogic = {
     getAllPosts: async () => {
@@ -10,6 +11,37 @@ export const PostsManageLogic = {
             },
             orderBy: { createdAt: 'desc' }
         });
+=======
+// 👇 Import đúng đường dẫn từ ổ tự chế của mày
+import { post_status } from "../../../generated/prisma/client.js"; 
+
+export const PostsManageLogic = {
+    // 👇 Thêm phân trang an toàn
+    getAllPosts: async (page: number = 1, limit: number = 10) => {
+        const skip = (page - 1) * limit;
+        const [posts, totalPosts] = await prisma.$transaction([
+            prisma.post.findMany({
+                take: limit,
+                skip: skip,
+                include: {
+                    users: { select: { fullName: true, email: true, avt: true } },
+                    _count: { select: { comments: true, postlike: true } }
+                },
+                orderBy: { createdAt: 'desc' }
+            }),
+            prisma.post.count()
+        ]);
+
+        return {
+            meta: {
+                totalItems: totalPosts,
+                currentPage: page,
+                totalPages: Math.ceil(totalPosts / limit),
+                limit: limit
+            },
+            items: posts
+        };
+>>>>>>> c3517840149118654f2ab2cd1889341c31ec390e
     },
 
     createAdminPost: async (adminId: string, data: { description: string }) => {
@@ -23,7 +55,12 @@ export const PostsManageLogic = {
         });
     },
 
+<<<<<<< HEAD
     updateAdminPost: async (adminId: string, postId: string, data: { description?: string, status?: any }) => {
+=======
+    // 👇 Ép kiểu post_status nghiêm ngặt
+    updateAdminPost: async (adminId: string, postId: string, data: { description?: string, status?: post_status }) => {
+>>>>>>> c3517840149118654f2ab2cd1889341c31ec390e
         const post = await prisma.post.findUnique({ where: { postId } });
         if (!post) throw new Error("Bài đăng không tồn tại");
 

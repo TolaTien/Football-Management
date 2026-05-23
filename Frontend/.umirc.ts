@@ -1,11 +1,16 @@
 import { defineConfig } from '@umijs/max';
 
 export default defineConfig({
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3000',
+      changeOrigin: true,
+      pathRewrite: { '^/api': '' },
+    },
+  },
   antd: {},
-  tailwindcss: {},
+  tailwindcss: { checkTimeout: 20000 },
   access: {},
-  model: {},
-  initialState: {},
   request: {},
   layout: false, // Disable the built-in Pro Layout globally, we manage our own
   routes: [
@@ -31,6 +36,7 @@ export default defineConfig({
         { path: '/user/activity', component: './user/activity' },
         { path: '/user/team', component: './user/team' },
         { path: '/user/wallet', component: './user/wallet' },
+        { path: '/user/profile', component: './user/profile' },
         { path: '/booking/availability', component: './booking/availability' },
         { path: '/matchmaking/feed', component: './matchmaking/feed' },
         { path: '/matchmaking/messages', component: './matchmaking/messages' },

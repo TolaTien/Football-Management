@@ -2,9 +2,8 @@
 import React from 'react';
 
 const GeneratedPage: React.FC = () => {
-  return (
+return (
     <>
-      
 
 <aside className="fixed left-0 top-0 h-screen w-[260px] border-r border-gray-200 bg-gray-50 flex flex-col overflow-y-auto z-50">
 <div className="p-lg">
@@ -271,9 +270,8 @@ const GeneratedPage: React.FC = () => {
 </div>
 </div>
 </div>
-
     </>
-  );
+);
 };
 
 export default GeneratedPage;

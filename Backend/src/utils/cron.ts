@@ -1,5 +1,6 @@
 import cron from 'node-cron';
 import { prisma } from '../config/prisma.js';
+<<<<<<< HEAD
 import { StatisticService } from '../modules/statistic/statistic.service.js';
 import { sendEmail } from './email.js';
 
@@ -50,6 +51,8 @@ const buildMonthlyRevenueEmailHtml = (summary: {
         </div>
     `;
 };
+=======
+>>>>>>> c3517840149118654f2ab2cd1889341c31ec390e
 
 export const startCron = () => {
     cron.schedule('*/5 * * * *', async () => {
@@ -71,6 +74,7 @@ export const startCron = () => {
             console.error("Lỗi khi chạy cron hủy booking: ", err);
         }
     })
+<<<<<<< HEAD
 
     cron.schedule('0 8 1 * *', async () => {
         try {
@@ -109,3 +113,6 @@ export const startCron = () => {
         }
     })
 }
+=======
+}
+>>>>>>> c3517840149118654f2ab2cd1889341c31ec390e
