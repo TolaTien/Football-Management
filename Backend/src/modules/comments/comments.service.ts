@@ -25,55 +25,60 @@ export const CommentLogic = {
         if (data.parentId) {
             parentComment = await prisma.comments.findUnique({ where: { commentId: data.parentId } });
         }
-
-        const newComment = await prisma.comments.create({
-            data: {
-                commentId: `CMT-${crypto.randomUUID().substring(0, 8)}`,
-                postId: data.postId,
-                userId: userId,
-                content: data.content,
-                parentId: data.parentId || null
-            }
-        });
-
-        let receiverId = null;
-        let isReply = false;
-
-        if (data.parentId && parentComment && parentComment.userId !== userId) {
-            receiverId = parentComment.userId;
-            isReply = true; 
-        } else if (!data.parentId && post.hostId !== userId) {
-            receiverId = post.hostId; 
-        }
-
-        if (receiverId) {
-            const notifContent = isReply 
-                ? `${commenterName} đã trả lời bình luận của bạn.` 
-                : `${commenterName} đã bình luận bài viết của bạn.`;
-
-            const notif = await prisma.notification.create({
+        const txResult = await prisma.$transaction(async (tx) => {
+            const newComment = await tx.comments.create({
                 data: {
-                    id: `NOTIF-${crypto.randomUUID().substring(0, 8)}`,
-                    userId: receiverId,
+                    commentId: `CMT-${crypto.randomUUID().substring(0, 8)}`,
                     postId: data.postId,
-                    content: notifContent,
-                    type: "post", // Gắn mác post hợp lệ với Schema cũ
-                    isRead: false
+                    userId: userId,
+                    content: data.content,
+                    parentId: data.parentId || null
                 }
             });
-            io.to(receiverId).emit("new_notification", notif);
+
+            let receiverId = null;
+            let isReply = false;
+
+            if (data.parentId && parentComment && parentComment.userId !== userId) {
+                receiverId = parentComment.userId;
+                isReply = true; 
+            } else if (!data.parentId && post.hostId !== userId) {
+                receiverId = post.hostId; 
+            }
+
+            let notif = null;
+            if (receiverId) {
+                const notifContent = isReply 
+                    ? `${commenterName} đã trả lời bình luận của bạn.` 
+                    : `${commenterName} đã bình luận bài viết của bạn.`;
+
+                notif = await tx.notification.create({
+                    data: {
+                        id: `NOTIF-${crypto.randomUUID().substring(0, 8)}`,
+                        userId: receiverId,
+                        postId: data.postId,
+                        content: notifContent,
+                        type: "post",
+                        isRead: false
+                    }
+                });
+            }
+
+            return { newComment, notif, receiverId };
+        });
+
+        if (txResult.notif && txResult.receiverId) {
+            io.to(txResult.receiverId).emit("new_notification", txResult.notif);
         }
 
-        return newComment;
+        return txResult.newComment;
     },
-
 
     getCommentsTree: async (postId: string) => {
         const flatComments = await prisma.comments.findMany({
             where: { postId },
             include: { users: { select: { fullName: true, avt: true } } },
-            // 👇 ĐÃ SỬA: Đổi 'asc' thành 'desc' để comment mới nhất nhảy lên đầu page
-            orderBy: { createdAt: 'desc' } 
+            orderBy: { createdAt: 'asc' } 
         });
 
         const commentMap = new Map();
@@ -81,8 +86,11 @@ export const CommentLogic = {
 
         flatComments.forEach(c => commentMap.set(c.commentId, { ...c, replies: [] }));
         flatComments.forEach(c => {
-            if (c.parentId) commentMap.get(c.parentId)?.replies.push(commentMap.get(c.commentId));
-            else tree.push(commentMap.get(c.commentId));
+            if (c.parentId && commentMap.has(c.parentId)) {
+                commentMap.get(c.parentId).replies.push(commentMap.get(c.commentId));
+            } else {
+                tree.push(commentMap.get(c.commentId));
+            }
         });
         return tree;
     },
@@ -93,35 +101,36 @@ export const CommentLogic = {
 
         const userAction = await prisma.users.findUnique({ where: { userId }, select: { fullName: true } });
         const likerName = userAction?.fullName || "Ai đó";
+        const hashId = crypto.createHash('md5').update(`${userId}-${commentId}`).digest('hex').substring(0, 8);
+        const deterministicNotifId = `NLC-${hashId}`; 
 
-        const existingLike = await prisma.commentlike.findFirst({ where: { userId, commentId } });
+        return await prisma.$transaction(async (tx) => {
+            const existingLike = await tx.commentlike.findUnique({
+                where: { userId_commentId: { userId, commentId } }
+            });
 
-        if (existingLike) {
-            await prisma.$transaction(async (tx) => {
-                await tx.commentlike.deleteMany({ where: { userId, commentId } });
+            if (existingLike) {
+                await tx.commentlike.delete({
+                    where: { userId_commentId: { userId, commentId } }
+                });
                 
                 if (comment.userId !== userId) {
                     await tx.notification.deleteMany({
-                        where: { 
-                            userId: comment.userId as string, 
-                            postId: comment.postId, 
-                            type: "post", 
-                            content: `${likerName} đã thích bình luận của bạn.` 
-                        }
+                        where: { id: deterministicNotifId }
                     });
                 }
-            });
-            return { action: "unliked", message: "Đã bỏ thích" };
-        } else {
-            const [newLike, notif] = await prisma.$transaction(async (tx) => {
-                const like = await tx.commentlike.create({ data: { userId, commentId } });
-                let finalNotification = null;
+                return { action: "unliked", message: "Đã bỏ thích" };
+
+            } else {
+                await tx.commentlike.create({ data: { userId, commentId } });
+                let notif = null;
 
                 if (comment.userId && comment.userId !== userId) {
-                    // Tạo thông báo mới tinh, tự động lên top 1 vì vừa tạo xong
-                    finalNotification = await tx.notification.create({
-                        data: {
-                            id: `NOTIF-${crypto.randomUUID().substring(0, 8)}`,
+                    notif = await tx.notification.upsert({
+                        where: { id: deterministicNotifId },
+                        update: { content: `${likerName} đã thích bình luận của bạn.`, isRead: false },
+                        create: {
+                            id: deterministicNotifId,
                             userId: comment.userId,
                             postId: comment.postId,
                             content: `${likerName} đã thích bình luận của bạn.`,
@@ -130,13 +139,12 @@ export const CommentLogic = {
                         }
                     });
                 }
-                return [like, finalNotification];
-            });
+                if (notif && comment.userId) {
+                    setTimeout(() => io.to(comment.userId as string).emit("new_notification", notif), 0);
+                }
 
-            if (notif && comment.userId) {
-                io.to(comment.userId).emit("new_notification", notif);
+                return { action: "liked", message: "Đã thích" };
             }
-            return { action: "liked", message: "Đã thích" };
-        }
+        });
     }
 };

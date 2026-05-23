@@ -4,6 +4,9 @@ import { ServiceLogic } from "./services.service.js";
 const ServiceController = {
     create: async (req: Request, res: Response) => {
         try {
+            const user = (req as any).user;
+            if (user.role !== 'admin') return res.status(403).json({ message: "Từ chối: Chỉ Admin mới được thêm dịch vụ" });
+
             const result = await ServiceLogic.create(req.body);
             res.status(201).json({ message: "Tạo dịch vụ thành công", data: result });
         } catch (error: any) {
@@ -32,15 +35,21 @@ const ServiceController = {
 
     update: async (req: Request, res: Response) => {
         try {
+            const user = (req as any).user;
+            if (user.role !== 'admin') return res.status(403).json({ message: "Từ chối: Chỉ Admin mới được sửa dịch vụ" });
+
             const result = await ServiceLogic.update(req.params.id as string, req.body);
             res.status(200).json({ message: "Cập nhật thành công", data: result });
-        } catch (error) {
-            res.status(400).json({ message: "Cập nhật thất bại, kiểm tra lại ID" });
+        } catch (error: any) {
+            res.status(400).json({ message: error.message || "Cập nhật thất bại" });
         }
     },
 
     delete: async (req: Request, res: Response) => {
         try {
+            const user = (req as any).user;
+            if (user.role !== 'admin') return res.status(403).json({ message: "Từ chối: Chỉ Admin mới được xóa dịch vụ" });
+
             await ServiceLogic.delete(req.params.id as string);
             res.status(200).json({ message: "Đã xóa dịch vụ vĩnh viễn" });
         } catch (error) {
@@ -49,4 +58,4 @@ const ServiceController = {
     }
 };
 
-export default ServiceController; 
+export default ServiceController;
