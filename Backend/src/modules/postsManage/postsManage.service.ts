@@ -1,19 +1,7 @@
 import { prisma } from "../../config/prisma.js";
 import crypto from "crypto";
-<<<<<<< HEAD
-
-export const PostsManageLogic = {
-    getAllPosts: async () => {
-        return await prisma.post.findMany({
-            include: {
-                users: { select: { fullName: true, email: true, avt: true } },
-                _count: { select: { comments: true, postlike: true } }
-            },
-            orderBy: { createdAt: 'desc' }
-        });
-=======
 // 👇 Import đúng đường dẫn từ ổ tự chế của mày
-import { post_status } from "../../../generated/prisma/client.js"; 
+import { post_status } from "../../../generated/prisma/client.js";
 
 export const PostsManageLogic = {
     // 👇 Thêm phân trang an toàn
@@ -41,7 +29,6 @@ export const PostsManageLogic = {
             },
             items: posts
         };
->>>>>>> c3517840149118654f2ab2cd1889341c31ec390e
     },
 
     createAdminPost: async (adminId: string, data: { description: string }) => {
@@ -55,12 +42,8 @@ export const PostsManageLogic = {
         });
     },
 
-<<<<<<< HEAD
-    updateAdminPost: async (adminId: string, postId: string, data: { description?: string, status?: any }) => {
-=======
     // 👇 Ép kiểu post_status nghiêm ngặt
     updateAdminPost: async (adminId: string, postId: string, data: { description?: string, status?: post_status }) => {
->>>>>>> c3517840149118654f2ab2cd1889341c31ec390e
         const post = await prisma.post.findUnique({ where: { postId } });
         if (!post) throw new Error("Bài đăng không tồn tại");
 
@@ -72,7 +55,7 @@ export const PostsManageLogic = {
             where: { postId },
             data: { description: data.description ?? post.description, status: data.status ?? post.status }
         });
-    }, 
+    },
 
     deleteAnyPost: async (postId: string) => {
         const post = await prisma.post.findUnique({ where: { postId } });
