@@ -78,14 +78,19 @@ model comments {
 }
 
 model payments {
-  id            String                  @id @db.VarChar(50)
-  bookingId     String?                 @db.VarChar(50)
-  type          payments_type?
-  amount        Int?               
-  paymentMethod payments_paymentMethod?
-  createdAt     DateTime?               @default(now()) @db.Timestamp(0)
-  updatedAt     DateTime?               @updatedAt @db.Timestamp(0)
-  booking       booking?                @relation(fields: [bookingId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "payments_ibfk_1")
+  id                   String                  @id @db.VarChar(50)
+  bookingId            String?                 @db.VarChar(50)
+  type                 payments_type?
+  amount               Int?               
+  paymentMethod        payments_paymentMethod?
+  gateway              String?                 @db.VarChar(30)
+  gatewayOrderId       String?                 @unique @db.VarChar(100)
+  gatewayTransactionId String?                 @db.VarChar(100)
+  gatewayStatus        String?                 @db.VarChar(50)
+  paidAt               DateTime?               @db.DateTime(0)
+  createdAt            DateTime?               @default(now()) @db.Timestamp(0)
+  updatedAt            DateTime?               @updatedAt @db.Timestamp(0)
+  booking              booking?                @relation(fields: [bookingId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "payments_ibfk_1")
 
   @@index([bookingId], map: "bookingId")
 }
@@ -173,6 +178,7 @@ model users {
   fullName    String        @db.VarChar(255)
   avt         String?       @db.VarChar(500)
   role        users_role?   @default(user)
+  status      users_status? @default(active)
   phone       String?       @db.VarChar(20)
   createdAt   DateTime?     @default(now()) @db.Timestamp(0)
   updatedAt   DateTime?     @updatedAt @db.Timestamp(0)
@@ -205,9 +211,38 @@ model notification {
   @@index([postId], map: "postId")
 }
 
+model ai_conversation {
+  conversationId String       @id @db.VarChar(50)
+  userId         String       @db.VarChar(50)
+  title          String?      @db.VarChar(255)
+  createdAt      DateTime?    @default(now()) @db.Timestamp(0)
+  updatedAt      DateTime?    @updatedAt @db.Timestamp(0)
+
+  ai_message     ai_message[]
+
+  @@index([userId], map: "userId")
+}
+
+model ai_message {
+  messageId       String            @id @db.VarChar(50)
+  conversationId  String            @db.VarChar(50)
+  sender          ai_message_sender
+  content         String            @db.Text
+  createdAt       DateTime?         @default(now()) @db.Timestamp(0)
+
+  ai_conversation ai_conversation   @relation(fields: [conversationId], references: [conversationId], onDelete: Cascade, onUpdate: NoAction, map: "ai_message_ibfk_1")
+
+  @@index([conversationId], map: "conversationId")
+}
+
 enum users_role {
   user
   admin
+}
+
+enum users_status {
+  active
+  banned
 }
 
 enum payments_type {
@@ -249,4 +284,9 @@ enum notification_type {
   booking
   post
   payment
+}
+
+enum ai_message_sender {
+  user
+  model
 }

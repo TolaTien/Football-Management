@@ -35,7 +35,7 @@ export const ServiceLogic = {
             where: { serviceId: id },
             data: {
                 nameProduct: data.nameProduct,
-                price: data.price,
+                price: data.price, 
                 totalQuantity: data.totalQuantity,
                 borrowed: data.borrowed,
                 returned: data.returned,

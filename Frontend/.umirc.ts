@@ -36,7 +36,7 @@ export default defineConfig({
         { path: '/matchmaking/messages', component: './matchmaking/messages' },
       ],
     },
-    // Admin routes
+    // Admin routes sharing AdminLayout
     {
       path: '/admin',
       component: '@/layouts/AdminLayout',
@@ -93,5 +93,4 @@ export default defineConfig({
     '@app': __dirname + '/src/app',
   },
   npmClient: 'npm',
-  esbuildMinifyIIFE: true,
 });

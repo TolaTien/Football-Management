@@ -1,49 +1,27 @@
 import { Request, Response } from "express";
 import { CommentLogic } from "./comments.service.js";
 
-const CommentController = {
+export const CommentController = {
     create: async (req: Request, res: Response) => {
         try {
             const userId = (req as any).user.userId;
             const newComment = await CommentLogic.createComment(userId, req.body);
-            res.status(201).json({ message: "Đã gửi bình luận", data: newComment });
-        } catch (error: any) {
-            res.status(500).json({ message: "Lỗi tạo bình luận", error: error.message });
-        }
+            res.status(201).json({ message: "Bình luận thành công", data: newComment });
+        } catch (error: any) { res.status(400).json({ message: error.message }); }
     },
+
     getByPost: async (req: Request, res: Response) => {
         try {
-            const postId = req.params.postId;
-            const comments = await CommentLogic.getCommentsByPost(postId as string);
-            res.status(200).json(comments);
-        } catch (error: any) {
-            res.status(500).json({ message: "Lỗi tải bình luận", error: error.message });
-        }
-    },
-    delete: async (req: Request, res: Response) => {
-        try {
-            const userId = (req as any).user.userId;
-            const userRole = (req as any).user.role; // Kéo thêm Role để check Admin
-            const commentId = req.params.id;
-
-            await CommentLogic.deleteComment(userId, userRole, commentId as string);
-            res.status(200).json({ message: "Đã xóa bình luận thành công" });
-        } catch (error: any) {
-            const status = error.message.includes("Không có quyền") ? 403 : 404;
-            res.status(status).json({ message: error.message });
-        }
+            const tree = await CommentLogic.getCommentsTree(req.params.postId);
+            res.status(200).json(tree);
+        } catch (error: any) { res.status(400).json({ message: error.message }); }
     },
 
-    likeComment: async (req: Request, res: Response) => {
+    toggleLike: async (req: Request, res: Response) => {
         try {
             const userId = (req as any).user.userId;
-            const commentId = req.params.id;
-            const result = await CommentLogic.toggleLike(userId, commentId as string);
+            const result = await CommentLogic.toggleLikeComment(userId, req.params.commentId);
             res.status(200).json(result);
-        } catch (error: any) {
-            res.status(404).json({ message: error.message });
-        }
+        } catch (error: any) { res.status(400).json({ message: error.message }); }
     }
 };
-
-export default CommentController;

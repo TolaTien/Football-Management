@@ -8,4 +8,4 @@ export const getInitialState = async (): Promise<{ name: string }> => {
 
 export function rootContainer(container: React.ReactNode) {
   return React.createElement(Provider, { store, children: container });
-}
+}

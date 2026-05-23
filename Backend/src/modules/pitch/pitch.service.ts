@@ -23,7 +23,7 @@ export class PitchService {
             include: {
                 pitchprice: true,
                 booking: {
-                    where: { status: 'approved', paymentStatus: 'partial'}
+                    where: { status:{ in: ['approved', 'pending']}}
                 }
             },
             orderBy: { createdAt: 'desc' }
