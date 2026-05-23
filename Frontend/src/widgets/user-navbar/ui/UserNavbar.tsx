@@ -3,7 +3,12 @@ import { useNavigate } from '@umijs/max';
 import { useAppSelector, useAppDispatch } from '@/app/store/hooks';
 import { logout } from '@/entities/user/model/userSlice';
 import { AuthService } from '@/features/auth/api/authService';
-import { NotificationsService, NotificationItem } from '@/entities/notification/api/notificationService';
+import { NotificationItem } from '@/entities/notification/api/notificationService';
+import { 
+  fetchNotifications, 
+  markNotificationRead, 
+  markAllNotificationsRead 
+} from '@/entities/notification/model/notificationSlice';
 import { getSocket, connectSocket, disconnectSocket } from '@/shared/api/socket';
 import { Badge, Popover, List, Spin, Empty, Avatar, notification } from 'antd';
 
@@ -11,29 +16,30 @@ export const UserNavbar: React.FC = () => {
   const user = useAppSelector((state) => state.user.currentUser);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [unreadCount, setUnreadCount] = useState(0);
-  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
-  const [loadingNotifs, setLoadingNotifs] = useState(false);
+  const notifications = useAppSelector((state) => state.notification.list);
+  const unreadCount = useAppSelector((state) => state.notification.unreadCount);
+  const loadingNotifs = useAppSelector((state) => state.notification.loading);
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
-      fetchNotifications();
+      dispatch(fetchNotifications(1));
       // Poll every 1 minute for new notifications as fallback
-      const interval = setInterval(fetchNotifications, 60000);
+      const interval = setInterval(() => {
+        dispatch(fetchNotifications(1));
+      }, 60000);
       
       // Setup Socket.io
       connectSocket();
       const socket = getSocket();
       
       const handleNewNotification = (data: any) => {
-        // Play a small pop sound or show a toast if you want
         notification.info({
           message: 'New Notification',
           description: data.content || 'You have a new update.',
           placement: 'bottomRight',
         });
-        fetchNotifications();
+        dispatch(fetchNotifications(1));
       };
       
       socket.on('newNotification', handleNewNotification);
@@ -41,21 +47,9 @@ export const UserNavbar: React.FC = () => {
       return () => {
         clearInterval(interval);
         socket.off('newNotification', handleNewNotification);
-        // Only disconnect if we are actually logging out, otherwise we might kill it for other components
       };
     }
-  }, [user]);
-
-  const fetchNotifications = async () => {
-    try {
-      const res = await NotificationsService.getAllNotifications();
-      setNotifications(res.notification.slice(0, 5));
-      const count = res.notification.filter(n => !n.isRead).length;
-      setUnreadCount(count);
-    } catch (error) {
-      console.error('Failed to fetch notifications', error);
-    }
-  };
+  }, [user, dispatch]);
 
   const handleLogout = async () => {
     try {
@@ -74,9 +68,8 @@ export const UserNavbar: React.FC = () => {
         {unreadCount > 0 && (
           <button 
             className="text-xs text-primary hover:underline"
-            onClick={async () => {
-              await NotificationsService.markReadAll();
-              fetchNotifications();
+            onClick={() => {
+              dispatch(markAllNotificationsRead());
             }}
           >
             Mark all as read
@@ -92,14 +85,13 @@ export const UserNavbar: React.FC = () => {
         <div className="max-h-80 overflow-y-auto">
           <List
             itemLayout="horizontal"
-            dataSource={notifications}
+            dataSource={notifications.slice(0, 5)}
             renderItem={(item) => (
               <List.Item 
                 className={`px-3 py-2 cursor-pointer hover:bg-gray-50 transition-colors ${!item.isRead ? 'bg-emerald-50/50' : ''}`}
                 onClick={async () => {
                   if (!item.isRead) {
-                    await NotificationsService.markRead(item.id);
-                    fetchNotifications();
+                    dispatch(markNotificationRead(item.id));
                   }
                   setPopoverOpen(false);
                   navigate('/user/profile?tab=notifications');
@@ -165,10 +157,6 @@ export const UserNavbar: React.FC = () => {
               </Badge>
             </button>
           </Popover>
-          
-          <button className="hover:bg-gray-100 rounded-full p-2 transition-all">
-            <span className="material-symbols-outlined text-gray-600" data-icon="mail">mail</span>
-          </button>
           
           <div className="h-8 w-px bg-gray-200 mx-2"></div>
           
