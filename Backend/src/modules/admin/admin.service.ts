@@ -1,10 +1,26 @@
 import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/ApiError.js";
-import { ApproveRequestUser, CancelBookingForAdmin, GetAllHistoryOfUser, RefundForUser, VerifyPaymentOfUser } from "./admin.schema.js";
+import { ApproveRequestUser, CancelBookingForAdmin, GetAllHistoryOfUser, RefundForUser, UpdateUserStatus, VerifyPaymentOfUser } from "./admin.schema.js";
 import { v4 as uuidv4 } from 'uuid';
 import { io } from "../../config/socket.js";
 
 export class AdminService {
+    static async banUser(dto: UpdateUserStatus) {
+        const user = await prisma.users.findUnique({ where: { userId: dto.userId } });
+        if (!user) throw new ApiError(400, "Không tìm thấy người dùng");
+
+        if (user.role !== 'user') {
+            throw new ApiError(400, "Chỉ có thể khóa tài khoản người dùng thường");
+        }
+
+        const update = await prisma.users.update({
+            where: { userId: user.userId },
+            data: { status: dto.status },
+        });
+
+        return update;
+    }
+
     static async approveRequestUser(dto: ApproveRequestUser) {
         const booking = await prisma.booking.findUnique({ where: { bookId: dto.bookId } });
         if (!booking) throw new ApiError(400, "Không tìm thấy đơn đặt sân");

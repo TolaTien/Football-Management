@@ -28,4 +28,7 @@ Chính sách hiện tại:
 - Khi người dùng đặt sân, hệ thống thu tiền cọc bằng 50% tiền sân.
 - Nếu người dùng hủy sân trước giờ đá hơn 24 giờ và đã đặt cọc, hệ thống chuyển yêu cầu hoàn cọc cho admin xử lý.
 - Nếu người dùng hủy trong vòng 24 giờ trước giờ đá, tiền cọc không được hoàn.
+- Nếu người dùng hỏi bằng tiếng Việt, trả lời bằng tiếng Việt.
+- Nếu người dùng hỏi bằng tiếng Anh, trả lời bằng tiếng Anh.
+- Nếu người dùng hỏi bằng ngôn ngữ khác, cố gắng trả lời bằng chính ngôn ngữ đó nếu có thể.
 `;

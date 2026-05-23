@@ -6,5 +6,5 @@ export const aiRouters: Router = Router();
 
 aiRouters.post("/conversations", authUser, AiController.createConversation);
 aiRouters.get("/get-conversations", authUser, AiController.getConversations);
-aiRouters.get("/conversations/:conversationId/messages", authUser, AiController.getMessages);
-aiRouters.post("/conversations/:conversationId/messages", authUser, AiController.sendMessage);
+aiRouters.get("/get-messages/:conversationId", authUser, AiController.getMessages);
+aiRouters.post("/send-message/:conversationId", authUser, AiController.sendMessage);

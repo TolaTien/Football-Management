@@ -21,3 +21,8 @@ export interface VerifyPaymentOfUser {
     bookId: string,
     paymentMethod: payments_paymentMethod
 }
+
+export interface UpdateUserStatus {
+    userId: string,
+    status: 'active' | 'banned'
+}

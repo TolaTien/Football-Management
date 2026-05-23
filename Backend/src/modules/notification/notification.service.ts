@@ -1,30 +1,9 @@
 import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/ApiError.js";
 import { GetAllNotification, MarkRead, MarkReadAll } from "./notification.schema.js";
-import { io } from "../../config/socket.js";
 
 
 export class NotificationService {
-    static async sendNotif(receiverId: string, content: string, type: any, postId?: string) {
-        try {
-            // 1. Tạo bản ghi trong DB
-            const newNotif = await prisma.notification.create({
-                data: {
-                    id: `NOTIF-${Date.now()}`,
-                    userId: receiverId,
-                    content: content,
-                    type: type,
-                    postId: postId
-                }
-            });
-
-            // 2. Bắn sự kiện realtime tới đúng cái phòng của thằng nhận
-            io.to(receiverId).emit("new_notification", newNotif);
-            
-        } catch (error) {
-            console.error(">>> Lỗi khi tạo/bắn thông báo:", error);
-        }
-    }
     static async getAllNotification(dto: GetAllNotification){
         const user = await prisma.users.findUnique({
             where: { userId: dto.userId}
