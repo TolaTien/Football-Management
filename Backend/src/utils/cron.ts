@@ -2,6 +2,7 @@ import cron from 'node-cron';
 import { prisma } from '../config/prisma.js';
 import { StatisticService } from '../modules/statistic/statistic.service.js';
 import { sendEmail } from './email.js';
+import { v4 as uuidv4 } from 'uuid';
 
 const formatCurrency = (value: number) => {
     return value.toLocaleString('vi-VN') + 'VNĐ';
@@ -54,19 +55,68 @@ const buildMonthlyRevenueEmailHtml = (summary: {
 export const startCron = () => {
     cron.schedule('*/5 * * * *', async () => {
         try {
-            const fifteenAgo = new Date( Date.now() - 15 * 60 * 1000);
-            const cancelBooking = await prisma.booking.updateMany({ 
-                where: { 
-                    status: 'pending',
-                    createdAt: { lt: fifteenAgo },
-                    paymentStatus: 'pending'
-                 },
-                 data: {
-                    status: 'rejected'
-                 }
+            const fifteenAgo = new Date(Date.now() - 15 * 60 * 1000);
+            const cancelBooking = await prisma.$transaction(async (tx) => {
+                const expiredBookings = await tx.booking.findMany({
+                    where: {
+                        status: 'pending',
+                        createdAt: { lt: fifteenAgo },
+                        paymentStatus: 'pending'
+                    },
+                    select: {
+                        bookId: true,
+                        userId: true
+                    }
+                });
+
+                if (expiredBookings.length === 0) {
+                    return { count: 0 };
+                }
+
+                const notifications: Array<{
+                    id: string;
+                    userId: string;
+                    type: "booking";
+                    content: string;
+                    bookId: string;
+                }> = [];
+                let cancelCount = 0;
+
+                for (const booking of expiredBookings) {
+                    const update = await tx.booking.updateMany({
+                        where: {
+                            bookId: booking.bookId,
+                            status: 'pending',
+                            paymentStatus: 'pending'
+                        },
+                        data: {
+                            status: 'rejected'
+                        }
+                    });
+
+                    if (update.count > 0) {
+                        cancelCount += update.count;
+
+                        if (booking.userId) {
+                            notifications.push({
+                                id: uuidv4(),
+                                userId: booking.userId,
+                                type: "booking" as const,
+                                content: "Yêu cầu đặt sân của bạn đã bị hủy do chưa thanh toán sau 15 phút",
+                                bookId: booking.bookId
+                            });
+                        }
+                    }
+                }
+
+                if (notifications.length > 0) {
+                    await tx.notification.createMany({ data: notifications });
+                }
+
+                return { count: cancelCount };
             });
 
-            if(cancelBooking) console.log(`Đã hủy ${cancelBooking.count} do chưa thanh toán `)
+            if (cancelBooking.count > 0) console.log(`Đã hủy ${cancelBooking.count} do chưa thanh toán `)
         } catch(err: any){
             console.error("Lỗi khi chạy cron hủy booking: ", err);
         }
