@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/app/store/hooks';
 import { setCurrentUser } from '@/entities/user/model/userSlice';
-import { message, Spin, Empty, Button, Tag, List, Avatar, Modal } from 'antd';
+import { message, Spin, Empty, Button, Tag, List, Avatar, Modal, Segmented, Pagination } from 'antd';
 import { UsersService, BookingHistoryResponse } from '@/entities/user/api/userService';
 import { NotificationItem } from '@/entities/notification/api/notificationService';
 import { 
@@ -38,6 +38,9 @@ const UserProfilePage: React.FC = () => {
   // Notification states
   const notifications = useAppSelector((state) => state.notification.list);
   const notifLoading = useAppSelector((state) => state.notification.loading);
+  const pagination = useAppSelector((state) => state.notification.pagination);
+  const [notifPage, setNotifPage] = useState(1);
+  const [notifStatus, setNotifStatus] = useState<'all' | 'unread' | 'read'>('all');
 
   const [notifMatch, setNotifMatch] = useState(true);
   const [notifChat, setNotifChat] = useState(true);
@@ -58,9 +61,9 @@ const UserProfilePage: React.FC = () => {
     if (activeTab === 'bookings') {
       fetchBookings();
     } else if (activeTab === 'notifications') {
-      dispatch(fetchNotifications(1));
+      dispatch(fetchNotifications(notifPage));
     }
-  }, [activeTab, dispatch]);
+  }, [activeTab, notifPage, dispatch]);
 
   const fetchBookings = async () => {
     setBookingsLoading(true);
@@ -394,46 +397,88 @@ const UserProfilePage: React.FC = () => {
 
           {activeTab === 'notifications' && (
             <section className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-              <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
-                  <span className="material-symbols-outlined">notifications_active</span>
-                  My Notifications
-                </h3>
-                {notifications.length > 0 && (
-                  <Button size="small" onClick={handleMarkReadAll}>Mark all as read</Button>
-                )}
+              <div className="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
+                    <span className="material-symbols-outlined">notifications_active</span>
+                    My Notifications
+                  </h3>
+                  <p className="text-xs text-secondary mt-1">
+                    You have <span className="font-bold text-primary">{notifications.filter(n => !n.isRead).length}</span> unread notifications on this page.
+                  </p>
+                </div>
+                <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                  <Segmented
+                    value={notifStatus}
+                    onChange={(val) => {
+                      setNotifStatus(val as any);
+                      setNotifPage(1);
+                    }}
+                    options={[
+                      { label: 'All', value: 'all' },
+                      { label: 'Unread', value: 'unread' },
+                      { label: 'Read', value: 'read' },
+                    ]}
+                  />
+                  {notifications.length > 0 && notifStatus !== 'read' && (
+                    <Button size="small" onClick={handleMarkReadAll}>Mark all read</Button>
+                  )}
+                </div>
               </div>
               <div className="p-0">
                 {notifLoading ? (
                   <div className="flex justify-center py-10"><Spin /></div>
-                ) : notifications.length === 0 ? (
-                  <div className="p-10 text-center"><Empty description="No notifications" /></div>
+                ) : notifications.filter((item) => {
+                    if (notifStatus === 'unread') return !item.isRead;
+                    if (notifStatus === 'read') return item.isRead;
+                    return true;
+                  }).length === 0 ? (
+                  <div className="p-10 text-center">
+                    <Empty description={notifStatus === 'unread' ? "No unread notifications" : notifStatus === 'read' ? "No read notifications" : "No notifications"} />
+                  </div>
                 ) : (
-                  <List
-                    itemLayout="horizontal"
-                    dataSource={notifications}
-                    renderItem={(item) => (
-                      <List.Item 
-                        className={`px-6 cursor-pointer transition-colors ${!item.isRead ? 'bg-emerald-50/50' : 'hover:bg-gray-50'}`}
-                        onClick={() => {
-                          if (!item.isRead) {
-                            dispatch(markNotificationRead(item.id));
-                          }
-                        }}
-                      >
-                        <List.Item.Meta
-                          avatar={<Avatar icon={<span className="material-symbols-outlined text-sm">notifications</span>} className={item.isRead ? 'bg-gray-200' : 'bg-primary'} />}
-                          title={<span className={item.isRead ? 'font-medium text-secondary' : 'font-bold text-primary'}>{item.title || (item.type ? item.type.toUpperCase() : 'Notification')}</span>}
-                          description={
-                            <div>
-                              <p className="text-sm text-on-surface mb-1">{item.content}</p>
-                              <span className="text-[10px] text-gray-400 font-medium uppercase">{dayjs(item.createdAt).fromNow()}</span>
-                            </div>
-                          }
+                  <>
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={notifications.filter((item) => {
+                        if (notifStatus === 'unread') return !item.isRead;
+                        if (notifStatus === 'read') return item.isRead;
+                        return true;
+                      })}
+                      renderItem={(item) => (
+                        <List.Item 
+                          className={`px-6 cursor-pointer transition-colors ${!item.isRead ? 'bg-emerald-50/50' : 'hover:bg-gray-50'}`}
+                          onClick={() => {
+                            if (!item.isRead) {
+                              dispatch(markNotificationRead(item.id));
+                            }
+                          }}
+                        >
+                          <List.Item.Meta
+                            avatar={<Avatar icon={<span className="material-symbols-outlined text-sm">notifications</span>} className={item.isRead ? 'bg-gray-200' : 'bg-primary'} />}
+                            title={<span className={item.isRead ? 'font-medium text-secondary' : 'font-bold text-primary'}>{item.title || (item.type ? item.type.toUpperCase() : 'Notification')}</span>}
+                            description={
+                              <div>
+                                <p className="text-sm text-on-surface mb-1">{item.content}</p>
+                                <span className="text-[10px] text-gray-400 font-medium uppercase">{dayjs(item.createdAt).fromNow()}</span>
+                              </div>
+                            }
+                          />
+                        </List.Item>
+                      )}
+                    />
+                    {pagination && pagination.numberPage > 1 && (
+                      <div className="flex justify-center py-6 border-t border-gray-100">
+                        <Pagination
+                          current={notifPage}
+                          pageSize={pagination.perpage}
+                          total={pagination.totalRequest}
+                          onChange={(p) => setNotifPage(p)}
+                          showSizeChanger={false}
                         />
-                      </List.Item>
+                      </div>
                     )}
-                  />
+                  </>
                 )}
               </div>
             </section>
