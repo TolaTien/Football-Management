@@ -6,13 +6,39 @@ interface NotificationState {
   unreadCount: number;
   loading: boolean;
   error: string | null;
+  pagination: {
+    numberPage: number;
+    page: number;
+    totalRequest: number;
+    perpage: number;
+  } | null;
 }
 
+const getLocalNotifications = (): NotificationItem[] => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const data = localStorage.getItem('pitchhub_local_notifications');
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveLocalNotifications = (notifs: NotificationItem[]) => {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem('pitchhub_local_notifications', JSON.stringify(notifs));
+  } catch {}
+};
+
+const localNotifs = getLocalNotifications();
+
 const initialState: NotificationState = {
-  list: [],
-  unreadCount: 0,
+  list: localNotifs,
+  unreadCount: localNotifs.filter(n => !n.isRead).length,
   loading: false,
   error: null,
+  pagination: null,
 };
 
 // Async Thunks
@@ -21,7 +47,7 @@ export const fetchNotifications = createAsyncThunk(
   async (page: number = 1, { rejectWithValue }) => {
     try {
       const data = await NotificationsService.getAllNotifications(page);
-      return data.notification;
+      return data; // Trả về toàn bộ đối tượng { notification, pagination }
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || 'Không thể lấy danh sách thông báo');
     }
@@ -65,6 +91,7 @@ const notificationSlice = createSlice({
         isRead: false,
         type: action.payload.type || 'booking',
         createdAt: new Date().toISOString(),
+        isLocal: true,
       };
       
       // Check if duplicate (avoid duplicates if socket events are triggered multiple times)
@@ -72,11 +99,16 @@ const notificationSlice = createSlice({
       if (!exists) {
         state.list.unshift(newNotif);
         state.unreadCount += 1;
+        
+        // Save local notifications to localStorage
+        const locals = state.list.filter(n => n.isLocal);
+        saveLocalNotifications(locals);
       }
     },
     clearNotifications: (state) => {
       state.list = [];
       state.unreadCount = 0;
+      saveLocalNotifications([]);
     }
   },
   extraReducers: (builder) => {
@@ -86,10 +118,21 @@ const notificationSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchNotifications.fulfilled, (state, action: PayloadAction<NotificationItem[]>) => {
+      .addCase(fetchNotifications.fulfilled, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.list = action.payload;
-        state.unreadCount = action.payload.filter(n => !n.isRead).length;
+        
+        // Lấy danh sách thông báo cục bộ hiện tại
+        const locals = state.list.filter(n => n.isLocal);
+        const incoming = action.payload.notification;
+        
+        // Loại bỏ các thông báo trùng lặp từ server
+        const filteredLocals = locals.filter(
+          l => !incoming.some((i: any) => i.id === l.id)
+        );
+        
+        state.list = [...filteredLocals, ...incoming];
+        state.pagination = action.payload.pagination;
+        state.unreadCount = state.list.filter(n => !n.isRead).length;
       })
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.loading = false;
@@ -101,6 +144,10 @@ const notificationSlice = createSlice({
         if (notif && !notif.isRead) {
           notif.isRead = true;
           state.unreadCount = Math.max(0, state.unreadCount - 1);
+          
+          // Lưu lại danh sách thông báo cục bộ đã cập nhật vào localStorage
+          const locals = state.list.filter(n => n.isLocal);
+          saveLocalNotifications(locals);
         }
       })
       // Mark All Read
@@ -109,6 +156,10 @@ const notificationSlice = createSlice({
           n.isRead = true;
         });
         state.unreadCount = 0;
+        
+        // Lưu lại danh sách thông báo cục bộ đã cập nhật vào localStorage
+        const locals = state.list.filter(n => n.isLocal);
+        saveLocalNotifications(locals);
       });
   },
 });
