@@ -9,3 +9,5 @@ async function test() {
 }
 
 test().finally(() => prisma.$disconnect());
+
+

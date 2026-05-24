@@ -1,6 +1,6 @@
 import { prisma } from "../../config/prisma.js";
 import crypto from "crypto";
-import { post_status } from "../../../generated/prisma/client.js";
+
 export const PostLogic = {
     getAllPosts: async (page: number = 1, limit: number = 10) => {
         const skip = (page - 1) * limit;
@@ -50,7 +50,7 @@ export const PostLogic = {
             }
         });
     },
-    updatePost: async (userId: string, postId: string, data: { description?: string, status?: post_status }) => {
+    updatePost: async (userId: string, postId: string, data: { description?: string, status?: any }) => {
         const post = await prisma.post.findUnique({ where: { postId } });
         if (!post) throw new Error("Bài đăng không tồn tại");
         if (post.hostId !== userId) throw new Error("Cảnh báo: Bạn không phải chủ bài viết!");

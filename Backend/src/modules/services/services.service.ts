@@ -1,17 +1,8 @@
 import { prisma } from "../../config/prisma.js";
 import crypto from "crypto";
-
-interface ServiceData {
-    nameProduct: string;
-    price: number;
-    totalQuantity?: number;
-    borrowed?: number;
-    returned?: number;
-}
-
 export const ServiceLogic = {
 
-    create: async (data: ServiceData) => {
+    create: async (data: any) => {
         return await prisma.services.create({
             data: {
                 serviceId: `SERV-${crypto.randomUUID().substring(0, 8)}`, 
@@ -24,11 +15,13 @@ export const ServiceLogic = {
         });
     },
 
+  
     getAll: async () => {
         return await prisma.services.findMany({
             orderBy: { createdAt: 'desc' }
         });
     },
+
 
     getOne: async (id: string) => {
         return await prisma.services.findUnique({
@@ -36,18 +29,17 @@ export const ServiceLogic = {
         });
     },
 
-    update: async (id: string, data: Partial<ServiceData>) => {
-        const existingService = await prisma.services.findUnique({ where: { serviceId: id } });
-        if (!existingService) throw new Error("Dịch vụ không tồn tại");
 
+    update: async (id: string, data: any) => {
         return await prisma.services.update({
             where: { serviceId: id },
             data: {
-                nameProduct: data.nameProduct ?? existingService.nameProduct,
-                price: data.price ?? existingService.price, 
-                totalQuantity: data.totalQuantity ?? existingService.totalQuantity,
-                borrowed: data.borrowed ?? existingService.borrowed,
-                returned: data.returned ?? existingService.returned
+                nameProduct: data.nameProduct,
+                price: data.price, 
+                totalQuantity: data.totalQuantity,
+                borrowed: data.borrowed,
+                returned: data.returned,
+                updatedAt: new Date()
             }
         });
     },
