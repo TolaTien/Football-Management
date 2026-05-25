@@ -33,5 +33,19 @@ export const postService = {
 
   toggleLikePost: async (postId: string): Promise<void> => {
     await $api.post(`/postlikes/${postId}/like`);
+  },
+
+  createPost: async (description: string): Promise<PostItem> => {
+    const { data } = await $api.post('/posts', { description });
+    return data.data;
+  },
+
+  updatePost: async (postId: string, description: string, status?: 'open' | 'closed' | 'canceled'): Promise<PostItem> => {
+    const { data } = await $api.put(`/posts/${postId}`, { description, status });
+    return data.data;
+  },
+
+  deletePost: async (postId: string): Promise<void> => {
+    await $api.delete(`/posts/${postId}`);
   }
 };
