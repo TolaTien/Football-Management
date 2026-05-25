@@ -97,6 +97,19 @@ export const startCron = () => {
                     if (update.count > 0) {
                         cancelCount += update.count;
 
+                        const bookingServices = await tx.bookingservices.findMany({ where: { bookId: booking.bookId } });
+                        for (const items of bookingServices) {
+                            if (items.quantity && items.serviceId) {
+                                const item = await tx.services.findUnique({ where: { serviceId: items.serviceId } });
+                                if (item) {
+                                    await tx.services.update({
+                                        where: { serviceId: item.serviceId },
+                                        data: { returned: (item.returned ?? 0) + items.quantity }
+                                    });
+                                }
+                            }
+                        }
+
                         if (booking.userId) {
                             notifications.push({
                                 id: uuidv4(),

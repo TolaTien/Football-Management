@@ -156,62 +156,82 @@ export class AiService {
   }
 
   private static async callGeminiWithTools(role: Role, contents: GeminiContent[]) {
-    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const rawModels = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
+    const models = rawModels.split(",").map(m => m.trim()).filter(m => m.length > 0);
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+      throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, "Chưa cấu hình GEMINI_API_KEY");
+    }
+
+    const ai = new GoogleGenAI({ apiKey });
 
     const basePrompt = role === "admin" ? ADMIN_AI_SYSTEM_PROMPT : USER_AI_SYSTEM_PROMPT;
     const systemInstruction = `${basePrompt}\n\n${POLICY_CONTEXT}\n\nHôm nay là ngày: ${new Date().toISOString().split('T')[0]}\nMúi giờ: GMT+7.`;
 
-    let response = await ai.models.generateContent({
-      model,
-      contents,
-      config: {
-        systemInstruction,
-        tools: this.getGeminiTools(role),
-      },
-    });
+    let lastError: any;
 
-    if (response.functionCalls && response.functionCalls.length > 0) {
-      const call = response.functionCalls[0];
-      let toolResult: any;
-
+    for (const model of models) {
       try {
-        if (call.name === "check_pitch_availability") {
-          const args = call.args as { date: string, startTime: string, endTime: string };
-          toolResult = await this.getAvailabilityContextByArgs(args.date, args.startTime, args.endTime);
-        } else if (call.name === "get_pitch_information") {
-          toolResult = await this.getPitchInformation();
-        } else if (call.name === "get_revenue_statistics" && role === "admin") {
-          const args = call.args as { month: number, year: number };
-          toolResult = await this.getRevenueContextByArgs(args.month, args.year);
-        } else {
-          toolResult = "Không tìm thấy công cụ hoặc bạn không có quyền.";
+        const currentContents = [...contents];
+
+        let response = await ai.models.generateContent({
+          model,
+          contents: currentContents,
+          config: {
+            systemInstruction,
+            tools: this.getGeminiTools(role),
+          },
+        });
+
+        if (response.functionCalls && response.functionCalls.length > 0) {
+          const call = response.functionCalls[0];
+          let toolResult: any;
+
+          try {
+            if (call.name === "check_pitch_availability") {
+              const args = call.args as { date: string, startTime: string, endTime: string };
+              toolResult = await this.getAvailabilityContextByArgs(args.date, args.startTime, args.endTime);
+            } else if (call.name === "get_pitch_information") {
+              toolResult = await this.getPitchInformation();
+            } else if (call.name === "get_revenue_statistics" && role === "admin") {
+              const args = call.args as { month: number, year: number };
+              toolResult = await this.getRevenueContextByArgs(args.month, args.year);
+            } else {
+              toolResult = "Không tìm thấy công cụ hoặc bạn không có quyền.";
+            }
+          } catch (error: any) {
+            toolResult = `Lỗi khi thực thi công cụ: ${error.message}`;
+          }
+
+          currentContents.push(
+            { role: "model", parts: [{ functionCall: call }] },
+            { role: "user", parts: [{ functionResponse: { name: call.name, response: { result: toolResult } } }] }
+          );
+
+          response = await ai.models.generateContent({
+            model,
+            contents: currentContents,
+            config: {
+              systemInstruction,
+              tools: this.getGeminiTools(role),
+            },
+          });
         }
+
+        const text = response.text?.trim();
+        if (!text) {
+          throw new ApiError(StatusCodes.BAD_GATEWAY, "Gemini không trả về nội dung");
+        }
+
+        return text;
       } catch (error: any) {
-        toolResult = `Lỗi khi thực thi công cụ: ${error.message}`;
+        console.error(`Lỗi với Model ${model}:`, error.message);
+        lastError = error;
       }
-
-      contents.push(
-        { role: "model", parts: [{ functionCall: call }] },
-        { role: "user", parts: [{ functionResponse: { name: call.name, response: { result: toolResult } } }] }
-      );
-
-      response = await ai.models.generateContent({
-        model,
-        contents,
-        config: {
-          systemInstruction,
-          tools: this.getGeminiTools(role),
-        },
-      });
     }
 
-    const text = response.text?.trim();
-    if (!text) {
-      throw new ApiError(StatusCodes.BAD_GATEWAY, "Gemini không trả về nội dung");
-    }
-
-    return text;
+    throw new ApiError(StatusCodes.BAD_GATEWAY, `Tất cả các Model đều bị lỗi. Lỗi cuối: ${lastError?.message || "Không xác định"}`);
   }
 
   private static async getPitchInformation() {
