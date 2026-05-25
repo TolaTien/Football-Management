@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
-import { Row, Col, Typography, Button, message, Form } from 'antd';
+import { Row, Col, Typography, Button, Form } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
-import { fetchPitches, addPitch, updatePitch, deletePitchLocally } from '@/entities/pitch/model/pitchSlice';
+import { fetchPitches, addPitch, updatePitch, deletePitchThunk } from '@/entities/pitch/model/pitchSlice';
 import type { Pitch } from '@/entities/pitch/model/types';
 import { PitchesSummaryStats } from './components/PitchesSummaryStats';
 import { PitchCard } from './components/PitchCard';
@@ -72,8 +72,7 @@ const AdminPitchesList: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
-    dispatch(deletePitchLocally(id));
-    message.success('Đã xóa sân!');
+    dispatch(deletePitchThunk(id));
   };
 
   const activePitches = pitches.filter(p => p.status === 'active').length;

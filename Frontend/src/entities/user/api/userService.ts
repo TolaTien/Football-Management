@@ -31,6 +31,9 @@ export const userService = {
 
   remove: (userId: string) =>
     axiosInstance.delete(`/admin/users/${userId}`),
+
+  ban: (userId: string, status: 'active' | 'banned') =>
+    axiosInstance.patch(`/admin/ban-user/${userId}`, { status }),
 };
 
 export const UsersService = {

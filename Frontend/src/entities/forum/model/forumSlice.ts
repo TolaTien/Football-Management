@@ -1,35 +1,60 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { ForumPost, ForumPostStatus, CreateForumPostDto } from './types';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { message } from 'antd';
+import { forumService } from '../api/forumService';
+import { extractErrorMessage } from '@/shared/lib/errorUtils';
+import type { ForumPost, ForumPostStatus } from './types';
 
-const INITIAL_POSTS: ForumPost[] = [
-  {
-    id: 'f1',
-    title: 'Tìm đối giao lưu tối nay sân 7',
-    author: 'Minh Tú FC',
-    date: '10/10/2023',
-    category: 'Giao hữu',
-    status: 'approved',
-    content: 'Sân 7 người, khu vực quận 1, tối nay 19h-21h. Liên hệ ngay!',
-  },
-  {
-    id: 'f2',
-    title: 'Cần pass lại giờ đá sân A2',
-    author: 'Lê Văn A',
-    date: '09/10/2023',
-    category: 'Chuyển nhượng',
-    status: 'approved',
-    content: 'Do bận việc đột xuất, cần pass lại slot sân A2 tối 9/10 từ 20h-22h.',
-  },
-  {
-    id: 'f3',
-    title: 'Quảng cáo bán giày đá bóng giá rẻ!!',
-    author: 'Shop Bóng Đá',
-    date: '11/10/2023',
-    category: 'Khác',
-    status: 'pending',
-    content: 'Thanh lý kho giày đá bóng chính hãng, đủ size, giá từ 200k.',
-  },
-];
+export const fetchForumPosts = createAsyncThunk(
+  'forum/fetchPosts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await forumService.getAllPosts();
+      // Backend returns: { items: [...] }
+      const backendData = response.data?.items ?? [];
+      return backendData.map((p: any) => ({
+        id: p.postId,
+        title: p.description?.substring(0, 40) || 'Thảo luận',
+        content: p.description || '',
+        author: p.users?.fullName || 'Thành viên',
+        date: new Date(p.createdAt).toLocaleDateString('vi-VN'),
+        category: 'Giao hữu',
+        status: (p.status === 'open' ? 'approved' : 'rejected') as ForumPostStatus,
+      }));
+    } catch (error: any) {
+      return rejectWithValue(extractErrorMessage(error, 'Lỗi lấy bài viết diễn đàn'));
+    }
+  }
+);
+
+export const addForumPost = createAsyncThunk(
+  'forum/addPost',
+  async (content: string, { dispatch, rejectWithValue }) => {
+    try {
+      await forumService.createPost({ description: content });
+      message.success('Đăng bài mới thành công!');
+      dispatch(fetchForumPosts());
+    } catch (error: any) {
+      const msg = extractErrorMessage(error, 'Lỗi đăng bài viết');
+      message.error(msg);
+      return rejectWithValue(msg);
+    }
+  }
+);
+
+export const removeForumPost = createAsyncThunk(
+  'forum/deletePost',
+  async (postId: string, { dispatch, rejectWithValue }) => {
+    try {
+      await forumService.deletePost(postId);
+      message.success('Đã xóa bài viết khỏi diễn đàn!');
+      dispatch(fetchForumPosts());
+    } catch (error: any) {
+      const msg = extractErrorMessage(error, 'Lỗi xóa bài viết');
+      message.error(msg);
+      return rejectWithValue(msg);
+    }
+  }
+);
 
 interface ForumState {
   posts: ForumPost[];
@@ -37,33 +62,27 @@ interface ForumState {
 }
 
 const initialState: ForumState = {
-  posts: INITIAL_POSTS,
+  posts: [],
   loading: false,
 };
 
 const forumSlice = createSlice({
   name: 'forum',
   initialState,
-  reducers: {
-    updatePostStatus: (state, action: PayloadAction<{ id: string; status: ForumPostStatus }>) => {
-      const { id, status } = action.payload;
-      state.posts = state.posts.map((p) => (p.id === id ? { ...p, status } : p));
-    },
-    deletePost: (state, action: PayloadAction<string>) => {
-      const id = action.payload;
-      state.posts = state.posts.filter((p) => p.id !== id);
-    },
-    addPost: (state, action: PayloadAction<CreateForumPostDto>) => {
-      const newPost: ForumPost = {
-        ...action.payload,
-        id: `f${Date.now()}`,
-        date: 'Hôm nay',
-        status: 'approved',
-      };
-      state.posts = [newPost, ...state.posts];
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchForumPosts.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchForumPosts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.posts = action.payload;
+      })
+      .addCase(fetchForumPosts.rejected, (state) => {
+        state.loading = false;
+      });
   },
 });
 
-export const { updatePostStatus, deletePost, addPost } = forumSlice.actions;
 export default forumSlice.reducer;

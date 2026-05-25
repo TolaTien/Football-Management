@@ -34,6 +34,9 @@ export const bookingService = {
 
   createAdminBooking: (dto: CreateBookingDto) =>
     axiosInstance.post('/booking/booking-booking-admin', dto),
+
+  refund: (bookId: string) =>
+    axiosInstance.post('/admin/refund-user', { bookId }),
 };
 
 // Customer-facing service (PascalCase)

@@ -6,7 +6,7 @@ import {
   AreaChartOutlined, MoneyCollectOutlined, FieldTimeOutlined,
 } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
-import { fetchAllBookings, addManualBooking, updatePaymentStatus, updateBookingStatus, deleteBookingThunk } from '@/entities/booking/model/bookingSlice';
+import { fetchAllBookings, addManualBooking, updatePaymentStatus, updateBookingStatus, deleteBookingThunk, refundBookingThunk } from '@/entities/booking/model/bookingSlice';
 import { fetchPitches } from '@/entities/pitch/model/pitchSlice';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/vi';
@@ -203,6 +203,7 @@ const AdminScheduleGrid: React.FC = () => {
         onUpdateStatus={(id, status) => dispatch(updateBookingStatus({ id, status }))}
         onDelete={(id) => dispatch(deleteBookingThunk(id))}
         onDetailChange={setDetail}
+        onRefund={(id) => dispatch(refundBookingThunk(id))}
       />
     </PageContainer>
   );

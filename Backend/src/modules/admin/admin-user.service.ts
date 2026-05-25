@@ -36,6 +36,7 @@ export class AdminUserService {
                 select: {
                     userId: true, email: true, fullName: true, 
                     avt: true, role: true, phone: true, createdAt: true,
+                    status: true,
                     // Lưu ý: Cố tình không select cột 'password' để bảo mật
                 },
                 orderBy: { createdAt: 'desc' }, // Sắp xếp mới nhất lên đầu
@@ -57,7 +58,7 @@ export class AdminUserService {
         // Tìm user theo ID
         const user = await prisma.users.findUnique({
             where: { userId },
-            select: { userId: true, email: true, fullName: true, avt: true, role: true, phone: true, createdAt: true },
+            select: { userId: true, email: true, fullName: true, avt: true, role: true, phone: true, createdAt: true, status: true },
         });
         
         // Nếu không tìm thấy trong database thì ném lỗi 404

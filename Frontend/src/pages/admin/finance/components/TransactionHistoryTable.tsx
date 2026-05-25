@@ -13,8 +13,9 @@ interface Transaction {
   type: string;
   amount: number;
   method: string;
-  status: string;
+  status: 'success' | 'refunded' | 'pending';
 }
+
 
 interface TransactionHistoryTableProps {
   data: Transaction[];

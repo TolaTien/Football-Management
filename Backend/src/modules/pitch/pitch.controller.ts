@@ -23,6 +23,12 @@ class Pitch {
         const update = await PitchService.updatePitchPrice(config, pitchId);
         res.status(200).json({ message: "Cập nhật giá sân thành công", data: update});
     };
+
+    async deletePitch(req: Request, res: Response){
+        const { pitchId } = req.params;
+        const result = await PitchService.deletePitch(pitchId);
+        res.status(200).json(result);
+    };
 }
 
 export default new Pitch();

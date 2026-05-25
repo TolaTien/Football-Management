@@ -4,6 +4,7 @@ import {
   CalendarOutlined, ClockCircleOutlined, TeamOutlined,
   MoneyCollectOutlined, UserOutlined, PhoneOutlined,
   CheckCircleOutlined, CloseCircleOutlined, DeleteOutlined,
+  ReloadOutlined,
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import type { Booking, PaymentStatus, BookingStatus } from '@/entities/booking/model/types';
@@ -30,10 +31,11 @@ interface BookingDetailModalProps {
   onUpdateStatus: (id: string, status: BookingStatus) => void;
   onDelete: (id: string) => void;
   onDetailChange: (booking: Booking) => void;
+  onRefund: (id: string) => void;
 }
 
 const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
-  detail, onClose, onUpdatePayment, onUpdateStatus, onDelete, onDetailChange,
+  detail, onClose, onUpdatePayment, onUpdateStatus, onDelete, onDetailChange, onRefund,
 }) => {
   const infoRows = detail
     ? [
@@ -101,7 +103,7 @@ const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                 Thanh toán đủ
               </Button>
             )}
-            {detail.status !== 'cancelled' && (
+            {detail.status !== 'cancelled' && detail.status !== 'rejected' && (
               <Button icon={<CloseCircleOutlined />} danger
                 onClick={() => {
                   onUpdateStatus(detail.id, 'cancelled');
@@ -109,6 +111,15 @@ const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                   message.warning('Đã hủy đặt sân');
                 }}>
                 Hủy đặt
+              </Button>
+            )}
+            {(detail.status === 'rejected' || detail.status === 'cancelled') && detail.paymentStatus === 'deposited' && (
+              <Button icon={<ReloadOutlined />} type="dashed" danger
+                onClick={() => {
+                  onRefund(detail.id);
+                  onDetailChange({ ...detail, paymentStatus: 'unpaid' });
+                }}>
+                Hoàn cọc
               </Button>
             )}
             <Popconfirm title="Xác nhận xóa?"

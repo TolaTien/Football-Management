@@ -3,7 +3,7 @@ import { PageContainer } from '@ant-design/pro-components';
 import { Card, Table, Tag, Button, Space, Typography, Popconfirm, message, Tabs } from 'antd';
 import { StopOutlined, CheckCircleOutlined, UserAddOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
-import { fetchUsers, addUser, toggleBanStatus } from '@/entities/user/model/userSlice';
+import { fetchUsers, addUser, toggleBanUser } from '@/entities/user/model/userSlice';
 import type { UserItem, UserRole } from '@/entities/user/model/types';
 import AddUserModal from './components/AddUserModal';
 import { UserStatCards } from './components/UserStatCards';
@@ -97,8 +97,7 @@ const AdminCustomers: React.FC = () => {
           <Popconfirm
             title={record.status === 'active' ? "Chặn người dùng này?" : "Bỏ chặn người dùng này?"}
             onConfirm={() => {
-              dispatch(toggleBanStatus(record.id));
-              message.success(record.status === 'active' ? 'Đã chặn người dùng' : 'Đã bỏ chặn người dùng');
+              dispatch(toggleBanUser({ userId: record.id, status: record.status }));
             }}
             okText="Đồng ý"
             cancelText="Hủy"

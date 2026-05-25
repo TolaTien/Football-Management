@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
-import { Row, Col, Typography } from 'antd';
-import {
-  WalletOutlined, CalendarOutlined, PieChartOutlined, UsergroupAddOutlined
-} from '@ant-design/icons';
+import { Row, Col, Typography, Select, Button, message } from 'antd';
+import { DownloadOutlined, WalletOutlined, CalendarOutlined, PieChartOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
 import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
-import { fetchUsers } from '@/entities/user/model/userSlice';
+import { fetchSystemOverview, fetchMonthlyRevenue } from '@/entities/statistic/model/statisticSlice';
+import { statisticService } from '@/entities/statistic/api/statisticService';
 import { StatCard } from './components/StatCard';
 import { RevenueChart } from './components/RevenueChart';
 import { HourlyDistribution } from './components/HourlyDistribution';
@@ -16,9 +15,6 @@ const { Title, Text } = Typography;
 
 // Constants
 const VIETNAMESE_DONG_TO_MILLION = 1000000;
-const CAPACITY_COEFFICIENT = 10;
-const MAX_PERCENTAGE = 100;
-
 const REVENUE_TREND_PERCENTAGE = 12;
 const BOOKINGS_TREND_PERCENTAGE = 8;
 const CAPACITY_TREND_PERCENTAGE = -3;
@@ -37,21 +33,40 @@ const RATIOS = {
 
 const AdminDashboard: React.FC = () => {
   const dispatch = useAppDispatch();
+  const [address, setAddress] = useState<string>('');
+  
   const { bookings } = useAppSelector((state) => state.booking);
-  const { users } = useAppSelector((state) => state.user);
+  const { overview, revenue } = useAppSelector((state) => state.statistic);
 
   useEffect(() => {
     dispatch(fetchAllBookings());
-    dispatch(fetchUsers());
-  }, [dispatch]);
+    dispatch(fetchSystemOverview(address || undefined));
+    dispatch(fetchMonthlyRevenue({ address: address || undefined }));
+  }, [dispatch, address]);
 
-  const totalRevenue = bookings
-    .filter(b => b.status === 'approved')
-    .reduce((sum, b) => sum + (b.price || 0), 0);
+  const handleExportExcel = async () => {
+    try {
+      message.loading('Đang khởi tạo tệp báo cáo...', 1.5);
+      const res = await statisticService.exportRevenueExcel({ address: address || undefined });
+      const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Bao_Cao_Doanh_Thu_${address || 'He_Thong'}.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      message.success('Xuất báo cáo doanh thu Excel thành công!');
+    } catch {
+      message.error('Gặp lỗi khi tải tệp báo cáo.');
+    }
+  };
 
-  const totalBookings = bookings.length;
-  const newUsers = users.length;
-  const pendingCount = bookings.filter(b => b.status === 'pending').length;
+  const totalRevenue = revenue?.totalRevenue ?? 0;
+  const totalBookings = revenue?.totalBookings ?? 0;
+  const totalUsers = overview?.totalUsers ?? 0;
+  const pendingCount = overview?.totalPendingRequests ?? 0;
+  const fillRate = revenue?.rate ?? 0;
 
   const revenueData = [
     { name: 'T2', amount: totalRevenue * RATIOS.MON },
@@ -86,6 +101,28 @@ const AdminDashboard: React.FC = () => {
             </Text>
           </div>
         ),
+        extra: [
+          <Select
+            key="address"
+            placeholder="Lọc địa điểm"
+            style={{ width: 180 }}
+            allowClear
+            onChange={(value) => setAddress(value || '')}
+            options={[
+              { value: 'Hà Nội', label: 'Hà Nội' },
+              { value: 'Hồ Chí Minh', label: 'Hồ Chí Minh' },
+            ]}
+          />,
+          <Button
+            key="export"
+            type="primary"
+            icon={<DownloadOutlined />}
+            onClick={handleExportExcel}
+            style={{ backgroundColor: '#059669', borderColor: '#059669' }}
+          >
+            Xuất Excel
+          </Button>
+        ]
       }}
     >
       <Row gutter={[20, 20]}>
@@ -93,7 +130,7 @@ const AdminDashboard: React.FC = () => {
         <Col xs={24} sm={12} lg={6}>
           <StatCard
             icon={<WalletOutlined />}
-            label="Doanh thu dự kiến"
+            label="Doanh thu thực tế"
             value={`${(totalRevenue / VIETNAMESE_DONG_TO_MILLION).toFixed(1)}M đ`}
             trend={REVENUE_TREND_PERCENTAGE}
             trendLabel="So với tuần trước"
@@ -117,7 +154,7 @@ const AdminDashboard: React.FC = () => {
           <StatCard
             icon={<PieChartOutlined />}
             label="Tỷ lệ lấp đầy"
-            value={`${Math.min(MAX_PERCENTAGE, totalBookings * CAPACITY_COEFFICIENT)}%`}
+            value={`${fillRate}%`}
             trend={CAPACITY_TREND_PERCENTAGE}
             trendLabel="So với hôm qua"
             color="#d97706"
@@ -127,8 +164,8 @@ const AdminDashboard: React.FC = () => {
         <Col xs={24} sm={12} lg={6}>
           <StatCard
             icon={<UsergroupAddOutlined />}
-            label="Người dùng mới"
-            value={`${newUsers}`}
+            label="Tổng thành viên"
+            value={`${totalUsers}`}
             trend={NEW_USERS_TREND_PERCENTAGE}
             trendLabel="Tháng này"
             color="#7c3aed"
@@ -154,4 +191,5 @@ const AdminDashboard: React.FC = () => {
     </PageContainer>
   );
 };
+
 export default AdminDashboard;

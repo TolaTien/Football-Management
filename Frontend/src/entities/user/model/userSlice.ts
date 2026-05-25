@@ -6,32 +6,22 @@ import type { UserItem, UserRole, UserStatus } from './types';
 import { AuthService } from '@/features/auth/api/authService';
 import type { UserInfo } from '@/features/auth/api/types';
 
-const BANNED_STORAGE_KEY = 'banned_user_ids';
-
-const getBannedUserIds = (): string[] => {
-  try {
-    const banned = localStorage.getItem(BANNED_STORAGE_KEY);
-    return banned ? (JSON.parse(banned) as string[]) : [];
-  } catch {
-    return [];
-  }
-};
-
 interface BackendUser {
   userId: string;
   fullName: string;
   email: string;
   phone?: string;
   role: string;
+  status?: string;
 }
 
-const mapBackendUser = (u: BackendUser, bannedIds: string[]): UserItem => ({
+const mapBackendUser = (u: BackendUser): UserItem => ({
   id: u.userId,
   name: u.fullName,
   email: u.email,
   phone: u.phone ?? '—',
   role: (u.role === 'admin' ? 'Quản trị' : 'Khách hàng') as UserRole,
-  status: (bannedIds.includes(u.userId) ? 'banned' : 'active') as UserStatus,
+  status: (u.status === 'banned' ? 'banned' : 'active') as UserStatus,
 });
 
 export const fetchUsers = createAsyncThunk(
@@ -44,8 +34,7 @@ export const fetchUsers = createAsyncThunk(
         search: params?.search ?? '',
       });
       const backendUsers: BackendUser[] = response.data?.data?.users ?? [];
-      const bannedIds = getBannedUserIds();
-      return backendUsers.map((u) => mapBackendUser(u, bannedIds));
+      return backendUsers.map((u) => mapBackendUser(u));
     } catch (error: unknown) {
       return rejectWithValue(extractErrorMessage(error, 'Lỗi tải danh sách người dùng'));
     }
@@ -134,6 +123,19 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+export const toggleBanUser = createAsyncThunk(
+  'user/toggleBanUser',
+  async ({ userId, status }: { userId: string; status: UserStatus }, { rejectWithValue }) => {
+    try {
+      const nextStatus = status === 'active' ? 'banned' : 'active';
+      await userService.ban(userId, nextStatus);
+      return { userId, status: nextStatus };
+    } catch (error: unknown) {
+      return rejectWithValue(extractErrorMessage(error, 'Lỗi cập nhật trạng thái hoạt động'));
+    }
+  }
+);
+
 // Async thunk for fetching current user
 export const fetchCurrentUser = createAsyncThunk(
   'user/fetchCurrentUser',
@@ -167,19 +169,6 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    toggleBanStatus: (state, action: PayloadAction<string>) => {
-      const userId = action.payload;
-      const bannedIds = getBannedUserIds();
-      const newBannedIds = bannedIds.includes(userId)
-        ? bannedIds.filter((id) => id !== userId)
-        : [...bannedIds, userId];
-      localStorage.setItem(BANNED_STORAGE_KEY, JSON.stringify(newBannedIds));
-      state.users = state.users.map((u) =>
-        u.id === userId
-          ? { ...u, status: u.status === 'active' ? 'banned' : 'active' }
-          : u
-      );
-    },
     setCurrentUser: (state, action: PayloadAction<UserInfo | null>) => {
       state.currentUser = action.payload;
       state.isInitialized = true;
@@ -219,9 +208,19 @@ const userSlice = createSlice({
         state.currentUser = null;
         state.isInitialized = true;
         state.error = action.payload as string;
+      })
+      .addCase(toggleBanUser.fulfilled, (state, action) => {
+        const { userId, status } = action.payload;
+        state.users = state.users.map((u) =>
+          u.id === userId ? { ...u, status } : u
+        );
+        message.success(status === 'banned' ? 'Đã khóa tài khoản thành công!' : 'Đã mở khóa tài khoản thành công!');
+      })
+      .addCase(toggleBanUser.rejected, (state, action) => {
+        message.error(action.payload as string || 'Lỗi thao tác trên người dùng');
       });
   },
 });
 
-export const { toggleBanStatus, setCurrentUser, logout } = userSlice.actions;
+export const { setCurrentUser, logout } = userSlice.actions;
 export default userSlice.reducer;

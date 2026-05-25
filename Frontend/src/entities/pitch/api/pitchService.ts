@@ -35,7 +35,11 @@ export const pitchService = {
 
   updatePriceConfig: (dto: UpdatePriceConfigDto) =>
     axiosInstance.put('/pitch/update-pitch-price', dto),
+
+  remove: (pitchId: string) =>
+    axiosInstance.delete(`/pitch/${pitchId}`),
 };
+
 
 // Customer-facing service (PascalCase)
 export const PitchService = {

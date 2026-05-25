@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { message } from 'antd';
 import { pitchService } from '../api/pitchService';
 import { extractErrorMessage } from '@/shared/lib/errorUtils';
@@ -148,6 +148,21 @@ export const updatePitch = createAsyncThunk(
   }
 );
 
+export const deletePitchThunk = createAsyncThunk(
+  'pitch/deletePitch',
+  async (pitchId: string, { dispatch, rejectWithValue }) => {
+    try {
+      await pitchService.remove(pitchId);
+      message.success('Xóa sân thành công!');
+      dispatch(fetchPitches());
+    } catch (error: unknown) {
+      const msg = extractErrorMessage(error, 'Không thể xóa sân này');
+      message.error(msg);
+      return rejectWithValue(msg);
+    }
+  }
+);
+
 export const syncPriceConfigThunk = createAsyncThunk(
   'pitch/syncPriceConfig',
   async (
@@ -182,13 +197,7 @@ const initialState: PitchState = {
 const pitchSlice = createSlice({
   name: 'pitch',
   initialState,
-  reducers: {
-    deletePitchLocally: (state, action: PayloadAction<string>) => {
-      const id = action.payload;
-      state.pitches = state.pitches.filter((p) => p.id !== id);
-      state.prices = state.prices.filter((pr) => pr.pitchId !== id);
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchPitches.pending, (state) => {
@@ -207,5 +216,4 @@ const pitchSlice = createSlice({
   },
 });
 
-export const { deletePitchLocally } = pitchSlice.actions;
 export default pitchSlice.reducer;

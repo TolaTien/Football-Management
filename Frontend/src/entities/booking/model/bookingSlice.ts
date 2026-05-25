@@ -181,6 +181,21 @@ export const deleteBookingThunk = createAsyncThunk(
   }
 );
 
+export const refundBookingThunk = createAsyncThunk(
+  'booking/refundBooking',
+  async (bookId: string, { dispatch, rejectWithValue }) => {
+    try {
+      await bookingService.refund(bookId);
+      message.success('Hoàn cọc thành công!');
+      dispatch(fetchAllBookings());
+    } catch (error: unknown) {
+      const msg = extractErrorMessage(error, 'Lỗi hoàn tiền cọc');
+      message.error(msg);
+      return rejectWithValue(msg);
+    }
+  }
+);
+
 interface BookingState {
   bookings: Booking[];
   loading: boolean;

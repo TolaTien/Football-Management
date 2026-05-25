@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
-import { Row, Col, Button, Typography } from 'antd';
+import { Row, Col, Button, Typography, Select, message } from 'antd';
 import {
   DownloadOutlined, WalletOutlined,
   TransactionOutlined, ReloadOutlined, CheckCircleOutlined,
 } from '@ant-design/icons';
+import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
+import { fetchMonthlyRevenue, fetchSystemOverview } from '@/entities/statistic/model/statisticSlice';
+import { statisticService } from '@/entities/statistic/api/statisticService';
 import { FinanceStatCard } from './components/FinanceStatCard';
 import { RevenueStructure } from './components/RevenueStructure';
 import { RevenueTrend } from './components/RevenueTrend';
@@ -13,78 +17,123 @@ import { TransactionHistoryTable } from './components/TransactionHistoryTable';
 const { Text } = Typography;
 
 // Constants
-const VIETNAMESE_DONG_TO_MILLION = 1000000;
-const VIETNAMESE_DONG_TO_THOUSAND = 1000;
-const TOTAL_REVENUE_AMOUNT = 68700000;
+const VIETNAMESE_DONG_TO_MILLION = 1_000_000;
+const VIETNAMESE_DONG_TO_THOUSAND = 1_000;
 
-const transactionData = [
-  { id: 'TXN001', date: '2026-05-09 18:30', user: 'Nguyễn Văn A', type: 'Đặt sân', amount: 450000, method: 'Chuyển khoản', status: 'success' },
-  { id: 'TXN002', date: '2026-05-09 19:00', user: 'Nguyễn Văn A', type: 'Dịch vụ (Nước, Áo)', amount: 150000, method: 'Tiền mặt', status: 'success' },
-  { id: 'TXN003', date: '2026-05-08 20:00', user: 'Trần B', type: 'Đặt sân', amount: 800000, method: 'Ví điện tử', status: 'refunded' },
-  { id: 'TXN004', date: '2026-05-08 17:00', user: 'Lê C', type: 'Đặt sân', amount: 300000, method: 'Chuyển khoản', status: 'success' },
-  { id: 'TXN005', date: '2026-05-07 19:30', user: 'FC Hàng Cuối', type: 'Đặt sân + Dịch vụ', amount: 650000, method: 'Tiền mặt', status: 'success' },
-];
+// Mock revenue breakdown ratios (backend không có endpoint phân loại doanh thu theo danh mục)
+const REVENUE_BREAKDOWN_LABELS = ['Tiền thuê sân', 'Nước giải khát', 'Thuê áo, bóng', 'Tổ chức giải đấu'];
+const REVENUE_BREAKDOWN_RATIOS = [0.655, 0.124, 0.046, 0.175];
 
-const revenueBreakdown = [
-  { name: 'Tiền thuê sân', value: 45000000 },
-  { name: 'Nước giải khát', value: 8500000 },
-  { name: 'Thuê áo, bóng', value: 3200000 },
-  { name: 'Tổ chức giải đấu', value: 12000000 },
-];
-
-const trendData = [
-  { day: 'T2', revenue: 8400000 },
-  { day: 'T3', revenue: 12000000 },
-  { day: 'T4', revenue: 9500000 },
-  { day: 'T5', revenue: 14000000 },
-  { day: 'T6', revenue: 18000000 },
-  { day: 'T7', revenue: 22000000 },
-  { day: 'CN', revenue: 16000000 },
-];
+// Mock weekly ratios (backend không có breakdown doanh thu theo ngày trong tuần)
+const DAY_LABELS = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+const DAY_RATIOS = [0.1, 0.15, 0.2, 0.1, 0.25, 0.15, 0.05];
 
 const AdminFinance: React.FC = () => {
-  const totalRevenue = TOTAL_REVENUE_AMOUNT;
-  const totalTxn = transactionData.length;
-  const successTxn = transactionData.filter(t => t.status === 'success').length;
-  const refundedAmount = transactionData.filter(t => t.status === 'refunded').reduce((s, t) => s + t.amount, 0);
+  const dispatch = useAppDispatch();
+  const [address, setAddress] = useState<string>('');
 
-  const successPercentage = totalTxn > 0 ? Math.round((successTxn / totalTxn) * 100) : 0;
+  const { bookings } = useAppSelector((state) => state.booking);
+  const { revenue, overview } = useAppSelector((state) => state.statistic);
 
+  useEffect(() => {
+    dispatch(fetchAllBookings());
+    dispatch(fetchMonthlyRevenue({ address: address || undefined }));
+    dispatch(fetchSystemOverview(address || undefined));
+  }, [dispatch, address]);
+
+  // ── Derived stats from real API data ──────────────────────────────────────
+  const totalRevenue = revenue?.totalRevenue ?? 0;
+  const totalBookings = revenue?.totalBookings ?? 0;
+
+  const successTxn = bookings.filter((b) => b.paymentStatus === 'paid').length;
+  const refundedTxn = bookings.filter((b) => b.status === 'cancelled').length;
+  const refundedAmount = refundedTxn * (totalRevenue > 0 && totalBookings > 0 ? totalRevenue / totalBookings : 0);
+  const successPercentage = totalBookings > 0 ? Math.round((successTxn / totalBookings) * 100) : 0;
+
+  // Revenue breakdown – dùng tỷ lệ mock nhưng số tổng lấy từ API
+  const revenueBreakdown = REVENUE_BREAKDOWN_LABELS.map((name, i) => ({
+    name,
+    value: Math.round(totalRevenue * REVENUE_BREAKDOWN_RATIOS[i]),
+  }));
+
+  // Weekly trend – dùng tỷ lệ mock nhưng số tổng lấy từ API
+  const trendData = DAY_LABELS.map((day, i) => ({
+    day,
+    revenue: Math.round(totalRevenue * DAY_RATIOS[i]),
+  }));
+
+  // Transaction table – lấy từ bookings thực
+  const transactionData = bookings.slice(0, 20).map((b) => ({
+    id: b.id.substring(0, 8).toUpperCase(),
+    date: `${b.date} ${b.startTime}`,
+    user: b.userName,
+    type: 'Đặt sân',
+    amount: b.price,
+    method: b.paymentStatus === 'paid' ? 'Chuyển khoản' : 'Tiền mặt',
+    status: b.paymentStatus === 'paid'
+      ? 'success'
+      : b.status === 'cancelled'
+        ? 'refunded'
+        : 'pending',
+  }));
+
+  // ── Stat cards ─────────────────────────────────────────────────────────────
   const summaryItems = [
     {
       icon: <WalletOutlined />,
       label: 'Tổng doanh thu',
       value: `${(totalRevenue / VIETNAMESE_DONG_TO_MILLION).toFixed(1)}M đ`,
-      trend: '+14%',
+      trend: `${revenue?.rate ?? 0}%`,
       color: '#059669',
       bg: '#dcfce7',
-      gradient: 'linear-gradient(135deg, #059669 0%, #047857 100%)'
+      gradient: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
     },
     {
       icon: <TransactionOutlined />,
-      label: 'Giao dịch tháng này',
-      value: `${totalTxn} GD`,
-      trend: '+8%',
+      label: 'Tổng lượt đặt sân',
+      value: `${totalBookings} lượt`,
+      trend: `+${overview?.totalPendingRequests ?? 0} chờ`,
       color: '#2563eb',
-      bg: '#dbeafe'
+      bg: '#dbeafe',
     },
     {
       icon: <CheckCircleOutlined />,
-      label: 'Thành công',
-      value: `${successTxn} GD`,
+      label: 'Đã thanh toán',
+      value: `${successTxn} lượt`,
       trend: `${successPercentage}%`,
       color: '#7c3aed',
-      bg: '#ede9fe'
+      bg: '#ede9fe',
     },
     {
       icon: <ReloadOutlined />,
       label: 'Hoàn tiền',
       value: `${(refundedAmount / VIETNAMESE_DONG_TO_THOUSAND).toFixed(0)}K đ`,
-      trend: '-2%',
+      trend: `${refundedTxn} lượt`,
       color: '#dc2626',
-      bg: '#fee2e2'
+      bg: '#fee2e2',
     },
   ];
+
+  // ── Export Excel ───────────────────────────────────────────────────────────
+  const handleExportExcel = async () => {
+    try {
+      message.loading('Đang khởi tạo tệp báo cáo...', 1.5);
+      const res = await statisticService.exportRevenueExcel({ address: address || undefined });
+      const blob = new Blob([res.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Bao_Cao_Doanh_Thu_${address || 'He_Thong'}.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      message.success('Xuất báo cáo doanh thu Excel thành công!');
+    } catch {
+      message.error('Gặp lỗi khi tải tệp báo cáo.');
+    }
+  };
 
   return (
     <PageContainer
@@ -96,7 +145,23 @@ const AdminFinance: React.FC = () => {
           </div>
         ),
         extra: [
-          <Button key="export" icon={<DownloadOutlined />} style={{ height: 40, fontWeight: 600, borderRadius: 10 }}>
+          <Select
+            key="address"
+            placeholder="Lọc địa điểm"
+            style={{ width: 160 }}
+            allowClear
+            onChange={(value) => setAddress(value || '')}
+            options={[
+              { value: 'Hà Nội', label: 'Hà Nội' },
+              { value: 'Hồ Chí Minh', label: 'Hồ Chí Minh' },
+            ]}
+          />,
+          <Button
+            key="export"
+            icon={<DownloadOutlined />}
+            onClick={handleExportExcel}
+            style={{ height: 40, fontWeight: 600, borderRadius: 10 }}
+          >
             Xuất Excel
           </Button>,
         ],
@@ -127,10 +192,7 @@ const AdminFinance: React.FC = () => {
 
         {/* Area Chart + Table */}
         <Col xs={24} md={16}>
-          {/* Trend chart */}
           <RevenueTrend data={trendData} />
-
-          {/* Transaction Table */}
           <TransactionHistoryTable data={transactionData} />
         </Col>
       </Row>

@@ -109,4 +109,33 @@ export class PitchService {
 
         return update;
     }
-}
+
+    static async deletePitch(pitchId: string){
+        const pitch = await prisma.pitch.findUnique({ where: { pitchId } });
+        if (!pitch) {
+            throw new ApiError(StatusCodes.NOT_FOUND, "Không tìm thấy sân");
+        }
+
+        // Kiểm tra xem sân có đang có booking active không
+        const activeBookings = await prisma.booking.count({
+            where: {
+                pitchId,
+                status: { in: ['pending', 'approved'] },
+            },
+        });
+        if (activeBookings > 0) {
+            throw new ApiError(
+                StatusCodes.BAD_REQUEST,
+                "Không thể xóa: sân đang có lịch đặt chờ xử lý hoặc đã được duyệt."
+            );
+        }
+
+        // Xóa giá sân trước (foreign key), sau đó xóa sân
+        await prisma.$transaction(async (tx) => {
+            await tx.pitchprice.deleteMany({ where: { pitchId } });
+            await tx.pitch.delete({ where: { pitchId } });
+        });
+
+        return { message: "Xóa sân thành công" };
+    }
+}
