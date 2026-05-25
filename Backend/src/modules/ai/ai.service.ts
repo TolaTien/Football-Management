@@ -116,7 +116,7 @@ export class AiService {
     const tools: any[] = [
       {
         name: "check_pitch_availability",
-        description: "Kiểm tra xem còn sân bóng nào trống trong một khoảng thời gian cụ thể hay không.",
+        description: "Kiểm tra xem còn sân bóng nào trống trong một khoảng thời gian cụ thể hay không. Trả về cả sức chứa của sân (sân 5 người, sân 7 người...).",
         parameters: {
           type: Type.OBJECT,
           properties: {
@@ -129,7 +129,7 @@ export class AiService {
       },
       {
         name: "get_pitch_information",
-        description: "Lấy danh sách các sân bóng đang hoạt động, bao gồm loại sân, địa chỉ và bảng giá. Dùng khi người dùng hỏi về danh sách sân, thông tin một sân hoặc giá tiền chung.",
+        description: "Lấy danh sách các sân bóng đang hoạt động, bao gồm sức chứa (loại sân 5 người, 7 người...), địa chỉ và bảng giá. Dùng khi người dùng hỏi về danh sách sân, tìm sân theo số người, thông tin một sân hoặc giá tiền chung.",
         parameters: {
           type: Type.OBJECT,
           properties: {},
@@ -253,7 +253,8 @@ ${pitches.map((pitch) => {
     return `${start}-${end}: ${item.price ?? 0}đ`;
   }).join(", ");
 
-  return `- ${pitch.namePitch} | loại sân ${pitch.pitchCategory ?? "không rõ"} | ${pitch.address ?? "chưa có địa chỉ"} | giá: ${prices || "chưa cấu hình"}`;
+  const categoryStr = pitch.pitchCategory ? `Sân ${pitch.pitchCategory} người` : "không rõ";
+  return `- ${pitch.namePitch} | Loại sân: ${categoryStr} | Địa chỉ: ${pitch.address ?? "chưa có địa chỉ"} | Giá: ${prices || "chưa cấu hình"}`;
 }).join("\n")}`;
   }
 
@@ -281,7 +282,10 @@ ${pitches.map((pitch) => {
       return `Không còn sân trống ngày ${date} từ ${startTimeStr} đến ${endTimeStr}.`;
     }
 
-    return `Sân trống ngày ${date} từ ${startTimeStr} đến ${endTimeStr}:\n${pitches.map((pitch) => `- ${pitch.namePitch} | loại sân ${pitch.pitchCategory ?? "không rõ"} | ${pitch.address ?? "chưa có địa chỉ"}`).join("\n")}`;
+    return `Sân trống ngày ${date} từ ${startTimeStr} đến ${endTimeStr}:\n${pitches.map((pitch) => {
+      const categoryStr = pitch.pitchCategory ? `Sân ${pitch.pitchCategory} người` : "không rõ";
+      return `- ${pitch.namePitch} | Loại sân: ${categoryStr} | Địa chỉ: ${pitch.address ?? "chưa có địa chỉ"}`;
+    }).join("\n")}`;
   }
 
   private static async getRevenueContextByArgs(month: number, year: number) {
