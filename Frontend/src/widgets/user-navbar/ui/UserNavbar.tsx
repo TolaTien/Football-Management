@@ -162,7 +162,7 @@ export const UserNavbar: React.FC = () => {
             open={popoverOpen} 
             onOpenChange={setPopoverOpen} 
             placement="bottomRight"
-            overlayInnerStyle={{ padding: 0 }}
+            styles={{ body: { padding: 0 } }}
           >
             <button className="hover:bg-gray-100 rounded-full p-2 transition-all relative">
               <Badge count={unreadCount} size="small" offset={[2, 2]}>

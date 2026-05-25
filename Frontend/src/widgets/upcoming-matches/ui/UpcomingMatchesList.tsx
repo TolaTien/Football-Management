@@ -3,37 +3,23 @@ import { Spin, Empty, message } from 'antd';
 import { MatchCard, type MatchData } from '../../../entities/booking/ui/MatchCard';
 import { MatchmakingCard, type MatchmakingData } from '../../../entities/matchmaking-post/ui/MatchmakingCard';
 import { UsersService } from '@/entities/user/api/userService';
+import { postService } from '@/entities/matchmaking-post/api/postService';
 import { useAppSelector } from '@/app/store/hooks';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
-const MATCHMAKING_POSTS: MatchmakingData[] = [
-  {
-    id: 'm1',
-    type: 'match',
-    startsIn: '45m',
-    title: 'Evening Scrimmage',
-    spotsLeft: 1,
-    level: 'Intermediate Level',
-    price: '$12.00',
-  },
-  {
-    id: 'm2',
-    type: 'team',
-    startsIn: '1h 20m',
-    title: 'Friday Night Lights',
-    spotsLeft: 3,
-    level: 'Casual Play',
-    price: '$10.00',
-  }
-];
+dayjs.extend(relativeTime);
 
 export const UpcomingMatchesList: React.FC = () => {
   const [matches, setMatches] = useState<MatchData[]>([]);
   const [loading, setLoading] = useState(false);
+  const [matchmakingPosts, setMatchmakingPosts] = useState<MatchmakingData[]>([]);
+  const [matchmakingLoading, setMatchmakingLoading] = useState(false);
   const user = useAppSelector((state) => state.user.currentUser);
 
   useEffect(() => {
     fetchHistory();
+    fetchMatchmaking();
   }, []);
 
   const fetchHistory = async () => {
@@ -68,6 +54,36 @@ export const UpcomingMatchesList: React.FC = () => {
     }
   };
 
+  const fetchMatchmaking = async () => {
+    try {
+      setMatchmakingLoading(true);
+      const posts = await postService.getAllPosts();
+      const slicedPosts = posts.slice(0, 2);
+      
+      const mapped: MatchmakingData[] = slicedPosts.map((post, index) => {
+        const type = index % 2 === 0 ? 'match' : 'team';
+        const startsIn = dayjs(post.createdAt).fromNow();
+        
+        return {
+          id: post.postId,
+          type,
+          startsIn,
+          title: post.users?.fullName || 'Anonymous Host',
+          spotsLeft: (index * 2) + 1,
+          level: post.description && post.description.trim() 
+            ? (post.description.length > 30 ? post.description.substring(0, 30) + '...' : post.description) 
+            : 'General Matchmaking',
+          price: 'Free Opportunity',
+        };
+      });
+      setMatchmakingPosts(mapped);
+    } catch (error) {
+      console.error('Failed to fetch matchmaking posts', error);
+    } finally {
+      setMatchmakingLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-lg">
       <section className="space-y-md">
@@ -97,11 +113,22 @@ export const UpcomingMatchesList: React.FC = () => {
           <h3 className="font-h2 text-h2 text-emerald-900">Quick Join Matchmaking</h3>
           <span className="text-xs font-label-caps text-emerald-600 bg-emerald-50 px-2 py-1 rounded">Live matches nearby</span>
         </div>
-        <div className="grid grid-cols-2 gap-md">
-          {MATCHMAKING_POSTS.map(post => (
-            <MatchmakingCard key={post.id} data={post} />
-          ))}
-        </div>
+        
+        {matchmakingLoading ? (
+          <div className="flex justify-center p-8 bg-white rounded-xl border border-gray-100">
+            <Spin size="small" />
+          </div>
+        ) : matchmakingPosts.length === 0 ? (
+          <div className="bg-white rounded-xl border border-gray-100 p-8 text-center">
+            <Empty description="Không có bài đăng matchmaking nào gần đây" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-md">
+            {matchmakingPosts.map(post => (
+              <MatchmakingCard key={post.id} data={post} />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
