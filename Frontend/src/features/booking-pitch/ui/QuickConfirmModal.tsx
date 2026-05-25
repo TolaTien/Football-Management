@@ -113,7 +113,6 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
         type: 'booking'
       }));
 
-      message.success('Đặt sân thành công!');
       if (onSuccess) onSuccess(bookingData);
       else onClose();
     } catch (err: any) {

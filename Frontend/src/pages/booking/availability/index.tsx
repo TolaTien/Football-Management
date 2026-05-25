@@ -252,7 +252,7 @@ const BookingAvailabilityPage: React.FC = () => {
         booking={activeBooking}
         timeLeft={timeLeft}
         onMinimize={handleMinimizePayment}
-        onPaymentSuccess={handleBookingSuccess} // re-trigger success to refresh states or close
+        onPaymentSuccess={cleanupBookingState} // Clean up and refresh states after successful payment
         onCancelSuccess={cleanupBookingState}
       />
 
