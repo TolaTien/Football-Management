@@ -14,11 +14,7 @@ export const PostLikeLogic = {
         const likerName = userAction?.fullName || "Ai đó";
 
         const txResult = await prisma.$transaction(async (tx) => {
-<<<<<<< HEAD
             const existingLike = await tx.postlike.findUnique({
-=======
-                        const existingLike = await tx.postlike.findUnique({
->>>>>>> df4957677c5809a7143b3d3b8791ea22e52a8b65
                 where: { userId_postId: { userId, postId } }
             });
 
@@ -50,11 +46,7 @@ export const PostLikeLogic = {
                 let finalNotification = null;
                 if (post.hostId && post.hostId !== userId) {
                     const totalLikes = await tx.postlike.count({ where: { postId } });
-<<<<<<< HEAD
 
-=======
-                    
->>>>>>> df4957677c5809a7143b3d3b8791ea22e52a8b65
                     let notifContent = `${likerName} đã thích bài viết của bạn.`;
                     if (totalLikes > 1) {
                         notifContent = `${likerName} và ${totalLikes - 1} người khác đã thích bài viết của bạn.`;
@@ -67,11 +59,7 @@ export const PostLikeLogic = {
                     if (existingNotif) {
                         finalNotification = await tx.notification.update({
                             where: { id: existingNotif.id },
-<<<<<<< HEAD
                             data: { content: notifContent, isRead: false }
-=======
-                            data: { content: notifContent, isRead: false } 
->>>>>>> df4957677c5809a7143b3d3b8791ea22e52a8b65
                         });
                     } else {
                         finalNotification = await tx.notification.create({
