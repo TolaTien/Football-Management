@@ -88,7 +88,7 @@ export const UserNavbar: React.FC = () => {
             dataSource={notifications.slice(0, 5)}
             renderItem={(item) => (
               <List.Item 
-                className={`px-3 py-2 cursor-pointer hover:bg-gray-50 transition-colors ${!item.isRead ? 'bg-emerald-50/50' : ''}`}
+                className={`pl-5 pr-3 py-2.5 cursor-pointer hover:bg-gray-50 transition-colors ${!item.isRead ? 'bg-emerald-50/50' : ''}`}
                 onClick={async () => {
                   if (!item.isRead) {
                     dispatch(markNotificationRead(item.id));
@@ -98,7 +98,20 @@ export const UserNavbar: React.FC = () => {
                 }}
               >
                 <List.Item.Meta
-                  avatar={<Avatar size="small" icon={<span className="material-symbols-outlined text-[16px]">notifications</span>} className={item.isRead ? 'bg-gray-200' : 'bg-primary'} />}
+                  avatar={
+                    <Avatar 
+                      size="small" 
+                      className={item.isRead ? 'bg-gray-200 text-gray-500' : 'bg-primary text-white'}
+                      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                    >
+                      <span 
+                        className="material-symbols-outlined flex items-center justify-center" 
+                        style={{ fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', lineHeight: 1 }}
+                      >
+                        notifications
+                      </span>
+                    </Avatar>
+                  }
                   title={<span className={`text-xs ${item.isRead ? 'font-medium text-gray-600' : 'font-bold text-primary'}`}>{item.title || item.type?.toUpperCase() || 'System'}</span>}
                   description={<span className="text-xs text-gray-500 line-clamp-2">{item.content}</span>}
                 />

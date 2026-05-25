@@ -447,7 +447,7 @@ const UserProfilePage: React.FC = () => {
                       })}
                       renderItem={(item) => (
                         <List.Item 
-                          className={`px-6 cursor-pointer transition-colors ${!item.isRead ? 'bg-emerald-50/50' : 'hover:bg-gray-50'}`}
+                          className={`pl-9 pr-6 cursor-pointer transition-colors ${!item.isRead ? 'bg-emerald-50/50' : 'hover:bg-gray-50'}`}
                           onClick={() => {
                             if (!item.isRead) {
                               dispatch(markNotificationRead(item.id));
@@ -455,7 +455,19 @@ const UserProfilePage: React.FC = () => {
                           }}
                         >
                           <List.Item.Meta
-                            avatar={<Avatar icon={<span className="material-symbols-outlined text-sm">notifications</span>} className={item.isRead ? 'bg-gray-200' : 'bg-primary'} />}
+                            avatar={
+                              <Avatar 
+                                className={item.isRead ? 'bg-gray-200 text-gray-500' : 'bg-primary text-white'}
+                                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                              >
+                                <span 
+                                  className="material-symbols-outlined flex items-center justify-center" 
+                                  style={{ fontSize: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', lineHeight: 1 }}
+                                >
+                                  notifications
+                                </span>
+                              </Avatar>
+                            }
                             title={<span className={item.isRead ? 'font-medium text-secondary' : 'font-bold text-primary'}>{item.title || (item.type ? item.type.toUpperCase() : 'Notification')}</span>}
                             description={
                               <div>

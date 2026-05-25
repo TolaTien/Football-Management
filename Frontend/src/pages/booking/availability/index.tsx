@@ -3,6 +3,9 @@ import { ScheduleToolbar } from '../../../widgets/booking-schedule/ui/ScheduleTo
 import { ScheduleGrid } from '../../../widgets/booking-schedule/ui/ScheduleGrid';
 import { ScheduleLegend } from '../../../widgets/booking-schedule/ui/ScheduleLegend';
 import { QuickConfirmModal } from '../../../features/booking-pitch/ui/QuickConfirmModal';
+import { PaymentInvoiceModal } from '../../../features/booking-pitch/ui/PaymentInvoiceModal';
+import { PaymentTimerWidget } from '../../../features/booking-pitch/ui/PaymentTimerWidget';
+import { BookingService } from '@/entities/booking/api/bookingService';
 import { PitchService, PitchItem } from '@/entities/pitch/api/pitchService';
 import { message, Spin, Select } from 'antd';
 import dayjs from 'dayjs';
@@ -24,9 +27,70 @@ const BookingAvailabilityPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs());
   const [selectedPitchId, setSelectedPitchId] = useState<string>('');
 
+  // Payment invoice states
+  const [activeBooking, setActiveBooking] = useState<any>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showTimerWidget, setShowTimerWidget] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(900); // 15 mins in seconds
+
   useEffect(() => {
     fetchPitches();
+
+    // Restore active unpaid booking if it exists and hasn't expired
+    try {
+      const saved = localStorage.getItem('pitchhub_pending_booking');
+      if (saved) {
+        const { booking, expiryTimestamp } = JSON.parse(saved);
+        const remaining = Math.round((expiryTimestamp - Date.now()) / 1000);
+        if (remaining > 0) {
+          setActiveBooking(booking);
+          setTimeLeft(remaining);
+          setShowTimerWidget(true);
+        } else {
+          // Expired while offline, clean up
+          localStorage.removeItem('pitchhub_pending_booking');
+        }
+      }
+    } catch (e) {
+      console.error('Failed to restore booking state', e);
+    }
   }, []);
+
+  // Timer countdown ticker
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (activeBooking && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(prev => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            handleAutoCancel();
+            return 0;
+          }
+          
+          // Sync local storage remaining time
+          try {
+            const saved = localStorage.getItem('pitchhub_pending_booking');
+            if (saved) {
+              const parsed = JSON.parse(saved);
+              const remaining = Math.round((parsed.expiryTimestamp - Date.now()) / 1000);
+              if (remaining <= 0) {
+                clearInterval(interval);
+                handleAutoCancel();
+                return 0;
+              }
+              return remaining;
+            }
+          } catch (e) {}
+
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [activeBooking, timeLeft]);
 
   const fetchPitches = async () => {
     setLoading(true);
@@ -44,6 +108,13 @@ const BookingAvailabilityPage: React.FC = () => {
   };
 
   const handleTimeSlotSelect = (pitchIndexOrDayIndex: number, timeSlot: string) => {
+    if (activeBooking) {
+      message.warning('Bạn đang có một đơn đặt sân chờ thanh toán. Vui lòng thanh toán hoặc hủy đơn cũ trước khi đặt sân mới.');
+      setShowPaymentModal(true);
+      setShowTimerWidget(false);
+      return;
+    }
+
     if (viewMode === 'day') {
       const pitch = pitches[pitchIndexOrDayIndex];
       if (!pitch) return;
@@ -71,9 +142,54 @@ const BookingAvailabilityPage: React.FC = () => {
     setShowConfirm(true);
   };
 
-  const handleBookingSuccess = () => {
+  // Triggers when QuickConfirmModal reports successful booking
+  const handleBookingSuccess = (bookingData: any) => {
     setShowConfirm(false);
+    
+    // Save to local storage with 15 minutes expiration
+    const expiryTimestamp = Date.now() + 15 * 60 * 1000;
+    localStorage.setItem('pitchhub_pending_booking', JSON.stringify({
+      booking: bookingData,
+      expiryTimestamp
+    }));
+
+    setActiveBooking(bookingData);
+    setTimeLeft(900);
+    setShowPaymentModal(true);
+    setShowTimerWidget(false);
     fetchPitches(); // Refresh the grid
+  };
+
+  const handleAutoCancel = async () => {
+    if (activeBooking) {
+      try {
+        await BookingService.cancelBooking(activeBooking.bookId, 'Quá hạn 15 phút chưa thanh toán (tự động hủy)');
+        message.warning('Đơn đặt sân của bạn đã tự động bị hủy do quá hạn thanh toán 15 phút.');
+      } catch (err) {
+        console.error('Failed to auto-cancel booking', err);
+      } finally {
+        cleanupBookingState();
+      }
+    }
+  };
+
+  const cleanupBookingState = () => {
+    localStorage.removeItem('pitchhub_pending_booking');
+    setActiveBooking(null);
+    setShowPaymentModal(false);
+    setShowTimerWidget(false);
+    setTimeLeft(900);
+    fetchPitches(); // Refresh the grid
+  };
+
+  const handleMinimizePayment = () => {
+    setShowPaymentModal(false);
+    setShowTimerWidget(true);
+  };
+
+  const handleRestorePayment = () => {
+    setShowTimerWidget(false);
+    setShowPaymentModal(true);
   };
 
   return (
@@ -128,6 +244,23 @@ const BookingAvailabilityPage: React.FC = () => {
         price={selectedSlot.price}
         pitchId={selectedSlot.pitchId}
         selectedDate={selectedSlot.date}
+      />
+
+      {/* Payment Invoice Modal */}
+      <PaymentInvoiceModal
+        isOpen={showPaymentModal}
+        booking={activeBooking}
+        timeLeft={timeLeft}
+        onMinimize={handleMinimizePayment}
+        onPaymentSuccess={handleBookingSuccess} // re-trigger success to refresh states or close
+        onCancelSuccess={cleanupBookingState}
+      />
+
+      {/* Floating Timer Widget when minimized */}
+      <PaymentTimerWidget
+        isOpen={showTimerWidget}
+        timeLeft={timeLeft}
+        onClick={handleRestorePayment}
       />
 
       {/* Floating Status Helper */}

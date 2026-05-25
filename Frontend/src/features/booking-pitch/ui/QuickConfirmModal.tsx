@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 interface QuickConfirmModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess?: () => void;
+  onSuccess?: (bookingData: any) => void;
   pitchName: string;
   timeSlot: string;
   price: string;
@@ -103,7 +103,7 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
         })
       };
 
-      await BookingService.bookPitchForUser(payload);
+      const bookingData = await BookingService.bookPitchForUser(payload);
       
       // Dispatch local notification
       dispatch(addNotification({
@@ -114,7 +114,7 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
       }));
 
       message.success('Đặt sân thành công!');
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(bookingData);
       else onClose();
     } catch (err: any) {
       const errMsg = err?.response?.data?.message || 'Có lỗi xảy ra khi đặt sân';

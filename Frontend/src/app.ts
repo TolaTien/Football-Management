@@ -46,9 +46,9 @@ export const request: RequestConfig = {
               return umiRequest(config.url, { ...config, headers: { ...config.headers, Authorization: `Bearer ${refreshRes.accessToken}` } });
             }
           } catch (refreshError) {
-            localStorage.removeItem('pitchhub_token');
-            localStorage.removeItem('pitchhub_user');
-            window.location.href = '/auth/login';
+            // localStorage.removeItem('pitchhub_token');
+            // localStorage.removeItem('pitchhub_user');
+            // window.location.href = '/auth/login';
             return Promise.reject(refreshError);
           }
         }

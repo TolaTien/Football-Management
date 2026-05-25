@@ -10,10 +10,16 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  currentUser: null,
+  currentUser: {
+    userId: '1',
+    fullName: 'Tài Khoản Demo',
+    email: 'demo@gmail.com',
+    role: 'user',
+    avt: 'https://ui-avatars.com/api/?name=Demo&background=10b981&color=fff',
+  },
   loading: false,
   error: null,
-  isInitialized: false,
+  isInitialized: true,
 };
 
 // Async thunk for fetching current user
@@ -35,10 +41,13 @@ const userSlice = createSlice({
   reducers: {
     setCurrentUser: (state, action: PayloadAction<UserInfo | null>) => {
       state.currentUser = action.payload;
+      state.isInitialized = true;
     },
     logout: (state) => {
       state.currentUser = null;
+      state.isInitialized = false;
       localStorage.removeItem('pitchhub_token');
+      localStorage.removeItem('pitchhub_user');
     }
   },
   extraReducers: (builder) => {

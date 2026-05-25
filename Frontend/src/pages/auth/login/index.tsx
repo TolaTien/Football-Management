@@ -23,13 +23,21 @@ const PlayerLogin: React.FC = () => {
       // 1. Gọi API đăng nhập
       const res = await AuthService.login({ email, password });
       
-      // 2. Lưu User vào Redux State
-      dispatch(setCurrentUser(res.data as any));
+      // 2. Lưu token & user vào localStorage
+      if (res.data.accessToken) {
+        localStorage.setItem('pitchhub_token', res.data.accessToken);
+      }
+      if (res.data.user) {
+        localStorage.setItem('pitchhub_user', JSON.stringify(res.data.user));
+      }
+      
+      // 3. Lưu User vào Redux State
+      dispatch(setCurrentUser(res.data.user as any));
 
       message.success('Đăng nhập thành công!');
 
-      // 3. Chuyển hướng theo role
-      if (res.data.role === 'admin') {
+      // 4. Chuyển hướng theo role
+      if (res.data.user?.role === 'admin') {
         navigate('/admin/dashboard');
       } else {
         navigate('/user/dashboard');

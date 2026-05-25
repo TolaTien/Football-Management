@@ -13,12 +13,12 @@ export const aiService = {
   },
 
   getMessages: async (conversationId: string): Promise<AiMessage[]> => {
-    const { data } = await $api.get(`/ai/conversations/${conversationId}/messages`);
+    const { data } = await $api.get(`/ai/get-messages/${conversationId}`);
     return data.data;
   },
 
   sendMessage: async (conversationId: string, payload: SendMessagePayload): Promise<AiMessage> => {
-    const { data } = await $api.post(`/ai/conversations/${conversationId}/messages`, payload);
+    const { data } = await $api.post(`/ai/send-message/${conversationId}`, payload);
     return data.data;
   }
 };
