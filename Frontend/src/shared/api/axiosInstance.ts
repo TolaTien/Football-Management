@@ -22,10 +22,9 @@ $api.interceptors.response.use(
     (response) => response,
     async (error) => {
         if (error.response?.status === 401) {
-            // Logic handle logout hoặc refresh token ở đây
-            // localStorage.removeItem('pitchhub_token');
-            // localStorage.removeItem('pitchhub_user');
-            // window.location.href = '/auth/login';
+            localStorage.removeItem('pitchhub_token');
+            localStorage.removeItem('pitchhub_user');
+            window.location.href = '/auth/login';
         }
         return Promise.reject(error);
     }
