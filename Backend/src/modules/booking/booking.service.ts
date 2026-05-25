@@ -150,7 +150,7 @@ export class BookingService {
             });
 
 
-            const notifications = admins.map((admin) => ({
+            const adminNotifications = admins.map((admin) => ({
                 id: uuidv4(),
                 userId: admin.userId,
                 type: "booking" as const,
@@ -158,7 +158,18 @@ export class BookingService {
                 bookId: booking.bookId
             }));
 
-            await tx.notification.createMany({ data: notifications });
+            await tx.notification.createMany({
+                data: [
+                    ...adminNotifications,
+                    {
+                        id: uuidv4(),
+                        userId,
+                        type: "booking" as const,
+                        content: "Bạn đã gửi yêu cầu đặt sân thành công, vui lòng chờ admin phê duyệt",
+                        bookId: booking.bookId
+                    }
+                ]
+            });
 
             const order = await tx.booking.findUnique({
                 where: { bookId: updatedBooking.bookId },

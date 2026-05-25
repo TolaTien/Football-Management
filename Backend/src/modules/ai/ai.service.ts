@@ -116,7 +116,7 @@ export class AiService {
     const tools: any[] = [
       {
         name: "check_pitch_availability",
-        description: "Kiểm tra xem còn sân bóng nào trống trong một khoảng thời gian cụ thể hay không.",
+        description: "Kiểm tra xem còn sân bóng nào trống trong một khoảng thời gian cụ thể hay không. Trả về cả sức chứa của sân (sân 5 người, sân 7 người...).",
         parameters: {
           type: Type.OBJECT,
           properties: {
@@ -129,7 +129,7 @@ export class AiService {
       },
       {
         name: "get_pitch_information",
-        description: "Lấy danh sách các sân bóng đang hoạt động, bao gồm loại sân, địa chỉ và bảng giá. Dùng khi người dùng hỏi về danh sách sân, thông tin một sân hoặc giá tiền chung.",
+        description: "Lấy danh sách các sân bóng đang hoạt động, bao gồm sức chứa (loại sân 5 người, 7 người...), địa chỉ và bảng giá. Dùng khi người dùng hỏi về danh sách sân, tìm sân theo số người, thông tin một sân hoặc giá tiền chung.",
         parameters: {
           type: Type.OBJECT,
           properties: {},
@@ -156,62 +156,82 @@ export class AiService {
   }
 
   private static async callGeminiWithTools(role: Role, contents: GeminiContent[]) {
-    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const rawModels = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
+    const models = rawModels.split(",").map(m => m.trim()).filter(m => m.length > 0);
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+      throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, "Chưa cấu hình GEMINI_API_KEY");
+    }
+
+    const ai = new GoogleGenAI({ apiKey });
 
     const basePrompt = role === "admin" ? ADMIN_AI_SYSTEM_PROMPT : USER_AI_SYSTEM_PROMPT;
     const systemInstruction = `${basePrompt}\n\n${POLICY_CONTEXT}\n\nHôm nay là ngày: ${new Date().toISOString().split('T')[0]}\nMúi giờ: GMT+7.`;
 
-    let response = await ai.models.generateContent({
-      model,
-      contents,
-      config: {
-        systemInstruction,
-        tools: this.getGeminiTools(role),
-      },
-    });
+    let lastError: any;
 
-    if (response.functionCalls && response.functionCalls.length > 0) {
-      const call = response.functionCalls[0];
-      let toolResult: any;
-
+    for (const model of models) {
       try {
-        if (call.name === "check_pitch_availability") {
-          const args = call.args as { date: string, startTime: string, endTime: string };
-          toolResult = await this.getAvailabilityContextByArgs(args.date, args.startTime, args.endTime);
-        } else if (call.name === "get_pitch_information") {
-          toolResult = await this.getPitchInformation();
-        } else if (call.name === "get_revenue_statistics" && role === "admin") {
-          const args = call.args as { month: number, year: number };
-          toolResult = await this.getRevenueContextByArgs(args.month, args.year);
-        } else {
-          toolResult = "Không tìm thấy công cụ hoặc bạn không có quyền.";
+        const currentContents = [...contents];
+
+        let response = await ai.models.generateContent({
+          model,
+          contents: currentContents,
+          config: {
+            systemInstruction,
+            tools: this.getGeminiTools(role),
+          },
+        });
+
+        if (response.functionCalls && response.functionCalls.length > 0) {
+          const call = response.functionCalls[0];
+          let toolResult: any;
+
+          try {
+            if (call.name === "check_pitch_availability") {
+              const args = call.args as { date: string, startTime: string, endTime: string };
+              toolResult = await this.getAvailabilityContextByArgs(args.date, args.startTime, args.endTime);
+            } else if (call.name === "get_pitch_information") {
+              toolResult = await this.getPitchInformation();
+            } else if (call.name === "get_revenue_statistics" && role === "admin") {
+              const args = call.args as { month: number, year: number };
+              toolResult = await this.getRevenueContextByArgs(args.month, args.year);
+            } else {
+              toolResult = "Không tìm thấy công cụ hoặc bạn không có quyền.";
+            }
+          } catch (error: any) {
+            toolResult = `Lỗi khi thực thi công cụ: ${error.message}`;
+          }
+
+          currentContents.push(
+            { role: "model", parts: [{ functionCall: call }] },
+            { role: "user", parts: [{ functionResponse: { name: call.name, response: { result: toolResult } } }] }
+          );
+
+          response = await ai.models.generateContent({
+            model,
+            contents: currentContents,
+            config: {
+              systemInstruction,
+              tools: this.getGeminiTools(role),
+            },
+          });
         }
+
+        const text = response.text?.trim();
+        if (!text) {
+          throw new ApiError(StatusCodes.BAD_GATEWAY, "Gemini không trả về nội dung");
+        }
+
+        return text;
       } catch (error: any) {
-        toolResult = `Lỗi khi thực thi công cụ: ${error.message}`;
+        console.error(`Lỗi với Model ${model}:`, error.message);
+        lastError = error;
       }
-
-      contents.push(
-        { role: "model", parts: [{ functionCall: call }] },
-        { role: "user", parts: [{ functionResponse: { name: call.name, response: { result: toolResult } } }] }
-      );
-
-      response = await ai.models.generateContent({
-        model,
-        contents,
-        config: {
-          systemInstruction,
-          tools: this.getGeminiTools(role),
-        },
-      });
     }
 
-    const text = response.text?.trim();
-    if (!text) {
-      throw new ApiError(StatusCodes.BAD_GATEWAY, "Gemini không trả về nội dung");
-    }
-
-    return text;
+    throw new ApiError(StatusCodes.BAD_GATEWAY, `Tất cả các Model đều bị lỗi. Lỗi cuối: ${lastError?.message || "Không xác định"}`);
   }
 
   private static async getPitchInformation() {
@@ -233,7 +253,8 @@ ${pitches.map((pitch) => {
     return `${start}-${end}: ${item.price ?? 0}đ`;
   }).join(", ");
 
-  return `- ${pitch.namePitch} | loại sân ${pitch.pitchCategory ?? "không rõ"} | ${pitch.address ?? "chưa có địa chỉ"} | giá: ${prices || "chưa cấu hình"}`;
+  const categoryStr = pitch.pitchCategory ? `Sân ${pitch.pitchCategory} người` : "không rõ";
+  return `- ${pitch.namePitch} | Loại sân: ${categoryStr} | Địa chỉ: ${pitch.address ?? "chưa có địa chỉ"} | Giá: ${prices || "chưa cấu hình"}`;
 }).join("\n")}`;
   }
 
@@ -261,7 +282,10 @@ ${pitches.map((pitch) => {
       return `Không còn sân trống ngày ${date} từ ${startTimeStr} đến ${endTimeStr}.`;
     }
 
-    return `Sân trống ngày ${date} từ ${startTimeStr} đến ${endTimeStr}:\n${pitches.map((pitch) => `- ${pitch.namePitch} | loại sân ${pitch.pitchCategory ?? "không rõ"} | ${pitch.address ?? "chưa có địa chỉ"}`).join("\n")}`;
+    return `Sân trống ngày ${date} từ ${startTimeStr} đến ${endTimeStr}:\n${pitches.map((pitch) => {
+      const categoryStr = pitch.pitchCategory ? `Sân ${pitch.pitchCategory} người` : "không rõ";
+      return `- ${pitch.namePitch} | Loại sân: ${categoryStr} | Địa chỉ: ${pitch.address ?? "chưa có địa chỉ"}`;
+    }).join("\n")}`;
   }
 
   private static async getRevenueContextByArgs(month: number, year: number) {
