@@ -4,6 +4,7 @@ import pitchReducer from '@/entities/pitch/model/pitchSlice';
 import bookingReducer from '@/entities/booking/model/bookingSlice';
 import serviceReducer from '@/entities/service-item/model/serviceSlice';
 import forumReducer from '@/entities/forum/model/forumSlice';
+import statisticReducer from '@/entities/statistic/model/statisticSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,8 +13,14 @@ export const store = configureStore({
     booking: bookingReducer,
     service: serviceReducer,
     forum: forumReducer,
+    statistic: statisticReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+

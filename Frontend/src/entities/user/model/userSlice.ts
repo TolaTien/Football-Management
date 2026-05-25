@@ -129,7 +129,7 @@ export const toggleBanUser = createAsyncThunk(
     try {
       const nextStatus = status === 'active' ? 'banned' : 'active';
       await userService.ban(userId, nextStatus);
-      return { userId, status: nextStatus };
+      return { userId, status: nextStatus as UserStatus };
     } catch (error: unknown) {
       return rejectWithValue(extractErrorMessage(error, 'Lỗi cập nhật trạng thái hoạt động'));
     }

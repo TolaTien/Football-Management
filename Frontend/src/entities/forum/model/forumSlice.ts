@@ -28,9 +28,12 @@ export const fetchForumPosts = createAsyncThunk(
 
 export const addForumPost = createAsyncThunk(
   'forum/addPost',
-  async (content: string, { dispatch, rejectWithValue }) => {
+  async (payload: string | { title: string; category: string; author: string; content: string }, { dispatch, rejectWithValue }) => {
     try {
-      await forumService.createPost({ description: content });
+      const description = typeof payload === 'string'
+        ? payload
+        : `${payload.title}\n\n${payload.content}`;
+      await forumService.createPost({ description });
       message.success('Đăng bài mới thành công!');
       dispatch(fetchForumPosts());
     } catch (error: any) {
@@ -55,6 +58,10 @@ export const removeForumPost = createAsyncThunk(
     }
   }
 );
+
+export const addPost = addForumPost;
+export const deletePost = removeForumPost;
+
 
 interface ForumState {
   posts: ForumPost[];

@@ -99,4 +99,5 @@ export default defineConfig({
     '@app': __dirname + '/src/app',
   },
   npmClient: 'npm',
+  esbuildMinifyIIFE: true,
 });

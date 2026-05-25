@@ -5,16 +5,16 @@ import { AddPitch, Pagination, UpdatePitch, UpdatePricePitch } from "./pitch.sch
 import { v4 as uuidv4 } from 'uuid';
 
 export class PitchService {
-    static async getAllPitch(query: any){
+    static async getAllPitch(query: any) {
         const page = Number(query.page) || 1;
-        const perPage =  10;
+        const perPage = 10;
         const skip = (page - 1) * perPage;
 
         const filter: any = {};
-        if(query.status) filter.status = query.status;
-        if(query.category) filter.pitchCategory = query.category;
-        if(query.address) filter.address  = query.address ;
-        if(query.search) filter.namePitch = { contains: query.search }; //Note: Giống regex trong mongoose
+        if (query.status) filter.status = query.status;
+        if (query.category) filter.pitchCategory = query.category;
+        if (query.address) filter.address = query.address;
+        if (query.search) filter.namePitch = { contains: query.search }; //Note: Giống regex trong mongoose
 
         const pitches = await prisma.pitch.findMany({
             where: filter,
@@ -23,28 +23,28 @@ export class PitchService {
             include: {
                 pitchprice: true,
                 booking: {
-                    where: { status:{ in: ['approved', 'pending']}}
+                    where: { status: { in: ['approved', 'pending'] } }
                 }
             },
             orderBy: { createdAt: 'desc' }
         });
-        const total = await prisma.pitch.count({ where: filter});
-        const totalPages  = Math.ceil(total/ perPage);
-        return { pitches, pagination: { total, totalPages, page, perPage}};
+        const total = await prisma.pitch.count({ where: filter });
+        const totalPages = Math.ceil(total / perPage);
+        return { pitches, pagination: { total, totalPages, page, perPage } };
     };
 
 
-    static async addPitch(dto: AddPitch){
+    static async addPitch(dto: AddPitch) {
         const newPitch = await prisma.pitch.create({
             data: {
                 pitchId: uuidv4(),
                 namePitch: dto.namePitch,
                 status: dto.status,
                 pitchCategory: dto.pitchCategory,
-                address: dto.address 
+                address: dto.address
             }
         });
-        
+
         const price = await prisma.pitchprice.create({
             data: {
                 id: uuidv4(),
@@ -55,12 +55,12 @@ export class PitchService {
             }
         });
 
-        return { newPitch, price};
+        return { newPitch, price };
     };
 
-    static async updatePitch(dto: UpdatePitch, pitchId: string){
-        const pitch = await prisma.pitch.findUnique({ where: {pitchId}});
-        if(!pitch){
+    static async updatePitch(dto: UpdatePitch, pitchId: string) {
+        const pitch = await prisma.pitch.findUnique({ where: { pitchId } });
+        if (!pitch) {
             throw new ApiError(StatusCodes.BAD_REQUEST, "Không tìm thấy sân");
         }
         const update = await prisma.pitch.update({
@@ -75,19 +75,19 @@ export class PitchService {
 
         return update;
     };
-    
-    static async updatePitchPrice(dto: UpdatePricePitch[], pitchId: string){
-        const pitch = await prisma.pitch.findUnique({ where: {pitchId}});
-        if(!pitch){
+
+    static async updatePitchPrice(dto: UpdatePricePitch[], pitchId: string) {
+        const pitch = await prisma.pitch.findUnique({ where: { pitchId } });
+        if (!pitch) {
             throw new ApiError(StatusCodes.BAD_REQUEST, "Không tìm thấy sân");
         };
 
-        const update = await prisma.$transaction( async (tx) => {
+        const update = await prisma.$transaction(async (tx) => {
             await tx.pitchprice.deleteMany({
-                where: { pitchId}
+                where: { pitchId }
             });
 
-            const newPrices = dto.map( x => ({
+            const newPrices = dto.map(x => ({
                 id: uuidv4(),
                 pitchId: pitchId,
                 startTime: new Date(x.startTime!),
@@ -95,22 +95,22 @@ export class PitchService {
                 price: x.price
             }));
 
-            if(newPrices.length > 0){
+            if (newPrices.length > 0) {
                 await tx.pitchprice.createMany({
                     data: newPrices
                 });
             }
 
             return await tx.pitchprice.findMany({
-                where: {pitchId},
-                orderBy: {startTime: 'asc'}
+                where: { pitchId },
+                orderBy: { startTime: 'asc' }
             });
         });
 
         return update;
     }
 
-    static async deletePitch(pitchId: string){
+    static async deletePitch(pitchId: string) {
         const pitch = await prisma.pitch.findUnique({ where: { pitchId } });
         if (!pitch) {
             throw new ApiError(StatusCodes.NOT_FOUND, "Không tìm thấy sân");
@@ -138,4 +138,4 @@ export class PitchService {
 
         return { message: "Xóa sân thành công" };
     }
-}
+}

@@ -70,14 +70,14 @@ const AdminFinance: React.FC = () => {
     type: 'Đặt sân',
     amount: b.price,
     method: b.paymentStatus === 'paid' ? 'Chuyển khoản' : 'Tiền mặt',
-    status: b.paymentStatus === 'paid'
+    status: (b.paymentStatus === 'paid'
       ? 'success'
       : b.status === 'cancelled'
         ? 'refunded'
-        : 'pending',
+        : 'pending') as 'success' | 'refunded' | 'pending',
   }));
 
-  // ── Stat cards ─────────────────────────────────────────────────────────────
+  // ── Stat cards ─
   const summaryItems = [
     {
       icon: <WalletOutlined />,
@@ -114,7 +114,7 @@ const AdminFinance: React.FC = () => {
     },
   ];
 
-  // ── Export Excel ───────────────────────────────────────────────────────────
+  // ── Export Excel ──
   const handleExportExcel = async () => {
     try {
       message.loading('Đang khởi tạo tệp báo cáo...', 1.5);
