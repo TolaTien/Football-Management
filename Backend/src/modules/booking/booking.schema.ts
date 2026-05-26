@@ -5,7 +5,8 @@ export interface BookPitchForUser {
     phone: string,
     startTime: Date,
     endTime: Date,
-    service?: Array<{
+    pitchPriceAtBooking: number,
+    service: Array<{
         serviceId: string,
         quantity: number,
         servicePriceAtBooking: number,
@@ -30,7 +31,8 @@ export interface bookingPitchForAdmin {
     phone: string,
     startTime: Date,
     endTime: Date,
-    service?: Array<{
+    pitchPriceAtBooking: number,
+    service: Array<{
         serviceId: string,
         quantity: number,
         servicePriceAtBooking: number,

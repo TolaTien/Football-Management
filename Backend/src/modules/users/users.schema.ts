@@ -4,8 +4,3 @@ export interface UpdateProfileUser {
     avt?: string;
     phone?: string;
 }
-
-export interface GetHistoryBooking {
-    userId: string, 
-    query: any
-}

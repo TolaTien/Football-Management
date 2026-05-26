@@ -19,13 +19,12 @@ model booking {
   pitchPriceAtBooking Int?               
   total               Int?               
   createdAt           DateTime?              @default(now()) @db.Timestamp(0)
-  updatedAt           DateTime?              @updatedAt @db.Timestamp(0)
+  updatedAt           DateTime?              @default(now()) @db.Timestamp(0)
   users               users?                 @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "booking_ibfk_1")
   pitch               pitch?                 @relation(fields: [pitchId], references: [pitchId], onDelete: NoAction, onUpdate: NoAction, map: "booking_ibfk_2")
   bookingservices     bookingservices[]
   cancelrequests      cancelrequests[]
   payments            payments[]
-  notification        notification[]
 
   @@index([pitchId], map: "pitchId")
   @@index([userId], map: "userId")
@@ -38,7 +37,7 @@ model bookingservices {
   quantity              Int?
   servicePriceAtBooking Int? 
   createdAt             DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt             DateTime? @updatedAt @db.Timestamp(0)
+  updatedAt             DateTime? @default(now()) @db.Timestamp(0)
   booking               booking?  @relation(fields: [bookId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "bookingservices_ibfk_1")
   services              services? @relation(fields: [serviceId], references: [serviceId], onDelete: NoAction, onUpdate: NoAction, map: "bookingservices_ibfk_2")
 
@@ -50,7 +49,7 @@ model commentlike {
   userId    String    @db.VarChar(50)
   commentId String    @db.VarChar(50)
   createdAt DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt DateTime? @updatedAt @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.Timestamp(0)
   users     users     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "commentlike_ibfk_1")
   comments  comments  @relation(fields: [commentId], references: [commentId], onDelete: Cascade, onUpdate: NoAction, map: "commentlike_ibfk_2")
 
@@ -65,7 +64,7 @@ model comments {
   userId         String?       @db.VarChar(50)
   parentId       String?       @db.VarChar(50)
   createdAt      DateTime?     @default(now()) @db.Timestamp(0)
-  updatedAt      DateTime?     @updatedAt @db.Timestamp(0)
+  updatedAt      DateTime?     @default(now()) @db.Timestamp(0)
   commentlike    commentlike[]
   post           post?         @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: NoAction, map: "comments_ibfk_1")
   users          users?        @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "comments_ibfk_2")
@@ -84,7 +83,7 @@ model payments {
   amount        Int?               
   paymentMethod payments_paymentMethod?
   createdAt     DateTime?               @default(now()) @db.Timestamp(0)
-  updatedAt     DateTime?               @updatedAt @db.Timestamp(0)
+  updatedAt     DateTime?               @default(now()) @db.Timestamp(0)
   booking       booking?                @relation(fields: [bookingId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "payments_ibfk_1")
 
   @@index([bookingId], map: "bookingId")
@@ -97,7 +96,7 @@ model pitch {
   pitchCategory Int?
   address       String?              @db.VarChar(255)
   createdAt     DateTime?            @default(now()) @db.Timestamp(0)
-  updatedAt     DateTime?            @updatedAt @db.Timestamp(0)
+  updatedAt     DateTime?            @default(now()) @db.Timestamp(0)
   booking       booking[]
   pitchprice    pitchprice[]
 }
@@ -109,7 +108,7 @@ model pitchprice {
   endTime   DateTime? @db.DateTime(0)
   price     Int?  
   createdAt DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt DateTime? @updatedAt @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.Timestamp(0)
   pitch     pitch?    @relation(fields: [pitchId], references: [pitchId], onDelete: Cascade, onUpdate: NoAction, map: "pitchprice_ibfk_1")
 
   @@index([pitchId], map: "pitchId")
@@ -121,11 +120,10 @@ model post {
   description String?      @db.Text
   status      post_status? @default(open)
   createdAt   DateTime?    @default(now()) @db.Timestamp(0)
-  updatedAt   DateTime?    @updatedAt @db.Timestamp(0)
+  updatedAt   DateTime?    @default(now()) @db.Timestamp(0)
   comments    comments[]
   users       users?       @relation(fields: [hostId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "post_ibfk_1")
   postlike    postlike[]
-  notification notification[]
 
   @@index([hostId], map: "hostId")
 }
@@ -134,7 +132,7 @@ model postlike {
   userId    String    @db.VarChar(50)
   postId    String    @db.VarChar(50)
   createdAt DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt DateTime? @updatedAt @db.Timestamp(0)
+  updatedAt DateTime? @default(now()) @db.Timestamp(0)
   users     users     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "postlike_ibfk_1")
   post      post      @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: NoAction, map: "postlike_ibfk_2")
 
@@ -162,7 +160,7 @@ model services {
   borrowed        Int?              @default(0)
   returned        Int?              @default(0)
   createdAt       DateTime?         @default(now()) @db.Timestamp(0)
-  updatedAt       DateTime?         @updatedAt @db.Timestamp(0)
+  updatedAt       DateTime?         @default(now()) @db.Timestamp(0)
   bookingservices bookingservices[]
 }
 
@@ -173,47 +171,20 @@ model users {
   fullName    String        @db.VarChar(255)
   avt         String?       @db.VarChar(500)
   role        users_role?   @default(user)
-  status      users_status? @default(active)
   phone       String?       @db.VarChar(20)
   createdAt   DateTime?     @default(now()) @db.Timestamp(0)
-  updatedAt   DateTime?     @updatedAt @db.Timestamp(0)
+  updatedAt   DateTime?     @default(now()) @db.Timestamp(0)
   booking     booking[]
   cancelrequests cancelrequests[]
   commentlike commentlike[]
   comments    comments[]
   post        post[]
   postlike    postlike[]
-  notification notification[]
-}
-
-model notification {
-  id          String              @id @db.VarChar(50)
-  userId      String              @db.VarChar(50)
-  content     String              @db.Text
-  type        notification_type?  @default(system)
-  isRead      Boolean?            @default(false)
-  bookId      String?             @db.VarChar(50)
-  postId      String?             @db.VarChar(50)
-  createdAt   DateTime?           @default(now()) @db.Timestamp(0)
-  updatedAt   DateTime?           @updatedAt @db.Timestamp(0)
-
-  users       users               @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "notification_ibfk_1")
-  booking     booking?            @relation(fields: [bookId], references: [bookId], onDelete: Cascade, onUpdate: NoAction, map: "notification_ibfk_2")
-  post        post?               @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: NoAction, map: "notification_ibfk_3")
-
-  @@index([userId], map: "userId")
-  @@index([bookId], map: "bookId")
-  @@index([postId], map: "postId")
 }
 
 enum users_role {
   user
   admin
-}
-
-enum users_status {
-  active
-  banned
 }
 
 enum payments_type {
@@ -226,6 +197,8 @@ enum pitch_status {
   active
   maintenance
 }
+
+
 
 enum post_status {
   open
@@ -248,11 +221,4 @@ enum booking_paymentStatus {
   pending
   partial
   paid
-}
-
-enum notification_type {
-  system
-  booking
-  post
-  payment
 }
