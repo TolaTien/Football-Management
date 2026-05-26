@@ -19,6 +19,8 @@ export interface AuthResponse extends ApiResponse {
     accessToken: string;
     refreshToken: string;
     role: string;
+    user?: UserInfo;
+    newUser?: UserInfo;
   }; // Adjust based on exactly what backend returns inside 'data' for login
 }
 

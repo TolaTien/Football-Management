@@ -9,17 +9,23 @@ interface UserState {
   isInitialized: boolean; // Flag to indicate if auth has been checked initially
 }
 
+const getInitialUser = (): UserInfo | null => {
+  const saved = localStorage.getItem('pitchhub_user');
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch {
+      return null;
+    }
+  }
+  return null;
+};
+
 const initialState: UserState = {
-  currentUser: {
-    userId: '1',
-    fullName: 'Tài Khoản Demo',
-    email: 'demo@gmail.com',
-    role: 'user',
-    avt: 'https://ui-avatars.com/api/?name=Demo&background=10b981&color=fff',
-  },
+  currentUser: getInitialUser(),
   loading: false,
   error: null,
-  isInitialized: true,
+  isInitialized: !localStorage.getItem('pitchhub_token'),
 };
 
 // Async thunk for fetching current user

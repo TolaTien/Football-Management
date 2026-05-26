@@ -50,4 +50,12 @@ export const UsersService = {
     });
     return data.data;
   },
+
+  /**
+   * Lấy danh sách 10 người dùng đặt sân hoạt động nhiều nhất.
+   */
+  getTopSpenders: async (): Promise<any[]> => {
+    const { data } = await $api.get('/statistic/top-spenders');
+    return data.data;
+  },
 };

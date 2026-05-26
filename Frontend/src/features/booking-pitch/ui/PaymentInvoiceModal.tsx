@@ -59,7 +59,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
         setWalletBalance(prev => prev - (booking.total || 0));
       }
 
-      message.success('Thanh toán đặt cọc thành công!');
+      message.success('Đặt sân và thanh toán thành công!');
       onPaymentSuccess();
     } catch (err: any) {
       const errMsg = err?.response?.data?.message || 'Có lỗi xảy ra khi thanh toán';
