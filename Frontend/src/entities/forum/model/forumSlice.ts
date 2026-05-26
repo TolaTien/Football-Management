@@ -10,7 +10,7 @@ export const fetchForumPosts = createAsyncThunk(
     try {
       const response = await forumService.getAllPosts();
       // Backend returns: { items: [...] }
-      const backendData = response.data?.items ?? [];
+      const backendData = Array.isArray(response.data) ? response.data : [];
       return backendData.map((p: any) => ({
         id: p.postId,
         title: p.description?.substring(0, 40) || 'Thảo luận',
