@@ -3,7 +3,10 @@ import { CommentModal } from '../../../features/matchmaking/ui/CommentModal';
 import { CreatePostModal } from '../../../features/matchmaking/ui/CreatePostModal';
 import { postService, PostItem } from '@/entities/matchmaking-post/api/postService';
 import { useAppSelector } from '@/app/store/hooks';
-import { message, Dropdown, Modal, Segmented } from 'antd';
+import { message, Modal, Segmented } from 'antd';
+import { PersonalStats } from './components/PersonalStats';
+import { GlobalFeed } from './components/GlobalFeed';
+import { MyMatches } from './components/MyMatches';
 
 const SocialMatchmakingFeed: React.FC = () => {
   const currentUser = useAppSelector((state) => state.user.currentUser);
@@ -216,207 +219,34 @@ const SocialMatchmakingFeed: React.FC = () => {
         </div>
       ) : feedTab === 'all' ? (
         /* Global Feed View */
-        (!Array.isArray(posts) || posts.length === 0) ? (
-          <div className="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-            <p className="text-gray-500 font-body-md">No posts found. Be the first to host a match!</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post) => (
-              <div key={post?.postId || Math.random()} className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group relative flex flex-col justify-between">
-                <div className="p-6 flex-grow">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex items-center gap-2">
-                      <img 
-                        src={post?.users?.avt || `https://ui-avatars.com/api/?name=${post?.users?.fullName || 'U'}&background=10b981&color=fff`} 
-                        className="w-8 h-8 rounded-full border border-gray-100"
-                        alt="avatar"
-                      />
-                      <span className="text-sm font-bold text-gray-700">{post?.users?.fullName || 'Anonymous'}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider ${
-                        post?.status === 'open' ? 'bg-emerald-900 text-white' : 'bg-gray-100 text-gray-600'
-                      }`}>
-                        {post?.status || 'unknown'}
-                      </span>
-                      {post?.hostId === currentUser?.userId && (
-                        <Dropdown
-                          menu={{
-                            items: [
-                              {
-                                key: 'edit',
-                                label: (
-                                  <span className="flex items-center gap-2 text-sm font-medium">
-                                    <span className="material-symbols-outlined text-[16px]">edit</span>
-                                    Edit Post
-                                  </span>
-                                ),
-                                onClick: () => handleOpenEdit(post),
-                              },
-                              {
-                                key: 'delete',
-                                label: (
-                                  <span className="flex items-center gap-2 text-sm font-medium text-red-600">
-                                    <span className="material-symbols-outlined text-[16px]">delete</span>
-                                    Delete Post
-                                  </span>
-                                ),
-                                onClick: () => handleDeletePost(post.postId),
-                              },
-                            ],
-                          }}
-                          trigger={['click']}
-                          placement="bottomRight"
-                        >
-                          <button className="text-gray-400 hover:text-gray-900 transition-colors p-1 rounded-full hover:bg-gray-50 flex items-center justify-center">
-                            <span className="material-symbols-outlined text-[18px]">more_vert</span>
-                          </button>
-                        </Dropdown>
-                      )}
-                    </div>
-                  </div>
-                  <h3 className="font-h3 text-h3 text-emerald-900 mb-2 line-clamp-2 min-h-[3rem]">
-                    {post?.description || 'No description provided'}
-                  </h3>
-                  <div className="space-y-2 mb-6">
-                    <div className="flex items-center text-gray-500 text-sm gap-2">
-                      <span className="material-symbols-outlined text-sm">calendar_today</span>
-                      <span>{post?.createdAt ? new Date(post.createdAt).toLocaleDateString() : 'N/A'}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mt-auto">
-                    <div className="flex items-center text-xs text-gray-400 font-bold gap-3">
-                      <span className="flex items-center gap-1" title="Comments">
-                        <span className="material-symbols-outlined text-[16px]">chat_bubble</span>
-                        {post?._count?.comments || 0}
-                      </span>
-                      <span className="flex items-center gap-1" title="Likes">
-                        <span className="material-symbols-outlined text-[16px]">thumb_up</span>
-                        {post?._count?.postlike || 0}
-                      </span>
-                    </div>
-                    <div className="flex gap-2">
-                      <button 
-                        onClick={() => post?.postId && handleToggleLikePost(post.postId)}
-                        className={`flex items-center gap-1 transition-colors ${post?.postId && likedPosts[post.postId] ? 'text-emerald-600' : 'text-gray-500 hover:text-emerald-900'}`}
-                      >
-                        <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: likedPosts[post?.postId] ? "'FILL' 1" : "'FILL' 0" }}>thumb_up</span>
-                        <span className="text-xs font-bold font-button">Like</span>
-                      </button>
-                      <button 
-                        onClick={() => post?.postId && handleOpenComment(post.postId)}
-                        className="flex items-center gap-1 text-gray-500 hover:text-emerald-900 transition-colors"
-                      >
-                        <span className="material-symbols-outlined text-[18px]">chat_bubble_outline</span>
-                        <span className="text-xs font-bold font-button">Comment</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )
+        <GlobalFeed
+          posts={posts}
+          likedPosts={likedPosts}
+          currentUser={currentUser}
+          onToggleLike={handleToggleLikePost}
+          onOpenComment={handleOpenComment}
+          onOpenEdit={handleOpenEdit}
+          onDelete={handleDeletePost}
+        />
       ) : (
         /* My Hosted Matches Dashboard Widget */
         <div>
           {/* Summary Stats Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div className="bg-emerald-50/40 border border-emerald-100/80 rounded-xl p-5 flex flex-col justify-between">
-              <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Total Hosted</span>
-              <span className="text-3xl font-extrabold text-emerald-950 mt-2">{totalMyPosts}</span>
-            </div>
-            <div className="bg-emerald-50/40 border border-emerald-100/80 rounded-xl p-5 flex flex-col justify-between">
-              <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Active Spots</span>
-              <span className="text-3xl font-extrabold text-emerald-950 mt-2">{activeMyPosts}</span>
-            </div>
-            <div className="bg-emerald-50/40 border border-emerald-100/80 rounded-xl p-5 flex flex-col justify-between">
-              <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Likes Received</span>
-              <span className="text-3xl font-extrabold text-emerald-950 mt-2">{totalLikesOnMyPosts}</span>
-            </div>
-            <div className="bg-emerald-50/40 border border-emerald-100/80 rounded-xl p-5 flex flex-col justify-between">
-              <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Comments Count</span>
-              <span className="text-3xl font-extrabold text-emerald-950 mt-2">{totalCommentsOnMyPosts}</span>
-            </div>
-          </div>
+          <PersonalStats
+            totalMyPosts={totalMyPosts}
+            activeMyPosts={activeMyPosts}
+            totalLikesOnMyPosts={totalLikesOnMyPosts}
+            totalCommentsOnMyPosts={totalCommentsOnMyPosts}
+          />
 
-          {myPosts.length === 0 ? (
-            <div className="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-              <p className="text-gray-500 font-body-md mb-4">You haven't hosted any matchmaking opportunities yet.</p>
-              <button 
-                onClick={handleOpenCreate}
-                className="bg-emerald-900 text-white px-6 py-2.5 rounded-lg font-button hover:bg-emerald-800 transition-all inline-flex items-center gap-2"
-              >
-                <span className="material-symbols-outlined text-sm">add</span>
-                Host Your First Match
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {myPosts.map((post) => (
-                <div key={post.postId} className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow relative flex flex-col justify-between p-6">
-                  <div>
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex items-center text-gray-500 text-sm gap-2">
-                        <span className="material-symbols-outlined text-sm">calendar_today</span>
-                        <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-                      </div>
-                      <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider ${
-                        post.status === 'open' ? 'bg-emerald-900 text-white' : 'bg-gray-100 text-gray-600'
-                      }`}>
-                        {post.status}
-                      </span>
-                    </div>
-                    <h3 className="font-h3 text-h3 text-emerald-900 mb-4 line-clamp-3 min-h-[4.5rem]">
-                      {post.description}
-                    </h3>
-                    <div className="flex items-center text-xs text-gray-400 font-bold gap-3 mb-6">
-                      <span className="flex items-center gap-1 cursor-pointer hover:text-emerald-900" onClick={() => handleOpenComment(post.postId)}>
-                        <span className="material-symbols-outlined text-[16px]">chat_bubble</span>
-                        {post._count?.comments || 0} Comments
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[16px]">thumb_up</span>
-                        {post._count?.postlike || 0} Likes
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* High-visibility Action Panel */}
-                  <div className="flex gap-2 w-full mt-auto border-t border-gray-100 pt-4">
-                    <button
-                      onClick={() => handleToggleStatus(post)}
-                      className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold font-button border transition-all flex items-center justify-center gap-1.5 ${
-                        post.status === 'open' 
-                          ? 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100' 
-                          : 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-[16px]">
-                        {post.status === 'open' ? 'lock' : 'lock_open'}
-                      </span>
-                      {post.status === 'open' ? 'Close Match' : 'Reopen Match'}
-                    </button>
-                    <button
-                      onClick={() => handleOpenEdit(post)}
-                      className="flex-1 py-2 px-3 rounded-lg text-xs font-bold font-button border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition-all flex items-center justify-center gap-1.5"
-                    >
-                      <span className="material-symbols-outlined text-[16px]">edit</span>
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeletePost(post.postId)}
-                      className="py-2 px-3 rounded-lg text-xs font-bold font-button border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 transition-all flex items-center justify-center"
-                      title="Delete Match Opportunity"
-                    >
-                      <span className="material-symbols-outlined text-[16px]">delete</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          <MyMatches
+            myPosts={myPosts}
+            onToggleStatus={handleToggleStatus}
+            onOpenEdit={handleOpenEdit}
+            onDelete={handleDeletePost}
+            onOpenComment={handleOpenComment}
+            onOpenCreate={handleOpenCreate}
+          />
         </div>
       )}
 
@@ -457,3 +287,4 @@ const SocialMatchmakingFeed: React.FC = () => {
 };
 
 export default SocialMatchmakingFeed;
+
