@@ -13,7 +13,8 @@ class User {
 
     async getHistoryBooking(req: Request, res: Response){
         const userId = req.user?.userId as string;
-        const history = await UserService.getHistoryBooking(userId);
+        const query = req.query;
+        const history = await UserService.getHistoryBooking({userId, query});
         res.status(200).json({ message: "Lấy lịch sử thành công", data: history });
     };
 

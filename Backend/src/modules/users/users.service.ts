@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/ApiError.js";
-import { UpdateProfileUser } from "./users.schema.js";
+import { GetHistoryBooking, UpdateProfileUser } from "./users.schema.js";
 import { uploadStream } from "../../utils/upload.js";
 
 
@@ -41,12 +41,23 @@ export class UserService {
         return updatedUser ;
     };
 
-    static async getHistoryBooking(userId: string) {
-        const user = await prisma.users.findUnique({ where: {userId}});
+    static async getHistoryBooking(dto: GetHistoryBooking) {
+        const user = await prisma.users.findUnique({ where: {userId: dto.userId}});
         if(!user) throw new ApiError(400, "Không tìm thấy user");
+
+        const page = Number(dto.query.page) || 1;
+        const perpage = 10;
+        const skip = (page - 1) * perpage;
+
         const history = await prisma.booking.findMany({
-            where: { userId},
+            where: { userId: dto.userId},
+            skip,
+            take: perpage,
+            orderBy: {
+                createdAt: 'desc'
+            },
             include: {
+                pitch: true,
                 payments: true,
                 bookingservices: {
                     include: { services: true }
@@ -54,6 +65,9 @@ export class UserService {
             }
         });
 
-        return history;
+        const totalRequest = await prisma.booking.count({ where: { userId: dto.userId } });
+        const numberPage = Math.ceil(totalRequest / perpage);
+
+        return { history, pagination: { numberPage, page, totalRequest, perpage } };
     }
 }
