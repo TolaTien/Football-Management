@@ -1,5 +1,5 @@
 import { Pitch } from '../../pitch/model/types';
-import { User } from '../../user/model/types';
+import { UserInfo } from '../../user/model/types';
 
 export enum OrderStatus {
     PENDING = 'PENDING',
@@ -15,7 +15,7 @@ export interface BookingSlot {
 
 export interface Order {
     id: string;
-    user: User;
+    user: UserInfo;
     pitch: Pitch;
     status: OrderStatus;
     totalPrice: number;
