@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { message, Spin, Checkbox, InputNumber } from 'antd';
 import { ServicesService, ServiceItem } from '@/entities/service/api/servicesService';
-import { BookingService } from '@/entities/booking/api/bookingService';
+import { BookingService } from '@/entities/booking';
 import { useAppDispatch } from '@/app/store/hooks';
-import { addNotification } from '@/entities/notification/model/notificationSlice';
+import { addNotification } from '@/entities/notification';
 import dayjs from 'dayjs';
 
 interface QuickConfirmModalProps {
