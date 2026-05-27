@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Spin, message, Modal } from 'antd';
-import { BookingService } from '@/entities/booking/api/bookingService';
+import { BookingService } from '@/entities/booking';
 import dayjs from 'dayjs';
 
 interface PaymentInvoiceModalProps {
@@ -24,6 +24,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
   const [cancelling, setCancelling] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'banking' | 'wallet' | 'cash'>('banking');
   const [walletBalance, setWalletBalance] = useState(1500000); // 1.5M VNĐ mock balance
+  const [payMode, setPayMode] = useState<'deposit' | 'full'>('deposit');
 
   if (!isOpen || !booking) return null;
 
@@ -39,24 +40,34 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
     return Number(val || 0).toLocaleString('vi-VN') + ' VNĐ';
   };
 
+  // Dynamic pricing calculations
+  const totalServices = (booking.bookingservices || []).reduce(
+    (acc: number, cur: any) => acc + (cur.servicePriceAtBooking || cur.services?.price || 0) * cur.quantity,
+    0
+  );
+  
+  const depositAmount = booking.total || ((booking.pitchPriceAtBooking || 0) * 0.5 + totalServices);
+  const fullAmount = (booking.pitchPriceAtBooking || 0) + totalServices;
+  const activeAmount = payMode === 'deposit' ? depositAmount : fullAmount;
+
   // Handle Payment Submit
   const handlePayment = async () => {
     setSubmitting(true);
     try {
-      if (paymentMethod === 'wallet' && walletBalance < (booking.total || 0)) {
+      if (paymentMethod === 'wallet' && walletBalance < activeAmount) {
         message.error('Số dư ví không đủ! Vui lòng nạp thêm hoặc chọn phương thức khác.');
         setSubmitting(false);
         return;
       }
 
-      // Call partialPayment API
+      // Call partialPayment API with dynamic activeAmount
       await BookingService.partialPayment({
         bookingId: booking.bookId,
-        amount: booking.total || 0,
+        amount: activeAmount,
       });
 
       if (paymentMethod === 'wallet') {
-        setWalletBalance(prev => prev - (booking.total || 0));
+        setWalletBalance(prev => prev - activeAmount);
       }
 
       message.success('Đặt sân và thanh toán thành công!');
@@ -125,7 +136,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
               </span>
               <span className="text-[10px] text-emerald-300/80 font-mono">Invoice #{shortBookId}</span>
             </div>
-            <h3 className="text-base font-extrabold font-montserrat mt-0.5">Thanh Toán Giữ Chỗ</h3>
+            <h3 className="text-base font-extrabold font-montserrat mt-0.5">Thanh Khoản Đơn Đặt</h3>
           </div>
 
           <div className="flex items-center gap-3">
@@ -153,6 +164,65 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
         {/* Content Body (Centered Stacked Flex Scroll) */}
         <div className="p-6 flex flex-col gap-5 bg-gray-50/20 max-h-[70vh] overflow-y-auto custom-scrollbar">
           
+          {/* Payment Option Selection (Dynamic 50% vs 100%) */}
+          <section className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+            <h4 className="text-[10px] font-black text-emerald-950 uppercase tracking-widest flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-base text-emerald-600">split_screen</span>
+              Chọn hạn mức thanh toán
+            </h4>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setPayMode('deposit')}
+                className={`flex flex-col p-3 rounded-xl border text-left transition-all ${
+                  payMode === 'deposit'
+                    ? 'border-emerald-600 bg-emerald-50/30 ring-1 ring-emerald-600/20'
+                    : 'border-gray-100 hover:border-gray-200 bg-white'
+                }`}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <span className={`text-[10px] font-black uppercase tracking-wider ${payMode === 'deposit' ? 'text-emerald-900' : 'text-gray-500'}`}>
+                    Đặt cọc (50% Sân)
+                  </span>
+                  <span className={`material-symbols-outlined text-sm ${payMode === 'deposit' ? 'text-emerald-600' : 'text-gray-300'}`}>
+                    {payMode === 'deposit' ? 'radio_button_checked' : 'radio_button_unchecked'}
+                  </span>
+                </div>
+                <p className={`text-xs font-black mt-1 ${payMode === 'deposit' ? 'text-emerald-950' : 'text-slate-800'}`}>
+                  {formatCurrency(depositAmount)}
+                </p>
+                <p className="text-[9px] text-gray-400 mt-0.5 leading-tight">
+                  Trả trước 50% tiền sân và 100% dịch vụ. Phần còn lại trả tại quầy.
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPayMode('full')}
+                className={`flex flex-col p-3 rounded-xl border text-left transition-all ${
+                  payMode === 'full'
+                    ? 'border-emerald-600 bg-emerald-50/30 ring-1 ring-emerald-600/20'
+                    : 'border-gray-100 hover:border-gray-200 bg-white'
+                }`}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <span className={`text-[10px] font-black uppercase tracking-wider ${payMode === 'full' ? 'text-emerald-900' : 'text-gray-500'}`}>
+                    Thanh toán hết (100%)
+                  </span>
+                  <span className={`material-symbols-outlined text-sm ${payMode === 'full' ? 'text-emerald-600' : 'text-gray-300'}`}>
+                    {payMode === 'full' ? 'radio_button_checked' : 'radio_button_unchecked'}
+                  </span>
+                </div>
+                <p className={`text-xs font-black mt-1 ${payMode === 'full' ? 'text-emerald-950' : 'text-slate-800'}`}>
+                  {formatCurrency(fullAmount)}
+                </p>
+                <p className="text-[9px] text-gray-400 mt-0.5 leading-tight">
+                  Thanh toán toàn bộ 100% tiền sân và dịch vụ. Không cần thanh toán thêm tại sân.
+                </p>
+              </button>
+            </div>
+          </section>
+
           {/* Pitch & Services Combined Section */}
           <section className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-4">
             <div className="flex justify-between items-start border-b border-gray-50 pb-3">
@@ -194,22 +264,25 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
             )}
           </section>
 
-          {/* Sleeker Pricing Summary (Deposit focus) */}
+          {/* Sleeker Pricing Summary (Deposit or Full focus) */}
           <section className="bg-emerald-900 text-white p-5 rounded-2xl shadow-md relative overflow-hidden flex justify-between items-center">
             <div className="relative z-10">
-              <span className="text-[9px] font-black uppercase tracking-widest text-emerald-300">Tổng phí cọc cần đóng</span>
+              <span className="text-[9px] font-black uppercase tracking-widest text-emerald-300">
+                {payMode === 'deposit' ? 'Tổng phí cọc cần đóng' : 'Tổng số tiền cần thanh toán'}
+              </span>
               <h3 className="text-xl font-black text-amber-300 font-montserrat mt-0.5">
-                {formatCurrency(booking.total)}
+                {formatCurrency(activeAmount)}
               </h3>
-              <p className="text-[8px] opacity-75 mt-1 leading-none">* Cọc trước 50% tiền sân + 100% dịch vụ để hoàn tất giữ chỗ</p>
+              <p className="text-[8px] opacity-75 mt-1 leading-none">
+                {payMode === 'deposit' 
+                  ? '* Cọc trước 50% tiền sân + 100% dịch vụ để hoàn tất giữ chỗ' 
+                  : '* Thanh toán toàn bộ 100% tiền sân và các dịch vụ đi kèm'}
+              </p>
             </div>
             <div className="text-right relative z-10">
               <span className="text-[9px] opacity-70 block">Tổng tiền gốc</span>
               <span className="text-xs font-bold line-through opacity-60">
-                {formatCurrency(
-                  (booking.pitchPriceAtBooking || 0) + 
-                  (booking.bookingservices || []).reduce((acc: number, cur: any) => acc + (cur.servicePriceAtBooking || cur.services?.price || 0) * cur.quantity, 0)
-                )}
+                {formatCurrency(fullAmount)}
               </span>
             </div>
             <div className="absolute -bottom-6 -right-6 opacity-10">
@@ -291,6 +364,10 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                         <span className="text-gray-400">Chủ tài khoản:</span>
                         <span className="font-extrabold uppercase text-slate-800">DANG VAN TIEN</span>
                       </div>
+                      <div className="flex justify-between border-b border-gray-100 pb-1">
+                        <span className="text-gray-400">Số tiền chuyển:</span>
+                        <span className="font-black text-emerald-900">{formatCurrency(activeAmount)}</span>
+                      </div>
                       <div className="flex justify-between">
                         <span className="text-gray-400">Nội dung chuyển:</span>
                         <span className="font-black text-amber-700 bg-amber-50 px-2 py-0.5 rounded select-all font-mono">
@@ -315,12 +392,12 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                   </div>
                   <div className="text-[11px] text-gray-500 border-t border-dashed border-gray-100 pt-2.5 space-y-1">
                     <div className="flex justify-between">
-                      <span>Phí cọc thanh toán:</span>
-                      <span className="font-bold text-slate-800">-{formatCurrency(booking.total)}</span>
+                      <span>Số tiền thanh toán:</span>
+                      <span className="font-bold text-slate-800">-{formatCurrency(activeAmount)}</span>
                     </div>
                     <div className="flex justify-between font-bold text-emerald-900">
                       <span>Số dư sau giao dịch:</span>
-                      <span>{formatCurrency(walletBalance - (booking.total || 0))}</span>
+                      <span>{formatCurrency(walletBalance - activeAmount)}</span>
                     </div>
                   </div>
                 </div>
@@ -331,10 +408,10 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                 <div className="p-4 bg-amber-50/50 border border-amber-100 rounded-xl text-xs text-amber-950 space-y-2">
                   <h5 className="font-extrabold flex items-center gap-1 text-amber-950 text-xs">
                     <span className="material-symbols-outlined text-[14px]">info</span>
-                    Đóng cọc trực tiếp tại quầy
+                    Thanh toán trực tiếp tại quầy
                   </h5>
                   <p className="leading-relaxed text-[11px]">
-                    Vui lòng di chuyển đến quầy đón tiếp của **Sân Bóng Văn Tiến** trong vòng 15 phút, cung cấp mã hóa đơn <strong className="font-mono bg-amber-100 px-1 py-0.5 rounded text-amber-950 font-black">{shortBookId}</strong> để đóng tiền mặt và bảo đảm giữ chỗ thành công.
+                    Vui lòng di chuyển đến quầy đón tiếp của **Sân Bóng Văn Tiến** trong vòng 15 phút, cung cấp mã hóa đơn <strong className="font-mono bg-amber-100 px-1 py-0.5 rounded text-amber-950 font-black">{shortBookId}</strong> để thanh toán số tiền <strong className="text-emerald-900 font-bold">{formatCurrency(activeAmount)}</strong> bằng tiền mặt và bảo đảm giữ chỗ thành công.
                   </p>
                 </div>
               )}
