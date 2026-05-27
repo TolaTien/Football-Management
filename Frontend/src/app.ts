@@ -2,6 +2,10 @@ import '@ant-design/v5-patch-for-react-19';
 import { RequestConfig } from '@umijs/max';
 import { message } from 'antd';
 import { AuthService } from '@/features/auth/api/authService';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 export const request: RequestConfig = {
   timeout: 10000,
