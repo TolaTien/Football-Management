@@ -8,6 +8,11 @@ interface PitchCardProps {
   onEdit: (pitch: Pitch) => void;
   onDelete: (id: string) => void;
 }
+const getGradient = (category?: number): string => {
+  if (category === 5) return 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+  if (category === 7) return 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)';
+  return 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)';
+};
 
 export const PitchCard: React.FC<PitchCardProps> = ({ pitch, onEdit, onDelete }) => {
   return (
@@ -17,8 +22,11 @@ export const PitchCard: React.FC<PitchCardProps> = ({ pitch, onEdit, onDelete })
       bodyStyle={{ padding: 0 }}
       style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column', height: '100%' }}
     >
-      <div style={{ position: 'relative', height: 160 }}>
-        <img src={pitch.imageUrl} alt={pitch.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      <div style={{ position: 'relative', height: 160, background: getGradient(pitch.pitchCategory), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ fontSize: 56, opacity: 0.8 }}>⚽</div>
+        <div style={{ position: 'absolute', top: 8, right: 8, background: 'rgba(255,255,255,0.25)', borderRadius: 8, padding: '2px 10px', color: '#fff', fontSize: 12, fontWeight: 700 }}>
+          Sân {pitch.pitchCategory ?? '?'} người
+        </div>
         <div style={{ position: 'absolute', top: 12, left: 12 }}>
           <Tag color={pitch.status === 'active' ? '#10b981' : pitch.status === 'maintenance' ? '#6b7280' : '#f59e0b'} style={{ borderRadius: 12, padding: '2px 10px', fontWeight: 600, border: 'none' }}>
             {pitch.status === 'active' ? 'Sẵn sàng' : pitch.status === 'maintenance' ? '🛠 Đang bảo trì' : '🚧 Đang thi công'}

@@ -113,24 +113,6 @@ export const AddEditPitchModal: React.FC<AddEditPitchModalProps> = ({
               <Input.TextArea rows={2} placeholder="Sân cỏ nhân tạo cao cấp, đầy đủ tiện nghi..." style={{ borderRadius: 10, borderColor: '#d1d5db' }} />
             </Form.Item>
 
-            <Form.Item
-              name="image"
-              label={
-                <span style={{ fontWeight: 600, color: '#374151', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <CameraOutlined style={{ color: '#059669' }} /> Ảnh sân (tuỳ chọn)
-                </span>
-              }
-            >
-              <Upload.Dragger
-                name="file" multiple={false} beforeUpload={() => false}
-                style={{ borderRadius: 10 }}
-              >
-                <p style={{ color: '#059669', fontSize: 22, marginBottom: 4 }}><CameraOutlined /></p>
-                <p style={{ color: '#374151', fontWeight: 600, fontSize: 13 }}>Kéo & thả ảnh sân vào đây</p>
-                <p style={{ color: '#94a3b8', fontSize: 11 }}>PNG, JPG tối đa 5MB</p>
-              </Upload.Dragger>
-            </Form.Item>
-
             <div style={{ marginTop: 8, paddingTop: 20, borderTop: '1px solid #f3f4f6', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
               <Button size="large" onClick={onCancel}
                 style={{ borderRadius: 10, height: 44, padding: '0 24px', fontWeight: 600, color: '#374151', borderColor: '#d1d5db' }}

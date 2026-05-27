@@ -7,7 +7,7 @@ import { fetchPitches, addPitch, updatePitch, deletePitchThunk } from '@/entitie
 import type { Pitch } from '@/entities/pitch/model/types';
 import { PitchesSummaryStats } from './components/PitchesSummaryStats';
 import { PitchCard } from './components/PitchCard';
-import { MaintenanceScheduleTable } from './components/MaintenanceScheduleTable';
+
 import { AddEditPitchModal } from './components/AddEditPitchModal';
 
 const { Text } = Typography;
@@ -17,8 +17,6 @@ const MOCK_PRICE = 500000;
 const INITIAL_GRASS_HEALTH = 100;
 const DEFAULT_GRASS_STATUS = 'Tốt';
 const DEFAULT_MAINTENANCE = 'Chưa xếp lịch';
-const DEFAULT_IMAGE_URL = 'https://images.unsplash.com/photo-1518605368461-1ee7c5320c2d?q=80&w=600&auto=format&fit=crop';
-
 const AdminPitchesList: React.FC = () => {
   const dispatch = useAppDispatch();
   const { pitches } = useAppSelector((state) => state.pitch);
@@ -57,7 +55,6 @@ const AdminPitchesList: React.FC = () => {
       grassHealth: editingPitch ? editingPitch.grassHealth : INITIAL_GRASS_HEALTH,
       grassStatus: editingPitch ? editingPitch.grassStatus : DEFAULT_GRASS_STATUS,
       nextMaintenance: editingPitch ? editingPitch.nextMaintenance : DEFAULT_MAINTENANCE,
-      imageUrl: editingPitch ? editingPitch.imageUrl : DEFAULT_IMAGE_URL,
     } as Omit<Pitch, 'id'>;
 
     if (editingPitch) {
@@ -136,8 +133,6 @@ const AdminPitchesList: React.FC = () => {
         </Col>
       </Row>
 
-      {/* Bảng Chi tiết bảo trì */}
-      <MaintenanceScheduleTable />
 
       {/* Modal Thêm/Sửa Sân */}
       <AddEditPitchModal

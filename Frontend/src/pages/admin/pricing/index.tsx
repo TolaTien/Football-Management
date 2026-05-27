@@ -17,9 +17,9 @@ const AdminPitches: React.FC = () => {
   const dispatch = useAppDispatch();
   const { pitches, prices } = useAppSelector((state) => state.pitch);
   const [activePitch, setActivePitch] = useState('');
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingPrice, setEditingPrice] = useState<{id: string, val: number} | null>(null);
+  const [editingPrice, setEditingPrice] = useState<{ id: string, val: number } | null>(null);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -38,9 +38,9 @@ const AdminPitches: React.FC = () => {
     if (editingPrice && editingPrice.id === id) {
       let targetPitchId = '';
       const updatedPrices = prices.map((p) => {
-        if (p.id === id) { 
-          targetPitchId = p.pitchId; 
-          return { ...p, price: editingPrice.val }; 
+        if (p.id === id) {
+          targetPitchId = p.pitchId;
+          return { ...p, price: editingPrice.val };
         }
         return p;
       });
@@ -73,9 +73,9 @@ const AdminPitches: React.FC = () => {
   const handleDeletePriceRule = (id: string) => {
     let targetPitchId = '';
     const updatedPrices = prices.filter((p) => {
-      if (p.id === id) { 
-        targetPitchId = p.pitchId; 
-        return false; 
+      if (p.id === id) {
+        targetPitchId = p.pitchId;
+        return false;
       }
       return true;
     });
@@ -91,13 +91,17 @@ const AdminPitches: React.FC = () => {
         title: <Title level={2} style={{ margin: 0, fontWeight: 700 }}>Cấu hình Bảng giá Sân</Title>,
         subTitle: <Text style={{ color: '#6b7280' }}>Quản lý các quy tắc giá theo giờ và điều chỉnh giờ cao điểm.</Text>,
         extra: [
-          <Button key="history" icon={<HistoryOutlined />} style={{ borderRadius: 8, backgroundColor: '#e0e7ff', color: '#4f46e5', border: 'none', fontWeight: 600 }}>
-            Xem nhật ký thay đổi
-          </Button>,
-          <Button key="save" type="primary" icon={<SaveOutlined />} style={{ backgroundColor: '#00a67d', borderRadius: 8, fontWeight: 600 }}>
+          <Button
+            key="save"
+            type="primary"
+            icon={<SaveOutlined />}
+            style={{ backgroundColor: '#00a67d', borderRadius: 8, fontWeight: 600 }}
+            onClick={() => message.success('Đã lưu toàn bộ thay đổi cấu hình giá thành công!')}
+          >
             Lưu tất cả thay đổi
           </Button>
         ]
+
       }}
     >
       <Row gutter={[24, 24]}>

@@ -4,6 +4,7 @@ import { ConfigProvider } from 'antd';
 import viVN from 'antd/locale/vi_VN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
+import AdminAiChatWidget from '@/widgets/AdminAiChat/AdminAiChatWidget';
 
 dayjs.locale('vi');
 
@@ -76,8 +77,8 @@ const AdminLayout: React.FC = () => {
                   key={item.path}
                   to={item.path}
                   className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all no-underline ${isActive
-                      ? 'bg-emerald-500 text-white font-semibold shadow-sm'
-                      : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 font-medium'
+                    ? 'bg-emerald-500 text-white font-semibold shadow-sm'
+                    : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 font-medium'
                     }`}
                 >
                   <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
@@ -139,6 +140,7 @@ const AdminLayout: React.FC = () => {
           </div>
         </main>
       </div>
+      <AdminAiChatWidget />
     </ConfigProvider>
   );
 };
