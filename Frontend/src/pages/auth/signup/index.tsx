@@ -3,7 +3,7 @@ import { useNavigate } from '@umijs/max';
 import { AuthService } from '@/features/auth/api/authService';
 import { message } from 'antd';
 import { useAppDispatch } from '@/app/store/hooks';
-import { setCurrentUser } from '@/entities/user/model/userSlice';
+import { setCurrentUser } from '@/entities/user';
 
 const PlayerSignUp: React.FC = () => {
   const [fullName, setFullName] = useState('');

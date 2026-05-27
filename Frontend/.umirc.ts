@@ -39,7 +39,6 @@ export default defineConfig({
         { path: '/user/profile', component: './user/profile' },
         { path: '/booking/availability', component: './booking/availability' },
         { path: '/matchmaking/feed', component: './matchmaking/feed' },
-        { path: '/matchmaking/messages', component: './matchmaking/messages' },
       ],
     },
     // Admin routes (if they still need the Pro layout, we can re-enable it locally but for now let's keep it simple)

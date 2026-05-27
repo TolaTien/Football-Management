@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ScheduleToolbar } from '../../../widgets/booking-schedule/ui/ScheduleToolbar';
-import { ScheduleGrid } from '../../../widgets/booking-schedule/ui/ScheduleGrid';
-import { ScheduleLegend } from '../../../widgets/booking-schedule/ui/ScheduleLegend';
-import { QuickConfirmModal } from '../../../features/booking-pitch/ui/QuickConfirmModal';
-import { PaymentInvoiceModal } from '../../../features/booking-pitch/ui/PaymentInvoiceModal';
-import { PaymentTimerWidget } from '../../../features/booking-pitch/ui/PaymentTimerWidget';
+import { ScheduleToolbar, ScheduleGrid, ScheduleLegend } from '@/widgets/booking-schedule';
+import { QuickConfirmModal, PaymentInvoiceModal, PaymentTimerWidget } from '@/features/booking';
 import { BookingService } from '@/entities/booking/api/bookingService';
 import { PitchService, PitchItem } from '@/entities/pitch/api/pitchService';
 import { message, Spin, Select } from 'antd';

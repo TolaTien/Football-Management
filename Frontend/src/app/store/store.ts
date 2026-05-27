@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from '@/entities/user/model/userSlice';
+import { userReducer } from '@/entities/user';
 import pitchReducer from '@/entities/pitch/model/pitchSlice';
 import aiChatReducer from '@/entities/ai-chat/model/aiSlice';
 import notificationReducer from '@/entities/notification/model/notificationSlice';

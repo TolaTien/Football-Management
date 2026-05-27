@@ -1,5 +1,5 @@
 import { $api } from '@/shared/api/axiosInstance';
-import type { UserInfo } from '@/features/auth/api/types';
+import type { UserInfo } from '../model/types';
 
 export interface UpdateProfilePayload {
   fullName?: string;

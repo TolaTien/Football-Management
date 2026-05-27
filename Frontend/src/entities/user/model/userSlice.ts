@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { AuthService } from '@/features/auth/api/authService';
-import type { UserInfo } from '@/features/auth/api/types';
+import { $api } from '@/shared/api/axiosInstance';
+import type { UserInfo } from './types';
 
 interface UserState {
   currentUser: UserInfo | null;
@@ -33,8 +33,8 @@ export const fetchCurrentUser = createAsyncThunk(
   'user/fetchCurrentUser',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await AuthService.checkAuth();
-      return response.data.user as UserInfo;
+      const response = await $api.get<{ message: string, data: { user: UserInfo } }>('/auth/checkAuth');
+      return response.data.data.user as UserInfo;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to authenticate');
     }

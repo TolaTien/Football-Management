@@ -1,11 +1,4 @@
-export interface UserInfo {
-  userId: string;
-  email: string;
-  fullName: string;
-  phone?: string;
-  avt?: string;
-  role: 'user' | 'admin';
-}
+import type { UserInfo } from '@/entities/user';
 
 export interface ApiResponse<T = any> {
   message: string;

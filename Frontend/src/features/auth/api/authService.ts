@@ -1,5 +1,6 @@
 import { $api } from '@/shared/api/axiosInstance';
-import type { ApiResponse, AuthResponse, LoginPayload, RegisterPayload, UserInfo } from './types';
+import type { ApiResponse, AuthResponse, LoginPayload, RegisterPayload} from './types';
+import type { UserInfo } from '@/entities/user';
 
 export const AuthService = {
   /**

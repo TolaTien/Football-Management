@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd';
 import { UsersService } from '@/entities/user/api/userService';
-import ActivityStats from './components/ActivityStats';
-import AiCoachChat from './components/AiCoachChat';
+import { ActivityStats } from '@/widgets/activity-stats';
+import { AiCoachChat } from '@/widgets/ai-coach-chat';
 
 const PersonalActivityStats: React.FC = () => {
   const [bookings, setBookings] = useState<any[]>([]);
