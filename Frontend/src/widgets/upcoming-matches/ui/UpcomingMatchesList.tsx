@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Spin, Empty, message } from 'antd';
-import { MatchCard, type MatchData } from '../../../entities/booking/ui/MatchCard';
+import { MatchCard, type MatchData, BookingDetailModal } from '@/entities/booking';
 import { MatchmakingCard, type MatchmakingData } from '../../../entities/matchmaking-post/ui/MatchmakingCard';
 import { UsersService } from '@/entities/user/api/userService';
 import { postService } from '@/entities/matchmaking-post/api/postService';
@@ -13,6 +13,9 @@ dayjs.extend(relativeTime);
 export const UpcomingMatchesList: React.FC = () => {
   const [matches, setMatches] = useState<MatchData[]>([]);
   const [loading, setLoading] = useState(false);
+  const [rawBookings, setRawBookings] = useState<any[]>([]);
+  const [selectedBooking, setSelectedBooking] = useState<any | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [matchmakingPosts, setMatchmakingPosts] = useState<MatchmakingData[]>([]);
   const [matchmakingLoading, setMatchmakingLoading] = useState(false);
   const user = useAppSelector((state) => state.user.currentUser);
@@ -26,8 +29,10 @@ export const UpcomingMatchesList: React.FC = () => {
     try {
       setLoading(true);
       const res = await UsersService.getHistoryBooking(1);
+      const bookingList = res.history || [];
+      setRawBookings(bookingList);
       
-      const mappedMatches = (res.history || []).slice(0, 4).map((booking: any) => {
+      const mappedMatches = bookingList.slice(0, 4).map((booking: any) => {
         const startDate = dayjs(booking.startTime);
         const isToday = startDate.isSame(dayjs(), 'day');
         
@@ -41,7 +46,7 @@ export const UpcomingMatchesList: React.FC = () => {
           location: booking.pitch?.namePitch || 'Unknown Location',
           pitchType: booking.pitch?.pitchCategory ? `${booking.pitch.pitchCategory}-a-side` : 'Unknown',
           isToday: isToday,
-          status: booking.status // Add status if you want to display it
+          status: booking.status
         } as MatchData;
       });
 
@@ -98,12 +103,22 @@ export const UpcomingMatchesList: React.FC = () => {
              </div>
           ) : matches.length === 0 ? (
              <div className="bg-white rounded-xl border border-gray-100 p-8 text-center">
-                <Empty description="Bạn chưa có lịch đặt sân nào" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                 <Empty description="Bạn chưa có lịch đặt sân nào" image={Empty.PRESENTED_IMAGE_SIMPLE} />
              </div>
           ) : (
-            matches.map(match => (
-              <MatchCard key={match.id} data={match} />
-            ))
+            matches.map(match => {
+              const originalBooking = rawBookings.find(b => b.bookId === match.id);
+              return (
+                <MatchCard 
+                  key={match.id} 
+                  data={match} 
+                  onViewDetails={() => {
+                    setSelectedBooking(originalBooking);
+                    setIsDetailModalOpen(true);
+                  }}
+                />
+              );
+            })
           )}
         </div>
       </section>
@@ -130,6 +145,17 @@ export const UpcomingMatchesList: React.FC = () => {
           </div>
         )}
       </section>
+
+      {/* Reusable Booking Details Modal */}
+      <BookingDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => {
+          setIsDetailModalOpen(false);
+          setSelectedBooking(null);
+        }}
+        booking={selectedBooking}
+        userFullName={user?.fullName}
+      />
     </div>
   );
 };

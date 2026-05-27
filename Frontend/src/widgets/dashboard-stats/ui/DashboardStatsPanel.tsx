@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { 
   fetchNotifications, 
   markAllNotificationsRead 
-} from '@/entities/notification/model/notificationSlice';
+} from '@/entities/notification';
 import { UsersService } from '@/entities/user/api/userService';
 import { StatCard } from '../../../entities/user/ui/StatCard';
 import dayjs from 'dayjs';

@@ -3,12 +3,12 @@ import { useNavigate } from '@umijs/max';
 import { useAppSelector, useAppDispatch } from '@/app/store/hooks';
 import { logout } from '@/entities/user/model/userSlice';
 import { AuthService } from '@/features/auth/api/authService';
-import { NotificationItem } from '@/entities/notification/api/notificationService';
 import { 
+  NotificationItem,
   fetchNotifications, 
   markNotificationRead, 
   markAllNotificationsRead 
-} from '@/entities/notification/model/notificationSlice';
+} from '@/entities/notification';
 import { getSocket, connectSocket, disconnectSocket } from '@/shared/api/socket';
 import { Badge, Popover, List, Spin, Empty, Avatar, notification } from 'antd';
 
@@ -149,12 +149,6 @@ export const UserNavbar: React.FC = () => {
       </div>
 
       <div className="flex items-center gap-lg">
-        {/* Wallet Balance Mock */}
-        <div className="flex items-center gap-sm px-4 py-1.5 bg-emerald-50 rounded-full border border-emerald-100 cursor-pointer hover:bg-emerald-100 transition-colors" onClick={() => navigate('/user/wallet')}>
-          <span className="material-symbols-outlined text-emerald-900" data-icon="payments">payments</span>
-          <span className="font-button text-emerald-900">$150.00</span>
-        </div>
-
         <div className="flex items-center gap-sm">
           <Popover 
             content={notificationContent} 

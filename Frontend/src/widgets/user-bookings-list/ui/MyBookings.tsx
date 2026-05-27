@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch } from '@/app/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { Button, Spin, Empty, Modal, Tag, message } from 'antd';
 import { UsersService } from '@/entities/user/api/userService';
-import { BookingService } from '@/entities/booking/api/bookingService';
-import { addNotification } from '@/entities/notification/model/notificationSlice';
+import { BookingService, BookingDetailModal } from '@/entities/booking';
+import { addNotification } from '@/entities/notification';
 import dayjs from 'dayjs';
 
 const MyBookings: React.FC = () => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.currentUser);
   const [bookings, setBookings] = useState<any[]>([]);
   const [bookingsLoading, setBookingsLoading] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState<any | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   useEffect(() => {
     fetchBookings();
@@ -108,22 +111,43 @@ const MyBookings: React.FC = () => {
                     <p className="text-sm font-bold text-primary m-0">{(booking.total || 0).toLocaleString('vi-VN')} đ</p>
                     {getStatusTag(booking.status)}
                   </div>
-                  {booking.status?.toLowerCase() === 'pending' && (
+                  <div className="flex items-center gap-2">
                     <Button 
-                      danger 
                       size="small" 
-                      onClick={() => handleCancelBooking(booking.bookId)}
-                      className="font-semibold text-xs rounded-lg"
+                      onClick={() => {
+                        setSelectedBooking(booking);
+                        setIsDetailModalOpen(true);
+                      }}
+                      className="font-semibold text-xs rounded-lg border-emerald-900 text-emerald-900 hover:text-white hover:bg-emerald-900 transition-colors"
                     >
-                      Cancel
+                      Details
                     </Button>
-                  )}
+                    {booking.status?.toLowerCase() === 'pending' && (
+                      <Button 
+                        danger 
+                        size="small" 
+                        onClick={() => handleCancelBooking(booking.bookId)}
+                        className="font-semibold text-xs rounded-lg"
+                      >
+                        Cancel
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
+      <BookingDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => {
+          setIsDetailModalOpen(false);
+          setSelectedBooking(null);
+        }}
+        booking={selectedBooking}
+        userFullName={user?.fullName}
+      />
     </section>
   );
 };

@@ -5,7 +5,7 @@ import {
   fetchNotifications, 
   markNotificationRead, 
   markAllNotificationsRead 
-} from '@/entities/notification/model/notificationSlice';
+} from '@/entities/notification';
 import dayjs from 'dayjs';
 
 const MyNotifications: React.FC = () => {

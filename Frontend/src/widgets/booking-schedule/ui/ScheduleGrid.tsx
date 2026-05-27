@@ -1,8 +1,6 @@
 import React from 'react';
-import { PitchHeaderCell } from '../../../entities/pitch/ui/PitchHeaderCell';
-import { TimeAxis, TIME_SLOTS } from '../../../entities/booking/ui/TimeAxis';
-import { BookingBlock } from '../../../entities/booking/ui/BookingBlock';
-import { PitchItem } from '@/entities/pitch/api/pitchService';
+import { PitchHeaderCell, type PitchItem } from '@/entities/pitch';
+import { TimeAxis, BookingBlock, TIME_SLOTS } from '@/entities/booking';
 import dayjs from 'dayjs';
 
 interface ScheduleGridProps {
