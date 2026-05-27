@@ -5,9 +5,8 @@ const NAV_ITEMS = [
   { path: '/user/dashboard', icon: 'dashboard', label: 'Dashboard' },
   { path: '/booking/availability', icon: 'calendar_month', label: 'Book Pitch' },
   { path: '/matchmaking/feed', icon: 'groups', label: 'Matchmaking' },
-  { path: '/user/team', icon: 'sports_soccer', label: 'My Team' },
+  { path: '/user/rules', icon: 'gavel', label: 'Pitch Rules' },
   { path: '/user/activity', icon: 'leaderboard', label: 'Activity' },
-  { path: '/user/wallet', icon: 'account_balance_wallet', label: 'Wallet' },
 ];
 
 export const UserSidebar: React.FC = () => {
