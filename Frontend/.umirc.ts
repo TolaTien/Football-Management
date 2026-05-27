@@ -34,11 +34,10 @@ export default defineConfig({
       routes: [
         { path: '/user/dashboard', component: './user/dashboard' },
         { path: '/user/activity', component: './user/activity' },
-        { path: '/user/team', component: './user/team' },
-        { path: '/user/wallet', component: './user/wallet' },
+        { path: '/user/rules', component: './user/rules' },
         { path: '/user/profile', component: './user/profile' },
-        { path: '/booking/availability', component: './booking/availability' },
-        { path: '/matchmaking/feed', component: './matchmaking/feed' },
+        { path: '/booking/availability', component: './user/booking/availability' },
+        { path: '/matchmaking/feed', component: './user/matchmaking/feed' },
       ],
     },
     // Admin routes (if they still need the Pro layout, we can re-enable it locally but for now let's keep it simple)
