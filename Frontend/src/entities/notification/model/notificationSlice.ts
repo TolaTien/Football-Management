@@ -56,8 +56,16 @@ export const fetchNotifications = createAsyncThunk(
 
 export const markNotificationRead = createAsyncThunk(
   'notification/markRead',
-  async (id: string, { rejectWithValue }) => {
+  async (id: string, { getState, rejectWithValue }) => {
     try {
+      const state = getState() as any;
+      const notif = state.notification?.list?.find((n: any) => n.id === id);
+      
+      // Nếu là thông báo cục bộ tự tạo trên máy khách, bỏ qua API gọi lên backend
+      if (notif?.isLocal) {
+        return id;
+      }
+      
       await NotificationsService.markRead(id);
       return id;
     } catch (err: any) {
@@ -138,26 +146,60 @@ const notificationSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      // Mark Single Read
+      // Mark Single Read (Optimistic Update)
+      .addCase(markNotificationRead.pending, (state, action) => {
+        const id = action.meta.arg;
+        const notif = state.list.find(n => n.id === id);
+        if (notif && !notif.isRead) {
+          notif.isRead = true;
+          state.unreadCount = Math.max(0, state.unreadCount - 1);
+          
+          const locals = state.list.filter(n => n.isLocal);
+          saveLocalNotifications(locals);
+        }
+      })
       .addCase(markNotificationRead.fulfilled, (state, action: PayloadAction<string>) => {
+        // Already handled optimistically, double check and keep consistency
         const notif = state.list.find(n => n.id === action.payload);
         if (notif && !notif.isRead) {
           notif.isRead = true;
           state.unreadCount = Math.max(0, state.unreadCount - 1);
           
-          // Lưu lại danh sách thông báo cục bộ đã cập nhật vào localStorage
           const locals = state.list.filter(n => n.isLocal);
           saveLocalNotifications(locals);
         }
       })
-      // Mark All Read
-      .addCase(markAllNotificationsRead.fulfilled, (state) => {
+      .addCase(markNotificationRead.rejected, (state, action) => {
+        // Revert in case of API failure
+        const id = action.meta.arg;
+        const notif = state.list.find(n => n.id === id);
+        if (notif && notif.isRead) {
+          notif.isRead = false;
+          state.unreadCount += 1;
+          
+          const locals = state.list.filter(n => n.isLocal);
+          saveLocalNotifications(locals);
+        }
+      })
+      // Mark All Read (Optimistic Update)
+      .addCase(markAllNotificationsRead.pending, (state) => {
         state.list.forEach(n => {
           n.isRead = true;
         });
         state.unreadCount = 0;
         
-        // Lưu lại danh sách thông báo cục bộ đã cập nhật vào localStorage
+        const locals = state.list.filter(n => n.isLocal);
+        saveLocalNotifications(locals);
+      })
+      .addCase(markAllNotificationsRead.fulfilled, (state) => {
+        // Keep consistency
+        state.list.forEach(n => {
+          if (!n.isRead) {
+            n.isRead = true;
+          }
+        });
+        state.unreadCount = 0;
+        
         const locals = state.list.filter(n => n.isLocal);
         saveLocalNotifications(locals);
       });
