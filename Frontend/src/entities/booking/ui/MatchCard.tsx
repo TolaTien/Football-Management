@@ -14,9 +14,10 @@ export interface MatchData {
 
 interface MatchCardProps {
   data: MatchData;
+  onViewDetails?: () => void;
 }
 
-export const MatchCard: React.FC<MatchCardProps> = ({ data }) => {
+export const MatchCard: React.FC<MatchCardProps> = ({ data, onViewDetails }) => {
   return (
     <div className="bg-white border border-outline-variant rounded-xl p-md flex items-center justify-between hover:shadow-md transition-all relative overflow-hidden group">
       <div className={`absolute left-0 top-0 bottom-0 w-1 ${data.isToday ? 'bg-primary' : 'bg-gray-300'}`}></div>
@@ -42,7 +43,10 @@ export const MatchCard: React.FC<MatchCardProps> = ({ data }) => {
         </div>
       </div>
       
-      <button className={`px-6 py-2 rounded-lg font-button text-sm transition-colors ${data.isToday ? 'bg-primary text-white hover:bg-primary-container' : 'border border-outline text-primary hover:bg-gray-50'}`}>
+      <button 
+        onClick={onViewDetails}
+        className={`px-6 py-2 rounded-lg font-button text-sm transition-colors ${data.isToday ? 'bg-primary text-white hover:bg-primary-container' : 'border border-outline text-primary hover:bg-gray-50'}`}
+      >
         View Details
       </button>
     </div>
