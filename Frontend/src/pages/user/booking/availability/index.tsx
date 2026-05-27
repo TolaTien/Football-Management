@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ScheduleToolbar, ScheduleGrid, ScheduleLegend } from '@/widgets/booking-schedule';
 import { QuickConfirmModal, PaymentInvoiceModal, PaymentTimerWidget } from '@/features/booking';
-import { BookingService } from '@/entities/booking/api/bookingService';
-import { PitchService, PitchItem } from '@/entities/pitch/api/pitchService';
+import { BookingService } from '@/entities/booking';
+import { PitchService, PitchItem } from '@/entities/pitch';
 import { message, Spin, Select } from 'antd';
 import dayjs from 'dayjs';
 
