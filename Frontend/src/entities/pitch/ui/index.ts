@@ -1,1 +1,1 @@
-export {};
+export { PitchHeaderCell } from './PitchHeaderCell';
