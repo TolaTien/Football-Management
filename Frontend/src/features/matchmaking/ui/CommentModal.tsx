@@ -50,15 +50,6 @@ export const CommentModal: React.FC<CommentModalProps> = ({ isOpen, onClose, pos
     }
   };
 
-  const handleDelete = async (commentId: string) => {
-    try {
-      await commentsService.deleteComment(commentId);
-      setComments(prev => prev.filter(c => c.commentId !== commentId));
-    } catch (error) {
-      console.error('Failed to delete comment', error);
-    }
-  };
-
   const handleToggleLike = async (commentId: string, currentLiked: boolean, likeCount: number) => {
     // Optimistic UI update
     setComments(prev => prev.map(c => {
@@ -171,15 +162,6 @@ export const CommentModal: React.FC<CommentModalProps> = ({ isOpen, onClose, pos
                         </span>
                         {comment._count?.commentlike || 0} {comment._count?.commentlike === 1 ? 'Like' : 'Likes'}
                       </button>
-                      
-                      {currentUser?.userId === comment.userId && (
-                        <button 
-                          onClick={() => handleDelete(comment.commentId)}
-                          className="flex items-center gap-1 text-[12px] font-bold text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                        >
-                          Delete
-                        </button>
-                      )}
                     </div>
                   </div>
                 </div>

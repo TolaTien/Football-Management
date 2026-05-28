@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppSelector } from '@/app/store/hooks';
-import { UpcomingMatchesList } from '@/widgets/upcoming-matches/ui/UpcomingMatchesList';
-import { DashboardStatsPanel } from '@/widgets/dashboard-stats/ui/DashboardStatsPanel';
+import { UpcomingMatchesList } from '@/widgets/upcoming-matches';
+import { DashboardStatsPanel } from '@/widgets/dashboard-stats';
 
 const DashboardPage: React.FC = () => {
   const user = useAppSelector((state) => state.user.currentUser);

@@ -1,7 +1,7 @@
 import { axiosInstance } from '@/shared/api';
 import { $api } from '@/shared/api/axiosInstance';
-import type { CreateUserDto, UpdateUserDto } from '../model/types';
-import type { UserInfo } from '@/features/auth/api/types';
+import type { CreateUserDto, UpdateUserDto, UserInfo } from '../model/types';
+
 
 export interface UpdateProfilePayload {
   fullName?: string;
@@ -67,6 +67,14 @@ export const UsersService = {
     const { data } = await $api.get('/user/get-all-history-booking', {
       params: { page, _t: Date.now() },
     });
+    return data.data;
+  },
+
+  /**
+   * Lấy danh sách 10 người dùng đặt sân hoạt động nhiều nhất.
+   */
+  getTopSpenders: async (): Promise<any[]> => {
+    const { data } = await $api.get('/statistic/top-spenders');
     return data.data;
   },
 };

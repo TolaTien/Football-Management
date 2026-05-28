@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
+import { $api } from '@/shared/api/axiosInstance';
 import { userService } from '../api/userService';
 import { extractErrorMessage } from '@/shared/lib/errorUtils';
-import type { UserItem, UserRole, UserStatus } from './types';
-import { AuthService } from '@/features/auth/api/authService';
-import type { UserInfo } from '@/features/auth/api/types';
+import type { UserItem, UserRole, UserStatus, UserInfo } from './types';
 
 interface BackendUser {
   userId: string;
@@ -24,6 +23,35 @@ const mapBackendUser = (u: BackendUser): UserItem => ({
   status: (u.status === 'banned' ? 'banned' : 'active') as UserStatus,
 });
 
+const getInitialUser = (): UserInfo | null => {
+  const saved = localStorage.getItem('pitchhub_user');
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch {
+      return null;
+    }
+  }
+  return null;
+};
+
+interface UserState {
+  users: UserItem[];
+  currentUser: UserInfo | null;
+  loading: boolean;
+  error: string | null;
+  isInitialized: boolean;
+}
+
+const initialState: UserState = {
+  users: [],
+  currentUser: getInitialUser(),
+  loading: false,
+  error: null,
+  isInitialized: !localStorage.getItem('pitchhub_token'),
+};
+
+// Async thunk cho Admin
 export const fetchUsers = createAsyncThunk(
   'user/fetchUsers',
   async (params: { page?: number; limit?: number; search?: string } | undefined, { rejectWithValue }) => {
@@ -136,34 +164,18 @@ export const toggleBanUser = createAsyncThunk(
   }
 );
 
-// Async thunk for fetching current user
+// Async thunk cho Client (Xác thực hiện tại)
 export const fetchCurrentUser = createAsyncThunk(
   'user/fetchCurrentUser',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await AuthService.checkAuth();
-      return response.data.user as UserInfo;
+      const response = await $api.get<{ message: string, data: { user: UserInfo } }>('/auth/checkAuth');
+      return response.data.data.user as UserInfo;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to authenticate');
     }
   }
 );
-
-interface UserState {
-  users: UserItem[];
-  currentUser: UserInfo | null;
-  loading: boolean;
-  error: string | null;
-  isInitialized: boolean;
-}
-
-const initialState: UserState = {
-  users: [],
-  currentUser: null,
-  loading: false,
-  error: null,
-  isInitialized: false,
-};
 
 const userSlice = createSlice({
   name: 'user',
@@ -175,7 +187,7 @@ const userSlice = createSlice({
     },
     logout: (state) => {
       state.currentUser = null;
-      state.isInitialized = true;
+      state.isInitialized = false;
       localStorage.removeItem('pitchhub_token');
       localStorage.removeItem('pitchhub_user');
     }

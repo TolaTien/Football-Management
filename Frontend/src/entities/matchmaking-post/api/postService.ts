@@ -22,11 +22,30 @@ export interface PostItem {
 
 export const postService = {
   getAllPosts: async (): Promise<PostItem[]> => {
-    const { data } = await $api.get('/post');
-    return data.data;
+    const { data } = await $api.get('/posts');
+    // The new backend returns a paginated object { meta, items }
+    if (data && data.items && Array.isArray(data.items)) {
+      return data.items;
+    }
+    // Fallback for older/other structures
+    return Array.isArray(data) ? data : (data.data || []);
   },
 
   toggleLikePost: async (postId: string): Promise<void> => {
-    await $api.post(`/post/${postId}/like`);
+    await $api.post(`/postlikes/${postId}/like`);
+  },
+
+  createPost: async (description: string): Promise<PostItem> => {
+    const { data } = await $api.post('/posts', { description });
+    return data.data;
+  },
+
+  updatePost: async (postId: string, description: string, status?: 'open' | 'closed' | 'canceled'): Promise<PostItem> => {
+    const { data } = await $api.put(`/posts/${postId}`, { description, status });
+    return data.data;
+  },
+
+  deletePost: async (postId: string): Promise<void> => {
+    await $api.delete(`/posts/${postId}`);
   }
 };

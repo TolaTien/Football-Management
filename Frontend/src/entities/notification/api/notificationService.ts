@@ -8,6 +8,7 @@ export interface NotificationItem {
   isRead: boolean;
   type: string;
   createdAt: string;
+  isLocal?: boolean;
 }
 
 export interface NotificationResponse {

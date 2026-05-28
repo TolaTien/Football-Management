@@ -1,55 +1,94 @@
-import React from 'react';
-import { MatchCard, type MatchData } from '../../../entities/booking/ui/MatchCard';
+import React, { useEffect, useState } from 'react';
+import { Spin, Empty, message } from 'antd';
+import { MatchCard, type MatchData, BookingDetailModal } from '@/entities/booking';
 import { MatchmakingCard, type MatchmakingData } from '../../../entities/matchmaking-post/ui/MatchmakingCard';
+import { UsersService } from '@/entities/user/api/userService';
+import { postService } from '@/entities/matchmaking-post/api/postService';
+import { useAppSelector } from '@/app/store/hooks';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
-// Dummy data for rendering
-const UPCOMING_MATCHES: MatchData[] = [
-  {
-    id: '1',
-    dateLabel: 'TODAY',
-    time: '19:30',
-    team1Logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDyEJzs3csIqmlIxOFZ6ZwUu_2T3r6K2sU8ExG6Z6uLBH_xb5S8RWDfRhZ62yUFhT9NytHGSB3KZQ6gpR6BuqHRNn4-m6MBRgq3jaW4TgYiWJSYJBPLwi5XjbLANJJSVtOvIzi6X3QYziS3B6vVwo5YYW82RRHcNSnb0AUd3reN4OfO4NR3I0FMF-puMMjO-WghRkJ2JSPA_4Pm3Qv_Xy8mAdFwICfjwbU1fNHFwxztcBOq536NUwidVEMuasxbw17CLLtjlQnOHnM',
-    team2Logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDj-zU4-qy_m_zmq91Qh6GE-dFkttiUqpGql7uRiWoSPtBi7M09_rMqVJPZ9mI1s1kvIoaylGpmt081YYHmWjr1awNvrM2V8ZAcjORLibturb0SURJKWrLhEawDzyrY4YsGb1rQh4rb-Q09z78zKdu7bunIHBcHkFU44JIVQmRnlqIjrGZHspURQcsFXY43Lt-W2MurQoWnRYNT9ld6QlfsfTD7CwHA7eS8odpJ56IEwhA5yAYnDLcQiF8irUVSc3Cn7HKt2F0nYXU',
-    title: 'Lions FC vs Thunder XI',
-    location: 'Stadium Pitch A',
-    pitchType: '7-a-side',
-    isToday: true,
-  },
-  {
-    id: '2',
-    dateLabel: 'THU, 14',
-    time: '20:00',
-    team1Logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBodxq8F-InZhDp-Y1N_73kQ0yzW_FPQ92JmLAxJKeosrpeQKW2l6TnYyf4q6f-CAHiyTuNb4c0ZHjLUGt5HZ0vO1EgPi4RwvPqu8bOoNm0oRTnQUTDMhCtW4CAn4yM5e8XcPImI0okVLIO0Tinf7B0FumflrcS48dyrKgXSS1WiDKfHE52hARkTDRt5dac-2aJVNz1Dfr55L4sRtd7oqls7rbcq7Z8m8js28kp_aUX3bwP5EWnRMikG-cibZswmbHpCVwCTNf8mP0',
-    team2Logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDX8_A_1g1JKECqTI9gMy2Pa1W7Yw8EQDXNDrEtqR5dfp4S_VBDzEbb4T6_lIxe9ytguuFnl9XU6luJb6T0aPyfBUdho5Et0A2CVL4NXT4cN5uFYHr33Alorp0LIsQrve37OLQ0cbWbT96vbFnUmQq54JKp_UUGkRDJSeeOnHrToVp9aoRzAZMiHyjHfqbZ5Reyu_9fqXwyZk4udn9mkS0Ny0Lxh6xaFh9H4R2mZzDh-iADKy7U4P1OOxyMuQvC5pm3mx_NQLdRUJU',
-    title: 'Weekly Social Match',
-    location: 'Central Park Arena',
-    pitchType: '5-a-side',
-    isToday: false,
-  }
-];
-
-const MATCHMAKING_POSTS: MatchmakingData[] = [
-  {
-    id: 'm1',
-    type: 'match',
-    startsIn: '45m',
-    title: 'Evening Scrimmage',
-    spotsLeft: 1,
-    level: 'Intermediate Level',
-    price: '$12.00',
-  },
-  {
-    id: 'm2',
-    type: 'team',
-    startsIn: '1h 20m',
-    title: 'Friday Night Lights',
-    spotsLeft: 3,
-    level: 'Casual Play',
-    price: '$10.00',
-  }
-];
+dayjs.extend(relativeTime);
 
 export const UpcomingMatchesList: React.FC = () => {
+  const [matches, setMatches] = useState<MatchData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [rawBookings, setRawBookings] = useState<any[]>([]);
+  const [selectedBooking, setSelectedBooking] = useState<any | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [matchmakingPosts, setMatchmakingPosts] = useState<MatchmakingData[]>([]);
+  const [matchmakingLoading, setMatchmakingLoading] = useState(false);
+  const user = useAppSelector((state) => state.user.currentUser);
+
+  useEffect(() => {
+    fetchHistory();
+    fetchMatchmaking();
+  }, []);
+
+  const fetchHistory = async () => {
+    try {
+      setLoading(true);
+      const res = await UsersService.getHistoryBooking(1);
+      const bookingList = res.history || [];
+      setRawBookings(bookingList);
+      
+      const mappedMatches = bookingList.slice(0, 4).map((booking: any) => {
+        const startDate = dayjs(booking.startTime);
+        const isToday = startDate.isSame(dayjs(), 'day');
+        
+        return {
+          id: booking.bookId,
+          dateLabel: isToday ? 'TODAY' : startDate.format('ddd, DD'),
+          time: startDate.format('HH:mm'),
+          team1Logo: user?.avt || `https://ui-avatars.com/api/?name=${user?.fullName || 'U'}&background=10b981&color=fff`,
+          team2Logo: 'https://ui-avatars.com/api/?name=Opponent&background=f3f4f6&color=6b7280', // Dummy opponent
+          title: `Booking: ${booking.pitch?.namePitch || 'Unknown Pitch'}`,
+          location: booking.pitch?.namePitch || 'Unknown Location',
+          pitchType: booking.pitch?.pitchCategory ? `${booking.pitch.pitchCategory}-a-side` : 'Unknown',
+          isToday: isToday,
+          status: booking.status
+        } as MatchData;
+      });
+
+      setMatches(mappedMatches);
+    } catch (error) {
+      console.error('Failed to fetch booking history', error);
+      message.error('Không thể tải lịch sử đặt sân');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchMatchmaking = async () => {
+    try {
+      setMatchmakingLoading(true);
+      const posts = await postService.getAllPosts();
+      const slicedPosts = posts.slice(0, 2);
+      
+      const mapped: MatchmakingData[] = slicedPosts.map((post, index) => {
+        const type = index % 2 === 0 ? 'match' : 'team';
+        const startsIn = dayjs(post.createdAt).fromNow();
+        
+        return {
+          id: post.postId,
+          type,
+          startsIn,
+          title: post.users?.fullName || 'Anonymous Host',
+          spotsLeft: (index * 2) + 1,
+          level: post.description && post.description.trim() 
+            ? (post.description.length > 30 ? post.description.substring(0, 30) + '...' : post.description) 
+            : 'General Matchmaking',
+          price: 'Free Opportunity',
+        };
+      });
+      setMatchmakingPosts(mapped);
+    } catch (error) {
+      console.error('Failed to fetch matchmaking posts', error);
+    } finally {
+      setMatchmakingLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-lg">
       <section className="space-y-md">
@@ -58,9 +97,29 @@ export const UpcomingMatchesList: React.FC = () => {
           <a className="text-primary font-button text-sm hover:underline cursor-pointer">View Schedule</a>
         </div>
         <div className="grid grid-cols-1 gap-md">
-          {UPCOMING_MATCHES.map(match => (
-            <MatchCard key={match.id} data={match} />
-          ))}
+          {loading ? (
+             <div className="flex justify-center p-8 bg-white rounded-xl border border-gray-100">
+               <Spin size="large" />
+             </div>
+          ) : matches.length === 0 ? (
+             <div className="bg-white rounded-xl border border-gray-100 p-8 text-center">
+                 <Empty description="Bạn chưa có lịch đặt sân nào" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+             </div>
+          ) : (
+            matches.map(match => {
+              const originalBooking = rawBookings.find(b => b.bookId === match.id);
+              return (
+                <MatchCard 
+                  key={match.id} 
+                  data={match} 
+                  onViewDetails={() => {
+                    setSelectedBooking(originalBooking);
+                    setIsDetailModalOpen(true);
+                  }}
+                />
+              );
+            })
+          )}
         </div>
       </section>
 
@@ -69,12 +128,34 @@ export const UpcomingMatchesList: React.FC = () => {
           <h3 className="font-h2 text-h2 text-emerald-900">Quick Join Matchmaking</h3>
           <span className="text-xs font-label-caps text-emerald-600 bg-emerald-50 px-2 py-1 rounded">Live matches nearby</span>
         </div>
-        <div className="grid grid-cols-2 gap-md">
-          {MATCHMAKING_POSTS.map(post => (
-            <MatchmakingCard key={post.id} data={post} />
-          ))}
-        </div>
+        
+        {matchmakingLoading ? (
+          <div className="flex justify-center p-8 bg-white rounded-xl border border-gray-100">
+            <Spin size="small" />
+          </div>
+        ) : matchmakingPosts.length === 0 ? (
+          <div className="bg-white rounded-xl border border-gray-100 p-8 text-center">
+            <Empty description="Không có bài đăng matchmaking nào gần đây" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-md">
+            {matchmakingPosts.map(post => (
+              <MatchmakingCard key={post.id} data={post} />
+            ))}
+          </div>
+        )}
       </section>
+
+      {/* Reusable Booking Details Modal */}
+      <BookingDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => {
+          setIsDetailModalOpen(false);
+          setSelectedBooking(null);
+        }}
+        booking={selectedBooking}
+        userFullName={user?.fullName}
+      />
     </div>
   );
 };

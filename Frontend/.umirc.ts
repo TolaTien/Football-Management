@@ -34,12 +34,10 @@ export default defineConfig({
       routes: [
         { path: '/user/dashboard', component: './user/dashboard' },
         { path: '/user/activity', component: './user/activity' },
-        { path: '/user/team', component: './user/team' },
-        { path: '/user/wallet', component: './user/wallet' },
+        { path: '/user/rules', component: './user/rules' },
         { path: '/user/profile', component: './user/profile' },
-        { path: '/booking/availability', component: './booking/availability' },
-        { path: '/matchmaking/feed', component: './matchmaking/feed' },
-        { path: '/matchmaking/messages', component: './matchmaking/messages' },
+        { path: '/booking/availability', component: './user/booking/availability' },
+        { path: '/matchmaking/feed', component: './user/matchmaking/feed' },
       ],
     },
     // Admin routes sharing AdminLayout
