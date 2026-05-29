@@ -37,6 +37,7 @@ export default defineConfig({
         { path: '/user/activity', component: './user/activity' },
         { path: '/user/rules', component: './user/rules' },
         { path: '/user/profile', component: './user/profile' },
+        { path: '/user/support', component: './user/support' },
         { path: '/booking/availability', component: './user/booking/availability' },
         { path: '/matchmaking/feed', component: './user/matchmaking/feed' },
       ],
