@@ -1,5 +1,7 @@
+import { axiosInstance } from '@/shared/api';
 import { $api } from '@/shared/api/axiosInstance';
-import type { UserInfo } from '../model/types';
+import type { CreateUserDto, UpdateUserDto, UserInfo } from '../model/types';
+
 
 export interface UpdateProfilePayload {
   fullName?: string;
@@ -16,6 +18,23 @@ export interface BookingHistoryResponse {
     perpage: number;
   };
 }
+
+export const userService = {
+  getAll: (params: { page?: number; limit?: number; search?: string }) =>
+    axiosInstance.get('/admin/users', { params }),
+
+  create: (dto: CreateUserDto) =>
+    axiosInstance.post('/admin/users', dto),
+
+  update: (userId: string, dto: UpdateUserDto) =>
+    axiosInstance.put(`/admin/users/${userId}`, dto),
+
+  remove: (userId: string) =>
+    axiosInstance.delete(`/admin/users/${userId}`),
+
+  ban: (userId: string, status: 'active' | 'banned') =>
+    axiosInstance.patch(`/admin/ban-user/${userId}`, { status }),
+};
 
 export const UsersService = {
   /**
@@ -59,3 +78,4 @@ export const UsersService = {
     return data.data;
   },
 };
+

@@ -1,4 +1,6 @@
+import { axiosInstance } from '@/shared/api';
 import { $api } from '@/shared/api/axiosInstance';
+import type { CreatePitchDto, UpdatePitchDto, UpdatePriceConfigDto } from '../model/types';
 
 export interface PitchItem {
   pitchId: string;
@@ -20,6 +22,26 @@ export interface PitchResponse {
   };
 }
 
+// Admin-facing service (lowercase)
+export const pitchService = {
+  getAll: () =>
+    axiosInstance.get('/pitch'),
+
+  create: (dto: CreatePitchDto) =>
+    axiosInstance.post('/pitch/create-pitch', dto),
+
+  update: (dto: UpdatePitchDto) =>
+    axiosInstance.put('/pitch/update-pitch', dto),
+
+  updatePriceConfig: (dto: UpdatePriceConfigDto) =>
+    axiosInstance.put('/pitch/update-pitch-price', dto),
+
+  remove: (pitchId: string) =>
+    axiosInstance.delete(`/pitch/${pitchId}`),
+};
+
+
+// Customer-facing service (PascalCase)
 export const PitchService = {
   /**
    * Lấy danh sách tất cả các sân kèm thông tin đặt sân.

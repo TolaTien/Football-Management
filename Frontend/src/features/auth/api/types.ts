@@ -7,14 +7,13 @@ export interface ApiResponse<T = any> {
 
 export interface AuthResponse extends ApiResponse {
   data: {
-    userId: string;
-    email: string;
     accessToken: string;
     refreshToken: string;
-    role: string;
+    role?: string;
     user?: UserInfo;
     newUser?: UserInfo;
-  }; // Adjust based on exactly what backend returns inside 'data' for login
+  };
+
 }
 
 export interface LoginPayload {

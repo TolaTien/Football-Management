@@ -11,7 +11,7 @@ const PlayerSignUp: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [terms, setTerms] = useState(false);
-  
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -43,20 +43,23 @@ const PlayerSignUp: React.FC = () => {
         password,
       });
 
-      // 2. Lưu token & user vào localStorage
-      if (res.data.accessToken) {
-        localStorage.setItem('pitchhub_token', res.data.accessToken);
-      }
-      if (res.data.newUser) {
-        localStorage.setItem('pitchhub_user', JSON.stringify(res.data.newUser));
+      const user = res.data?.user || res.data?.newUser;
+      const accessToken = res.data?.accessToken;
+
+      if (!user) {
+        throw new Error('Không lấy được thông tin người dùng.');
       }
 
-      // 3. Cập nhật thông tin vào Redux state để chuyển sang trạng thái đã đăng nhập.
-      dispatch(setCurrentUser(res.data.newUser as any));
+      // 2. Lưu User & Token vào localStorage và Redux state
+      localStorage.setItem('pitchhub_user', JSON.stringify(user));
+      if (accessToken) {
+        localStorage.setItem('pitchhub_token', accessToken);
+      }
+      dispatch(setCurrentUser(user));
 
       message.success('Tạo tài khoản thành công!');
-      
-      // 4. Chuyển hướng người dùng vào Dashboard
+
+      // 3. Chuyển hướng người dùng vào Dashboard
       navigate('/user/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Đăng ký thất bại. Email hoặc số điện thoại có thể đã tồn tại.');
@@ -81,7 +84,7 @@ const PlayerSignUp: React.FC = () => {
               <h2 className="font-h2 text-h2 text-primary">Create Your Player Profile</h2>
               <p className="text-secondary font-body-md mt-xs">Step onto the field. Join thousands of local players.</p>
             </div>
-            
+
             <form className="space-y-lg" onSubmit={handleRegister}>
               <div className="flex items-center gap-sm mb-lg">
                 <div className="h-1.5 flex-1 bg-primary rounded-full"></div>
@@ -93,11 +96,11 @@ const PlayerSignUp: React.FC = () => {
                 <label className="font-label-caps text-label-caps text-on-surface-variant" htmlFor="full_name">Full Name</label>
                 <div className="relative">
                   <span className="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">person</span>
-                  <input 
-                    className="w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md" 
-                    id="full_name" 
-                    name="full_name" 
-                    placeholder="Cristiano Ronaldo" 
+                  <input
+                    className="w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md"
+                    id="full_name"
+                    name="full_name"
+                    placeholder="Cristiano Ronaldo"
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
@@ -111,11 +114,11 @@ const PlayerSignUp: React.FC = () => {
                   <label className="font-label-caps text-label-caps text-on-surface-variant" htmlFor="email">Email Address</label>
                   <div className="relative">
                     <span className="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">mail</span>
-                    <input 
-                      className="w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md" 
-                      id="email" 
-                      name="email" 
-                      placeholder="player@pitchmaster.com" 
+                    <input
+                      className="w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md"
+                      id="email"
+                      name="email"
+                      placeholder="player@pitchmaster.com"
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -127,11 +130,11 @@ const PlayerSignUp: React.FC = () => {
                   <label className="font-label-caps text-label-caps text-on-surface-variant" htmlFor="phone">Phone Number</label>
                   <div className="relative">
                     <span className="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">phone_android</span>
-                    <input 
-                      className="w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md" 
-                      id="phone" 
-                      name="phone" 
-                      placeholder="0987654321" 
+                    <input
+                      className="w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md"
+                      id="phone"
+                      name="phone"
+                      placeholder="0987654321"
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
@@ -145,11 +148,11 @@ const PlayerSignUp: React.FC = () => {
                 <label className="font-label-caps text-label-caps text-on-surface-variant" htmlFor="password">Password</label>
                 <div className="relative">
                   <span className="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">lock</span>
-                  <input 
-                    className="w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md" 
-                    id="password" 
-                    name="password" 
-                    placeholder="••••••••" 
+                  <input
+                    className="w-full pl-[48px] pr-md py-sm bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none transition-all font-body-md"
+                    id="password"
+                    name="password"
+                    placeholder="••••••••"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -166,22 +169,22 @@ const PlayerSignUp: React.FC = () => {
               )}
 
               <div className="flex items-start gap-sm py-sm">
-                <input 
-                  className="mt-xs h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary cursor-pointer" 
-                  id="terms" 
-                  name="terms" 
+                <input
+                  className="mt-xs h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary cursor-pointer"
+                  id="terms"
+                  name="terms"
                   type="checkbox"
                   checked={terms}
                   onChange={(e) => setTerms(e.target.checked)}
                 />
                 <label className="text-body-md text-secondary leading-tight cursor-pointer" htmlFor="terms">
-                  I agree to the <a className="text-primary font-semibold hover:underline" href="#">Terms of Service</a> and 
+                  I agree to the <a className="text-primary font-semibold hover:underline" href="#">Terms of Service</a> and
                   <a className="text-primary font-semibold hover:underline" href="#">Privacy Policy</a>. I understand my data will be used to manage bookings.
                 </label>
               </div>
 
-              <button 
-                className="w-full bg-primary text-on-primary font-button text-button py-md rounded-lg hover:opacity-90 active:scale-[0.98] transition-all flex justify-center items-center gap-sm disabled:opacity-60" 
+              <button
+                className="w-full bg-primary text-on-primary font-button text-button py-md rounded-lg hover:opacity-90 active:scale-[0.98] transition-all flex justify-center items-center gap-sm disabled:opacity-60"
                 type="submit"
                 disabled={loading}
               >
@@ -201,15 +204,15 @@ const PlayerSignUp: React.FC = () => {
 
         <div className="mt-lg flex flex-col md:flex-row items-center justify-between gap-md px-md opacity-70">
           <div className="flex items-center gap-xs">
-            <span className="material-symbols-outlined text-primary" style={{"fontVariationSettings":"'FILL' 1"}}>verified</span>
+            <span className="material-symbols-outlined text-primary" style={{ "fontVariationSettings": "'FILL' 1" }}>verified</span>
             <span className="font-label-caps text-label-caps">Secure Player Data</span>
           </div>
           <div className="flex items-center gap-xs">
-            <span className="material-symbols-outlined text-primary" style={{"fontVariationSettings":"'FILL' 1"}}>sports_soccer</span>
+            <span className="material-symbols-outlined text-primary" style={{ "fontVariationSettings": "'FILL' 1" }}>sports_soccer</span>
             <span className="font-label-caps text-label-caps">2,500+ Active Pitches</span>
           </div>
           <div className="flex items-center gap-xs">
-            <span className="material-symbols-outlined text-primary" style={{"fontVariationSettings":"'FILL' 1"}}>bolt</span>
+            <span className="material-symbols-outlined text-primary" style={{ "fontVariationSettings": "'FILL' 1" }}>bolt</span>
             <span className="font-label-caps text-label-caps">Instant Booking</span>
           </div>
         </div>
@@ -218,7 +221,7 @@ const PlayerSignUp: React.FC = () => {
       <div className="fixed bottom-lg right-lg hidden xl:block z-0">
         <div className="bg-surface-container-high p-lg rounded-xl border border-outline-variant max-w-[280px] shadow-sm">
           <div className="flex items-center gap-md mb-md">
-            <img alt="Recent Player" className="w-12 h-12 rounded-full object-cover border-2 border-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvWIylF8Uue7RHzcgh4OxSWrzF8TUFPdyZPaR_ZSbLtlU1ClqQQGcIq5Szo0szNVX61VuQ3FZChoWzNnnzEl7Sjit5T4tRRlkhhbJDIsbbHEpvEPqNZNwI3wodLgc_AnZFOrIIruJnqXvLjF1XOAKxn5LO4StWSvbzN6UK0XhtKEm9aZUDzuMKuikAIJ_9HPDi2_efSbHLd288h0abG8bFtynyCW65xW2y0OLHWsNndH-_cBVU0MnBsoD3TyI2HFtijg8uOh78ews"/>
+            <img alt="Recent Player" className="w-12 h-12 rounded-full object-cover border-2 border-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvWIylF8Uue7RHzcgh4OxSWrzF8TUFPdyZPaR_ZSbLtlU1ClqQQGcIq5Szo0szNVX61VuQ3FZChoWzNnnzEl7Sjit5T4tRRlkhhbJDIsbbHEpvEPqNZNwI3wodLgc_AnZFOrIIruJnqXvLjF1XOAKxn5LO4StWSvbzN6UK0XhtKEm9aZUDzuMKuikAIJ_9HPDi2_efSbHLd288h0abG8bFtynyCW65xW2y0OLHWsNndH-_cBVU0MnBsoD3TyI2HFtijg8uOh78ews" />
             <div>
               <p className="font-button text-primary">Marcus J.</p>
               <p className="text-[12px] text-secondary">Joined 2 mins ago</p>

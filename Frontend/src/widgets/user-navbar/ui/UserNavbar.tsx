@@ -85,7 +85,7 @@ export const UserNavbar: React.FC = () => {
         <div className="max-h-80 overflow-y-auto">
           <List
             itemLayout="horizontal"
-            dataSource={notifications.slice(0, 5)}
+            dataSource={notifications.slice(0, 10)}
             renderItem={(item) => (
               <List.Item 
                 className={`pl-5 pr-3 py-2.5 cursor-pointer hover:bg-gray-50 transition-colors ${!item.isRead ? 'bg-emerald-50/50' : ''}`}
@@ -137,16 +137,7 @@ export const UserNavbar: React.FC = () => {
 
   return (
     <header className="h-16 px-8 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 shadow-sm ml-[260px]">
-      <div className="flex items-center gap-md w-1/3">
-        <div className="relative w-full max-w-sm">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" data-icon="search">search</span>
-          <input 
-            className="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-body-md focus:ring-2 focus:ring-primary/10 outline-none" 
-            placeholder="Search matches, pitches..." 
-            type="text"
-          />
-        </div>
-      </div>
+      <div />
 
       <div className="flex items-center gap-lg">
         <div className="flex items-center gap-sm">
