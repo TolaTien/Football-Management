@@ -251,7 +251,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                     return (
                       <div key={idx} className="flex justify-between items-center py-2 text-xs first:pt-0 last:pb-0">
                         <span className="text-gray-600 font-semibold">
-                          {svc.nameProduct || 'Dịch vụ'} <strong className="text-emerald-800 font-black ml-1">x{bs.quantity}</strong>
+                          {(svc.nameProduct || 'Dịch vụ').replace(/^\[(?:drink|equipment|food|other)\]\s*/, '')} <strong className="text-emerald-800 font-black ml-1">x{bs.quantity}</strong>
                         </span>
                         <span className="font-extrabold text-emerald-950">
                           {formatCurrency((bs.servicePriceAtBooking || svc.price) * bs.quantity)}

@@ -114,7 +114,7 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                     const price = srv.servicePriceAtBooking || srv.services?.price || 0;
                     return (
                       <div key={idx} className="flex justify-between text-xs text-slate-600">
-                        <span>• {srv.services?.nameProduct || 'Dịch vụ'} (x{srv.quantity})</span>
+                        <span>• {(srv.services?.nameProduct || 'Dịch vụ').replace(/^\[(?:drink|equipment|food|other)\]\s*/, '')} (x{srv.quantity})</span>
                         <span className="font-semibold font-mono">{(price * srv.quantity).toLocaleString()}đ</span>
                       </div>
                     );

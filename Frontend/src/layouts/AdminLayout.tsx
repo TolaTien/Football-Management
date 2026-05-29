@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, Link, useLocation, history } from '@umijs/max';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, notification, Popover, Badge, List } from 'antd';
 import viVN from 'antd/locale/vi_VN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import AdminAiChatWidget from '@/widgets/AdminAiChat/AdminAiChatWidget';
+import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
 
 dayjs.locale('vi');
 
@@ -20,10 +22,15 @@ const ADMIN_NAV_ITEMS = [
 
 const AdminLayout: React.FC = () => {
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const [admin, setAdmin] = useState<{ email: string; role: string } | null>(null);
 
+  const { bookings } = useAppSelector((state) => state.booking);
+  const [initialLoaded, setInitialLoaded] = useState(false);
+  const [knownBookingIds, setKnownBookingIds] = useState<Set<string>>(new Set());
+
+  // 1. Kiểm tra xác thực admin
   useEffect(() => {
-    // Check if user is logged in as admin
     const adminStr = localStorage.getItem('pitchhub_user');
     if (!adminStr) {
       history.push('/auth/login');
@@ -42,16 +49,98 @@ const AdminLayout: React.FC = () => {
     }
   }, [location.pathname]);
 
+  // 2. Fetch danh sách đặt sân ban đầu và định kỳ 10 giây một lần (Real-time polling)
+  useEffect(() => {
+    if (admin) {
+      dispatch(fetchAllBookings());
+      const interval = setInterval(() => {
+        dispatch(fetchAllBookings());
+      }, 10000);
+      return () => clearInterval(interval);
+    }
+  }, [dispatch, admin]);
+
+  // 3. Lắng nghe và hiển thị thông báo Notification khi có đơn đặt sân mới xuất hiện
+  useEffect(() => {
+    if (bookings.length > 0) {
+      if (!initialLoaded) {
+        // Lần đầu load: lưu danh sách các ID đặt sân hiện hành
+        const ids = new Set(bookings.map(b => b.id));
+        setKnownBookingIds(ids);
+        setInitialLoaded(true);
+      } else {
+        // Các lần tiếp theo: quét tìm ID mới
+        bookings.forEach(b => {
+          if (!knownBookingIds.has(b.id)) {
+            // Có đơn đặt sân mới! Phát thông báo antd
+            notification.info({
+              message: '🔔 Có đơn đặt sân mới!',
+              description: (
+                <div style={{ fontSize: 13 }}>
+                  <p style={{ margin: '4px 0' }}><strong>Khách hàng:</strong> {b.userName}</p>
+                  <p style={{ margin: '4px 0' }}><strong>Sân:</strong> {b.pitchName}</p>
+                  <p style={{ margin: '4px 0' }}><strong>Thời gian:</strong> {b.startTime} - {b.endTime} ({b.date})</p>
+                </div>
+              ),
+              placement: 'topRight',
+              duration: 6,
+            });
+
+            // Cập nhật danh sách ID đã biết
+            setKnownBookingIds(prev => {
+              const next = new Set(prev);
+              next.add(b.id);
+              return next;
+            });
+          }
+        });
+      }
+    }
+  }, [bookings, initialLoaded, knownBookingIds]);
+
   const handleLogout = () => {
     localStorage.removeItem('pitchhub_user');
     history.push('/auth/login');
   };
 
   if (!admin) {
-    return null; // or a loading spinner
+    return null;
   }
 
   const avatarChar = admin.email.charAt(0).toUpperCase();
+  const pendingBookings = bookings.filter(b => b.status === 'pending');
+
+  // Nội dung Popover thông báo khi click vào Quả chuông
+  const notificationContent = (
+    <div style={{ width: 300 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, borderBottom: '1px solid #f1f5f9', paddingBottom: 8 }}>
+        <span style={{ fontWeight: 700, color: '#0f172a' }}>Yêu cầu mới ({pendingBookings.length})</span>
+        <Link to="/admin/schedule" style={{ fontSize: 12, color: '#059669', fontWeight: 600 }}>Xem tất cả</Link>
+      </div>
+      {pendingBookings.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '24px 0', color: '#94a3b8', fontSize: 13 }}>
+          Không có yêu cầu chờ duyệt nào
+        </div>
+      ) : (
+        <List
+          dataSource={pendingBookings.slice(0, 5)}
+          renderItem={(b) => (
+            <List.Item style={{ padding: '10px 0' }} className="hover:bg-slate-50 transition-colors rounded-lg px-2">
+              <div style={{ width: '100%' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+                  <span style={{ fontWeight: 600, color: '#0f172a' }}>{b.userName}</span>
+                  <span style={{ color: '#059669', fontSize: 11, fontWeight: 500 }}>{b.startTime} - {b.endTime}</span>
+                </div>
+                <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>
+                  Sân: {b.pitchName} · Ngày: {b.date}
+                </div>
+              </div>
+            </List.Item>
+          )}
+        />
+      )}
+    </div>
+  );
 
   return (
     <ConfigProvider
@@ -119,7 +208,6 @@ const AdminLayout: React.FC = () => {
         </aside>
 
         {/* Header */}
-        {/* Header */}
         <header className="fixed top-0 left-[260px] right-0 h-16 bg-white border-b border-gray-200 shadow-sm flex justify-between items-center px-8 z-45">
           <div className="text-lg font-extrabold text-[#006644] tracking-wider uppercase">
             {location.pathname.startsWith('/admin/dashboard') && 'Tổng quan hệ thống'}
@@ -132,13 +220,21 @@ const AdminLayout: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-5">
-            <button className="relative text-slate-500 hover:text-emerald-700 transition-colors p-1 bg-transparent border-none cursor-pointer flex items-center">
-              <span className="material-symbols-outlined text-[22px]">notifications</span>
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-            </button>
-            <button className="text-slate-500 hover:text-emerald-700 transition-colors p-1 bg-transparent border-none cursor-pointer flex items-center">
-              <span className="material-symbols-outlined text-[22px]">settings</span>
-            </button>
+            {/* Quả chuông thông báo */}
+            <Popover
+              content={notificationContent}
+              trigger="click"
+              placement="bottomRight"
+              arrow
+            >
+              <button className="relative text-slate-500 hover:text-emerald-700 transition-colors p-1 bg-transparent border-none cursor-pointer flex items-center">
+                <Badge count={pendingBookings.length} size="small" offset={[-2, 4]} color="#ef4444">
+                  <span className="material-symbols-outlined text-[22px]">notifications</span>
+                </Badge>
+              </button>
+            </Popover>
+
+            {/* Avatar Admin */}
             <div className="w-8 h-8 rounded-full bg-[#dbeafe] text-[#1d4ed8] font-bold text-xs flex items-center justify-center shadow-sm select-none border border-[#bfdbfe]">
               {avatarChar}
             </div>

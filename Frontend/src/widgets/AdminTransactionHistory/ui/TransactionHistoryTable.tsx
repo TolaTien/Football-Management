@@ -1,9 +1,8 @@
 import React from 'react';
-import { Card, Table, Tag, Space, DatePicker, Select, Typography } from 'antd';
+import { Card, Table, Tag, Space, DatePicker, Select, Typography, Button } from 'antd';
 import { CheckCircleOutlined, ReloadOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
-const { RangePicker } = DatePicker;
 const { Text } = Typography;
 
 interface Transaction {
@@ -18,6 +17,10 @@ interface Transaction {
 
 interface TransactionHistoryTableProps {
   data: Transaction[];
+  selectedDate: dayjs.Dayjs | null;
+  setSelectedDate: (date: dayjs.Dayjs | null) => void;
+  statusFilter: string;
+  setStatusFilter: (status: string) => void;
 }
 
 const METHOD_STYLES: Record<string, { bg: string; color: string; icon: string }> = {
@@ -26,7 +29,13 @@ const METHOD_STYLES: Record<string, { bg: string; color: string; icon: string }>
   'Ví điện tử': { bg: 'bg-purple-50 text-purple-700', color: 'text-purple-700', icon: '📱' },
 };
 
-export const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = ({ data }) => {
+export const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = ({
+  data,
+  selectedDate,
+  setSelectedDate,
+  statusFilter,
+  setStatusFilter,
+}) => {
   const columns = [
     {
       title: 'Mã GD',
@@ -112,16 +121,26 @@ export const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = (
       <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center flex-wrap gap-3">
         <div>
           <div className="font-bold text-base text-slate-800">Lịch sử giao dịch</div>
-          <Text className="text-slate-400 text-xs">{data.length} giao dịch gần nhất</Text>
+          <Text className="text-slate-400 text-xs">{data.length} giao dịch được tìm thấy</Text>
         </div>
         <Space wrap>
-          <RangePicker
-            defaultValue={[dayjs().subtract(7, 'days'), dayjs()]}
+          <DatePicker
+            value={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
             format="DD/MM/YYYY"
-            className="rounded-xl h-9"
+            placeholder="Chọn ngày lọc"
+            className="rounded-xl h-9 w-40"
+            allowClear
           />
+          <Button
+            onClick={() => setSelectedDate(null)}
+            className="rounded-xl h-9 font-bold bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-700 transition-colors"
+          >
+            Tất cả
+          </Button>
           <Select 
-            defaultValue="all" 
+            value={statusFilter}
+            onChange={(val) => setStatusFilter(val)}
             className="w-32 h-9 rounded-xl"
             options={[
               { value: 'all', label: 'Tất cả TT' },

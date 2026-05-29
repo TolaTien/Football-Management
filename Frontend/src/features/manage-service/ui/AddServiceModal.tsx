@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal, Form, Input, Select, InputNumber, Upload, Button } from 'antd';
-import { ShopOutlined, TagsOutlined, AppstoreOutlined, DollarOutlined, InboxOutlined, CheckCircleOutlined } from '@ant-design/icons';
-import type { ServiceType } from '@/entities/service-item/model/types';
+import { ShopOutlined, TagsOutlined, AppstoreOutlined, DollarOutlined, InboxOutlined, CheckCircleOutlined, EditOutlined } from '@ant-design/icons';
+import type { ServiceItem, ServiceType } from '@/entities/service-item/model/types';
 
 const { Dragger } = Upload;
 
@@ -10,11 +10,26 @@ interface AddServiceModalProps {
   onCancel: () => void;
   onFinish: (values: { name: string; type: ServiceType; price: number }) => void;
   form: any;
+  editItem?: ServiceItem | null;
 }
 
 export const AddServiceModal: React.FC<AddServiceModalProps> = ({
-  isOpen, onCancel, onFinish, form,
+  isOpen, onCancel, onFinish, form, editItem,
 }) => {
+  useEffect(() => {
+    if (isOpen) {
+      if (editItem) {
+        form.setFieldsValue({
+          name: editItem.name,
+          type: editItem.type,
+          price: editItem.price,
+        });
+      } else {
+        form.resetFields();
+      }
+    }
+  }, [isOpen, editItem, form]);
+
   return (
     <Modal
       open={isOpen}
@@ -30,13 +45,17 @@ export const AddServiceModal: React.FC<AddServiceModalProps> = ({
         <div className="w-[180px] bg-gradient-to-b from-emerald-600 to-emerald-800 p-8 flex flex-col justify-between">
           <div>
             <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-5">
-              <ShopOutlined className="text-2xl text-white" />
+              {editItem ? (
+                <EditOutlined className="text-2xl text-white" />
+              ) : (
+                <ShopOutlined className="text-2xl text-white" />
+              )}
             </div>
             <div className="text-white text-lg font-extrabold leading-snug mb-3">
-              Thêm sản phẩm mới
+              {editItem ? 'Sửa sản phẩm' : 'Thêm sản phẩm mới'}
             </div>
             <div className="text-white/80 text-xs leading-relaxed">
-              Bổ sung hàng hóa vào kho để phục vụ khách hàng tại sân.
+              {editItem ? 'Cập nhật đơn giá và thông tin chi tiết của hàng hóa.' : 'Bổ sung hàng hóa vào kho để phục vụ khách hàng tại sân.'}
             </div>
           </div>
           <div className="p-3 bg-white/10 rounded-xl border border-white/20">
@@ -117,7 +136,7 @@ export const AddServiceModal: React.FC<AddServiceModalProps> = ({
                 icon={<CheckCircleOutlined />}
                 className="rounded-xl h-11 px-6 font-bold bg-emerald-650 border-emerald-650 hover:bg-emerald-750 hover:border-emerald-750 shadow-md shadow-emerald-600/10"
               >
-                Thêm sản phẩm
+                {editItem ? 'Lưu thay đổi' : 'Thêm sản phẩm'}
               </Button>
             </div>
           </Form>

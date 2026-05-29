@@ -9,8 +9,18 @@ interface RevenueStructureProps {
   totalRevenue: number;
 }
 
-const COLORS = ['#059669', '#34d399', '#fbbf24', '#f87171'];
-const VIETNAMESE_DONG_TO_MILLION = 1000000;
+const COLORS = ['#059669', '#38bdf8', '#fbbf24'];
+const VIETNAMESE_DONG_TO_MILLION = 1_000_000;
+
+const formatValue = (val: number) => {
+  if (val >= 1_000_000) {
+    return `${(val / 1_000_000).toFixed(2)}M`;
+  }
+  if (val >= 1_000) {
+    return `${(val / 1_000).toFixed(0)}K`;
+  }
+  return `${val}`;
+};
 
 export const RevenueStructure: React.FC<RevenueStructureProps> = ({ data, totalRevenue }) => {
   return (
@@ -21,7 +31,7 @@ export const RevenueStructure: React.FC<RevenueStructureProps> = ({ data, totalR
     >
       <div className="mb-5">
         <div className="font-bold text-base text-slate-800">Cơ cấu doanh thu</div>
-        <Text className="text-slate-400 text-xs">Phân tích theo nguồn thu tháng này</Text>
+        <Text className="text-slate-400 text-xs">Phân tích theo nguồn thu thực tế từ database</Text>
       </div>
       <div className="h-[220px]">
         <ResponsiveContainer width="100%" height="100%">
@@ -44,16 +54,16 @@ export const RevenueStructure: React.FC<RevenueStructureProps> = ({ data, totalR
       {/* Center label */}
       <div className="text-center -mt-2 mb-4">
         <div className="text-2xl font-extrabold text-emerald-600">
-          {(totalRevenue / VIETNAMESE_DONG_TO_MILLION).toFixed(1)}M đ
+          {(totalRevenue / VIETNAMESE_DONG_TO_MILLION).toFixed(2)}M đ
         </div>
         <div className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Tổng doanh thu</div>
       </div>
       <div className="flex flex-col gap-2">
         {data.map((item, i) => (
           <div key={item.name} className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: COLORS[i] }} />
+            <div className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
             <span className="text-slate-500 text-xs flex-1">{item.name}</span>
-            <span className="font-bold text-slate-800 text-xs">{(item.value / VIETNAMESE_DONG_TO_MILLION).toFixed(1)}M</span>
+            <span className="font-bold text-slate-800 text-xs">{formatValue(item.value)}</span>
           </div>
         ))}
       </div>

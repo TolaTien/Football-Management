@@ -144,7 +144,7 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                   <div key={i} className="py-2.5 flex justify-between items-center text-xs">
                     <div>
                       <p className="font-semibold text-gray-800 m-0">
-                        {item.services?.nameProduct || 'Dịch vụ'}
+                        {(item.services?.nameProduct || 'Dịch vụ').replace(/^\[(?:drink|equipment|food|other)\]\s*/, '')}
                       </p>
                       <p className="text-gray-400 m-0 mt-0.5 font-mono">
                         Đơn giá: {formatCurrency(item.servicePriceAtBooking || item.services?.price)}

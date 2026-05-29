@@ -16,7 +16,7 @@ export const PitchCard: React.FC<PitchCardProps> = ({ pitch, onEdit, onDelete, o
   const grassType = isHybrid ? 'Hybrid' : 'Nhân tạo';
 
   return (
-    <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between h-[270px] relative overflow-hidden">
+    <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between h-[230px] relative overflow-hidden">
       
       {/* Top Section: Title & Status */}
       <div className="flex justify-between items-start mb-4">
@@ -35,7 +35,7 @@ export const PitchCard: React.FC<PitchCardProps> = ({ pitch, onEdit, onDelete, o
       </div>
 
       {/* Grid: Grass Type & Grass Condition */}
-      <div className="grid grid-cols-2 gap-3 mb-5">
+      <div className="grid grid-cols-2 gap-3 mb-4">
         <div className="bg-[#f0fdf4] border border-[#dcfce7] rounded-xl p-2.5 flex flex-col">
           <span className="text-[9px] font-extrabold text-slate-400 uppercase mb-1">Loại cỏ</span>
           <span className="text-xs font-bold text-slate-700 flex items-center gap-1">
@@ -50,16 +50,8 @@ export const PitchCard: React.FC<PitchCardProps> = ({ pitch, onEdit, onDelete, o
         </div>
       </div>
 
-      {/* Metrics Section */}
-      <div className="mb-5 flex-1 flex flex-col justify-center">
-        <div className="flex justify-between items-center text-xs">
-          <span className="text-slate-400 font-medium">Lần bảo trì cuối</span>
-          <span className="font-bold text-slate-700">{pitch.nextMaintenance || '25/05/2026'}</span>
-        </div>
-      </div>
-
       {/* Footer Actions */}
-      <div className="flex items-center gap-2 pt-4 border-t border-slate-50">
+      <div className="flex items-center gap-2 pt-3 border-t border-slate-50">
         <button
           onClick={() => onEdit(pitch)}
           className="flex-1 h-11 rounded-xl bg-[#e0f2fe] text-[#0284c7] hover:bg-[#bae6fd] hover:text-[#0369a1] font-extrabold text-xs transition-colors duration-150 flex items-center justify-center gap-1.5 border-none cursor-pointer"

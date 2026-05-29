@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, Form, Button, TimePicker, InputNumber, Table, Popconfirm, message } from 'antd';
+import { Modal, Form, Button, TimePicker, InputNumber, Table, Popconfirm, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
 import { syncPriceConfigThunk } from '@/entities/pitch/model/pitchSlice';
@@ -80,20 +80,21 @@ export const PriceConfigDrawer: React.FC<PriceConfigDrawerProps> = ({ pitch, onC
   ];
 
   return (
-    <Drawer
+    <Modal
       title={
-        <div>
+        <div className="pb-2 border-b border-slate-100">
           <div className="font-extrabold text-lg text-slate-800">Cấu hình bảng giá</div>
           <div className="text-slate-400 text-xs mt-0.5">Sân: {pitch.name} ({pitch.type})</div>
         </div>
       }
-      placement="right"
-      width={480}
-      onClose={onClose}
       open={!!pitch}
-      className="rounded-l-2xl overflow-hidden"
+      onCancel={onClose}
+      footer={null}
+      width={520}
+      centered
+      className="rounded-2xl overflow-hidden"
     >
-      <div className="space-y-6">
+      <div className="space-y-6 pt-3">
         <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 shadow-sm">
           <div className="font-bold text-sm text-slate-800 mb-4">➕ Thêm khung giờ giá mới</div>
           <Form form={form} layout="vertical" onFinish={handleAddRule}>
@@ -140,6 +141,6 @@ export const PriceConfigDrawer: React.FC<PriceConfigDrawerProps> = ({ pitch, onC
           />
         </div>
       </div>
-    </Drawer>
+    </Modal>
   );
 };
