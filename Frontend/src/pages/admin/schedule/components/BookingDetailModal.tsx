@@ -324,6 +324,31 @@ const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
             </Button>
           )}
 
+          {/* Approve Booking Button */}
+          {detail.status === 'pending' && (
+            <Button
+              icon={<CheckCircleOutlined />}
+              type="primary"
+              style={{
+                background: '#059669',
+                borderColor: '#059669',
+                height: 40,
+                borderRadius: 8,
+                fontWeight: 700,
+                boxShadow: '0 4px 12px rgba(5, 150, 105, 0.2)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6
+              }}
+              onClick={() => {
+                onUpdateStatus(detail.id, 'approved');
+                onDetailChange({ ...detail, status: 'approved' });
+              }}
+            >
+              Duyệt đặt sân
+            </Button>
+          )}
+
           {/* Primary Call-to-Action (Confirm Deposit / Full Payment) */}
           {detail.paymentStatus === 'unpaid' && (
             <Button

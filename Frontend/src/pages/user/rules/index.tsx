@@ -158,8 +158,8 @@ const PitchRules: React.FC = () => {
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-8">
       {/* Header Panel */}
-      <header className="flex flex-col border-b border-emerald-800/20 pb-6">
-        <h1 className="font-h1 text-h1 text-emerald-900 flex items-center gap-2 m-0" id="rules-page-title">
+      <header className="flex flex-col border-b border-primary/20 pb-6">
+        <h1 className="font-h1 text-h1 text-primary flex items-center gap-2 m-0" id="rules-page-title">
           Điều Khoản và Quy Định Sân Bóng PitchHub
         </h1>
         <p className="text-gray-500 font-body-lg mt-1 m-0">
@@ -195,8 +195,8 @@ const PitchRules: React.FC = () => {
                     onClick={() => setActiveTab(cat.key)}
                     className={`py-3 px-4 font-bold text-sm border-b-2 whitespace-nowrap transition-all cursor-pointer border-none bg-transparent ${
                       activeTab === cat.key
-                        ? 'border-emerald-700 text-emerald-900 font-extrabold'
-                        : 'border-transparent text-gray-400 hover:text-emerald-800'
+                        ? 'border-primary text-primary font-extrabold'
+                        : 'border-transparent text-gray-400 hover:text-primary'
                     }`}
                     id={`tab-btn-${cat.key}`}
                   >
@@ -206,7 +206,7 @@ const PitchRules: React.FC = () => {
               </div>
 
               {/* Category Description */}
-              <div className="text-xs text-gray-400 bg-emerald-50/30 p-3 rounded-lg border border-emerald-100/20">
+              <div className="text-xs text-gray-400 bg-primary-container/20 p-3 rounded-lg border border-primary-container/10">
                 {RULE_CATEGORIES.find(cat => cat.key === activeTab)?.description}
               </div>
 
@@ -222,19 +222,21 @@ const PitchRules: React.FC = () => {
                     >
                       <button
                         onClick={() => toggleRule(rule.id)}
-                        className="w-full flex items-center justify-between p-5 text-left font-bold text-emerald-950 text-base hover:bg-gray-50/50 transition-colors border-none bg-transparent cursor-pointer"
+                        className={`w-full flex items-center justify-between p-5 text-left font-bold text-base hover:bg-gray-50/50 transition-colors border-none bg-transparent cursor-pointer ${isExpanded ? 'text-primary' : 'text-gray-900'}`}
                         id={`accordion-btn-${rule.id}`}
                       >
                         <span>{rule.title}</span>
-                        <span className={`material-symbols-outlined transform transition-transform duration-300 ${isExpanded ? 'rotate-180 text-emerald-700' : 'text-gray-400'}`}>
+                        <span className={`material-symbols-outlined transform transition-transform duration-300 ${isExpanded ? 'rotate-180 text-primary' : 'text-gray-400'}`}>
                           keyboard_arrow_down
                         </span>
                       </button>
-                      {isExpanded && (
-                        <div className="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-50/50 bg-gray-50/10">
-                          {rule.content}
+                      <div className={`grid transition-all duration-300 ease-in-out ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                        <div className="overflow-hidden">
+                          <div className="px-5 pb-5 pt-2 text-sm text-gray-600 leading-relaxed border-t border-gray-100 bg-gray-50/10">
+                            {rule.content}
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </article>
                   );
                 })}
@@ -261,24 +263,26 @@ const PitchRules: React.FC = () => {
                     >
                       <button
                         onClick={() => toggleRule(rule.id)}
-                        className="w-full flex items-center justify-between p-5 text-left font-bold text-emerald-950 text-base hover:bg-gray-50/50 transition-colors border-none bg-transparent cursor-pointer"
+                        className={`w-full flex items-center justify-between p-5 text-left font-bold text-base hover:bg-gray-50/50 transition-colors border-none bg-transparent cursor-pointer ${isExpanded ? 'text-primary' : 'text-gray-900'}`}
                         id={`accordion-search-btn-${rule.id}`}
                       >
                         <div className="flex flex-col gap-1">
-                          <span className="text-[10px] text-emerald-700 uppercase tracking-widest font-black font-mono">
+                          <span className="text-[10px] text-primary uppercase tracking-widest font-black font-mono">
                             {rule.categoryLabel}
                           </span>
                           <span>{rule.title}</span>
                         </div>
-                        <span className={`material-symbols-outlined transform transition-transform duration-300 ${isExpanded ? 'rotate-180 text-emerald-700' : 'text-gray-400'}`}>
+                        <span className={`material-symbols-outlined transform transition-transform duration-300 ${isExpanded ? 'rotate-180 text-primary' : 'text-gray-400'}`}>
                           keyboard_arrow_down
                         </span>
                       </button>
-                      {isExpanded && (
-                        <div className="px-5 pb-5 pt-1 text-sm text-gray-600 leading-relaxed border-t border-gray-50/50 bg-gray-50/10">
-                          {rule.content}
+                      <div className={`grid transition-all duration-300 ease-in-out ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                        <div className="overflow-hidden">
+                          <div className="px-5 pb-5 pt-2 text-sm text-gray-600 leading-relaxed border-t border-gray-100 bg-gray-50/10">
+                            {rule.content}
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </article>
                   );
                 })
@@ -292,24 +296,24 @@ const PitchRules: React.FC = () => {
         <section className="space-y-6">
           
           {/* Quick Stats Panel */}
-          <div className="bg-gradient-to-br from-emerald-900 to-emerald-950 text-white p-6 rounded-2xl shadow-md space-y-4">
+          <div className="bg-gradient-to-br from-primary to-[#064e3b] text-white p-6 rounded-2xl shadow-md space-y-4">
             <h2 className="text-base font-extrabold m-0 text-amber-300">Tóm tắt Thông số Kỹ thuật</h2>
-            <div className="divide-y divide-emerald-800/30 text-xs">
+            <div className="divide-y divide-white/10 text-xs">
               <div className="py-2.5 flex justify-between">
-                <span className="opacity-70">Tổng số sân thi đấu</span>
-                <span className="font-bold">4 sân 7 người | 2 sân 5 người | 1 sân 11 người</span>
+                <span className="text-emerald-100">Tổng số sân thi đấu</span>
+                <span className="font-bold text-white">4 sân 7 người | 2 sân 5 người | 1 sân 11 người</span>
               </div>
               <div className="py-2.5 flex justify-between">
-                <span className="opacity-70">Chất lượng mặt cỏ</span>
-                <span className="font-bold">Cỏ nhân tạo chất lượng cao (FIFA Standard)</span>
+                <span className="text-emerald-100">Chất lượng mặt cỏ</span>
+                <span className="font-bold text-white">Cỏ nhân tạo chất lượng cao (FIFA Standard)</span>
               </div>
               <div className="py-2.5 flex justify-between">
-                <span className="opacity-70">Hệ thống chiếu sáng</span>
-                <span className="font-bold">Đèn LED công suất lớn chống chói, đạt chuẩn thi đấu</span>
+                <span className="text-emerald-100">Hệ thống chiếu sáng</span>
+                <span className="font-bold text-white">Đèn LED công suất lớn chống chói, đạt chuẩn thi đấu</span>
               </div>
               <div className="py-2.5 flex justify-between">
-                <span className="opacity-70">Dịch vụ đỗ xe</span>
-                <span className="font-bold">Đỗ xe máy & ô tô miễn phí, có chỗ đỗ xe riêng cho từng sân</span>
+                <span className="text-emerald-100">Dịch vụ đỗ xe</span>
+                <span className="font-bold text-white">Đỗ xe máy & ô tô miễn phí, có chỗ đỗ xe riêng cho từng sân</span>
               </div>
             </div>
           </div>
@@ -355,7 +359,7 @@ const PitchRules: React.FC = () => {
               
               <button
                 type="submit"
-                className="w-full py-2.5 bg-emerald-900 hover:bg-emerald-800 text-white rounded-xl font-bold transition-all shadow-md active:scale-95 border-none cursor-pointer text-xs"
+                className="w-full py-2.5 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold transition-all shadow-md active:scale-95 border-none cursor-pointer text-xs"
               >
                 Gửi phản hồi của bạn
               </button>

@@ -11,13 +11,13 @@ const DashboardPage: React.FC = () => {
     <div className="animate-in fade-in duration-300 pb-xl">
       {/* Welcome Section */}
       <div className="mb-xl">
-        <h2 className="font-h1 text-h1 text-emerald-900">
-          Welcome back, {user?.fullName?.split(' ')[0] || 'Player'}!
+        <h2 className="font-h1 text-h1 text-primary">
+          Chào mừng bạn quay trở lại, {user?.fullName?.split(' ')[0] || 'Người chơi'}!
         </h2>
         <p className="text-gray-500 font-body-lg">
           {matchCount !== null 
-            ? `You have ${matchCount} match${matchCount !== 1 ? 'es' : ''} scheduled for this week.`
-            : 'Loading your scheduled matches...'}
+            ? `Bạn có ${matchCount} trận đấu được lên lịch trong tuần này.`
+            : 'Đang tải lịch thi đấu của bạn...'}
         </p>
       </div>
 
@@ -35,7 +35,7 @@ const DashboardPage: React.FC = () => {
       </div>
 
       {/* Contextual FAB (Floating Action Button) */}
-      <button className="fixed bottom-lg right-lg bg-emerald-900 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-emerald-800 transition-all active:scale-95 z-50 group">
+      <button className="fixed bottom-lg right-lg bg-primary text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:opacity-95 transition-all active:scale-95 z-50 group">
         <span className="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-300" data-icon="add_circle">add_circle</span>
       </button>
     </div>
