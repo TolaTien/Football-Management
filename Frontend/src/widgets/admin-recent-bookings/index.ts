@@ -1,1 +1,2 @@
-export * from './ui/RecentBookingsTable';
+
+export { RecentBookingsTable } from './ui/RecentBookingsTable';

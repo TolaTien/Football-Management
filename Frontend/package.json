@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.2.2",
-    "@ant-design/pro-components": "^2.7.17",
+    "@ant-design/pro-components": "^2.8.2",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@reduxjs/toolkit": "^2.12.0",
     "antd": "^5.22.0",
@@ -22,7 +22,7 @@
     "react-redux": "^9.3.0",
     "recharts": "^3.8.1",
     "socket.io-client": "^4.8.3",
-    "umi-request": "^1.2.3",
+    "umi-request": "^1.4.0",
     "uuid": "^14.0.0"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/uuid": "^10.0.0",
-    "@umijs/max": "^4.0.7",
+    "@umijs/max": "^4.4.2",
     "autoprefixer": "^10.5.0",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
@@ -41,7 +41,7 @@
     "postcss": "^8.5.14",
     "react-refresh": "^0.18.0",
     "tailwindcss": "^3.4.19",
-    "typescript": "~5.4.5",
+    "typescript": "~6.0.2",
     "typescript-eslint": "^8.24.1"
   }
 }

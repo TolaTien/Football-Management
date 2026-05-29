@@ -1,12 +1,3 @@
-export interface UserInfo {
-  userId: string;
-  email: string;
-  fullName: string;
-  phone?: string;
-  avt?: string;
-  role: 'user' | 'admin';
-}
-
 export type UserRole = 'Quản trị' | 'Khách hàng';
 export type UserStatus = 'active' | 'banned';
 
@@ -24,8 +15,18 @@ export interface CreateUserDto {
   fullName: string;
   phone: string;
   role: 'admin' | 'user';
-  password: string;
+  password?: string;
 }
+
+export interface UserInfo {
+  userId: string;
+  email: string;
+  fullName: string;
+  phone?: string;
+  avt?: string;
+  role: 'user' | 'admin';
+}
+
 
 export interface UpdateUserDto {
   email?: string;

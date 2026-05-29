@@ -180,7 +180,6 @@ export const syncPriceConfigThunk = createAsyncThunk(
     }
   }
 );
-
 export const updatePriceRuleThunk = createAsyncThunk(
   'pitch/updatePriceRule',
   async ({ id, price }: { id: string; price: number }, { getState, dispatch, rejectWithValue }) => {

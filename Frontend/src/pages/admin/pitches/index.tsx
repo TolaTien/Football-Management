@@ -5,22 +5,25 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
 import { fetchPitches, addPitch, updatePitch, deletePitchThunk } from '@/entities/pitch/model/pitchSlice';
 import type { Pitch } from '@/entities/pitch/model/types';
-import { PitchesSummaryStats, PitchCard } from '@/widgets/admin-pitches-summary';
-import { AddEditPitchModal } from '@/features/admin-manage-pitch';
+import { PitchCard } from '@/entities/pitch';
+import { AddEditPitchModal } from '@/features/manage-pitch';
+import { PitchesSummaryStats } from '@/widgets/admin-pitches-stats';
+import { PriceConfigDrawer } from '@/features/manage-pricing';
 
 const { Text } = Typography;
 
-// Constants
 const MOCK_PRICE = 500000;
 const INITIAL_GRASS_HEALTH = 100;
 const DEFAULT_GRASS_STATUS = 'Tốt';
 const DEFAULT_MAINTENANCE = 'Chưa xếp lịch';
+
 const AdminPitchesList: React.FC = () => {
   const dispatch = useAppDispatch();
   const { pitches } = useAppSelector((state) => state.pitch);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPitch, setEditingPitch] = useState<Pitch | null>(null);
+  const [selectedPitchForPrice, setSelectedPitchForPrice] = useState<Pitch | null>(null);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -30,6 +33,7 @@ const AdminPitchesList: React.FC = () => {
   const handleOpenAdd = () => {
     setEditingPitch(null);
     form.resetFields();
+    form.setFieldsValue({ status: 'active' });
     setIsModalOpen(true);
   };
 
@@ -40,19 +44,20 @@ const AdminPitchesList: React.FC = () => {
       type: pitch.type.includes('5') ? '5' : pitch.type.includes('7') ? '7' : '11',
       desc: pitch.desc,
       price: MOCK_PRICE,
+      status: pitch.status,
     });
     setIsModalOpen(true);
   };
 
-  const handleFormSubmit = (values: { name: string; type: string; desc?: string; price?: number }) => {
+  const handleFormSubmit = (values: { name: string; type: string; desc?: string; price?: number; status: 'active' | 'maintenance' }) => {
     const pitchData = {
       name: values.name,
       type: `Sân ${values.type} người`,
       desc: values.desc || '',
-      status: editingPitch ? editingPitch.status : 'active',
-      grassHealth: editingPitch ? editingPitch.grassHealth : INITIAL_GRASS_HEALTH,
-      grassStatus: editingPitch ? editingPitch.grassStatus : DEFAULT_GRASS_STATUS,
-      nextMaintenance: editingPitch ? editingPitch.nextMaintenance : DEFAULT_MAINTENANCE,
+      status: values.status,
+      grassHealth: values.status === 'maintenance' ? 45 : 94,
+      grassStatus: values.status === 'maintenance' ? 'Cần chăm sóc' : 'Tốt',
+      nextMaintenance: values.status === 'maintenance' ? 'Đang thực hiện' : '15/10/2023',
     } as Omit<Pitch, 'id'>;
 
     if (editingPitch) {
@@ -72,20 +77,26 @@ const AdminPitchesList: React.FC = () => {
 
   const activePitches = pitches.filter(p => p.status === 'active').length;
   const maintenancePitches = pitches.filter(p => p.status === 'maintenance').length;
-  const totalHealth = pitches.reduce((sum, p) => sum + (p.grassHealth || 0), 0);
-  const avgHealth = pitches.length ? Math.round(totalHealth / pitches.length) : 0;
+  const totalPitches = pitches.length;
+  const operatingIndex = totalPitches ? Math.round((activePitches / totalPitches) * 100) : 0;
 
   return (
     <PageContainer
       header={{
         title: (
           <div>
-            <div style={{ fontWeight: 800, fontSize: 22, color: '#0f172a' }}>Quản lý hệ thống sân</div>
-            <Text style={{ color: '#94a3b8', fontSize: 13 }}>Theo dõi tình trạng, lịch bảo trì và danh sách sân cỏ của bạn</Text>
+            <div className="font-extrabold text-2xl text-slate-800 tracking-tight">Danh sách sân bóng</div>
+            <Text className="text-slate-400 text-xs">Theo dõi hiện trạng kỹ thuật và khả năng khai thác của các sân.</Text>
           </div>
         ),
         extra: [
-          <Button key="add" type="primary" icon={<PlusOutlined />} style={{ height: 40, padding: '0 20px', fontWeight: 700 }} onClick={handleOpenAdd}>
+          <Button 
+            key="add" 
+            type="primary" 
+            icon={<PlusOutlined />} 
+            className="h-10 px-5 font-bold rounded-xl bg-[#006644] border-[#006644] hover:bg-[#005533] hover:border-[#005533] shadow-md shadow-emerald-900/10 flex items-center gap-1" 
+            onClick={handleOpenAdd}
+          >
             Thêm sân mới
           </Button>
         ]
@@ -95,7 +106,7 @@ const AdminPitchesList: React.FC = () => {
       <PitchesSummaryStats
         activePitches={activePitches}
         maintenancePitches={maintenancePitches}
-        avgHealth={avgHealth}
+        avgHealth={operatingIndex}
       />
 
       {/* Grid Danh sách sân */}
@@ -106,6 +117,7 @@ const AdminPitchesList: React.FC = () => {
               pitch={p}
               onEdit={handleOpenEdit}
               onDelete={handleDelete}
+              onConfigurePrice={(pitch) => setSelectedPitchForPrice(pitch)}
             />
           </Col>
         ))}
@@ -114,23 +126,16 @@ const AdminPitchesList: React.FC = () => {
         <Col xs={24} sm={12} lg={8} xl={6}>
           <div
             onClick={handleOpenAdd}
-            style={{
-              height: '100%', minHeight: 320, borderRadius: 16, border: '2px dashed #cbd5e1',
-              backgroundColor: '#f8fafc', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', transition: 'all 0.2s', padding: 24
-            }}
-            onMouseOver={(e) => e.currentTarget.style.borderColor = '#00a67d'}
-            onMouseOut={(e) => e.currentTarget.style.borderColor = '#cbd5e1'}
+            className="h-full min-h-[320px] rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 p-6 hover:border-emerald-500 hover:bg-emerald-50/30 group"
           >
-            <div style={{ width: 48, height: 48, borderRadius: '50%', backgroundColor: '#e2e8f0', color: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 16 }}>
+            <div className="w-12 h-12 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center text-xl mb-4 transition-colors group-hover:bg-emerald-100 group-hover:text-emerald-700">
               <PlusOutlined />
             </div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: '#1f2937', marginBottom: 8 }}>Thêm sân mới</div>
-            <div style={{ color: '#6b7280', fontSize: 13, textAlign: 'center' }}>Mở rộng hệ thống kinh doanh</div>
+            <div className="text-lg font-bold text-slate-800 mb-2 transition-colors group-hover:text-emerald-700">Thêm sân mới</div>
+            <div className="text-slate-400 text-xs text-center">Mở rộng hệ thống kinh doanh</div>
           </div>
         </Col>
       </Row>
-
 
       {/* Modal Thêm/Sửa Sân */}
       <AddEditPitchModal
@@ -139,6 +144,12 @@ const AdminPitchesList: React.FC = () => {
         onFinish={handleFormSubmit}
         form={form}
         editingPitch={editingPitch}
+      />
+
+      {/* Price Configuration Drawer */}
+      <PriceConfigDrawer
+        pitch={selectedPitchForPrice}
+        onClose={() => setSelectedPitchForPrice(null)}
       />
     </PageContainer>
   );

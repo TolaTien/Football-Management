@@ -1,11 +1,12 @@
 import React from 'react';
 
 interface SummaryItem {
-  icon: string;
+  icon: React.ReactNode;
   label: string;
   value: string | number;
   color: string;
   bg: string;
+  border: string;
 }
 
 interface ServicesSummaryStatsProps {
@@ -14,26 +15,21 @@ interface ServicesSummaryStatsProps {
 
 export const ServicesSummaryStats: React.FC<ServicesSummaryStatsProps> = ({ items }) => {
   return (
-    <div style={{ display: 'flex', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
       {items.map((item) => (
-        <div key={item.label} style={{
-          flex: '1 1 160px',
-          background: 'white',
-          borderRadius: 14,
-          padding: '16px 20px',
-          border: '1px solid #e2e8f0',
-          display: 'flex', alignItems: 'center', gap: 12,
-          boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-        }}>
-          <div style={{
-            width: 40, height: 40, borderRadius: 10,
-            backgroundColor: item.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18,
-          }}>
+        <div 
+          key={item.label} 
+          className={`bg-white rounded-2xl p-5 border ${item.border} flex items-center gap-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300`}
+        >
+          <div 
+            className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-inner"
+            style={{ backgroundColor: item.bg }}
+          >
             {item.icon}
           </div>
           <div>
-            <div style={{ fontSize: 11, color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.label}</div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: item.color, lineHeight: 1.3 }}>{item.value}</div>
+            <div className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider mb-1">{item.label}</div>
+            <div className="text-2xl font-black font-mono leading-none" style={{ color: item.color }}>{item.value}</div>
           </div>
         </div>
       ))}

@@ -1,2 +1,2 @@
-export * from './ui/ServicesSummaryStats';
-export * from './ui/ServicesTable';
+export { ServicesSummaryStats } from './ui/ServicesSummaryStats';
+export { ServicesTable } from './ui/ServicesTable';

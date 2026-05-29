@@ -310,9 +310,9 @@ export class StatisticService {
             }, 0);
             const remaining = (b.total || 0) - paidAmout;
 
-            if(b.status === 'approved' && ['paid', 'partial'].includes(b.paymentStatus!)){
+            if (b.status === 'approved' && ['paid', 'partial'].includes(b.paymentStatus!)) {
                 totalRevenue += b.total || 0;
-            } else if(b.status === 'rejected' && b.paymentStatus === 'partial') {
+            } else if (b.status === 'rejected' && b.paymentStatus === 'partial') {
                 totalRevenue += (b.pitchPriceAtBooking || 0) / 2;
             }
 
@@ -338,7 +338,7 @@ export class StatisticService {
                     top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' }
                 };
             });
-            
+
 
 
             const pStatusCell = rows.getCell(13);
@@ -357,109 +357,109 @@ export class StatisticService {
         totalRow.getCell(10).numFmt = '#,##0 "₫"';
 
 
-            const paymentSheet = workbook.addWorksheet('Lịch Sử Thanh Toán');
-            paymentSheet.addRow(['BÁO CÁO GIAO DỊCH THANH TOÁN']).font = { name: 'Arial', size: 14, bold: true };
-            paymentSheet.mergeCells('A1:G1');
-            paymentSheet.getCell('A1').alignment = { horizontal: 'center' };
-            paymentSheet.addRow([]);
+        const paymentSheet = workbook.addWorksheet('Lịch Sử Thanh Toán');
+        paymentSheet.addRow(['BÁO CÁO GIAO DỊCH THANH TOÁN']).font = { name: 'Arial', size: 14, bold: true };
+        paymentSheet.mergeCells('A1:G1');
+        paymentSheet.getCell('A1').alignment = { horizontal: 'center' };
+        paymentSheet.addRow([]);
 
-            const payHeaderRow = paymentSheet.addRow([
-                'STT', 'Mã Giao Dịch', 'Mã Booking', 'Khách hàng', 'Thời gian', 'Hình thức', 'Số tiền'
+        const payHeaderRow = paymentSheet.addRow([
+            'STT', 'Mã Giao Dịch', 'Mã Booking', 'Khách hàng', 'Thời gian', 'Hình thức', 'Số tiền'
+        ]);
+        payHeaderRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        payHeaderRow.eachCell((cell) => {
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0070C0' } };
+            cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        });
+
+        paymentSheet.columns = [
+            { width: 5 }, { width: 25 }, { width: 20 }, { width: 25 }, { width: 20 }, { width: 15 }, { width: 15, style: { numFmt: '#,##0 "₫"' } }
+        ];
+
+        let totalCash = 0;
+        let totalBanking = 0;
+        let payIndex = 1;
+
+
+        const allPayments = booking.flatMap(b =>
+            b.payments.map(p => ({
+                ...p,
+                bookingData: b
+            }))
+        ).sort((a, b) => (a.createdAt && b.createdAt) ? a.createdAt.getTime() - b.createdAt.getTime() : 0);
+
+        allPayments.forEach((p) => {
+            const dateStr = p.createdAt ? p.createdAt.toLocaleString('vi-VN') : '';
+            const methodStr = p.paymentMethod === 'cash' ? 'Tiền mặt' : (p.paymentMethod === 'banking' ? 'Chuyển khoản' : 'Khác');
+
+            if (p.paymentMethod === 'cash') totalCash += (p.amount || 0);
+            if (p.paymentMethod === 'banking') totalBanking += (p.amount || 0);
+
+            const row = paymentSheet.addRow([
+                payIndex++,
+                p.id,
+                p.bookingId,
+                p.bookingData.users?.fullName || p.bookingData.phone || 'Khách vãng lai',
+                dateStr,
+                methodStr,
+                p.amount || 0
             ]);
-            payHeaderRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-            payHeaderRow.eachCell((cell) => {
-                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0070C0' } };
+            row.eachCell((cell) => {
                 cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-                cell.alignment = { vertical: 'middle', horizontal: 'center' };
             });
+            const methodCell = row.getCell(6);
+            if (p.paymentMethod === 'banking') methodCell.font = { color: { argb: 'FF0070C0' }, bold: true };
+            else if (p.paymentMethod === 'cash') methodCell.font = { color: { argb: 'FF00B050' }, bold: true };
+        });
 
-            paymentSheet.columns = [
-                { width: 5 }, { width: 25 }, { width: 20 }, { width: 25 }, { width: 20 }, { width: 15 }, { width: 15, style: { numFmt: '#,##0 "₫"' } }
-            ];
-
-            let totalCash = 0;
-            let totalBanking = 0;
-            let payIndex = 1;
-
-
-            const allPayments = booking.flatMap(b => 
-                b.payments.map(p => ({
-                    ...p,
-                    bookingData: b
-                }))
-            ).sort((a, b) => (a.createdAt && b.createdAt) ? a.createdAt.getTime() - b.createdAt.getTime() : 0);
-
-            allPayments.forEach((p) => {
-                const dateStr = p.createdAt ? p.createdAt.toLocaleString('vi-VN') : '';
-                const methodStr = p.paymentMethod === 'cash' ? 'Tiền mặt' : (p.paymentMethod === 'banking' ? 'Chuyển khoản' : 'Khác');
-
-                if (p.paymentMethod === 'cash') totalCash += (p.amount || 0);
-                if (p.paymentMethod === 'banking') totalBanking += (p.amount || 0);
-
-                const row = paymentSheet.addRow([
-                    payIndex++,
-                    p.id,
-                    p.bookingId,
-                    p.bookingData.users?.fullName || p.bookingData.phone || 'Khách vãng lai',
-                    dateStr,
-                    methodStr,
-                    p.amount || 0
-                ]);
-                row.eachCell((cell) => {
-                    cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-                });
-                const methodCell = row.getCell(6);
-                if (p.paymentMethod === 'banking') methodCell.font = { color: { argb: 'FF0070C0' }, bold: true };
-                else if (p.paymentMethod === 'cash') methodCell.font = { color: { argb: 'FF00B050' }, bold: true };
-            });
-
-            paymentSheet.addRow([]);
-            paymentSheet.addRow(['', '', '', '', 'TỔNG TIỀN MẶT:', '', totalCash]).font = { bold: true };
-            paymentSheet.addRow(['', '', '', '', 'TỔNG CHUYỂN KHOẢN:', '', totalBanking]).font = { bold: true };
+        paymentSheet.addRow([]);
+        paymentSheet.addRow(['', '', '', '', 'TỔNG TIỀN MẶT:', '', totalCash]).font = { bold: true };
+        paymentSheet.addRow(['', '', '', '', 'TỔNG CHUYỂN KHOẢN:', '', totalBanking]).font = { bold: true };
 
 
-            const serviceSheet = workbook.addWorksheet('Tồn Kho Dịch Vụ');
-            serviceSheet.addRow(['BÁO CÁO TỒN KHO DỊCH VỤ']).font = { name: 'Arial', size: 14, bold: true };
-            serviceSheet.mergeCells('A1:G1');
-            serviceSheet.getCell('A1').alignment = { horizontal: 'center' };
-            serviceSheet.addRow([]);
+        const serviceSheet = workbook.addWorksheet('Tồn Kho Dịch Vụ');
+        serviceSheet.addRow(['BÁO CÁO TỒN KHO DỊCH VỤ']).font = { name: 'Arial', size: 14, bold: true };
+        serviceSheet.mergeCells('A1:G1');
+        serviceSheet.getCell('A1').alignment = { horizontal: 'center' };
+        serviceSheet.addRow([]);
 
-            const srvHeaderRow = serviceSheet.addRow([
-                'STT', 'Tên Dịch Vụ', 'Đơn Giá', 'Tổng Nhập Lượng', 'Đang Cho Thuê', 'Đã Trả Hư Hỏng/Mất', 'Tồn Kho Hiện Tại'
+        const srvHeaderRow = serviceSheet.addRow([
+            'STT', 'Tên Dịch Vụ', 'Đơn Giá', 'Tổng Nhập Lượng', 'Đang Cho Thuê', 'Đã Trả Hư Hỏng/Mất', 'Tồn Kho Hiện Tại'
+        ]);
+        srvHeaderRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        srvHeaderRow.eachCell((cell) => {
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0070C0' } };
+            cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        });
+
+        serviceSheet.columns = [
+            { width: 5 }, { width: 30 }, { width: 15, style: { numFmt: '#,##0 "₫"' } }, { width: 15 }, { width: 15 }, { width: 20 }, { width: 15 }
+        ];
+
+        const allServices = await prisma.services.findMany({ orderBy: { nameProduct: 'asc' } });
+
+        allServices.forEach((srv, index) => {
+            const currentStock = (srv.totalQuantity || 0) - (srv.borrowed || 0) - (srv.returned || 0);
+            const row = serviceSheet.addRow([
+                index + 1,
+                srv.nameProduct,
+                srv.price || 0,
+                srv.totalQuantity || 0,
+                srv.borrowed || 0,
+                srv.returned || 0,
+                currentStock
             ]);
-            srvHeaderRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-            srvHeaderRow.eachCell((cell) => {
-                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0070C0' } };
+            row.eachCell((cell) => {
                 cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-                cell.alignment = { vertical: 'middle', horizontal: 'center' };
             });
 
-            serviceSheet.columns = [
-                { width: 5 }, { width: 30 }, { width: 15, style: { numFmt: '#,##0 "₫"' } }, { width: 15 }, { width: 15 }, { width: 20 }, { width: 15 }
-            ];
+            if (currentStock < 5) {
+                row.getCell(7).font = { color: { argb: 'FFFF0000' }, bold: true };
+            }
+        });
 
-            const allServices = await prisma.services.findMany({ orderBy: { nameProduct: 'asc' } });
-
-            allServices.forEach((srv, index) => {
-                const currentStock = (srv.totalQuantity || 0) - (srv.borrowed || 0) - (srv.returned || 0);
-                const row = serviceSheet.addRow([
-                    index + 1,
-                    srv.nameProduct,
-                    srv.price || 0,
-                    srv.totalQuantity || 0,
-                    srv.borrowed || 0,
-                    srv.returned || 0,
-                    currentStock
-                ]);
-                row.eachCell((cell) => {
-                    cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-                });
-
-                if (currentStock < 5) {
-                    row.getCell(7).font = { color: { argb: 'FFFF0000' }, bold: true };
-                }
-            });
-
-            return workbook;
+        return workbook;
     }
 }

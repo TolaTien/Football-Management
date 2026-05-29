@@ -15,7 +15,10 @@ export const ServicesService = {
    */
   getAllServices: async (): Promise<ServiceItem[]> => {
     const { data } = await $api.get('/services');
-    // Backend trả về: services[] trực tiếp
-    return Array.isArray(data) ? data : [];
+    const items = Array.isArray(data) ? data : [];
+    return items.map(item => ({
+      ...item,
+      nameProduct: item.nameProduct ? item.nameProduct.replace(/^\[(?:drink|equipment|food|other)\]\s*/, '') : '',
+    }));
   },
 };

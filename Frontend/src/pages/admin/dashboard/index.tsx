@@ -1,43 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
 import { Row, Col, Typography, Select, Button, message } from 'antd';
-import { DownloadOutlined, WalletOutlined, CalendarOutlined, PieChartOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { DownloadOutlined, WalletOutlined, CalendarOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
 import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
-import { fetchSystemOverview, fetchMonthlyRevenue } from '@/entities/statistic/model/statisticSlice';
-import { statisticService } from '@/entities/statistic/api/statisticService';
-import { StatCard, RevenueChart, HourlyDistribution } from '@/widgets/admin-dashboard-stats';
+import { fetchPitches } from '@/entities/pitch/model/pitchSlice';
+import { StatCard, fetchSystemOverview, fetchMonthlyRevenue, statisticService } from '@/entities/statistic';
+import { RevenueChart } from '@/widgets/admin-revenue-chart';
+import { HourlyDistribution } from '@/widgets/admin-hourly-distribution';
 import { RecentBookingsTable } from '@/widgets/admin-recent-bookings';
 
 const { Title, Text } = Typography;
 
+import dayjs from 'dayjs';
+
 // Constants
 const VIETNAMESE_DONG_TO_MILLION = 1000000;
-const REVENUE_TREND_PERCENTAGE = 12;
-const BOOKINGS_TREND_PERCENTAGE = 8;
-const CAPACITY_TREND_PERCENTAGE = -3;
-const NEW_USERS_TREND_PERCENTAGE = 5;
-
-// Mock revenue distribution ratios (sum = 1.0)
-const RATIOS = {
-  MON: 0.1,
-  TUE: 0.15,
-  WED: 0.2,
-  THU: 0.1,
-  FRI: 0.25,
-  SAT: 0.15,
-  SUN: 0.05,
-};
 
 const AdminDashboard: React.FC = () => {
   const dispatch = useAppDispatch();
   const [address, setAddress] = useState<string>('');
-  
+
   const { bookings } = useAppSelector((state) => state.booking);
+  const { pitches } = useAppSelector((state) => state.pitch);
   const { overview, revenue } = useAppSelector((state) => state.statistic);
 
   useEffect(() => {
     dispatch(fetchAllBookings());
+    dispatch(fetchPitches());
     dispatch(fetchSystemOverview(address || undefined));
     dispatch(fetchMonthlyRevenue({ address: address || undefined }));
   }, [dispatch, address]);
@@ -64,27 +54,35 @@ const AdminDashboard: React.FC = () => {
   const totalBookings = revenue?.totalBookings ?? 0;
   const totalUsers = overview?.totalUsers ?? 0;
   const pendingCount = overview?.totalPendingRequests ?? 0;
-  const fillRate = revenue?.rate ?? 0;
 
-  const revenueData = [
-    { name: 'T2', amount: totalRevenue * RATIOS.MON },
-    { name: 'T3', amount: totalRevenue * RATIOS.TUE },
-    { name: 'T4', amount: totalRevenue * RATIOS.WED },
-    { name: 'T5', amount: totalRevenue * RATIOS.THU },
-    { name: 'T6', amount: totalRevenue * RATIOS.FRI },
-    { name: 'T7', amount: totalRevenue * RATIOS.SAT },
-    { name: 'CN', amount: totalRevenue * RATIOS.SUN },
-  ];
+  // Dynamically calculate revenue data by day of the current week and weekly trends
+  const {
+    revenueData,
+  } = React.useMemo(() => {
+    const today = dayjs();
+    const days = [
+      { name: 'T2', dayOffset: 1 },
+      { name: 'T3', dayOffset: 2 },
+      { name: 'T4', dayOffset: 3 },
+      { name: 'T5', dayOffset: 4 },
+      { name: 'T6', dayOffset: 5 },
+      { name: 'T7', dayOffset: 6 },
+      { name: 'CN', dayOffset: 0 },
+    ];
 
-  const getAIInsight = () => {
-    if (pendingCount > 0) {
-      return `Hệ thống phân tích có ${pendingCount} đơn đặt sân đang chờ. Bạn nên duyệt ngay để tối ưu lịch trống.`;
-    }
-    if (totalBookings < 5) {
-      return `Doanh thu tuần này đang chậm lại. Gợi ý: Phát hành mã giảm giá 10% cho khung giờ ban ngày.`;
-    }
-    return `Tình hình kinh doanh tốt! Khung giờ 17h–19h đang kín lịch. Gợi ý tăng giá 5% vào tuần sau để tối ưu doanh thu.`;
-  };
+    const revData = days.map(({ name, dayOffset }) => {
+      const targetDateStr = today.day(dayOffset).format('YYYY-MM-DD');
+      const dayBookings = bookings.filter(
+        (b) => b.date === targetDateStr && b.status === 'approved'
+      );
+      const amount = dayBookings.reduce((sum, b) => sum + (b.price || 0), 0);
+      return { name, amount };
+    });
+
+    return {
+      revenueData: revData,
+    };
+  }, [bookings]);
 
   const currentTimeString = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
@@ -93,8 +91,8 @@ const AdminDashboard: React.FC = () => {
       header={{
         title: (
           <div>
-            <Title level={2} style={{ margin: 0, fontWeight: 800, color: '#0f172a' }}>Tổng quan hệ thống</Title>
-            <Text style={{ color: '#94a3b8', fontSize: 13, fontWeight: 400 }}>
+            <Title level={2} className="m-0 font-extrabold text-2xl text-slate-800">Tổng quan hệ thống</Title>
+            <Text className="text-slate-400 text-xs font-normal mt-1 block">
               Dữ liệu đồng bộ trực tiếp · Cập nhật lúc {currentTimeString}
             </Text>
           </div>
@@ -103,7 +101,7 @@ const AdminDashboard: React.FC = () => {
           <Select
             key="address"
             placeholder="Lọc địa điểm"
-            style={{ width: 180 }}
+            className="w-44 h-10 rounded-xl"
             allowClear
             onChange={(value) => setAddress(value || '')}
             options={[
@@ -116,7 +114,7 @@ const AdminDashboard: React.FC = () => {
             type="primary"
             icon={<DownloadOutlined />}
             onClick={handleExportExcel}
-            style={{ backgroundColor: '#059669', borderColor: '#059669' }}
+            className="h-10 px-5 font-bold rounded-xl bg-emerald-650 border-emerald-650 hover:bg-emerald-755 hover:border-emerald-755 shadow-md shadow-emerald-600/10 flex items-center"
           >
             Xuất Excel
           </Button>
@@ -124,47 +122,33 @@ const AdminDashboard: React.FC = () => {
       }}
     >
       <Row gutter={[20, 20]}>
-        {/* Stat Cards */}
-        <Col xs={24} sm={12} lg={6}>
+        {/* Stat Cards Row */}
+        <Col xs={24} md={8}>
           <StatCard
             icon={<WalletOutlined />}
             label="Doanh thu thực tế"
             value={`${(totalRevenue / VIETNAMESE_DONG_TO_MILLION).toFixed(1)}M đ`}
-            trend={REVENUE_TREND_PERCENTAGE}
             trendLabel="So với tuần trước"
             color="#059669"
             bg="#dcfce7"
             gradient="linear-gradient(135deg, #059669 0%, #047857 100%)"
           />
         </Col>
-        <Col xs={24} sm={12} lg={6}>
+        <Col xs={24} md={8}>
           <StatCard
             icon={<CalendarOutlined />}
             label="Tổng lượt đặt sân"
             value={`${totalBookings} lượt`}
-            trend={BOOKINGS_TREND_PERCENTAGE}
             trendLabel="Tuần này"
             color="#2563eb"
             bg="#dbeafe"
           />
         </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <StatCard
-            icon={<PieChartOutlined />}
-            label="Tỷ lệ lấp đầy"
-            value={`${fillRate}%`}
-            trend={CAPACITY_TREND_PERCENTAGE}
-            trendLabel="So với hôm qua"
-            color="#d97706"
-            bg="#fef3c7"
-          />
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
+        <Col xs={24} md={8}>
           <StatCard
             icon={<UsergroupAddOutlined />}
             label="Tổng thành viên"
             value={`${totalUsers}`}
-            trend={NEW_USERS_TREND_PERCENTAGE}
             trendLabel="Tháng này"
             color="#7c3aed"
             bg="#ede9fe"
@@ -176,9 +160,9 @@ const AdminDashboard: React.FC = () => {
           <RevenueChart data={revenueData} />
         </Col>
 
-        {/* AI Insights + Pie Chart */}
+        {/* Pie Chart */}
         <Col xs={24} lg={8}>
-          <HourlyDistribution insight={getAIInsight()} />
+          <HourlyDistribution bookings={bookings} pitches={pitches} />
         </Col>
 
         {/* Booking Table */}

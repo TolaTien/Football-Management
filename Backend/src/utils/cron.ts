@@ -131,7 +131,7 @@ export const startCron = () => {
             });
 
             if (cancelBooking.count > 0) console.log(`Đã hủy ${cancelBooking.count} do chưa thanh toán `)
-        } catch(err: any){
+        } catch (err: any) {
             console.error("Lỗi khi chạy cron hủy booking: ", err);
         }
     })

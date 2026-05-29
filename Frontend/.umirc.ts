@@ -98,5 +98,7 @@ export default defineConfig({
     '@pages': __dirname + '/src/pages',
     '@app': __dirname + '/src/app',
   },
+  npmClient: 'npm',
+  esbuildMinifyIIFE: true,
 });
 

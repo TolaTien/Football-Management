@@ -35,12 +35,21 @@ interface BackendServiceItem {
 
 const mapBackendServiceItem = (srv: BackendServiceItem): ServiceItem => {
   const stock = Math.max(0, (srv.totalQuantity ?? 0) - (srv.borrowed ?? 0) + (srv.returned ?? 0));
+  let name = srv.nameProduct || '';
+  let type: ServiceType = detectType(name);
+  
+  const match = name.match(/^\[(drink|equipment|food|other)\]\s*(.*)$/);
+  if (match) {
+    type = match[1] as ServiceType;
+    name = match[2];
+  }
+
   return {
     id: srv.serviceId,
-    name: srv.nameProduct,
+    name: name,
     price: srv.price ?? 0,
     stock,
-    type: detectType(srv.nameProduct),
+    type,
     status: computeStockStatus(stock),
     totalQuantity: srv.totalQuantity ?? 0,
     borrowed: srv.borrowed ?? 0,
@@ -69,7 +78,7 @@ export const addService = createAsyncThunk(
   ) => {
     try {
       await serviceItemService.create({
-        nameProduct: data.name,
+        nameProduct: `[${data.type}] ${data.name}`,
         price: data.price,
         totalQuantity: 50,
         borrowed: 0,
@@ -98,8 +107,9 @@ export const updateStock = createAsyncThunk(
 
       const newStock = Math.max(0, current.stock + qty);
       const newTotalQuantity = newStock + current.borrowed - current.returned;
+      // Trả lại tên với type gốc nếu có
       await serviceItemService.update(id, {
-        nameProduct: current.name,
+        nameProduct: `[${current.type}] ${current.name}`,
         price: current.price,
         totalQuantity: newTotalQuantity,
         borrowed: current.borrowed,
@@ -115,6 +125,33 @@ export const updateStock = createAsyncThunk(
   }
 );
 
+export const updateService = createAsyncThunk(
+  'service/updateService',
+  async (
+    { id, name, type, price }: { id: string; name: string; type: string; price: number },
+    { getState, dispatch, rejectWithValue }
+  ) => {
+    try {
+      const state = getState() as { service: { services: ServiceItem[] } };
+      const current = state.service.services.find((s) => s.id === id);
+      if (!current) throw new Error('Không tìm thấy dịch vụ');
+
+      await serviceItemService.update(id, {
+        nameProduct: `[${type}] ${name}`,
+        price: price,
+        totalQuantity: current.totalQuantity,
+        borrowed: current.borrowed,
+        returned: current.returned,
+      });
+      message.success('Cập nhật thông tin sản phẩm thành công!');
+      dispatch(fetchServices());
+    } catch (error: unknown) {
+      const msg = extractErrorMessage(error, 'Lỗi cập nhật sản phẩm');
+      message.error(msg);
+      return rejectWithValue(msg);
+    }
+  }
+);
 export const deleteService = createAsyncThunk(
   'service/deleteService',
   async (id: string, { dispatch, rejectWithValue }) => {

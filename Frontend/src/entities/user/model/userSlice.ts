@@ -22,6 +22,15 @@ interface UserState {
   isInitialized: boolean;
 }
 
+const mapBackendUser = (u: BackendUser): UserItem => ({
+  id: u.userId,
+  name: u.fullName,
+  email: u.email,
+  phone: u.phone ?? '—',
+  role: (u.role === 'admin' ? 'Quản trị' : 'Khách hàng') as UserRole,
+  status: (u.status === 'banned' ? 'banned' : 'active') as UserStatus,
+});
+
 const getInitialUser = (): UserInfo | null => {
   const saved = localStorage.getItem('pitchhub_user');
   if (saved) {
@@ -34,15 +43,6 @@ const getInitialUser = (): UserInfo | null => {
   return null;
 };
 
-const mapBackendUser = (u: BackendUser): UserItem => ({
-  id: u.userId,
-  name: u.fullName,
-  email: u.email,
-  phone: u.phone ?? '—',
-  role: (u.role === 'admin' ? 'Quản trị' : 'Khách hàng') as UserRole,
-  status: (u.status === 'banned' ? 'banned' : 'active') as UserStatus,
-});
-
 const initialState: UserState = {
   users: [],
   currentUser: getInitialUser(),
@@ -51,6 +51,7 @@ const initialState: UserState = {
   isInitialized: !localStorage.getItem('pitchhub_token'),
 };
 
+// Async thunk cho Admin
 export const fetchUsers = createAsyncThunk(
   'user/fetchUsers',
   async (params: { page?: number; limit?: number; search?: string } | undefined, { rejectWithValue }) => {
@@ -162,7 +163,7 @@ export const toggleBanUser = createAsyncThunk(
     }
   }
 );
-
+// Async thunk cho Client (Xác thực hiện tại)
 export const fetchCurrentUser = createAsyncThunk(
   'user/fetchCurrentUser',
   async (_, { rejectWithValue }) => {
