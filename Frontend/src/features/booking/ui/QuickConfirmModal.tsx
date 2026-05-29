@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { message, Spin, Checkbox, InputNumber } from 'antd';
 import { ServicesService, ServiceItem } from '@/entities/service/api/servicesService';
 import { BookingService } from '@/entities/booking';
-import { useAppDispatch } from '@/app/store/hooks';
-import { addNotification } from '@/entities/notification';
+// useAppDispatch and addNotification imports removed to avoid duplicate notification dispatch
 import dayjs from 'dayjs';
 
 interface QuickConfirmModalProps {
@@ -27,7 +26,7 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
   pitchId = 'pitch-1',
   selectedDate
 }) => {
-  const dispatch = useAppDispatch();
+  // dispatch removed
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -104,14 +103,7 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
       };
 
       const bookingData = await BookingService.bookPitchForUser(payload);
-      
-      // Dispatch local notification
-      dispatch(addNotification({
-        id: `booking-${Date.now()}`,
-        title: 'Đặt sân thành công',
-        content: `Yêu cầu đặt sân ${pitchName} (${timeSlot}) ngày ${dayjs(selectedDate).format('DD/MM/YYYY')} đang được chờ phê duyệt.`,
-        type: 'booking'
-      }));
+      // Local notification removed to prevent duplicates; only dispatched upon payment completion
 
       if (onSuccess) onSuccess(bookingData);
       else onClose();

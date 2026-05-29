@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Spin, message, Modal } from 'antd';
 import { BookingService } from '@/entities/booking';
 import dayjs from 'dayjs';
+import { useAppDispatch } from '@/app/store/hooks';
+import { addNotification } from '@/entities/notification';
 
 interface PaymentInvoiceModalProps {
   isOpen: boolean;
@@ -20,6 +22,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
   onPaymentSuccess,
   onCancelSuccess,
 }) => {
+  const dispatch = useAppDispatch();
   const [submitting, setSubmitting] = useState(false);
   const [cancelling, setCancelling] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'banking' | 'wallet' | 'cash'>('banking');
@@ -80,6 +83,13 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
       if (paymentMethod === 'wallet') {
         setWalletBalance(prev => prev - activeAmount);
       }
+
+      dispatch(addNotification({
+        id: `payment-${Date.now()}`,
+        title: 'Đặt sân thành công',
+        content: `Yêu cầu đặt sân ${booking.pitch?.namePitch || 'Sân bóng'} (${booking.startTime ? dayjs(booking.startTime).format('HH:mm') : ''} – ${booking.endTime ? dayjs(booking.endTime).format('HH:mm') : ''}) ngày ${dayjs(booking.startTime).format('DD/MM/YYYY')} đã được thanh toán thành công và chờ phê duyệt.`,
+        type: 'booking'
+      }));
 
       message.success('Đặt sân và thanh toán thành công!');
       onPaymentSuccess();
@@ -178,7 +188,6 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
           {/* Payment Option Selection */}
           <section className="bg-white p-5 rounded-[24px] border border-slate-100 shadow-sm space-y-4 flex-none">
             <h4 className="text-[10px] font-black text-emerald-950 uppercase tracking-widest flex items-center gap-2">
-              <span className="material-symbols-outlined text-base text-emerald-600">split_screen</span>
               Chọn hạn mức thanh toán
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
