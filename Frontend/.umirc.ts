@@ -60,11 +60,6 @@ export default defineConfig({
           component: './admin/pitches',
         },
         {
-          name: 'Pricing',
-          path: '/admin/pricing',
-          component: './admin/pricing',
-        },
-        {
           name: 'Customers',
           path: '/admin/customers',
           component: './admin/customers',

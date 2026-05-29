@@ -8,6 +8,7 @@ import type { Pitch } from '@/entities/pitch/model/types';
 import { PitchCard } from '@/entities/pitch';
 import { AddEditPitchModal } from '@/features/manage-pitch';
 import { PitchesSummaryStats } from '@/widgets/AdminPitchesStats';
+import { PriceConfigDrawer } from '@/features/manage-pricing';
 
 const { Text } = Typography;
 
@@ -22,6 +23,7 @@ const AdminPitchesList: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPitch, setEditingPitch] = useState<Pitch | null>(null);
+  const [selectedPitchForPrice, setSelectedPitchForPrice] = useState<Pitch | null>(null);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -113,6 +115,7 @@ const AdminPitchesList: React.FC = () => {
               pitch={p}
               onEdit={handleOpenEdit}
               onDelete={handleDelete}
+              onConfigurePrice={(pitch) => setSelectedPitchForPrice(pitch)}
             />
           </Col>
         ))}
@@ -139,6 +142,12 @@ const AdminPitchesList: React.FC = () => {
         onFinish={handleFormSubmit}
         form={form}
         editingPitch={editingPitch}
+      />
+
+      {/* Price Configuration Drawer */}
+      <PriceConfigDrawer
+        pitch={selectedPitchForPrice}
+        onClose={() => setSelectedPitchForPrice(null)}
       />
     </PageContainer>
   );

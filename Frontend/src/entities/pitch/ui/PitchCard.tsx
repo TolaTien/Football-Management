@@ -1,12 +1,13 @@
 import React from 'react';
 import { Card, Tag, Space, Popconfirm } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 import type { Pitch } from '@/entities/pitch/model/types';
 
 interface PitchCardProps {
   pitch: Pitch;
   onEdit: (pitch: Pitch) => void;
   onDelete: (id: string) => void;
+  onConfigurePrice?: (pitch: Pitch) => void;
 }
 
 const getGradient = (category?: number): string => {
@@ -15,7 +16,7 @@ const getGradient = (category?: number): string => {
   return 'from-purple-600 to-purple-800';
 };
 
-export const PitchCard: React.FC<PitchCardProps> = ({ pitch, onEdit, onDelete }) => {
+export const PitchCard: React.FC<PitchCardProps> = ({ pitch, onEdit, onDelete, onConfigurePrice }) => {
   return (
     <Card
       hoverable
@@ -40,8 +41,11 @@ export const PitchCard: React.FC<PitchCardProps> = ({ pitch, onEdit, onDelete })
       <div className="p-5 flex flex-col flex-1">
         <div className="flex justify-between items-start mb-1">
           <div className="text-lg font-extrabold text-slate-800">{pitch.name}</div>
-          <Space className="text-slate-400">
-            <EditOutlined className="cursor-pointer hover:text-emerald-600 transition-colors" onClick={() => onEdit(pitch)} />
+          <Space className="text-slate-450 gap-2.5">
+            {onConfigurePrice && (
+              <SettingOutlined className="cursor-pointer hover:text-emerald-600 transition-colors" onClick={() => onConfigurePrice(pitch)} />
+            )}
+            <EditOutlined className="cursor-pointer hover:text-blue-600 transition-colors" onClick={() => onEdit(pitch)} />
             <Popconfirm title="Bạn có chắc chắn muốn xóa sân này?" onConfirm={() => onDelete(pitch.id)} okText="Xóa" cancelText="Hủy">
               <DeleteOutlined className="cursor-pointer text-red-500 hover:text-red-700 transition-colors" />
             </Popconfirm>

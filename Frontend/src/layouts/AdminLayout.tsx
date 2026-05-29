@@ -14,7 +14,6 @@ const ADMIN_NAV_ITEMS = [
   { icon: 'sports_soccer', label: 'Quản lý sân', path: '/admin/pitches' },
   { icon: 'assessment', label: 'Báo cáo doanh thu', path: '/admin/finance' },
   { icon: 'group', label: 'Người dùng', path: '/admin/customers' },
-  { icon: 'payments', label: 'Cấu hình giá', path: '/admin/pricing' },
   { icon: 'inventory_2', label: 'Kho & Sản phẩm', path: '/admin/services' },
   { icon: 'forum', label: 'Diễn đàn', path: '/admin/forum' },
 ];
