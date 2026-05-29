@@ -31,6 +31,27 @@ export const DashboardStatsPanel: React.FC = () => {
   const [spendersLoading, setSpendersLoading] = useState(false);
   const [totalPlayed, setTotalPlayed] = useState(0);
 
+  const sortedNotifications = React.useMemo(() => {
+    return [...notifications].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  }, [notifications]);
+
+  const getNotificationTitle = (notif: any) => {
+    if (notif.title) return notif.title;
+    switch (notif.type) {
+      case 'booking':
+        return 'Đặt sân bóng';
+      case 'payment':
+        return 'Thanh toán';
+      case 'post':
+        return 'Cáp kèo & Ghép đội';
+      case 'system':
+      default:
+        return 'Thông báo hệ thống';
+    }
+  };
+
   useEffect(() => {
     dispatch(fetchNotifications(1));
     fetchLeaderboard();
@@ -75,31 +96,31 @@ export const DashboardStatsPanel: React.FC = () => {
 
   return (
     <div className="space-y-lg">
-      <StatCard title="TOTAL PLAYED" value={`${totalPlayed} Matches`} icon="sports_soccer" />
+      <StatCard title="TỔNG SỐ TRẬN" value={`${totalPlayed} trận`} icon="sports_soccer" />
 
       {/* Notifications Widget inline */}
       <div className="bg-white border border-outline-variant rounded-xl p-lg shadow-sm">
         <div className="flex justify-between items-center mb-md">
-          <h3 className="font-h3 text-h3 text-emerald-900">Notifications</h3>
+          <h3 className="font-h3 text-h3 text-primary">Thông báo</h3>
           <button 
             onClick={handleMarkReadAll}
             className="text-xs font-button text-gray-400 hover:text-primary transition-colors"
           >
-            Mark read
+            Đánh dấu đã đọc
           </button>
         </div>
         
         <div className="space-y-md min-h-[100px]">
           {loading ? (
             <div className="flex justify-center py-4"><Spin size="small" /></div>
-          ) : notifications.slice(0, 3).length === 0 ? (
-            <Empty description="No notifications" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          ) : sortedNotifications.slice(0, 3).length === 0 ? (
+            <Empty description="Không có thông báo mới" image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
-            notifications.slice(0, 3).map(notif => (
+            sortedNotifications.slice(0, 3).map(notif => (
               <div key={notif.id} className={`flex gap-md group ${notif.isRead ? 'opacity-70' : ''}`}>
                 <div className={`w-2 h-2 rounded-full mt-2 ${!notif.isRead ? 'bg-primary' : 'bg-transparent border border-gray-300'}`}></div>
                 <div className="flex-1">
-                  <p className="text-sm font-button text-on-surface line-clamp-1">{notif.title || (notif.type ? notif.type.toUpperCase() : 'Notification')}</p>
+                  <p className="text-sm font-button text-on-surface line-clamp-1">{getNotificationTitle(notif)}</p>
                   <p className="text-xs text-gray-500 line-clamp-2">{notif.content}</p>
                   <p className="text-[10px] text-gray-400 mt-1 uppercase font-label-caps">{dayjs(notif.createdAt).fromNow()}</p>
                 </div>
@@ -112,22 +133,22 @@ export const DashboardStatsPanel: React.FC = () => {
           onClick={() => navigate('/user/profile?tab=notifications')}
           className="w-full mt-lg pt-md border-t border-gray-100 text-sm font-button text-gray-500 hover:text-primary transition-colors"
         >
-          View All Notifications
+          Xem tất cả thông báo
         </button>
       </div>
 
       {/* Top Players Leaderboard Widget */}
       <div className="bg-white border border-outline-variant rounded-xl p-lg shadow-sm">
         <div className="flex items-center gap-2 mb-md">
-          <span className="material-symbols-outlined text-emerald-900 text-xl">emoji_events</span>
-          <h3 className="font-h3 text-h3 text-emerald-900">Top Players</h3>
+          <span className="material-symbols-outlined text-primary text-xl">emoji_events</span>
+          <h3 className="font-h3 text-h3 text-primary">Bảng xếp hạng</h3>
         </div>
 
         <div className="space-y-sm">
           {spendersLoading ? (
             <div className="flex justify-center py-4"><Spin size="small" /></div>
           ) : spenders.length === 0 ? (
-            <Empty description="No leaderboard data" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            <Empty description="Chưa có dữ liệu bảng xếp hạng" image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
             spenders.slice(0, 5).map((spender, index) => {
               // Custom rank styles
@@ -153,13 +174,13 @@ export const DashboardStatsPanel: React.FC = () => {
 
                     {/* Profile Name */}
                     <span className="text-sm font-medium text-gray-800 truncate" title={spender.fullName}>
-                      {spender.fullName || 'Anonymous'}
+                      {spender.fullName || 'Ẩn danh'}
                     </span>
                   </div>
 
                   {/* Booking Stats / Total spent */}
                   <div className="text-right shrink-0">
-                    <p className="text-xs font-bold text-emerald-900">{spender.bookingCount} bookings</p>
+                    <p className="text-xs font-bold text-primary">{spender.bookingCount} lượt đặt</p>
                     <p className="text-[10px] text-gray-400 font-medium">
                       {spender.totalSpent ? Number(spender.totalSpent).toLocaleString('vi-VN') + ' ₫' : '0 ₫'}
                     </p>

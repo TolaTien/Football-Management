@@ -30,6 +30,21 @@ export const UserNavbar: React.FC = () => {
     });
   }, [notifications]);
 
+  const getNotificationTitle = (notif: any) => {
+    if (notif.title) return notif.title;
+    switch (notif.type) {
+      case 'booking':
+        return 'Đặt sân bóng';
+      case 'payment':
+        return 'Thanh toán';
+      case 'post':
+        return 'Cáp kèo & Ghép đội';
+      case 'system':
+      default:
+        return 'Thông báo hệ thống';
+    }
+  };
+
   useEffect(() => {
     if (user) {
       dispatch(fetchNotifications(1));
@@ -73,7 +88,7 @@ export const UserNavbar: React.FC = () => {
   const notificationContent = (
     <div className="w-80">
       <div className="flex justify-between items-center mb-2 px-2 pt-2">
-        <h4 className="font-bold text-gray-800">Notifications</h4>
+        <h4 className="font-bold text-gray-800">Thông báo</h4>
         {unreadCount > 0 && (
           <button 
             className="text-xs text-primary hover:underline"
@@ -81,7 +96,7 @@ export const UserNavbar: React.FC = () => {
               dispatch(markAllNotificationsRead());
             }}
           >
-            Mark all as read
+            Đánh dấu tất cả đã đọc
           </button>
         )}
       </div>
@@ -89,7 +104,7 @@ export const UserNavbar: React.FC = () => {
       {loadingNotifs ? (
         <div className="flex justify-center p-4"><Spin size="small" /></div>
       ) : notifications.length === 0 ? (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No notifications" />
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Không có thông báo mới" />
       ) : (
         <div className="max-h-80 overflow-y-auto">
           <List
@@ -121,7 +136,7 @@ export const UserNavbar: React.FC = () => {
                       </span>
                     </Avatar>
                   }
-                  title={<span className={`text-xs ${item.isRead ? 'font-medium text-gray-600' : 'font-bold text-primary'}`}>{item.title || item.type?.toUpperCase() || 'System'}</span>}
+                  title={<span className={`text-xs ${item.isRead ? 'font-medium text-gray-600' : 'font-bold text-primary'}`}>{getNotificationTitle(item)}</span>}
                   description={<span className="text-xs text-gray-500 line-clamp-2">{item.content}</span>}
                 />
               </List.Item>
@@ -138,7 +153,7 @@ export const UserNavbar: React.FC = () => {
             navigate('/user/profile?tab=notifications');
           }}
         >
-          View all notifications
+          Xem tất cả thông báo
         </button>
       </div>
     </div>
@@ -174,8 +189,8 @@ export const UserNavbar: React.FC = () => {
               onClick={() => navigate('/user/profile')}
             >
               <div className="text-right">
-                <p className="font-button text-on-surface text-sm leading-none">{user?.fullName || 'Player'}</p>
-                <p className="text-[10px] font-label-caps text-gray-500 uppercase">{user?.role || 'USER'}</p>
+                <p className="font-button text-on-surface text-sm leading-none">{user?.fullName || 'Người chơi'}</p>
+                <p className="text-[10px] font-label-caps text-gray-500 uppercase">{user?.role === 'admin' ? 'Quản trị viên' : 'Thành viên'}</p>
               </div>
               <img
                 alt="User Avatar"
@@ -192,7 +207,7 @@ export const UserNavbar: React.FC = () => {
                   className="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-container rounded-md flex items-center gap-2 transition-colors"
                 >
                   <span className="material-symbols-outlined text-[18px]">manage_accounts</span>
-                  Profile Settings
+                  Thông tin cá nhân
                 </button>
                 <div className="my-1 border-t border-gray-100" />
                 <button
@@ -200,7 +215,7 @@ export const UserNavbar: React.FC = () => {
                   className="w-full text-left px-4 py-2 text-sm text-error hover:bg-error-container rounded-md flex items-center gap-2 transition-colors"
                 >
                   <span className="material-symbols-outlined text-[18px]">logout</span>
-                  Logout
+                  Đăng xuất
                 </button>
               </div>
             </div>
