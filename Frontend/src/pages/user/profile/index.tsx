@@ -1,25 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from '@umijs/max';
 import { PersonalInfo } from '@/features/user-update-profile-info';
 import { PrivacySecurity } from '@/features/user-update-profile-security';
 import { MyNotifications } from '@/widgets/user-notifications-list';
 import { MyBookings } from '@/widgets/user-bookings-list';
 
 const UserProfilePage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'personal' | 'bookings' | 'notifications' | 'security'>('personal');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const queryTab = searchParams.get('tab');
+  const initialTab = (queryTab && ['personal', 'bookings', 'notifications', 'security'].includes(queryTab))
+    ? (queryTab as 'personal' | 'bookings' | 'notifications' | 'security')
+    : 'personal';
+
+  const [activeTab, setActiveTab] = useState<'personal' | 'bookings' | 'notifications' | 'security'>(initialTab);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab');
+    if (tab && ['personal', 'bookings', 'notifications', 'security'].includes(tab)) {
+      setActiveTab(tab as any);
+    }
+  }, [location.search]);
 
   const navItems = [
-    { key: 'personal', icon: 'person', label: 'Personal Info' },
-    { key: 'bookings', icon: 'calendar_month', label: 'My Bookings' },
-    { key: 'notifications', icon: 'notifications', label: 'Notifications' },
-    { key: 'security', icon: 'security', label: 'Privacy & Security' },
+    { key: 'personal', icon: 'person', label: 'Thông tin cá nhân' },
+    { key: 'bookings', icon: 'calendar_month', label: 'Lịch đặt của tôi' },
+    { key: 'notifications', icon: 'notifications', label: 'Thông báo' },
+    { key: 'security', icon: 'security', label: 'Bảo mật & Quyền riêng tư' },
   ];
 
   return (
     <div className="animate-in fade-in duration-300 pb-xl">
       <div className="mb-6">
-        <h2 className="font-h1 text-2xl font-bold text-primary">Player Settings</h2>
+        <h2 className="font-h1 text-2xl font-bold text-primary">Thiết lập tài khoản</h2>
         <p className="text-secondary text-sm mt-1 font-body-md">
-          Manage your personal information and system preferences.
+          Quản lý thông tin cá nhân và thiết lập hệ thống của bạn.
         </p>
       </div>
 
