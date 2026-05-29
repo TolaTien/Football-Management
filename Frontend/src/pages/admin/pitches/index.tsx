@@ -33,6 +33,7 @@ const AdminPitchesList: React.FC = () => {
   const handleOpenAdd = () => {
     setEditingPitch(null);
     form.resetFields();
+    form.setFieldsValue({ status: 'active' });
     setIsModalOpen(true);
   };
 
@@ -43,19 +44,20 @@ const AdminPitchesList: React.FC = () => {
       type: pitch.type.includes('5') ? '5' : pitch.type.includes('7') ? '7' : '11',
       desc: pitch.desc,
       price: MOCK_PRICE,
+      status: pitch.status,
     });
     setIsModalOpen(true);
   };
 
-  const handleFormSubmit = (values: { name: string; type: string; desc?: string; price?: number }) => {
+  const handleFormSubmit = (values: { name: string; type: string; desc?: string; price?: number; status: 'active' | 'maintenance' }) => {
     const pitchData = {
       name: values.name,
       type: `Sân ${values.type} người`,
       desc: values.desc || '',
-      status: editingPitch ? editingPitch.status : 'active',
-      grassHealth: editingPitch ? editingPitch.grassHealth : INITIAL_GRASS_HEALTH,
-      grassStatus: editingPitch ? editingPitch.grassStatus : DEFAULT_GRASS_STATUS,
-      nextMaintenance: editingPitch ? editingPitch.nextMaintenance : DEFAULT_MAINTENANCE,
+      status: values.status,
+      grassHealth: values.status === 'maintenance' ? 45 : 94,
+      grassStatus: values.status === 'maintenance' ? 'Cần chăm sóc' : 'Tốt',
+      nextMaintenance: values.status === 'maintenance' ? 'Đang thực hiện' : '15/10/2023',
     } as Omit<Pitch, 'id'>;
 
     if (editingPitch) {
@@ -75,16 +77,16 @@ const AdminPitchesList: React.FC = () => {
 
   const activePitches = pitches.filter(p => p.status === 'active').length;
   const maintenancePitches = pitches.filter(p => p.status === 'maintenance').length;
-  const totalHealth = pitches.reduce((sum, p) => sum + (p.grassHealth || 0), 0);
-  const avgHealth = pitches.length ? Math.round(totalHealth / pitches.length) : 0;
+  const totalPitches = pitches.length;
+  const operatingIndex = totalPitches ? Math.round((activePitches / totalPitches) * 100) : 0;
 
   return (
     <PageContainer
       header={{
         title: (
           <div>
-            <div className="font-extrabold text-2xl text-slate-800 tracking-tight">Quản lý hệ thống sân</div>
-            <Text className="text-slate-400 text-xs">Theo dõi tình trạng, lịch bảo trì và danh sách sân cỏ của bạn</Text>
+            <div className="font-extrabold text-2xl text-slate-800 tracking-tight">Danh sách sân bóng</div>
+            <Text className="text-slate-400 text-xs">Theo dõi hiện trạng kỹ thuật và khả năng khai thác của các sân.</Text>
           </div>
         ),
         extra: [
@@ -92,7 +94,7 @@ const AdminPitchesList: React.FC = () => {
             key="add" 
             type="primary" 
             icon={<PlusOutlined />} 
-            className="h-10 px-5 font-bold rounded-xl bg-emerald-600 border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 shadow-md shadow-emerald-600/10" 
+            className="h-10 px-5 font-bold rounded-xl bg-[#006644] border-[#006644] hover:bg-[#005533] hover:border-[#005533] shadow-md shadow-emerald-900/10 flex items-center gap-1" 
             onClick={handleOpenAdd}
           >
             Thêm sân mới
@@ -104,7 +106,7 @@ const AdminPitchesList: React.FC = () => {
       <PitchesSummaryStats
         activePitches={activePitches}
         maintenancePitches={maintenancePitches}
-        avgHealth={avgHealth}
+        avgHealth={operatingIndex}
       />
 
       {/* Grid Danh sách sân */}

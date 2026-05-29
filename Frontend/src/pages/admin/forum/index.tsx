@@ -7,7 +7,6 @@ import type { CreateForumPostDto } from '@/entities/forum/model/types';
 
 // FSD Imports
 import { ForumListCard } from '@/widgets/AdminForumList';
-import { ForumStatsCard } from '@/widgets/AdminForumStats';
 import { QuickDraftCard } from '@/features/manage-forum';
 
 const { Title, Text } = Typography;
@@ -55,14 +54,13 @@ const AdminForum: React.FC = () => {
           <div className="space-y-6">
             <QuickDraftCard form={form} onFinish={handlePost} />
 
-            <ForumStatsCard />
-
-            <div className="p-5 bg-slate-50 border border-slate-200 rounded-2xl shadow-inner">
-              <div className="font-bold text-slate-800 mb-1 text-sm">Hướng dẫn Cộng đồng</div>
-              <div className="text-slate-500 text-xs leading-relaxed mb-3">
-                Mọi bài đăng đều hiển thị công khai. Hãy đảm bảo nội dung tuân thủ các chính sách an toàn của TurfMaster.
+            <div className="p-5 bg-emerald-50/70 border border-emerald-100 rounded-2xl shadow-sm">
+              <div className="font-extrabold text-emerald-800 mb-2 text-sm flex items-center gap-1.5">
+                📜 Nội quy Cộng đồng
               </div>
-              <a href="#" className="text-emerald-600 font-bold text-xs hover:text-emerald-700 transition-colors">Xem Sổ tay ↗</a>
+              <div className="text-emerald-700/90 text-xs leading-relaxed mb-4">
+                Vui lòng tuân thủ quy tắc ứng xử chuẩn mực. Không đăng tải nội dung rác, quảng cáo sai quy định hoặc bài viết xúc phạm người khác. Các bài viết vi phạm sẽ bị kiểm duyệt và gỡ bỏ.
+              </div>
             </div>
           </div>
         </Col>

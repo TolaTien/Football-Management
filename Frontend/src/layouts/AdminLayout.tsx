@@ -119,24 +119,29 @@ const AdminLayout: React.FC = () => {
         </aside>
 
         {/* Header */}
-        <header className="fixed top-0 left-[260px] right-0 h-16 bg-white border-b border-gray-200 shadow-sm flex justify-between items-center px-8 z-40">
-          <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-full px-4 py-2 w-96 focus-within:bg-white focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-100 transition-all">
-            <span className="material-symbols-outlined text-gray-400 text-[18px]">search</span>
-            <input
-              className="bg-transparent border-none outline-none text-sm w-full text-gray-700 placeholder-gray-400"
-              placeholder="Tìm kiếm giao dịch, sân bóng, người dùng..."
-              type="text"
-            />
+        {/* Header */}
+        <header className="fixed top-0 left-[260px] right-0 h-16 bg-white border-b border-gray-200 shadow-sm flex justify-between items-center px-8 z-45">
+          <div className="text-lg font-extrabold text-[#006644] tracking-wider uppercase">
+            {location.pathname.startsWith('/admin/dashboard') && 'Tổng quan hệ thống'}
+            {location.pathname.startsWith('/admin/schedule') && 'Lịch đặt sân'}
+            {location.pathname.startsWith('/admin/pitches') && 'Quản lý hệ thống sân'}
+            {location.pathname.startsWith('/admin/finance') && 'Báo cáo doanh thu'}
+            {location.pathname.startsWith('/admin/customers') && 'Quản lý người dùng'}
+            {location.pathname.startsWith('/admin/services') && 'Kho & Sản phẩm'}
+            {location.pathname.startsWith('/admin/forum') && 'Diễn đàn'}
           </div>
 
-          <div className="flex items-center gap-4">
-            <button className="relative text-gray-500 hover:text-emerald-600 transition-colors p-1">
-              <span className="material-symbols-outlined">notifications</span>
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+          <div className="flex items-center gap-5">
+            <button className="relative text-slate-500 hover:text-emerald-700 transition-colors p-1 bg-transparent border-none cursor-pointer flex items-center">
+              <span className="material-symbols-outlined text-[22px]">notifications</span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
             </button>
-            <button className="text-gray-500 hover:text-emerald-600 transition-colors p-1">
-              <span className="material-symbols-outlined">settings</span>
+            <button className="text-slate-500 hover:text-emerald-700 transition-colors p-1 bg-transparent border-none cursor-pointer flex items-center">
+              <span className="material-symbols-outlined text-[22px]">settings</span>
             </button>
+            <div className="w-8 h-8 rounded-full bg-[#dbeafe] text-[#1d4ed8] font-bold text-xs flex items-center justify-center shadow-sm select-none border border-[#bfdbfe]">
+              {avatarChar}
+            </div>
           </div>
         </header>
 

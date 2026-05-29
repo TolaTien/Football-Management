@@ -6,7 +6,7 @@ import type { Pitch } from '@/entities/pitch/model/types';
 interface AddEditPitchModalProps {
   isOpen: boolean;
   onCancel: () => void;
-  onFinish: (values: { name: string; type: string; desc?: string; price?: number }) => void;
+  onFinish: (values: { name: string; type: string; desc?: string; price?: number; status: 'active' | 'maintenance' }) => void;
   form: any;
   editingPitch: Pitch | null;
 }
@@ -81,17 +81,34 @@ export const AddEditPitchModal: React.FC<AddEditPitchModalProps> = ({
               </Col>
               <Col span={12}>
                 <Form.Item
-                  name="price"
+                  name="status"
                   label={
                     <span className="font-semibold text-slate-700 text-xs flex items-center gap-1.5">
-                      💰 Đơn giá mỗi giờ (VNĐ)
+                      ⚙️ Trạng thái hoạt động
                     </span>
                   }
+                  rules={[{ required: true, message: 'Chọn trạng thái sân' }]}
                 >
-                  <Input placeholder="500000" size="large" className="rounded-xl border-slate-300 focus:border-emerald-500" />
+                  <Select size="large" className="rounded-xl w-full"
+                    options={[
+                      { value: 'active', label: 'Sẵn sàng' },
+                      { value: 'maintenance', label: 'Bảo trì' },
+                    ]}
+                  />
                 </Form.Item>
               </Col>
             </Row>
+
+            <Form.Item
+              name="price"
+              label={
+                <span className="font-semibold text-slate-700 text-xs flex items-center gap-1.5">
+                  💰 Đơn giá mỗi giờ (VNĐ)
+                </span>
+              }
+            >
+              <Input placeholder="500000" size="large" className="rounded-xl border-slate-300 focus:border-emerald-500" />
+            </Form.Item>
 
             <Form.Item
               name="desc"

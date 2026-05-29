@@ -7,7 +7,6 @@ import { fetchUsers, addUser, toggleBanUser } from '@/entities/user/model/userSl
 import type { UserItem, UserRole } from '@/entities/user/model/types';
 import { AddUserModal } from '@/features/manage-user';
 import { UserStatCards } from '@/widgets/AdminUserStats';
-import { ActivityLogCard } from '@/widgets/AdminActivityLog';
 
 const { Text } = Typography;
 
@@ -118,8 +117,8 @@ const AdminCustomers: React.FC = () => {
           </div>
         ),
         extra: [
-          <Button key="export" className="rounded-xl h-10 px-5 font-bold border-slate-350 hover:border-emerald-500 hover:text-emerald-600 transition-colors shadow-sm">Xuất PDF</Button>,
-          <Button key="add" type="primary" icon={<UserAddOutlined />} className="h-10 px-5 font-bold rounded-xl bg-emerald-650 border-emerald-650 hover:bg-emerald-755 hover:border-emerald-755 shadow-md shadow-emerald-600/10 flex items-center" onClick={() => setIsModalOpen(true)}>
+          <Button key="export" className="rounded-xl h-10 px-5 font-bold border-slate-300 hover:border-emerald-500 hover:text-emerald-600 transition-colors shadow-sm">Xuất PDF</Button>,
+          <Button key="add" type="primary" icon={<UserAddOutlined />} className="h-10 px-5 font-bold rounded-xl bg-emerald-600 border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 shadow-md shadow-emerald-600/10 flex items-center" onClick={() => setIsModalOpen(true)}>
             Thêm người dùng
           </Button>
         ]
@@ -153,8 +152,6 @@ const AdminCustomers: React.FC = () => {
           />
         </div>
       </Card>
-
-      <ActivityLogCard />
 
       <AddUserModal
         open={isModalOpen}
