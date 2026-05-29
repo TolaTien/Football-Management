@@ -11,10 +11,10 @@ import { fetchPitches } from '@/entities/pitch/model/pitchSlice';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/vi';
 import type { Booking } from '@/entities/booking/model/types';
-import AddBookingModal from './components/AddBookingModal';
-import BookingDetailModal from './components/BookingDetailModal';
-import { ScheduleStats } from './components/ScheduleStats';
-import { ScheduleFilterCard } from './components/ScheduleFilterCard';
+
+// FSD Imports
+import { AddBookingModal, BookingDetailModal } from '@/features/manage-booking';
+import { ScheduleFilterCard, ScheduleStats } from '@/widgets/AdminScheduleGrid';
 
 dayjs.locale('vi');
 
@@ -93,16 +93,21 @@ const AdminScheduleGrid: React.FC = () => {
   return (
     <PageContainer
       header={{
-        title: <Title level={2} style={{ margin: 0, fontWeight: 700, color: '#00a67d' }}>Lịch đặt sân chi tiết</Title>,
+        title: <Title level={2} className="m-0 font-extrabold text-slate-800 tracking-tight">Lịch đặt sân chi tiết</Title>,
         subTitle: (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 12px', background: '#f3f4f6', borderRadius: 16, marginTop: 8 }}>
-            <CalendarOutlined style={{ color: '#4b5563' }} />
-            <Text style={{ color: '#4b5563', fontWeight: 600 }}>{selectedDate.format('dddd, DD/MM/YYYY')}</Text>
+          <div className="flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full mt-2 w-fit">
+            <CalendarOutlined className="text-slate-500" />
+            <Text className="text-slate-600 font-semibold text-xs">{selectedDate.format('dddd, DD/MM/YYYY')}</Text>
           </div>
         ),
         extra: [
-          <Button key="add" type="primary" icon={<PlusOutlined />} onClick={() => setShowAdd(true)}
-            style={{ background: '#00a67d', borderRadius: 8, fontWeight: 600, height: 40 }}>
+          <Button 
+            key="add" 
+            type="primary" 
+            icon={<PlusOutlined />} 
+            onClick={() => setShowAdd(true)}
+            className="bg-emerald-600 border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 rounded-xl font-bold h-10 px-5 shadow-md shadow-emerald-600/10"
+          >
             Đặt sân mới
           </Button>,
         ],
@@ -120,27 +125,27 @@ const AdminScheduleGrid: React.FC = () => {
       />
 
       {/* Grid Timeline */}
-      <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #e5e7eb', overflow: 'hidden' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '12px 20px', borderBottom: '1px solid #e5e7eb', background: '#f9fafb' }}>
+      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+        <div className="flex items-center gap-5 px-5 py-3 border-b border-slate-200 bg-slate-50">
           {Object.values(PAY_CFG).map(({ bg, label }) => (
-            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: '#4b5563' }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', background: bg }} />{label}
+            <div key={label} className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: bg }} />{label}
             </div>
           ))}
-          <div style={{ marginLeft: 'auto' }}>
-            <Badge count={filtered.length} showZero color="#00a67d" />
-            <span style={{ marginLeft: 6, fontSize: 13, color: '#4b5563' }}>lượt đặt</span>
+          <div className="ml-auto flex items-center gap-1.5">
+            <Badge count={filtered.length} showZero color="#059669" />
+            <span className="text-xs text-slate-500 font-medium">lượt đặt</span>
           </div>
         </div>
 
-        <div style={{ overflowX: 'auto' }}>
-          <div style={{ minWidth: 960 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: GRID_TPL, background: '#e0e7ff', borderBottom: '2px solid #c7d2fe' }}>
-              <div style={{ padding: '10px 14px', borderRight: '1px solid #c7d2fe', fontWeight: 800, color: '#3730a3', fontSize: 13, gridColumn: '1' }}>
+        <div className="overflow-x-auto">
+          <div className="min-w-[960px]">
+            <div className="grid bg-indigo-50 border-b border-indigo-150" style={{ gridTemplateColumns: GRID_TPL }}>
+              <div className="px-3.5 py-2.5 border-r border-indigo-100 font-extrabold text-indigo-700 text-xs">
                 SÂN / GIỜ
               </div>
               {HOUR_LABELS.map((lbl, i) => (
-                <div key={lbl} style={{ gridColumn: `${i * 2 + 2} / ${i * 2 + 4}`, gridRow: '1', padding: '10px 4px', textAlign: 'center', fontWeight: 700, color: '#1f2937', fontSize: 12, borderRight: '1px solid #c7d2fe' }}>
+                <div key={lbl} className="text-center font-bold text-slate-700 text-xs border-r border-indigo-100 py-2.5" style={{ gridColumn: `${i * 2 + 2} / ${i * 2 + 4}`, gridRow: '1' }}>
                   {lbl}
                 </div>
               ))}
@@ -149,16 +154,16 @@ const AdminScheduleGrid: React.FC = () => {
             {displayPitches.map((pitch) => {
               const pitchBookings = filtered.filter((b) => b.pitchId === pitch.id);
               return (
-                <div key={pitch.id} style={{ display: 'grid', gridTemplateColumns: GRID_TPL, gridTemplateRows: '72px', borderBottom: '1px solid #e5e7eb', alignItems: 'stretch' }}>
-                  <div style={{ gridColumn: '1', gridRow: '1', padding: '10px 14px', background: '#f9fafb', borderRight: '1px solid #e5e7eb', zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    <div style={{ fontWeight: 800, color: '#1f2937', fontSize: 14 }}>{pitch.name}</div>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: pitch.type?.includes('7') || pitch.type?.includes('11') ? '#1d4ed8' : '#059669', textTransform: 'uppercase', marginTop: 2 }}>
+                <div key={pitch.id} className="grid border-b border-slate-100 items-stretch" style={{ gridTemplateColumns: GRID_TPL, gridTemplateRows: '72px' }}>
+                  <div className="px-3.5 py-2 bg-slate-50/50 border-r border-slate-150 z-10 flex flex-col justify-center" style={{ gridColumn: '1', gridRow: '1' }}>
+                    <div className="font-extrabold text-slate-800 text-xs">{pitch.name}</div>
+                    <div className={`text-[9px] font-extrabold uppercase mt-1 ${pitch.type?.includes('7') || pitch.type?.includes('11') ? 'text-blue-600' : 'text-emerald-600'}`}>
                       {pitch.type}
                     </div>
                   </div>
 
                   {Array.from({ length: SLOT_COUNT }, (_, i) => (
-                    <div key={i} style={{ gridColumn: `${i + 2}`, gridRow: '1', borderRight: i % 2 === 1 ? '1px solid #e5e7eb' : '1px solid #f3f4f6' }} />
+                    <div key={i} className={`border-r ${i % 2 === 1 ? 'border-slate-200' : 'border-slate-100'}`} style={{ gridColumn: `${i + 2}`, gridRow: '1' }} />
                   ))}
 
                   {pitchBookings.map((b) => {
@@ -167,11 +172,11 @@ const AdminScheduleGrid: React.FC = () => {
                     return (
                       <Tooltip key={b.id} title={`${b.userName} · ${b.startTime}–${b.endTime} · ${cfg.label}`}>
                         <div onClick={() => setDetail(b)}
-                          style={{ gridColumn: `${gridColumnStart} / ${gridColumnEnd}`, gridRow: '1', margin: '6px 3px', background: cfg.bg, borderRadius: 6, padding: '5px 8px', color: '#fff', cursor: 'pointer', overflow: 'hidden', zIndex: 2, boxShadow: '0 2px 6px rgba(0,0,0,0.15)', transition: 'filter 0.15s' }}
-                          onMouseEnter={(e) => (e.currentTarget.style.filter = 'brightness(1.1)')}
-                          onMouseLeave={(e) => (e.currentTarget.style.filter = 'brightness(1)')}>
-                          <div style={{ fontWeight: 700, fontSize: 11, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{b.userName}</div>
-                          <div style={{ fontSize: 10, opacity: 0.88 }}>{b.startTime}–{b.endTime}</div>
+                          className="mx-0.5 my-1.5 rounded-lg px-2 py-1 text-white cursor-pointer overflow-hidden z-20 shadow-md transition-all duration-150 hover:brightness-110 flex flex-col justify-center"
+                          style={{ gridColumn: `${gridColumnStart} / ${gridColumnEnd}`, gridRow: '1', background: cfg.bg }}
+                        >
+                          <div className="font-bold text-[10px] truncate leading-tight">{b.userName}</div>
+                          <div className="text-[8px] opacity-90 font-medium mt-0.5">{b.startTime}–{b.endTime}</div>
                         </div>
                       </Tooltip>
                     );
@@ -181,7 +186,7 @@ const AdminScheduleGrid: React.FC = () => {
             })}
 
             {displayPitches.length === 0 && (
-              <div style={{ padding: 48, textAlign: 'center', color: '#9ca3af' }}>Không có sân nào</div>
+              <div className="p-12 text-center text-slate-400 text-sm font-semibold">Không có sân nào</div>
             )}
           </div>
         </div>

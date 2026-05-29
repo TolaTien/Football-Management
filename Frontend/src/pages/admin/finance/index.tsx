@@ -9,22 +9,20 @@ import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
 import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
 import { fetchMonthlyRevenue, fetchSystemOverview } from '@/entities/statistic/model/statisticSlice';
 import { statisticService } from '@/entities/statistic/api/statisticService';
-import { FinanceStatCard } from './components/FinanceStatCard';
-import { RevenueStructure } from './components/RevenueStructure';
-import { RevenueTrend } from './components/RevenueTrend';
-import { TransactionHistoryTable } from './components/TransactionHistoryTable';
+
+// FSD Imports
+import { FinanceStatCard } from '@/widgets/AdminFinanceStats';
+import { RevenueStructure } from '@/widgets/AdminRevenueStructure';
+import { RevenueTrend } from '@/widgets/AdminRevenueTrend';
+import { TransactionHistoryTable } from '@/widgets/AdminTransactionHistory';
 
 const { Text } = Typography;
 
-// Constants
 const VIETNAMESE_DONG_TO_MILLION = 1_000_000;
 const VIETNAMESE_DONG_TO_THOUSAND = 1_000;
 
-// Mock revenue breakdown ratios (backend không có endpoint phân loại doanh thu theo danh mục)
 const REVENUE_BREAKDOWN_LABELS = ['Tiền thuê sân', 'Nước giải khát', 'Thuê áo, bóng', 'Tổ chức giải đấu'];
 const REVENUE_BREAKDOWN_RATIOS = [0.655, 0.124, 0.046, 0.175];
-
-// Mock weekly ratios (backend không có breakdown doanh thu theo ngày trong tuần)
 const DAY_LABELS = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
 const DAY_RATIOS = [0.1, 0.15, 0.2, 0.1, 0.25, 0.15, 0.05];
 
@@ -41,7 +39,6 @@ const AdminFinance: React.FC = () => {
     dispatch(fetchSystemOverview(address || undefined));
   }, [dispatch, address]);
 
-  // ── Derived stats from real API data ──────────────────────────────────────
   const totalRevenue = revenue?.totalRevenue ?? 0;
   const totalBookings = revenue?.totalBookings ?? 0;
 
@@ -50,19 +47,16 @@ const AdminFinance: React.FC = () => {
   const refundedAmount = refundedTxn * (totalRevenue > 0 && totalBookings > 0 ? totalRevenue / totalBookings : 0);
   const successPercentage = totalBookings > 0 ? Math.round((successTxn / totalBookings) * 100) : 0;
 
-  // Revenue breakdown – dùng tỷ lệ mock nhưng số tổng lấy từ API
   const revenueBreakdown = REVENUE_BREAKDOWN_LABELS.map((name, i) => ({
     name,
     value: Math.round(totalRevenue * REVENUE_BREAKDOWN_RATIOS[i]),
   }));
 
-  // Weekly trend – dùng tỷ lệ mock nhưng số tổng lấy từ API
   const trendData = DAY_LABELS.map((day, i) => ({
     day,
     revenue: Math.round(totalRevenue * DAY_RATIOS[i]),
   }));
 
-  // Transaction table – lấy từ bookings thực
   const transactionData = bookings.slice(0, 20).map((b) => ({
     id: b.id.substring(0, 8).toUpperCase(),
     date: `${b.date} ${b.startTime}`,
@@ -77,7 +71,6 @@ const AdminFinance: React.FC = () => {
         : 'pending') as 'success' | 'refunded' | 'pending',
   }));
 
-  // ── Stat cards ─
   const summaryItems = [
     {
       icon: <WalletOutlined />,
@@ -86,7 +79,7 @@ const AdminFinance: React.FC = () => {
       trend: `${revenue?.rate ?? 0}%`,
       color: '#059669',
       bg: '#dcfce7',
-      gradient: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+      gradient: 'from-emerald-600 to-emerald-800',
     },
     {
       icon: <TransactionOutlined />,
@@ -114,7 +107,6 @@ const AdminFinance: React.FC = () => {
     },
   ];
 
-  // ── Export Excel ──
   const handleExportExcel = async () => {
     try {
       message.loading('Đang khởi tạo tệp báo cáo...', 1.5);
@@ -140,15 +132,15 @@ const AdminFinance: React.FC = () => {
       header={{
         title: (
           <div>
-            <div style={{ fontWeight: 800, fontSize: 22, color: '#0f172a' }}>Báo cáo & Tài chính</div>
-            <Text style={{ color: '#94a3b8', fontSize: 13 }}>Theo dõi dòng tiền và phân tích cơ cấu doanh thu</Text>
+            <div className="font-extrabold text-2xl text-slate-800 tracking-tight">Báo cáo & Tài chính</div>
+            <Text className="text-slate-400 text-xs">Theo dõi dòng tiền, xuất báo cáo doanh thu và phân tích cơ cấu chi phí</Text>
           </div>
         ),
         extra: [
           <Select
             key="address"
             placeholder="Lọc địa điểm"
-            style={{ width: 160 }}
+            className="w-40 h-10 rounded-xl"
             allowClear
             onChange={(value) => setAddress(value || '')}
             options={[
@@ -160,7 +152,7 @@ const AdminFinance: React.FC = () => {
             key="export"
             icon={<DownloadOutlined />}
             onClick={handleExportExcel}
-            style={{ height: 40, fontWeight: 600, borderRadius: 10 }}
+            className="h-10 px-5 font-bold rounded-xl border-slate-350 hover:border-emerald-500 hover:text-emerald-600 transition-colors shadow-sm"
           >
             Xuất Excel
           </Button>,
@@ -168,7 +160,7 @@ const AdminFinance: React.FC = () => {
       }}
     >
       {/* Summary Stats */}
-      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+      <Row gutter={[16, 16]} className="mb-6">
         {summaryItems.map((item, i) => (
           <Col xs={24} sm={12} lg={6} key={i}>
             <FinanceStatCard

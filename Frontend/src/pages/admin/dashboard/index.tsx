@@ -4,37 +4,24 @@ import { Row, Col, Typography, Select, Button, message } from 'antd';
 import { DownloadOutlined, WalletOutlined, CalendarOutlined, PieChartOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
 import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
-import { fetchSystemOverview, fetchMonthlyRevenue } from '@/entities/statistic/model/statisticSlice';
-import { statisticService } from '@/entities/statistic/api/statisticService';
-import { StatCard } from './components/StatCard';
-import { RevenueChart } from './components/RevenueChart';
-import { HourlyDistribution } from './components/HourlyDistribution';
-import { RecentBookingsTable } from './components/RecentBookingsTable';
+import { StatCard, fetchSystemOverview, fetchMonthlyRevenue, statisticService } from '@/entities/statistic';
+import { RevenueChart } from '@/widgets/AdminRevenueChart';
+import { HourlyDistribution } from '@/widgets/AdminHourlyDistribution';
+import { RecentBookingsTable } from '@/widgets/AdminRecentBookings';
+
 
 const { Title, Text } = Typography;
 
+import dayjs from 'dayjs';
+
+
 // Constants
 const VIETNAMESE_DONG_TO_MILLION = 1000000;
-const REVENUE_TREND_PERCENTAGE = 12;
-const BOOKINGS_TREND_PERCENTAGE = 8;
-const CAPACITY_TREND_PERCENTAGE = -3;
-const NEW_USERS_TREND_PERCENTAGE = 5;
-
-// Mock revenue distribution ratios (sum = 1.0)
-const RATIOS = {
-  MON: 0.1,
-  TUE: 0.15,
-  WED: 0.2,
-  THU: 0.1,
-  FRI: 0.25,
-  SAT: 0.15,
-  SUN: 0.05,
-};
 
 const AdminDashboard: React.FC = () => {
   const dispatch = useAppDispatch();
   const [address, setAddress] = useState<string>('');
-  
+
   const { bookings } = useAppSelector((state) => state.booking);
   const { overview, revenue } = useAppSelector((state) => state.statistic);
 
@@ -68,15 +55,87 @@ const AdminDashboard: React.FC = () => {
   const pendingCount = overview?.totalPendingRequests ?? 0;
   const fillRate = revenue?.rate ?? 0;
 
-  const revenueData = [
-    { name: 'T2', amount: totalRevenue * RATIOS.MON },
-    { name: 'T3', amount: totalRevenue * RATIOS.TUE },
-    { name: 'T4', amount: totalRevenue * RATIOS.WED },
-    { name: 'T5', amount: totalRevenue * RATIOS.THU },
-    { name: 'T6', amount: totalRevenue * RATIOS.FRI },
-    { name: 'T7', amount: totalRevenue * RATIOS.SAT },
-    { name: 'CN', amount: totalRevenue * RATIOS.SUN },
-  ];
+  // Dynamically calculate revenue data by day of the current week and weekly trends
+  const {
+    revenueData,
+    revenueTrend,
+    bookingsTrend,
+    occupancyTrend,
+  } = React.useMemo(() => {
+    const today = dayjs();
+
+    // Find Monday of the current week (dayjs day(1) is Monday, day(0) is Sunday)
+    const mondayOfThisWeek = today.day(1).startOf('day');
+
+    const days = [
+      { name: 'T2', dayOffset: 1 },
+      { name: 'T3', dayOffset: 2 },
+      { name: 'T4', dayOffset: 3 },
+      { name: 'T5', dayOffset: 4 },
+      { name: 'T6', dayOffset: 5 },
+      { name: 'T7', dayOffset: 6 },
+      { name: 'CN', dayOffset: 0 },
+    ];
+
+    const revData = days.map(({ name, dayOffset }) => {
+      const targetDateStr = today.day(dayOffset).format('YYYY-MM-DD');
+      const dayBookings = bookings.filter(
+        (b) => b.date === targetDateStr && b.status === 'approved'
+      );
+      const amount = dayBookings.reduce((sum, b) => sum + (b.price || 0), 0);
+      return { name, amount };
+    });
+
+    // Time ranges for weekly trend calculations
+    const tMondayThis = mondayOfThisWeek.valueOf();
+    const tSundayThis = mondayOfThisWeek.add(6, 'day').endOf('day').valueOf();
+    const tMondayLast = mondayOfThisWeek.subtract(7, 'day').valueOf();
+    const tSundayLast = mondayOfThisWeek.subtract(1, 'day').endOf('day').valueOf();
+
+    let thisWeekRev = 0;
+    let lastWeekRev = 0;
+    let thisWeekCount = 0;
+    let lastWeekCount = 0;
+
+    // Daily stats for Occupancy Trend (Today vs Yesterday)
+    const todayStr = today.format('YYYY-MM-DD');
+    const yesterdayStr = today.subtract(1, 'day').format('YYYY-MM-DD');
+    let todayCount = 0;
+    let yesterdayCount = 0;
+
+    bookings.forEach((b) => {
+      if (!b.date) return;
+      const bTime = dayjs(b.date).startOf('day').valueOf();
+      const isApproved = b.status === 'approved';
+
+      // Weekly calculations
+      if (bTime >= tMondayThis && bTime <= tSundayThis) {
+        thisWeekCount++;
+        if (isApproved) thisWeekRev += b.price || 0;
+      } else if (bTime >= tMondayLast && bTime <= tSundayLast) {
+        lastWeekCount++;
+        if (isApproved) lastWeekRev += b.price || 0;
+      }
+
+      // Daily calculations
+      if (b.date === todayStr) {
+        todayCount++;
+      } else if (b.date === yesterdayStr) {
+        yesterdayCount++;
+      }
+    });
+
+    const revTrend = lastWeekRev > 0 ? Math.round(((thisWeekRev - lastWeekRev) / lastWeekRev) * 100) : 0;
+    const bookTrend = lastWeekCount > 0 ? Math.round(((thisWeekCount - lastWeekCount) / lastWeekCount) * 100) : 0;
+    const occTrend = yesterdayCount > 0 ? Math.round(((todayCount - yesterdayCount) / yesterdayCount) * 100) : 0;
+
+    return {
+      revenueData: revData,
+      revenueTrend: revTrend,
+      bookingsTrend: bookTrend,
+      occupancyTrend: occTrend,
+    };
+  }, [bookings]);
 
   const getAIInsight = () => {
     if (pendingCount > 0) {
@@ -95,8 +154,8 @@ const AdminDashboard: React.FC = () => {
       header={{
         title: (
           <div>
-            <Title level={2} style={{ margin: 0, fontWeight: 800, color: '#0f172a' }}>Tổng quan hệ thống</Title>
-            <Text style={{ color: '#94a3b8', fontSize: 13, fontWeight: 400 }}>
+            <Title level={2} className="m-0 font-extrabold text-2xl text-slate-800">Tổng quan hệ thống</Title>
+            <Text className="text-slate-400 text-xs font-normal mt-1 block">
               Dữ liệu đồng bộ trực tiếp · Cập nhật lúc {currentTimeString}
             </Text>
           </div>
@@ -105,7 +164,7 @@ const AdminDashboard: React.FC = () => {
           <Select
             key="address"
             placeholder="Lọc địa điểm"
-            style={{ width: 180 }}
+            className="w-44 h-10 rounded-xl"
             allowClear
             onChange={(value) => setAddress(value || '')}
             options={[
@@ -118,7 +177,7 @@ const AdminDashboard: React.FC = () => {
             type="primary"
             icon={<DownloadOutlined />}
             onClick={handleExportExcel}
-            style={{ backgroundColor: '#059669', borderColor: '#059669' }}
+            className="h-10 px-5 font-bold rounded-xl bg-emerald-650 border-emerald-650 hover:bg-emerald-755 hover:border-emerald-755 shadow-md shadow-emerald-600/10 flex items-center"
           >
             Xuất Excel
           </Button>
@@ -132,7 +191,6 @@ const AdminDashboard: React.FC = () => {
             icon={<WalletOutlined />}
             label="Doanh thu thực tế"
             value={`${(totalRevenue / VIETNAMESE_DONG_TO_MILLION).toFixed(1)}M đ`}
-            trend={REVENUE_TREND_PERCENTAGE}
             trendLabel="So với tuần trước"
             color="#059669"
             bg="#dcfce7"
@@ -144,7 +202,6 @@ const AdminDashboard: React.FC = () => {
             icon={<CalendarOutlined />}
             label="Tổng lượt đặt sân"
             value={`${totalBookings} lượt`}
-            trend={BOOKINGS_TREND_PERCENTAGE}
             trendLabel="Tuần này"
             color="#2563eb"
             bg="#dbeafe"
@@ -155,7 +212,6 @@ const AdminDashboard: React.FC = () => {
             icon={<PieChartOutlined />}
             label="Tỷ lệ lấp đầy"
             value={`${fillRate}%`}
-            trend={CAPACITY_TREND_PERCENTAGE}
             trendLabel="So với hôm qua"
             color="#d97706"
             bg="#fef3c7"
@@ -166,7 +222,6 @@ const AdminDashboard: React.FC = () => {
             icon={<UsergroupAddOutlined />}
             label="Tổng thành viên"
             value={`${totalUsers}`}
-            trend={NEW_USERS_TREND_PERCENTAGE}
             trendLabel="Tháng này"
             color="#7c3aed"
             bg="#ede9fe"

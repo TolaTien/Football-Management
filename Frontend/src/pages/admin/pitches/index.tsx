@@ -5,18 +5,17 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
 import { fetchPitches, addPitch, updatePitch, deletePitchThunk } from '@/entities/pitch/model/pitchSlice';
 import type { Pitch } from '@/entities/pitch/model/types';
-import { PitchesSummaryStats } from './components/PitchesSummaryStats';
-import { PitchCard } from './components/PitchCard';
-
-import { AddEditPitchModal } from './components/AddEditPitchModal';
+import { PitchCard } from '@/entities/pitch';
+import { AddEditPitchModal } from '@/features/manage-pitch';
+import { PitchesSummaryStats } from '@/widgets/AdminPitchesStats';
 
 const { Text } = Typography;
 
-// Constants
 const MOCK_PRICE = 500000;
 const INITIAL_GRASS_HEALTH = 100;
 const DEFAULT_GRASS_STATUS = 'Tốt';
 const DEFAULT_MAINTENANCE = 'Chưa xếp lịch';
+
 const AdminPitchesList: React.FC = () => {
   const dispatch = useAppDispatch();
   const { pitches } = useAppSelector((state) => state.pitch);
@@ -82,12 +81,18 @@ const AdminPitchesList: React.FC = () => {
       header={{
         title: (
           <div>
-            <div style={{ fontWeight: 800, fontSize: 22, color: '#0f172a' }}>Quản lý hệ thống sân</div>
-            <Text style={{ color: '#94a3b8', fontSize: 13 }}>Theo dõi tình trạng, lịch bảo trì và danh sách sân cỏ của bạn</Text>
+            <div className="font-extrabold text-2xl text-slate-800 tracking-tight">Quản lý hệ thống sân</div>
+            <Text className="text-slate-400 text-xs">Theo dõi tình trạng, lịch bảo trì và danh sách sân cỏ của bạn</Text>
           </div>
         ),
         extra: [
-          <Button key="add" type="primary" icon={<PlusOutlined />} style={{ height: 40, padding: '0 20px', fontWeight: 700 }} onClick={handleOpenAdd}>
+          <Button 
+            key="add" 
+            type="primary" 
+            icon={<PlusOutlined />} 
+            className="h-10 px-5 font-bold rounded-xl bg-emerald-600 border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 shadow-md shadow-emerald-600/10" 
+            onClick={handleOpenAdd}
+          >
             Thêm sân mới
           </Button>
         ]
@@ -116,23 +121,16 @@ const AdminPitchesList: React.FC = () => {
         <Col xs={24} sm={12} lg={8} xl={6}>
           <div
             onClick={handleOpenAdd}
-            style={{
-              height: '100%', minHeight: 320, borderRadius: 16, border: '2px dashed #cbd5e1',
-              backgroundColor: '#f8fafc', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', transition: 'all 0.2s', padding: 24
-            }}
-            onMouseOver={(e) => e.currentTarget.style.borderColor = '#00a67d'}
-            onMouseOut={(e) => e.currentTarget.style.borderColor = '#cbd5e1'}
+            className="h-full min-h-[320px] rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 p-6 hover:border-emerald-500 hover:bg-emerald-50/30 group"
           >
-            <div style={{ width: 48, height: 48, borderRadius: '50%', backgroundColor: '#e2e8f0', color: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, marginBottom: 16 }}>
+            <div className="w-12 h-12 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center text-xl mb-4 transition-colors group-hover:bg-emerald-100 group-hover:text-emerald-700">
               <PlusOutlined />
             </div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: '#1f2937', marginBottom: 8 }}>Thêm sân mới</div>
-            <div style={{ color: '#6b7280', fontSize: 13, textAlign: 'center' }}>Mở rộng hệ thống kinh doanh</div>
+            <div className="text-lg font-bold text-slate-800 mb-2 transition-colors group-hover:text-emerald-700">Thêm sân mới</div>
+            <div className="text-slate-400 text-xs text-center">Mở rộng hệ thống kinh doanh</div>
           </div>
         </Col>
       </Row>
-
 
       {/* Modal Thêm/Sửa Sân */}
       <AddEditPitchModal

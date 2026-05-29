@@ -5,9 +5,10 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
 import { fetchServices, addService, updateStock, deleteService } from '@/entities/service-item/model/serviceSlice';
 import type { ServiceType } from '@/entities/service-item/model/types';
-import { ServicesSummaryStats } from './components/ServicesSummaryStats';
-import { AddServiceModal } from './components/AddServiceModal';
-import { ServicesTable } from './components/ServicesTable';
+
+// FSD Imports
+import { ServicesSummaryStats, ServicesTable } from '@/widgets/AdminServicesTable';
+import { AddServiceModal } from '@/features/manage-service';
 
 const { Text } = Typography;
 
@@ -48,15 +49,15 @@ const AdminServices: React.FC = () => {
       header={{
         title: (
           <div>
-            <div style={{ fontWeight: 800, fontSize: 22, color: '#0f172a' }}>Quản lý Kho & Dịch vụ</div>
-            <Text style={{ color: '#94a3b8', fontSize: 13 }}>Nước uống, bóng, áo sân cho thuê / bán tại sân</Text>
+            <div className="font-extrabold text-2xl text-slate-800 tracking-tight">Quản lý Kho & Dịch vụ</div>
+            <Text className="text-slate-400 text-xs">Nước uống, bóng, áo sân cho thuê / bán lẻ tại hệ thống sân bóng</Text>
           </div>
         ),
         extra: [
           <Button
             key="add" type="primary" icon={<PlusOutlined />}
             onClick={() => setIsModalOpen(true)}
-            style={{ height: 40, padding: '0 20px', fontWeight: 700 }}
+            className="h-10 px-5 font-bold rounded-xl bg-emerald-600 border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 shadow-md shadow-emerald-600/10 flex items-center"
           >
             Thêm sản phẩm
           </Button>,
@@ -67,15 +68,10 @@ const AdminServices: React.FC = () => {
       <ServicesSummaryStats items={summaryItems} />
 
       {/* Table container */}
-      <div style={{
-        background: 'white', borderRadius: 16,
-        border: '1px solid #e2e8f0',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-        overflow: 'hidden',
-      }}>
-        <div style={{ padding: '18px 24px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontWeight: 700, color: '#0f172a', fontSize: 15 }}>📋 Danh sách sản phẩm</div>
-          <Text style={{ color: '#94a3b8', fontSize: 12 }}>{services.length} mục</Text>
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="px-6 py-4.5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+          <div className="font-bold text-slate-800 text-sm">📋 Danh sách sản phẩm</div>
+          <Text className="text-slate-400 text-xs font-semibold">{services.length} mục</Text>
         </div>
         <ServicesTable
           services={services}

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
-import { Card, Table, Tag, Button, Space, Typography, Popconfirm, message, Tabs } from 'antd';
+import { Card, Table, Tag, Button, Space, Typography, Popconfirm, Tabs } from 'antd';
 import { StopOutlined, CheckCircleOutlined, UserAddOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
 import { fetchUsers, addUser, toggleBanUser } from '@/entities/user/model/userSlice';
 import type { UserItem, UserRole } from '@/entities/user/model/types';
-import AddUserModal from './components/AddUserModal';
-import { UserStatCards } from './components/UserStatCards';
-import { ActivityLogCard } from './components/ActivityLogCard';
+import { AddUserModal } from '@/features/manage-user';
+import { UserStatCards } from '@/widgets/AdminUserStats';
+import { ActivityLogCard } from '@/widgets/AdminActivityLog';
 
 const { Text } = Typography;
 
@@ -48,16 +48,13 @@ const AdminCustomers: React.FC = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text: string, record: UserItem) => (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{
-            width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(135deg, #059669, #00a67d)',
-            color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: 16,
-          }}>
-            {text.substring(0, 1)}
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-700 text-white flex items-center justify-center font-bold text-base shadow-sm">
+            {text.substring(0, 1).toUpperCase()}
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Text strong style={{ color: '#1f2937' }}>{text}</Text>
-            <Text type="secondary" style={{ fontSize: 12 }}>{record.email}</Text>
+          <div className="flex flex-col">
+            <Text className="font-semibold text-slate-800">{text}</Text>
+            <Text type="secondary" className="text-xs">{record.email}</Text>
           </div>
         </div>
       )
@@ -66,14 +63,14 @@ const AdminCustomers: React.FC = () => {
       title: 'SỐ ĐIỆN THOẠI',
       dataIndex: 'phone',
       key: 'phone',
-      render: (text: string) => <Text style={{ color: '#4b5563' }}>{text}</Text>
+      render: (text: string) => <Text className="text-slate-650">{text}</Text>
     },
     {
       title: 'VAI TRÒ',
       dataIndex: 'role',
       key: 'role',
       render: (role: string) => (
-        <Tag color={role === 'Quản trị' ? 'blue' : 'default'} style={{ borderRadius: 12, padding: '2px 10px' }}>
+        <Tag color={role === 'Quản trị' ? 'blue' : 'default'} className="rounded-full px-3 py-0.5 border-none font-semibold">
           {role}
         </Tag>
       )
@@ -83,8 +80,8 @@ const AdminCustomers: React.FC = () => {
       dataIndex: 'status',
       key: 'status',
       render: (status: string) => (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: status === 'active' ? '#059669' : '#dc2626', fontWeight: 600 }}>
-          <div style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: status === 'active' ? '#059669' : '#dc2626' }} />
+        <div className={`flex items-center gap-1.5 font-semibold text-xs ${status === 'active' ? 'text-emerald-600' : 'text-red-600'}`}>
+          <div className={`w-2 h-2 rounded-full ${status === 'active' ? 'bg-emerald-605' : 'bg-red-500'}`} />
           {status === 'active' ? 'Hoạt động' : 'Bị chặn'}
         </div>
       )
@@ -116,13 +113,13 @@ const AdminCustomers: React.FC = () => {
       header={{
         title: (
           <div>
-            <div style={{ fontWeight: 800, fontSize: 22, color: '#0f172a' }}>Quản lý Người dùng</div>
-            <Text style={{ color: '#94a3b8', fontSize: 13 }}>Quản lý phân quyền, theo dõi hoạt động và cấu hình truy cập</Text>
+            <div className="font-extrabold text-2xl text-slate-800 tracking-tight">Quản lý Người dùng</div>
+            <Text className="text-slate-400 text-xs mt-1 block">Quản lý phân quyền, theo dõi hoạt động và cấu hình truy cập</Text>
           </div>
         ),
         extra: [
-          <Button key="export" style={{ borderRadius: 10, height: 40, fontWeight: 600 }}>Xuất PDF</Button>,
-          <Button key="add" type="primary" icon={<UserAddOutlined />} style={{ height: 40, padding: '0 20px', fontWeight: 700 }} onClick={() => setIsModalOpen(true)}>
+          <Button key="export" className="rounded-xl h-10 px-5 font-bold border-slate-350 hover:border-emerald-500 hover:text-emerald-600 transition-colors shadow-sm">Xuất PDF</Button>,
+          <Button key="add" type="primary" icon={<UserAddOutlined />} className="h-10 px-5 font-bold rounded-xl bg-emerald-650 border-emerald-650 hover:bg-emerald-755 hover:border-emerald-755 shadow-md shadow-emerald-600/10 flex items-center" onClick={() => setIsModalOpen(true)}>
             Thêm người dùng
           </Button>
         ]
@@ -135,7 +132,7 @@ const AdminCustomers: React.FC = () => {
         bannedCount={bannedCount}
       />
 
-      <Card bordered={false} bodyStyle={{ padding: '16px 24px', borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+      <Card bordered={false} bodyStyle={{ padding: 0 }} className="rounded-2xl border border-slate-200 shadow-sm p-6 bg-white">
         <Tabs
           activeKey={activeTab}
           onChange={setActiveTab}
@@ -144,15 +141,15 @@ const AdminCustomers: React.FC = () => {
             { key: 'admin', label: 'Quản trị viên' },
             { key: 'customer', label: 'Khách hàng' }
           ]}
-          tabBarStyle={{ marginBottom: 0, borderBottom: '1px solid #f0f0f0' }}
+          className="border-b border-slate-100 mb-0"
         />
-        <div style={{ paddingTop: 16 }}>
+        <div className="pt-4">
           <Table
             columns={columns}
             dataSource={filteredUsers}
             rowKey="id"
-            pagination={{ pageSize: 5 }}
-            className="custom-table"
+            pagination={{ pageSize: 5, className: 'px-2 py-3' }}
+            className="admin-table border-none"
           />
         </div>
       </Card>
