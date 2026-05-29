@@ -66,9 +66,11 @@ const AdminFinance: React.FC = () => {
     method: b.paymentStatus === 'paid' ? 'Chuyển khoản' : 'Tiền mặt',
     status: (b.paymentStatus === 'paid'
       ? 'success'
-      : b.status === 'cancelled'
-        ? 'refunded'
-        : 'pending') as 'success' | 'refunded' | 'pending',
+      : b.paymentStatus === 'deposited'
+        ? 'deposited'
+        : b.status === 'cancelled'
+          ? 'refunded'
+          : 'pending') as any,
   }));
 
   const summaryItems = [

@@ -44,6 +44,8 @@ interface BackendBooking {
   users?: { fullName?: string; phone?: string };
   pitch?: { namePitch?: string };
   cancelrequests?: Array<{ content?: string }>;
+  bookingservices?: any[];
+  payments?: any[];
 }
 
 const mapBackendBooking = (
@@ -63,6 +65,10 @@ const mapBackendBooking = (
   price: b.total ?? b.pitchPriceAtBooking ?? 0,
   note: b.cancelrequests?.[0]?.content ?? '',
   source: b.userId ? 'app' : 'phone',
+  pitchPriceAtBooking: b.pitchPriceAtBooking ?? 0,
+  total: b.total ?? 0,
+  bookingservices: b.bookingservices ?? [],
+  payments: b.payments ?? [],
 });
 
 export const fetchAllBookings = createAsyncThunk(

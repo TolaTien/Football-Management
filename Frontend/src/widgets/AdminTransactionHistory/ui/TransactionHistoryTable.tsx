@@ -13,7 +13,7 @@ interface Transaction {
   type: string;
   amount: number;
   method: string;
-  status: 'success' | 'refunded' | 'pending';
+  status: 'success' | 'refunded' | 'pending' | 'deposited';
 }
 
 interface TransactionHistoryTableProps {
@@ -86,6 +86,11 @@ export const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = (
         if (status === 'success') return (
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[10px]">
             <CheckCircleOutlined /> Thành công
+          </div>
+        );
+        if (status === 'deposited') return (
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-extrabold text-[10px]">
+            🏦 Đã cọc 50%
           </div>
         );
         if (status === 'refunded') return (
