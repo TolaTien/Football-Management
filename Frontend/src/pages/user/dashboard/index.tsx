@@ -5,6 +5,7 @@ import { DashboardStatsPanel } from '@/widgets/user-dashboard-stats';
 
 const DashboardPage: React.FC = () => {
   const user = useAppSelector((state) => state.user.currentUser);
+  const [matchCount, setMatchCount] = React.useState<number | null>(null);
 
   return (
     <div className="animate-in fade-in duration-300 pb-xl">
@@ -13,14 +14,18 @@ const DashboardPage: React.FC = () => {
         <h2 className="font-h1 text-h1 text-emerald-900">
           Welcome back, {user?.fullName?.split(' ')[0] || 'Player'}!
         </h2>
-        <p className="text-gray-500 font-body-lg">You have 3 matches scheduled for this week.</p>
+        <p className="text-gray-500 font-body-lg">
+          {matchCount !== null 
+            ? `You have ${matchCount} match${matchCount !== 1 ? 'es' : ''} scheduled for this week.`
+            : 'Loading your scheduled matches...'}
+        </p>
       </div>
 
       {/* Main Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-lg">
         {/* Left Column (Takes up 8/12 on large screens) */}
         <section className="md:col-span-8">
-          <UpcomingMatchesList />
+          <UpcomingMatchesList onLoadCount={setMatchCount} />
         </section>
 
         {/* Right Column (Takes up 4/12 on large screens) */}

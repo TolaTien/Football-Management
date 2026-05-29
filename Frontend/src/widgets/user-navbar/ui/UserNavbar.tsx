@@ -21,6 +21,15 @@ export const UserNavbar: React.FC = () => {
   const loadingNotifs = useAppSelector((state) => state.notification.loading);
   const [popoverOpen, setPopoverOpen] = useState(false);
 
+  const sortedNotifications = React.useMemo(() => {
+    return [...notifications].sort((a, b) => {
+      if (a.isRead !== b.isRead) {
+        return a.isRead ? 1 : -1; // unread first
+      }
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(); // newest first
+    });
+  }, [notifications]);
+
   useEffect(() => {
     if (user) {
       dispatch(fetchNotifications(1));
@@ -85,7 +94,7 @@ export const UserNavbar: React.FC = () => {
         <div className="max-h-80 overflow-y-auto">
           <List
             itemLayout="horizontal"
-            dataSource={notifications.slice(0, 10)}
+            dataSource={sortedNotifications.slice(0, 10)}
             renderItem={(item) => (
               <List.Item 
                 className={`pl-5 pr-3 py-2.5 cursor-pointer hover:bg-gray-50 transition-colors ${!item.isRead ? 'bg-emerald-50/50' : ''}`}

@@ -57,7 +57,11 @@ export const MyMatches: React.FC<MyMatchesProps> = ({
               </span>
             </div>
             <h3 className="font-h3 text-h3 text-emerald-900 mb-4 line-clamp-3 min-h-[4.5rem]">
-              {post.description}
+              {post.description
+                ? post.description
+                    .replace(/^\[TÌM ĐỐI\]\s*/, '')
+                    .replace(/^\[GHÉP ĐỘI\]\s*/, '')
+                : 'No description provided'}
             </h3>
             <div className="flex items-center text-xs text-gray-400 font-bold gap-3 mb-6">
               <span

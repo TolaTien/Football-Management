@@ -10,7 +10,11 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(relativeTime);
 
-export const UpcomingMatchesList: React.FC = () => {
+interface UpcomingMatchesListProps {
+  onLoadCount?: (count: number) => void;
+}
+
+export const UpcomingMatchesList: React.FC<UpcomingMatchesListProps> = ({ onLoadCount }) => {
   const [matches, setMatches] = useState<MatchData[]>([]);
   const [loading, setLoading] = useState(false);
   const [rawBookings, setRawBookings] = useState<any[]>([]);
@@ -51,6 +55,9 @@ export const UpcomingMatchesList: React.FC = () => {
       });
 
       setMatches(mappedMatches);
+      if (onLoadCount) {
+        onLoadCount(mappedMatches.length);
+      }
     } catch (error) {
       console.error('Failed to fetch booking history', error);
       message.error('Không thể tải lịch sử đặt sân');
