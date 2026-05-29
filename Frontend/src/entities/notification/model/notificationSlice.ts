@@ -28,7 +28,9 @@ const saveLocalNotifications = (notifs: NotificationItem[]) => {
   if (typeof window === 'undefined') return;
   try {
     localStorage.setItem('pitchhub_local_notifications', JSON.stringify(notifs));
-  } catch {}
+  } catch {
+    // Ignore localStorage errors
+  }
 };
 
 const localNotifs = getLocalNotifications();
