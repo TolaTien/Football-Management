@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScheduleToolbar, ScheduleGrid, ScheduleLegend } from '@/widgets/booking-schedule';
+import { ScheduleToolbar, ScheduleGrid, ScheduleLegend } from '@/widgets/shared-booking-schedule';
 import { QuickConfirmModal, PaymentInvoiceModal, PaymentTimerWidget } from '@/features/booking';
 import { BookingService } from '@/entities/booking';
 import { PitchService, PitchItem } from '@/entities/pitch';
@@ -77,7 +77,9 @@ const BookingAvailabilityPage: React.FC = () => {
               }
               return remaining;
             }
-          } catch (e) {}
+          } catch (e) {
+            // Ignore parsing errors
+          }
 
           return prev - 1;
         });

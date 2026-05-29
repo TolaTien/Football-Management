@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { PersonalInfo } from '@/features/update-profile-info';
-import { PrivacySecurity } from '@/features/update-profile-security';
+import { PersonalInfo } from '@/features/user-update-profile-info';
+import { PrivacySecurity } from '@/features/user-update-profile-security';
 import { MyNotifications } from '@/widgets/user-notifications-list';
 import { MyBookings } from '@/widgets/user-bookings-list';
 

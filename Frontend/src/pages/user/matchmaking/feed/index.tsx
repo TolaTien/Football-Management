@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CommentModal, CreatePostModal } from '@/features/matchmaking';
+import { CommentModal, CreatePostModal } from '@/features/user-matchmaking';
 import { postService, PostItem } from '@/entities/matchmaking-post/api/postService';
 import { useAppSelector } from '@/app/store/hooks';
 import { message, Modal, Segmented } from 'antd';
