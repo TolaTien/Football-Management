@@ -3,7 +3,7 @@ import { Spin, message, Modal } from 'antd';
 import { BookingService } from '@/entities/booking';
 import dayjs from 'dayjs';
 import { useAppDispatch } from '@/app/store/hooks';
-import { addNotification } from '@/entities/notification';
+import { fetchNotifications } from '@/entities/notification';
 
 interface PaymentInvoiceModalProps {
   isOpen: boolean;
@@ -84,12 +84,9 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
         setWalletBalance(prev => prev - activeAmount);
       }
 
-      dispatch(addNotification({
-        id: `payment-${Date.now()}`,
-        title: 'Đặt sân thành công',
-        content: `Yêu cầu đặt sân ${booking.pitch?.namePitch || 'Sân bóng'} (${booking.startTime ? dayjs(booking.startTime).format('HH:mm') : ''} – ${booking.endTime ? dayjs(booking.endTime).format('HH:mm') : ''}) ngày ${dayjs(booking.startTime).format('DD/MM/YYYY')} đã được thanh toán thành công và chờ phê duyệt.`,
-        type: 'booking'
-      }));
+      // Kéo notification từ DB ngay lập tức → chuông cập nhật real-time
+      dispatch(fetchNotifications(1));
+
 
       message.success('Đặt sân và thanh toán thành công!');
       onPaymentSuccess();

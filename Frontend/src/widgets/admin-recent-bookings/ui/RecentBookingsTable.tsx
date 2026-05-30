@@ -8,7 +8,7 @@ import {
   DollarOutlined 
 } from '@ant-design/icons';
 import type { Booking, PaymentStatus, BookingStatus } from '@/entities/booking/model/types';
-import { useAppDispatch } from '@/shared/model/hooks';
+import { useAppDispatch } from '@/app/store/hooks';
 import { 
   updateBookingStatus, 
   updatePaymentStatus, 

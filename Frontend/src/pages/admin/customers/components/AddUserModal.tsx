@@ -128,7 +128,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onCancel, onConfirm }
               rules={[{ required: true, type: 'email', message: 'Vui lòng nhập email hợp lệ' }]}
             >
               <Input
-                placeholder="example@turfmanager.vn"
+                placeholder="example@pitchhub.vn"
                 size="large"
                 style={{ borderRadius: 10, borderColor: '#d1d5db' }}
               />
