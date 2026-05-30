@@ -18,6 +18,7 @@ export interface CommentItem {
     commentlike: number;
   };
   isLiked?: boolean; // We might need to map this based on current user if API returns it, or handle locally
+  replies?: CommentItem[];
 }
 
 export const commentsService = {
@@ -27,9 +28,9 @@ export const commentsService = {
     return Array.isArray(data) ? data : [];
   },
 
-  createComment: async (postId: string, content: string): Promise<CommentItem> => {
+  createComment: async (postId: string, content: string, parentId?: string): Promise<CommentItem> => {
     // Backend trả về { message, data: newComment }
-    const { data } = await $api.post('/comments/', { postId, content });
+    const { data } = await $api.post('/comments/', { postId, content, parentId });
     return data.data;
   },
 

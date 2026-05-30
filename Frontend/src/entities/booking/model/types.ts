@@ -16,10 +16,6 @@ export interface Booking {
   price: number;
   note?: string;
   source?: BookingSource;
-  pitchPriceAtBooking?: number;
-  total?: number;
-  bookingservices?: any[];
-  payments?: any[];
 }
 
 export interface CreateBookingDto {

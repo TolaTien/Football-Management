@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { pitchService } from '../api/pitchService';
 import { extractErrorMessage } from '@/shared/lib/errorUtils';
 import type { Pitch, PriceRule, PitchStatus, UpdatePriceConfigDto } from './types';
+import type { Dayjs } from 'dayjs';
 
 const DEFAULT_IMAGES: Record<number, string> = {
   5: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?q=80&w=600&auto=format&fit=crop',
@@ -175,6 +176,72 @@ export const syncPriceConfigThunk = createAsyncThunk(
     } catch (error: unknown) {
       const msg = extractErrorMessage(error, 'Không thể đồng bộ giá sân');
       message.error(msg);
+      return rejectWithValue(msg);
+    }
+  }
+);
+export const updatePriceRuleThunk = createAsyncThunk(
+  'pitch/updatePriceRule',
+  async ({ id, price }: { id: string; price: number }, { getState, dispatch, rejectWithValue }) => {
+    try {
+      const state = getState() as any;
+      const allPrices = state.pitch.prices as PriceRule[];
+      const target = allPrices.find(p => p.id === id);
+      if (!target) return rejectWithValue('Không tìm thấy khung giờ');
+      
+      const updatedPrices = allPrices.map(p => p.id === id ? { ...p, price } : p);
+      await dispatch(syncPriceConfigThunk({ pitchId: target.pitchId, updatedPrices })).unwrap();
+      message.success('Đã cập nhật giá thành công!');
+    } catch (error: unknown) {
+      const msg = extractErrorMessage(error, 'Lỗi cập nhật giá');
+      return rejectWithValue(msg);
+    }
+  }
+);
+
+export const addPriceRuleThunk = createAsyncThunk(
+  'pitch/addPriceRule',
+  async (
+    { pitchId, startTime, endTime, price, type }: { pitchId: string; startTime: Dayjs; endTime: Dayjs; price: number; type: string },
+    { getState, dispatch, rejectWithValue }
+  ) => {
+    try {
+      const state = getState() as any;
+      const allPrices = state.pitch.prices as PriceRule[];
+      const timeRange = `${startTime.format('HH:mm')} - ${endTime.format('HH:mm')}`;
+      const newRule: PriceRule = {
+        id: `pr_${Date.now()}`,
+        pitchId,
+        timeRange,
+        price,
+        type,
+        status: 'active',
+        icon: 'sun'
+      };
+      const updatedPrices = [...allPrices, newRule];
+      await dispatch(syncPriceConfigThunk({ pitchId, updatedPrices })).unwrap();
+      message.success('Đã thêm khung giờ mới thành công!');
+    } catch (error: unknown) {
+      const msg = extractErrorMessage(error, 'Lỗi thêm khung giờ');
+      return rejectWithValue(msg);
+    }
+  }
+);
+
+export const deletePriceRuleThunk = createAsyncThunk(
+  'pitch/deletePriceRule',
+  async (id: string, { getState, dispatch, rejectWithValue }) => {
+    try {
+      const state = getState() as any;
+      const allPrices = state.pitch.prices as PriceRule[];
+      const target = allPrices.find(p => p.id === id);
+      if (!target) return rejectWithValue('Không tìm thấy khung giờ');
+      
+      const updatedPrices = allPrices.filter(p => p.id !== id);
+      await dispatch(syncPriceConfigThunk({ pitchId: target.pitchId, updatedPrices })).unwrap();
+      message.success('Đã xóa khung giờ thành công!');
+    } catch (error: unknown) {
+      const msg = extractErrorMessage(error, 'Lỗi xóa khung giờ');
       return rejectWithValue(msg);
     }
   }

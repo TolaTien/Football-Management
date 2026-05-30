@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { Button, Spin, Empty, Modal, Tag, message } from 'antd';
 import { UsersService } from '@/entities/user/api/userService';
 import { BookingService, BookingDetailModal } from '@/entities/booking';
-import { addNotification } from '@/entities/notification';
+import { fetchNotifications } from '@/entities/notification';
 import dayjs from 'dayjs';
 
 const MyBookings: React.FC = () => {
@@ -46,12 +46,8 @@ const MyBookings: React.FC = () => {
         try {
           await BookingService.cancelBooking(bookingId);
           
-          dispatch(addNotification({
-            id: `cancel-${Date.now()}`,
-            title: 'Hủy đặt sân thành công',
-            content: `Yêu cầu hủy đặt sân (Mã đơn: ${bookingId}) đã được xử lý thành công.`,
-            type: 'booking'
-          }));
+          // Kéo notification từ DB → chuông cập nhật ngay
+          dispatch(fetchNotifications(1));
 
           message.success('Đã hủy đặt sân thành công');
           await fetchBookings();

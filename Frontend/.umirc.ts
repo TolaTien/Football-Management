@@ -8,10 +8,11 @@ export default defineConfig({
       pathRewrite: { '^/api': '' },
     },
   },
-  antd: {},
+  antd: false,
   tailwindcss: { checkTimeout: 20000 },
   access: {},
   request: {},
+  mfsu: false,
   layout: false, // Disable the built-in Pro Layout globally, we manage our own
   routes: [
     {
@@ -30,12 +31,13 @@ export default defineConfig({
     // User routes sharing UserLayout
     {
       path: '/',
-      component: '@/layouts/UserLayout',
+      component: '@/app/layouts/UserLayout',
       routes: [
         { path: '/user/dashboard', component: './user/dashboard' },
         { path: '/user/activity', component: './user/activity' },
         { path: '/user/rules', component: './user/rules' },
         { path: '/user/profile', component: './user/profile' },
+        { path: '/user/support', component: './user/support' },
         { path: '/booking/availability', component: './user/booking/availability' },
         { path: '/matchmaking/feed', component: './user/matchmaking/feed' },
       ],
@@ -43,7 +45,7 @@ export default defineConfig({
     // Admin routes sharing AdminLayout
     {
       path: '/admin',
-      component: '@/layouts/AdminLayout',
+      component: '@/app/layouts/AdminLayout',
       routes: [
         {
           path: '/admin/dashboard',
@@ -58,6 +60,11 @@ export default defineConfig({
           name: 'Pitches',
           path: '/admin/pitches',
           component: './admin/pitches',
+        },
+        {
+          name: 'Pricing',
+          path: '/admin/pricing',
+          component: './admin/pricing',
         },
         {
           name: 'Customers',
@@ -94,3 +101,4 @@ export default defineConfig({
   npmClient: 'npm',
   esbuildMinifyIIFE: true,
 });
+

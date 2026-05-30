@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { message, Spin, Checkbox, InputNumber } from 'antd';
 import { ServicesService, ServiceItem } from '@/entities/service/api/servicesService';
 import { BookingService } from '@/entities/booking';
-import { useAppDispatch } from '@/app/store/hooks';
-import { addNotification } from '@/entities/notification';
+// useAppDispatch and addNotification imports removed to avoid duplicate notification dispatch
 import dayjs from 'dayjs';
 
 interface QuickConfirmModalProps {
@@ -27,7 +26,7 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
   pitchId = 'pitch-1',
   selectedDate
 }) => {
-  const dispatch = useAppDispatch();
+  // dispatch removed
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -104,14 +103,7 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
       };
 
       const bookingData = await BookingService.bookPitchForUser(payload);
-      
-      // Dispatch local notification
-      dispatch(addNotification({
-        id: `booking-${Date.now()}`,
-        title: 'Đặt sân thành công',
-        content: `Yêu cầu đặt sân ${pitchName} (${timeSlot}) ngày ${dayjs(selectedDate).format('DD/MM/YYYY')} đang được chờ phê duyệt.`,
-        type: 'booking'
-      }));
+      // Local notification removed to prevent duplicates; only dispatched upon payment completion
 
       if (onSuccess) onSuccess(bookingData);
       else onClose();
@@ -130,8 +122,8 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden animate-in fade-in zoom-in duration-300 my-8">
         <div className="p-6 bg-emerald-900 text-white flex justify-between items-center">
           <div>
-            <h3 className="text-xl font-bold">Quick Confirmation</h3>
-            <p className="text-xs text-emerald-200/80">Complete your reservation details</p>
+            <h3 className="text-xl font-bold">Xác Nhận Đặt Sân Nhanh</h3>
+            <p className="text-xs text-emerald-200/80">Hoàn tất thông tin chi tiết đặt sân của bạn</p>
           </div>
           <button onClick={onClose} className="text-white/60 hover:text-white transition-colors">
             <span className="material-symbols-outlined">close</span>
@@ -144,19 +136,19 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
             <section className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
               <h4 className="text-sm font-bold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[20px]">info</span>
-                Pitch Information
+                Thông Tin Sân Bóng
               </h4>
               <div className="space-y-4">
                 <div className="flex justify-between items-center pb-3 border-b border-gray-50">
-                  <span className="text-secondary text-sm">Facility</span>
+                  <span className="text-secondary text-sm">Sân bóng</span>
                   <span className="font-bold text-emerald-900">{pitchName}</span>
                 </div>
                 <div className="flex justify-between items-center pb-3 border-b border-gray-50">
-                  <span className="text-secondary text-sm">Time Slot</span>
+                  <span className="text-secondary text-sm">Khung giờ</span>
                   <span className="font-bold text-emerald-900">{timeSlot}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-secondary text-sm">Base Price</span>
+                  <span className="text-secondary text-sm">Giá thuê sân</span>
                   <span className="font-bold text-emerald-900">{price}</span>
                 </div>
               </div>
@@ -165,13 +157,13 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
             <section className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
               <h4 className="text-sm font-bold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[20px]">payments</span>
-                Payment Method
+                Phương Thức Thanh Toán
               </h4>
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { id: 'banking', label: 'Banking', icon: 'account_balance' },
-                  { id: 'cash', label: 'Cash', icon: 'payments' },
-                  { id: 'wallet', label: 'Wallet', icon: 'wallet' },
+                  { id: 'banking', label: 'Chuyển khoản', icon: 'account_balance' },
+                  { id: 'cash', label: 'Tiền mặt', icon: 'payments' },
+                  { id: 'wallet', label: 'Ví số dư', icon: 'wallet' },
                 ].map((method) => (
                   <button
                     key={method.id}
@@ -195,14 +187,14 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
             <section className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col h-full">
               <h4 className="text-sm font-bold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[20px]">add_shopping_cart</span>
-                Add-on Services
+                Dịch Vụ Đi Kèm
               </h4>
               
               <div className="flex-1 space-y-3 overflow-y-auto max-h-[250px] pr-2 custom-scrollbar">
                 {loading ? (
                   <div className="flex justify-center py-8"><Spin /></div>
                 ) : services.length === 0 ? (
-                  <p className="text-center text-gray-400 py-8">No additional services available</p>
+                  <p className="text-center text-gray-400 py-8">Không có dịch vụ đi kèm nào khả dụng</p>
                 ) : (
                   services.map(service => (
                     <div key={service.serviceId} className="flex items-center justify-between p-3 rounded-lg border border-gray-50 hover:bg-gray-50 transition-colors">
@@ -239,7 +231,7 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
 
               <div className="mt-8 pt-6 border-t border-dashed border-gray-200">
                 <div className="flex justify-between items-center mb-6">
-                  <span className="text-secondary font-medium">Grand Total</span>
+                  <span className="text-secondary font-medium">Tổng cộng thanh toán</span>
                   <span className="text-2xl font-bold text-emerald-900">{calculateTotal().toLocaleString()} VNĐ</span>
                 </div>
                 <button 
@@ -247,7 +239,7 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
                   disabled={submitting}
                   className="w-full py-4 bg-primary text-white rounded-xl font-bold shadow-lg shadow-emerald-900/20 hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                 >
-                  {submitting ? <Spin size="small" /> : 'Confirm Booking'}
+                  {submitting ? <Spin size="small" /> : 'Xác Nhận Đặt Sân'}
                 </button>
               </div>
             </section>

@@ -44,77 +44,38 @@ interface BackendBooking {
   users?: { fullName?: string; phone?: string };
   pitch?: { namePitch?: string };
   cancelrequests?: Array<{ content?: string }>;
-  bookingservices?: any[];
-  payments?: any[];
 }
-
-import { userService } from '@/entities/user/api/userService';
 
 const mapBackendBooking = (
   b: BackendBooking,
-  pitchOverride?: { namePitch?: string },
-  userMap?: Map<string, string>,
-  phoneMap?: Map<string, string>
-): Booking => {
-  let resolvedName = b.users?.fullName;
-  if (!resolvedName) {
-    if (b.userId && userMap && userMap.has(b.userId)) {
-      resolvedName = userMap.get(b.userId);
-    } else if (b.phone) {
-      const stdPhone = b.phone.replace(/[\s\-\+]/g, '');
-      if (phoneMap && phoneMap.has(stdPhone)) {
-        resolvedName = phoneMap.get(stdPhone);
-      }
-    }
-  }
-
-  return {
-    id: b.bookId,
-    userName: resolvedName ?? `Khách (${b.phone ?? 'Vãng lai'})`,
-    phone: b.phone ?? b.users?.phone ?? '',
-    pitchId: b.pitchId,
-    pitchName: pitchOverride?.namePitch ?? b.pitch?.namePitch ?? `Sân ${b.pitchId}`,
-    date: formatLocalDate(b.startTime ?? new Date().toISOString()),
-    startTime: formatLocalTime(b.startTime ?? new Date().toISOString()),
-    endTime: formatLocalTime(b.endTime ?? new Date().toISOString()),
-    status: mapBookingStatus(b.status),
-    paymentStatus: mapPaymentStatus(b.paymentStatus),
-    price: b.total ?? b.pitchPriceAtBooking ?? 0,
-    note: b.cancelrequests?.[0]?.content ?? '',
-    source: b.userId ? 'app' : 'phone',
-    pitchPriceAtBooking: b.pitchPriceAtBooking ?? 0,
-    total: b.total ?? 0,
-    bookingservices: b.bookingservices ?? [],
-    payments: b.payments ?? [],
-  };
-};
+  pitchOverride?: { namePitch?: string }
+): Booking => ({
+  id: b.bookId,
+  userName: b.users?.fullName ?? `Khách (${b.phone ?? 'Vãng lai'})`,
+  phone: b.phone ?? b.users?.phone ?? '',
+  pitchId: b.pitchId,
+  pitchName: pitchOverride?.namePitch ?? b.pitch?.namePitch ?? `Sân ${b.pitchId}`,
+  date: formatLocalDate(b.startTime ?? new Date().toISOString()),
+  startTime: formatLocalTime(b.startTime ?? new Date().toISOString()),
+  endTime: formatLocalTime(b.endTime ?? new Date().toISOString()),
+  status: mapBookingStatus(b.status),
+  paymentStatus: mapPaymentStatus(b.paymentStatus),
+  price: b.total ?? b.pitchPriceAtBooking ?? 0,
+  note: b.cancelrequests?.[0]?.content ?? '',
+  source: b.userId ? 'app' : 'phone',
+});
 
 export const fetchAllBookings = createAsyncThunk(
   'booking/fetchAllBookings',
   async (_, { rejectWithValue }) => {
     try {
-      const [pendingRes, pitchesRes, usersRes] = await Promise.all([
+      const [pendingRes, pitchesRes] = await Promise.all([
         bookingService.getAllRequests(),
         bookingService.getPitchesWithBookings(),
-        userService.getAll({ page: 1, limit: 1000 }).catch(() => ({ data: { data: { users: [] } } })),
       ]);
 
-      const backendUsers: any[] = usersRes.data?.data?.users ?? [];
-      const userMap = new Map<string, string>();
-      const phoneMap = new Map<string, string>();
-
-      backendUsers.forEach((u) => {
-        if (u.userId && u.fullName) {
-          userMap.set(u.userId, u.fullName);
-        }
-        if (u.phone && u.fullName) {
-          const stdPhone = u.phone.replace(/[\s\-\+]/g, '');
-          phoneMap.set(stdPhone, u.fullName);
-        }
-      });
-
       const pendingData: BackendBooking[] = pendingRes.data?.data?.booking ?? [];
-      const mappedPending = pendingData.map((b) => mapBackendBooking(b, undefined, userMap, phoneMap));
+      const mappedPending = pendingData.map((b) => mapBackendBooking(b));
 
       const pitchesData: Array<{
         pitchId: string;
@@ -124,7 +85,7 @@ export const fetchAllBookings = createAsyncThunk(
 
       const mappedApproved: Booking[] = pitchesData.flatMap((p) =>
         (p.booking ?? []).map((b) =>
-          mapBackendBooking(b, { namePitch: p.namePitch }, userMap, phoneMap)
+          mapBackendBooking(b, { namePitch: p.namePitch })
         )
       );
 

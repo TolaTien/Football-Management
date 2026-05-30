@@ -31,4 +31,3 @@ $api.interceptors.response.use(
 );
 
 export const axiosInstance = $api;
-

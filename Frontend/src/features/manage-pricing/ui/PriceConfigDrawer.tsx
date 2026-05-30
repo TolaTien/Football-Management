@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Form, Button, TimePicker, InputNumber, Table, Popconfirm, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, ClockCircleOutlined } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { syncPriceConfigThunk } from '@/entities/pitch/model/pitchSlice';
 import type { Pitch, PriceRule } from '@/entities/pitch/model/types';
 import type { Dayjs } from 'dayjs';

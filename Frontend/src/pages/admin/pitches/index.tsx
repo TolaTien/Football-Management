@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
 import { Row, Col, Typography, Button, Form } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchPitches, addPitch, updatePitch, deletePitchThunk } from '@/entities/pitch/model/pitchSlice';
 import type { Pitch } from '@/entities/pitch/model/types';
 import { PitchCard } from '@/entities/pitch';
 import { AddEditPitchModal } from '@/features/manage-pitch';
-import { PitchesSummaryStats } from '@/widgets/AdminPitchesStats';
+import { PitchesSummaryStats } from '@/widgets/admin-pitches-stats';
 import { PriceConfigDrawer } from '@/features/manage-pricing';
 
 const { Text } = Typography;

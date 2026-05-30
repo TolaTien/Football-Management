@@ -4,6 +4,7 @@ import { StatisticService } from '../modules/statistic/statistic.service.js';
 import { sendEmail } from './email.js';
 import { v4 as uuidv4 } from 'uuid';
 
+
 const formatCurrency = (value: number) => {
     return value.toLocaleString('vi-VN') + 'VNĐ';
 };

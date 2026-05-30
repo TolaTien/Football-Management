@@ -21,22 +21,25 @@ const PlayerLogin: React.FC = () => {
     try {
       // 1. Gọi API đăng nhập
       const res = await AuthService.login({ email, password });
+      
+      const user = res.data?.user;
+      const accessToken = res.data?.accessToken;
 
-      // 2. Lưu token & user vào localStorage
-      if (res.data.accessToken) {
-        localStorage.setItem('pitchhub_token', res.data.accessToken);
-      }
-      if (res.data.user) {
-        localStorage.setItem('pitchhub_user', JSON.stringify(res.data.user));
+      if (!user) {
+        throw new Error('Không lấy được thông tin người dùng.');
       }
 
-      // 3. Lưu User vào Redux State
-      dispatch(setCurrentUser(res.data.user as any));
+      // 2. Lưu token & user vào localStorage và Redux state
+      localStorage.setItem('pitchhub_user', JSON.stringify(user));
+      if (accessToken) {
+        localStorage.setItem('pitchhub_token', accessToken);
+      }
+      dispatch(setCurrentUser(user));
 
       message.success('Đăng nhập thành công!');
 
-      // 4. Chuyển hướng theo role
-      if (res.data.user?.role === 'admin') {
+      // 3. Chuyển hướng theo role
+      if (user.role === 'admin') {
         navigate('/admin/dashboard');
       } else {
         navigate('/user/dashboard');
@@ -54,7 +57,6 @@ const PlayerLogin: React.FC = () => {
       <div className="absolute inset-0 pitch-grid pointer-events-none opacity-40"></div>
 
       <main className="w-full max-w-[440px] px-md relative z-10">
-
         <div className="flex flex-col items-center mb-xl">
           <div className="w-16 h-16 bg-primary-container rounded-xl flex items-center justify-center mb-md shadow-lg">
             <span className="material-symbols-outlined text-on-primary-container text-[40px]" data-icon="sports_soccer">sports_soccer</span>
@@ -131,13 +133,6 @@ const PlayerLogin: React.FC = () => {
                 'Login to Dashboard'
               )}
             </button>
-
-            <div className="text-center mt-md">
-              <p className="text-secondary font-body-md">
-                New player on the field?{' '}
-                <a className="text-primary font-bold hover:underline cursor-pointer" onClick={(e) => { e.preventDefault(); navigate('/auth/signup'); }}>Sign Up Now</a>
-              </p>
-            </div>
           </form>
 
           <div className="mt-xl">
@@ -155,6 +150,13 @@ const PlayerLogin: React.FC = () => {
                 <span className="font-button text-button text-on-surface">Apple</span>
               </button>
             </div>
+          </div>
+
+          <div className="text-center mt-md">
+            <p className="text-secondary font-body-md">
+              New player on the field?{' '}
+              <a className="text-primary font-bold hover:underline cursor-pointer" onClick={(e) => { e.preventDefault(); navigate('/auth/signup'); }}>Sign Up Now</a>
+            </p>
           </div>
         </div>
       </main>

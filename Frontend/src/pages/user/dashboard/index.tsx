@@ -1,26 +1,31 @@
 import React from 'react';
 import { useAppSelector } from '@/app/store/hooks';
-import { UpcomingMatchesList } from '@/widgets/upcoming-matches';
-import { DashboardStatsPanel } from '@/widgets/dashboard-stats';
+import { UpcomingMatchesList } from '@/widgets/user-upcoming-matches';
+import { DashboardStatsPanel } from '@/widgets/user-dashboard-stats';
 
 const DashboardPage: React.FC = () => {
   const user = useAppSelector((state) => state.user.currentUser);
+  const [matchCount, setMatchCount] = React.useState<number | null>(null);
 
   return (
     <div className="animate-in fade-in duration-300 pb-xl">
       {/* Welcome Section */}
       <div className="mb-xl">
-        <h2 className="font-h1 text-h1 text-emerald-900">
-          Welcome back, {user?.fullName?.split(' ')[0] || 'Player'}!
+        <h2 className="font-h1 text-h1 text-primary">
+          Chào mừng bạn quay trở lại, {user?.fullName?.split(' ')[0] || 'Người chơi'}!
         </h2>
-        <p className="text-gray-500 font-body-lg">You have 3 matches scheduled for this week.</p>
+        <p className="text-gray-500 font-body-lg">
+          {matchCount !== null 
+            ? `Bạn có ${matchCount} trận đấu được lên lịch trong tuần này.`
+            : 'Đang tải lịch thi đấu của bạn...'}
+        </p>
       </div>
 
       {/* Main Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-lg">
         {/* Left Column (Takes up 8/12 on large screens) */}
         <section className="md:col-span-8">
-          <UpcomingMatchesList />
+          <UpcomingMatchesList onLoadCount={setMatchCount} />
         </section>
 
         {/* Right Column (Takes up 4/12 on large screens) */}
@@ -30,7 +35,7 @@ const DashboardPage: React.FC = () => {
       </div>
 
       {/* Contextual FAB (Floating Action Button) */}
-      <button className="fixed bottom-lg right-lg bg-emerald-900 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-emerald-800 transition-all active:scale-95 z-50 group">
+      <button className="fixed bottom-lg right-lg bg-primary text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:opacity-95 transition-all active:scale-95 z-50 group">
         <span className="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-300" data-icon="add_circle">add_circle</span>
       </button>
     </div>

@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { $api } from '@/shared/api/axiosInstance';
 import { userService } from '../api/userService';
 import { extractErrorMessage } from '@/shared/lib/errorUtils';
-import type { UserItem, UserRole, UserStatus, UserInfo } from './types';
+import type { UserInfo, UserItem, UserRole, UserStatus } from './types';
 
 interface BackendUser {
   userId: string;
@@ -12,6 +12,14 @@ interface BackendUser {
   phone?: string;
   role: string;
   status?: string;
+}
+
+interface UserState {
+  users: UserItem[];
+  currentUser: UserInfo | null;
+  loading: boolean;
+  error: string | null;
+  isInitialized: boolean;
 }
 
 const mapBackendUser = (u: BackendUser): UserItem => ({
@@ -34,14 +42,6 @@ const getInitialUser = (): UserInfo | null => {
   }
   return null;
 };
-
-interface UserState {
-  users: UserItem[];
-  currentUser: UserInfo | null;
-  loading: boolean;
-  error: string | null;
-  isInitialized: boolean;
-}
 
 const initialState: UserState = {
   users: [],
@@ -163,7 +163,6 @@ export const toggleBanUser = createAsyncThunk(
     }
   }
 );
-
 // Async thunk cho Client (Xác thực hiện tại)
 export const fetchCurrentUser = createAsyncThunk(
   'user/fetchCurrentUser',

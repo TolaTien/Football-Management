@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
 import { Button, Typography, Form } from 'antd';
 import { PlusOutlined, AppstoreOutlined, DatabaseOutlined, AlertOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchServices, addService, updateStock, deleteService, updateService } from '@/entities/service-item/model/serviceSlice';
 import type { ServiceItem, ServiceType } from '@/entities/service-item/model/types';
 
 // FSD Imports
-import { ServicesSummaryStats, ServicesTable } from '@/widgets/AdminServicesTable';
+import { ServicesSummaryStats, ServicesTable } from '@/widgets/admin-services-table';
 import { AddServiceModal } from '@/features/manage-service';
 
 const { Text } = Typography;

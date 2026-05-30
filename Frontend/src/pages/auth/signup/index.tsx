@@ -43,20 +43,23 @@ const PlayerSignUp: React.FC = () => {
         password,
       });
 
-      // 2. Lưu token & user vào localStorage
-      if (res.data.accessToken) {
-        localStorage.setItem('pitchhub_token', res.data.accessToken);
-      }
-      if (res.data.newUser) {
-        localStorage.setItem('pitchhub_user', JSON.stringify(res.data.newUser));
+      const user = res.data?.user || res.data?.newUser;
+      const accessToken = res.data?.accessToken;
+
+      if (!user) {
+        throw new Error('Không lấy được thông tin người dùng.');
       }
 
-      // 3. Cập nhật thông tin vào Redux state để chuyển sang trạng thái đã đăng nhập.
-      dispatch(setCurrentUser(res.data.newUser as any));
+      // 2. Lưu User & Token vào localStorage và Redux state
+      localStorage.setItem('pitchhub_user', JSON.stringify(user));
+      if (accessToken) {
+        localStorage.setItem('pitchhub_token', accessToken);
+      }
+      dispatch(setCurrentUser(user));
 
       message.success('Tạo tài khoản thành công!');
 
-      // 4. Chuyển hướng người dùng vào Dashboard
+      // 3. Chuyển hướng người dùng vào Dashboard
       navigate('/user/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Đăng ký thất bại. Email hoặc số điện thoại có thể đã tồn tại.');

@@ -5,16 +5,16 @@ import {
   DownloadOutlined, WalletOutlined,
   TransactionOutlined, ReloadOutlined, CheckCircleOutlined,
 } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
 import { fetchMonthlyRevenue, fetchSystemOverview } from '@/entities/statistic/model/statisticSlice';
 import { statisticService } from '@/entities/statistic/api/statisticService';
 import dayjs from 'dayjs';
 
 // FSD Imports
-import { FinanceStatCard } from '@/widgets/AdminFinanceStats';
-import { RevenueStructure } from '@/widgets/AdminRevenueStructure';
-import { TransactionHistoryTable } from '@/widgets/AdminTransactionHistory';
+import { FinanceStatCard } from '@/widgets/admin-finance-stats';
+import { RevenueStructure } from '@/widgets/admin-revenue-structure';
+import { TransactionHistoryTable } from '@/widgets/admin-transaction-history';
 
 const { Text } = Typography;
 

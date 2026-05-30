@@ -21,6 +21,30 @@ export const UserNavbar: React.FC = () => {
   const loadingNotifs = useAppSelector((state) => state.notification.loading);
   const [popoverOpen, setPopoverOpen] = useState(false);
 
+  const sortedNotifications = React.useMemo(() => {
+    return [...notifications].sort((a, b) => {
+      if (a.isRead !== b.isRead) {
+        return a.isRead ? 1 : -1; // unread first
+      }
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(); // newest first
+    });
+  }, [notifications]);
+
+  const getNotificationTitle = (notif: any) => {
+    if (notif.title) return notif.title;
+    switch (notif.type) {
+      case 'booking':
+        return 'Đặt sân bóng';
+      case 'payment':
+        return 'Thanh toán';
+      case 'post':
+        return 'Cáp kèo & Ghép đội';
+      case 'system':
+      default:
+        return 'Thông báo hệ thống';
+    }
+  };
+
   useEffect(() => {
     if (user) {
       dispatch(fetchNotifications(1));
@@ -64,7 +88,7 @@ export const UserNavbar: React.FC = () => {
   const notificationContent = (
     <div className="w-80">
       <div className="flex justify-between items-center mb-2 px-2 pt-2">
-        <h4 className="font-bold text-gray-800">Notifications</h4>
+        <h4 className="font-bold text-gray-800">Thông báo</h4>
         {unreadCount > 0 && (
           <button 
             className="text-xs text-primary hover:underline"
@@ -72,7 +96,7 @@ export const UserNavbar: React.FC = () => {
               dispatch(markAllNotificationsRead());
             }}
           >
-            Mark all as read
+            Đánh dấu tất cả đã đọc
           </button>
         )}
       </div>
@@ -80,12 +104,12 @@ export const UserNavbar: React.FC = () => {
       {loadingNotifs ? (
         <div className="flex justify-center p-4"><Spin size="small" /></div>
       ) : notifications.length === 0 ? (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No notifications" />
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Không có thông báo mới" />
       ) : (
         <div className="max-h-80 overflow-y-auto">
           <List
             itemLayout="horizontal"
-            dataSource={notifications.slice(0, 5)}
+            dataSource={sortedNotifications.slice(0, 10)}
             renderItem={(item) => (
               <List.Item 
                 className={`pl-5 pr-3 py-2.5 cursor-pointer hover:bg-gray-50 transition-colors ${!item.isRead ? 'bg-emerald-50/50' : ''}`}
@@ -112,7 +136,7 @@ export const UserNavbar: React.FC = () => {
                       </span>
                     </Avatar>
                   }
-                  title={<span className={`text-xs ${item.isRead ? 'font-medium text-gray-600' : 'font-bold text-primary'}`}>{item.title || item.type?.toUpperCase() || 'System'}</span>}
+                  title={<span className={`text-xs ${item.isRead ? 'font-medium text-gray-600' : 'font-bold text-primary'}`}>{getNotificationTitle(item)}</span>}
                   description={<span className="text-xs text-gray-500 line-clamp-2">{item.content}</span>}
                 />
               </List.Item>
@@ -129,7 +153,7 @@ export const UserNavbar: React.FC = () => {
             navigate('/user/profile?tab=notifications');
           }}
         >
-          View all notifications
+          Xem tất cả thông báo
         </button>
       </div>
     </div>
@@ -137,16 +161,7 @@ export const UserNavbar: React.FC = () => {
 
   return (
     <header className="h-16 px-8 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 shadow-sm ml-[260px]">
-      <div className="flex items-center gap-md w-1/3">
-        <div className="relative w-full max-w-sm">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" data-icon="search">search</span>
-          <input 
-            className="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-body-md focus:ring-2 focus:ring-primary/10 outline-none" 
-            placeholder="Search matches, pitches..." 
-            type="text"
-          />
-        </div>
-      </div>
+      <div />
 
       <div className="flex items-center gap-lg">
         <div className="flex items-center gap-sm">
@@ -174,8 +189,8 @@ export const UserNavbar: React.FC = () => {
               onClick={() => navigate('/user/profile')}
             >
               <div className="text-right">
-                <p className="font-button text-on-surface text-sm leading-none">{user?.fullName || 'Player'}</p>
-                <p className="text-[10px] font-label-caps text-gray-500 uppercase">{user?.role || 'USER'}</p>
+                <p className="font-button text-on-surface text-sm leading-none">{user?.fullName || 'Người chơi'}</p>
+                <p className="text-[10px] font-label-caps text-gray-500 uppercase">{user?.role === 'admin' ? 'Quản trị viên' : 'Thành viên'}</p>
               </div>
               <img
                 alt="User Avatar"
@@ -192,7 +207,7 @@ export const UserNavbar: React.FC = () => {
                   className="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-container rounded-md flex items-center gap-2 transition-colors"
                 >
                   <span className="material-symbols-outlined text-[18px]">manage_accounts</span>
-                  Profile Settings
+                  Thông tin cá nhân
                 </button>
                 <div className="my-1 border-t border-gray-100" />
                 <button
@@ -200,7 +215,7 @@ export const UserNavbar: React.FC = () => {
                   className="w-full text-left px-4 py-2 text-sm text-error hover:bg-error-container rounded-md flex items-center gap-2 transition-colors"
                 >
                   <span className="material-symbols-outlined text-[18px]">logout</span>
-                  Logout
+                  Đăng xuất
                 </button>
               </div>
             </div>

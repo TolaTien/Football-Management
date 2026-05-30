@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd';
 import { UsersService } from '@/entities/user/api/userService';
-import { ActivityStats } from '@/widgets/activity-stats';
-import { AiCoachChat } from '@/widgets/ai-coach-chat';
+import { ActivityStats } from '@/widgets/user-activity-stats';
+import { AiCoachChat } from '@/widgets/user-ai-coach-chat';
 
 const PersonalActivityStats: React.FC = () => {
   const [bookings, setBookings] = useState<any[]>([]);
@@ -30,7 +30,7 @@ const PersonalActivityStats: React.FC = () => {
     <div className="pb-xl max-w-7xl mx-auto px-4 md:px-0">
       {/* Title Header */}
       <div className="mb-8">
-        <h2 className="font-h1 text-2xl font-bold text-emerald-900">Player Activity</h2>
+        <h2 className="font-h1 text-2xl font-bold text-primary">Hoạt động cá nhân</h2>
         <p className="text-secondary text-sm mt-1 font-body-md">
           Phân tích chi tiết số liệu thi đấu thực tế và trao đổi chiến thuật thông minh với Trợ lý AI.
         </p>

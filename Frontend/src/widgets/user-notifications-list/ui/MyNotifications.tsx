@@ -36,6 +36,27 @@ const MyNotifications: React.FC = () => {
     return true;
   });
 
+  const sortedFilteredNotifications = React.useMemo(() => {
+    return [...filteredNotifications].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  }, [filteredNotifications]);
+
+  const getNotificationTitle = (notif: any) => {
+    if (notif.title) return notif.title;
+    switch (notif.type) {
+      case 'booking':
+        return 'Đặt sân bóng';
+      case 'payment':
+        return 'Thanh toán';
+      case 'post':
+        return 'Cáp kèo & Ghép đội';
+      case 'system':
+      default:
+        return 'Thông báo hệ thống';
+    }
+  };
+
   return (
     <section className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
       <div className="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50/20">
@@ -68,15 +89,15 @@ const MyNotifications: React.FC = () => {
       <div className="p-0">
         {notifLoading ? (
           <div className="flex justify-center py-10"><Spin tip="Đang nạp thông báo..." /></div>
-        ) : filteredNotifications.length === 0 ? (
+        ) : sortedFilteredNotifications.length === 0 ? (
           <div className="p-10 text-center">
-            <Empty description={notifStatus === 'unread' ? "No unread notifications" : notifStatus === 'read' ? "No read notifications" : "No notifications"} />
+            <Empty description={notifStatus === 'unread' ? "Không có thông báo chưa đọc" : notifStatus === 'read' ? "Không có thông báo đã đọc" : "Không có thông báo mới"} />
           </div>
         ) : (
           <>
             <List
               itemLayout="horizontal"
-              dataSource={filteredNotifications}
+              dataSource={sortedFilteredNotifications}
               renderItem={(item) => (
                 <List.Item 
                   className={`pl-9 pr-6 cursor-pointer transition-colors ${!item.isRead ? 'bg-emerald-50/30' : 'hover:bg-gray-50/50'}`}
@@ -100,7 +121,7 @@ const MyNotifications: React.FC = () => {
                         </span>
                       </Avatar>
                     }
-                    title={<span className={item.isRead ? 'font-medium text-secondary' : 'font-bold text-primary text-sm'}>{item.title || (item.type ? item.type.toUpperCase() : 'Notification')}</span>}
+                    title={<span className={item.isRead ? 'font-medium text-secondary' : 'font-bold text-primary text-sm'}>{getNotificationTitle(item)}</span>}
                     description={
                       <div>
                         <p className="text-sm text-on-surface mb-1 mt-0.5 leading-normal">{item.content}</p>

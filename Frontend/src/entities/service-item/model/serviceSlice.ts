@@ -35,7 +35,6 @@ interface BackendServiceItem {
 
 const mapBackendServiceItem = (srv: BackendServiceItem): ServiceItem => {
   const stock = Math.max(0, (srv.totalQuantity ?? 0) - (srv.borrowed ?? 0) + (srv.returned ?? 0));
-  
   let name = srv.nameProduct || '';
   let type: ServiceType = detectType(name);
   
@@ -153,7 +152,6 @@ export const updateService = createAsyncThunk(
     }
   }
 );
-
 export const deleteService = createAsyncThunk(
   'service/deleteService',
   async (id: string, { dispatch, rejectWithValue }) => {

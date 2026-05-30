@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScheduleToolbar, ScheduleGrid, ScheduleLegend } from '@/widgets/booking-schedule';
+import { ScheduleToolbar, ScheduleGrid, ScheduleLegend } from '@/widgets/shared-booking-schedule';
 import { QuickConfirmModal, PaymentInvoiceModal, PaymentTimerWidget } from '@/features/booking';
 import { BookingService } from '@/entities/booking';
 import { PitchService, PitchItem } from '@/entities/pitch';
@@ -77,7 +77,9 @@ const BookingAvailabilityPage: React.FC = () => {
               }
               return remaining;
             }
-          } catch (e) {}
+          } catch (e) {
+            // Ignore parsing errors
+          }
 
           return prev - 1;
         });
@@ -200,7 +202,7 @@ const BookingAvailabilityPage: React.FC = () => {
       {/* Select Pitch for Week view */}
       {viewMode === 'week' && pitches.length > 0 && (
         <div className="flex items-center gap-3 bg-white p-4 rounded-xl border border-gray-200 mb-md shadow-sm">
-          <span className="text-xs font-bold text-gray-500 font-montserrat uppercase tracking-wider">Select Facility:</span>
+          <span className="text-xs font-bold text-gray-500 font-montserrat uppercase tracking-wider">Chọn cơ sở:</span>
           <Select 
             value={selectedPitchId}
             onChange={(val) => setSelectedPitchId(val)}
@@ -214,7 +216,7 @@ const BookingAvailabilityPage: React.FC = () => {
       <div className="flex-1 flex flex-col min-h-0">
         {loading ? (
           <div className="flex-1 flex items-center justify-center bg-white rounded-xl border border-gray-200">
-            <Spin size="large" tip="Loading schedule...">
+            <Spin size="large" tip="Đang tải lịch đặt sân...">
               <div className="p-8" />
             </Spin>
           </div>
@@ -265,7 +267,7 @@ const BookingAvailabilityPage: React.FC = () => {
           <div className="bg-white px-4 py-2 rounded-full shadow-lg border border-emerald-100 flex items-center gap-3 animate-pulse">
             <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
             <span className="text-xs font-bold text-emerald-900 font-montserrat">
-              {pitches.filter(p => p.status === 'active').length} Pitches Active Now
+              {pitches.filter(p => p.status === 'active').length} Sân đang hoạt động
             </span>
           </div>
         </div>

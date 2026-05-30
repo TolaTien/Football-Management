@@ -27,6 +27,7 @@ export interface UserInfo {
   role: 'user' | 'admin';
 }
 
+
 export interface UpdateUserDto {
   email?: string;
   fullName?: string;

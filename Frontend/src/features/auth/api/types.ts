@@ -9,10 +9,11 @@ export interface AuthResponse extends ApiResponse {
   data: {
     accessToken: string;
     refreshToken: string;
-    role: string;
+    role?: string;
     user?: UserInfo;
     newUser?: UserInfo;
-  }; // Adjust based on exactly what backend returns inside 'data' for login
+  };
+
 }
 
 export interface LoginPayload {
