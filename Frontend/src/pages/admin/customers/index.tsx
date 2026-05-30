@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
 import { Card, Table, Tag, Button, Space, Typography, Popconfirm, Tabs } from 'antd';
 import { StopOutlined, CheckCircleOutlined, UserAddOutlined } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchUsers, addUser, toggleBanUser } from '@/entities/user/model/userSlice';
 import type { UserItem, UserRole } from '@/entities/user/model/types';
 import { AddUserModal } from '@/features/manage-user';

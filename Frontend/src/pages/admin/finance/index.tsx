@@ -5,7 +5,7 @@ import {
   DownloadOutlined, WalletOutlined,
   TransactionOutlined, ReloadOutlined, CheckCircleOutlined,
 } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
 import { fetchMonthlyRevenue, fetchSystemOverview } from '@/entities/statistic/model/statisticSlice';
 import { statisticService } from '@/entities/statistic/api/statisticService';

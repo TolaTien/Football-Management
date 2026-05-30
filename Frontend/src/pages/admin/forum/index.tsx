@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
 import { Row, Col, Typography, Form, message } from 'antd';
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchForumPosts, addPost, deletePost } from '@/entities/forum/model/forumSlice';
 import type { CreateForumPostDto } from '@/entities/forum/model/types';
 

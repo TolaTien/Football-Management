@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
 import { Row, Col, Typography, Select, Button, message } from 'antd';
 import { DownloadOutlined, WalletOutlined, CalendarOutlined, UsergroupAddOutlined } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
 import { fetchPitches } from '@/entities/pitch/model/pitchSlice';
 import { StatCard, fetchSystemOverview, fetchMonthlyRevenue, statisticService } from '@/entities/statistic';

@@ -5,7 +5,7 @@ import viVN from 'antd/locale/vi_VN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import AdminAiChatWidget from '@/widgets/admin-ai-chat/AdminAiChatWidget';
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
 
 dayjs.locale('vi');
@@ -160,8 +160,8 @@ const AdminLayout: React.FC = () => {
               <span className="material-symbols-outlined text-white text-lg">shield_person</span>
             </div>
             <div>
-              <h1 className="text-lg font-bold text-emerald-900 leading-tight">TurfManager</h1>
-              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Admin Portal</p>
+              <h1 className="text-lg font-bold text-emerald-900 leading-tight">PitchHub</h1>
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Quản trị viên</p>
             </div>
           </div>
 

@@ -5,7 +5,7 @@ import {
   CalendarOutlined, PlusOutlined,
   AreaChartOutlined, MoneyCollectOutlined, FieldTimeOutlined,
 } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/shared/model/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchAllBookings, addManualBooking, updatePaymentStatus, updateBookingStatus, deleteBookingThunk, refundBookingThunk } from '@/entities/booking/model/bookingSlice';
 import { fetchPitches } from '@/entities/pitch/model/pitchSlice';
 import dayjs, { Dayjs } from 'dayjs';
