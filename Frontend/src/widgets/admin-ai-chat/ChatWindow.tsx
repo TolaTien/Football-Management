@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Input, Button, Spin } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
-import type { AppDispatch } from '@/app/store/store';
+import { useAppDispatch } from '@/app/store/hooks';
 import {
     selectMessages, selectLoadingSend, selectLoadingMessages,
 } from '@/entities/ai/model/selectors';
@@ -27,7 +27,7 @@ const TypingDots: React.FC = () => (
 );
 
 const ChatWindow: React.FC<Props> = ({ conversationId }) => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
     const messages = useSelector(selectMessages);
     const loadingSend = useSelector(selectLoadingSend);
     const loadingMessages = useSelector(selectLoadingMessages);

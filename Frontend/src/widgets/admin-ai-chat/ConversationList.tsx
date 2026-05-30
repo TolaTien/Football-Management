@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Button, Skeleton } from 'antd';
 import { PlusOutlined, MessageOutlined } from '@ant-design/icons';
-import type { AppDispatch } from '@/app/store/store';
+import { useAppDispatch } from '@/app/store/hooks';
 import {
     selectConversations, selectLoadingConversations,
 } from '@/entities/ai/model/selectors';
@@ -11,7 +11,7 @@ import {
 } from '@/entities/ai/model/aiSlice';
 
 const ConversationList: React.FC = () => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
     const conversations = useSelector(selectConversations);
     const loading = useSelector(selectLoadingConversations);
 
