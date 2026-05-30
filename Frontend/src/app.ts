@@ -1,4 +1,3 @@
-import '@ant-design/v5-patch-for-react-19';
 import { RequestConfig } from '@umijs/max';
 import { message } from 'antd';
 import { AuthService } from '@/features/auth/api/authService';
