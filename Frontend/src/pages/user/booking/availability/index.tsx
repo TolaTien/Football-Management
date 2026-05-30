@@ -6,6 +6,48 @@ import { PitchService, PitchItem } from '@/entities/pitch';
 import { message, Spin, Select } from 'antd';
 import dayjs from 'dayjs';
 
+const formatTime = (dateStr: string | Date | null | undefined): string => {
+  if (!dateStr) return '00:00';
+  const d = new Date(dateStr);
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+};
+
+const getPitchPriceForSlot = (pitch: PitchItem, timeSlot: string): string => {
+  if (!pitch || !pitch.pitchprice || !Array.isArray(pitch.pitchprice) || pitch.pitchprice.length === 0) {
+    return '120,000 VNĐ'; // Fallback
+  }
+
+  const [slotStart] = timeSlot.split(' - ');
+  if (!slotStart) return '120,000 VNĐ';
+
+  const [slotHour, slotMin] = slotStart.split(':').map(Number);
+  const slotMinutes = slotHour * 60 + slotMin;
+
+  const matchedPrice = pitch.pitchprice.find(pr => {
+    if (!pr.startTime || !pr.endTime) return false;
+    const [sh, sm] = formatTime(pr.startTime).split(':').map(Number);
+    const [eh, em] = formatTime(pr.endTime).split(':').map(Number);
+    
+    const startMinutes = sh * 60 + sm;
+    let endMinutes = eh * 60 + em;
+    
+    if (endMinutes < startMinutes) endMinutes += 24 * 60;
+
+    return slotMinutes >= startMinutes && slotMinutes < endMinutes;
+  });
+
+  if (matchedPrice && matchedPrice.price !== undefined) {
+    return `${matchedPrice.price.toLocaleString('vi-VN')} VNĐ`;
+  }
+
+  const defaultPrice = pitch.pitchprice[0]?.price;
+  if (defaultPrice !== undefined) {
+    return `${defaultPrice.toLocaleString('vi-VN')} VNĐ`;
+  }
+
+  return '120,000 VNĐ';
+};
+
 const BookingAvailabilityPage: React.FC = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState({ 
@@ -117,10 +159,11 @@ const BookingAvailabilityPage: React.FC = () => {
       const pitch = pitches[pitchIndexOrDayIndex];
       if (!pitch) return;
       
+      const calculatedPrice = getPitchPriceForSlot(pitch, timeSlot);
       setSelectedSlot({ 
         pitchName: pitch.namePitch, 
         timeSlot, 
-        price: '120,000 VNĐ', 
+        price: calculatedPrice, 
         pitchId: pitch.pitchId,
         date: selectedDate.format('YYYY-MM-DD')
       });
@@ -129,10 +172,11 @@ const BookingAvailabilityPage: React.FC = () => {
       if (!pitch) return;
       
       const targetDate = dayjs().add(pitchIndexOrDayIndex, 'day');
+      const calculatedPrice = getPitchPriceForSlot(pitch, timeSlot);
       setSelectedSlot({
         pitchName: pitch.namePitch,
         timeSlot,
-        price: '120,000 VNĐ',
+        price: calculatedPrice,
         pitchId: pitch.pitchId,
         date: targetDate.format('YYYY-MM-DD')
       });
