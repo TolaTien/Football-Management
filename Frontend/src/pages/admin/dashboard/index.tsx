@@ -55,7 +55,6 @@ const AdminDashboard: React.FC = () => {
   const totalUsers = overview?.totalUsers ?? 0;
   const pendingCount = overview?.totalPendingRequests ?? 0;
 
-  // Dynamically calculate revenue data by day of the current week and weekly trends
   const {
     revenueData,
   } = React.useMemo(() => {
