@@ -30,7 +30,7 @@ const SocialMatchmakingFeed: React.FC = () => {
       setPosts(data);
     } catch (error) {
       console.error('Failed to fetch posts', error);
-      message.error('Failed to load posts');
+      message.error('Không thể tải danh sách bài đăng');
     } finally {
       setLoading(false);
     }
@@ -105,26 +105,26 @@ const SocialMatchmakingFeed: React.FC = () => {
       setPosts(prev =>
         prev.map(p => (p.postId === post.postId ? { ...p, status: newStatus } : p))
       );
-      message.success(`Match status updated to ${newStatus}`);
+      message.success(`Cập nhật trạng thái trận đấu thành ${newStatus === 'open' ? 'đang mở' : 'đã đóng'}`);
     } catch (error) {
       console.error('Failed to toggle status:', error);
-      message.error('Failed to update status');
+      message.error('Không thể cập nhật trạng thái');
     }
   };
 
   const handleDeletePost = (postId: string) => {
     Modal.confirm({
-      title: 'Delete Matchmaking Post',
-      content: 'Are you sure you want to delete this matchmaking post? This action cannot be undone.',
-      okText: 'Delete',
+      title: 'Xóa bài đăng ghép đôi',
+      content: 'Bạn có chắc chắn muốn xóa bài viết ghép đôi này không? Thao tác này không thể hoàn tác.',
+      okText: 'Xóa',
       okType: 'danger',
-      cancelText: 'Cancel',
+      cancelText: 'Hủy',
       centered: true,
       onOk: async () => {
         try {
           await postService.deletePost(postId);
           setPosts(prev => prev.filter(p => p.postId !== postId));
-          message.success('Matchmaking post deleted successfully');
+          message.success('Xóa bài đăng ghép đôi thành công');
         } catch (error) {
           console.error('Failed to delete post:', error);
         }
@@ -169,8 +169,8 @@ const SocialMatchmakingFeed: React.FC = () => {
     <div className="p-8">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
-          <h2 className="font-h1 text-h1 text-emerald-900">Team Matchmaking</h2>
-          <p className="font-body-md text-gray-500 mt-1">Find opponent teams for your next competitive or casual fixture.</p>
+          <h2 className="font-h1 text-h1 text-emerald-900">Cáp kèo ghép đội</h2>
+          <p className="font-body-md text-gray-500 mt-1">tìm đối thủ và đồng đội</p>
         </div>
         <div className="flex items-center gap-3">
           <button 
@@ -178,7 +178,7 @@ const SocialMatchmakingFeed: React.FC = () => {
             className="bg-emerald-900 text-white px-4 py-2 rounded-lg font-button flex items-center gap-2 hover:bg-emerald-800 transition-colors"
           >
             <span className="material-symbols-outlined text-sm">add</span>
-            Host a Match
+            Đăng bài
           </button>
         </div>
       </div>
@@ -191,7 +191,7 @@ const SocialMatchmakingFeed: React.FC = () => {
               label: (
                 <div className="flex items-center gap-2 px-4 py-1.5 font-bold">
                   <span className="material-symbols-outlined text-[16px]">explore</span>
-                  All Opportunities
+                  Tất cả bài đăng
                 </div>
               ),
               value: 'all',
@@ -200,7 +200,7 @@ const SocialMatchmakingFeed: React.FC = () => {
               label: (
                 <div className="flex items-center gap-2 px-4 py-1.5 font-bold">
                   <span className="material-symbols-outlined text-[16px]">dashboard</span>
-                  My Hosted Matches ({totalMyPosts})
+                  Bài đăng của tôi ({totalMyPosts})
                 </div>
               ),
               value: 'mine',
@@ -253,7 +253,7 @@ const SocialMatchmakingFeed: React.FC = () => {
       {feedTab === 'all' && !loading && Array.isArray(posts) && posts.length > 0 && (
         <div className="mt-12 flex justify-center">
           <button className="border border-gray-200 bg-white text-emerald-900 px-8 py-3 rounded-lg font-button hover:bg-gray-50 transition-all flex items-center gap-2">
-            Load More Opportunities
+            Tải thêm bài đăng
             <span className="material-symbols-outlined text-sm">expand_more</span>
           </button>
         </div>
@@ -265,7 +265,7 @@ const SocialMatchmakingFeed: React.FC = () => {
           className="bg-emerald-900 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all group"
         >
           <span className="material-symbols-outlined">add</span>
-          <span className="absolute right-full mr-4 bg-emerald-900 text-white px-4 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none font-button">Host a Match</span>
+          <span className="absolute right-full mr-4 bg-emerald-900 text-white px-4 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none font-button">Đăng bài</span>
         </button>
       </div>
 

@@ -63,7 +63,10 @@ export const MatchmakingCard: React.FC<MatchmakingCardProps> = ({
   };
 
   return (
-    <div className="bg-white border border-gray-200/80 rounded-xl overflow-hidden hover:shadow-md hover:border-primary transition-all group flex flex-col justify-between p-6">
+    <div 
+      onClick={() => post?.postId && onOpenComment(post.postId)}
+      className="bg-white border border-gray-200/80 rounded-xl overflow-hidden hover:shadow-md hover:border-primary transition-all group flex flex-col justify-between p-6 cursor-pointer"
+    >
       <div className="flex-grow">
         {/* Header */}
         <div className="flex justify-between items-start mb-4">
@@ -118,7 +121,10 @@ export const MatchmakingCard: React.FC<MatchmakingCardProps> = ({
 
         <div className="flex gap-1.5">
           <button
-            onClick={() => post?.postId && onToggleLike(post.postId)}
+            onClick={(e) => {
+              e.stopPropagation();
+              post?.postId && onToggleLike(post.postId);
+            }}
             className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all no-underline ${
               isLiked
                 ? 'bg-primary-container text-primary'
@@ -136,7 +142,10 @@ export const MatchmakingCard: React.FC<MatchmakingCardProps> = ({
             Thích
           </button>
           <button
-            onClick={() => post?.postId && onOpenComment(post.postId)}
+            onClick={(e) => {
+              e.stopPropagation();
+              post?.postId && onOpenComment(post.postId);
+            }}
             className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold text-gray-500 hover:text-primary hover:bg-primary-container/20 transition-all no-underline"
           >
             <span className="material-symbols-outlined text-[15px]">

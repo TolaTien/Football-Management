@@ -22,14 +22,14 @@ export const MyMatches: React.FC<MyMatchesProps> = ({
     return (
       <div className="text-center py-20 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
         <p className="text-gray-500 font-body-md mb-4">
-          You haven't hosted any matchmaking opportunities yet.
+          Bạn chưa có bài đăng nào.
         </p>
         <button
           onClick={onOpenCreate}
           className="bg-emerald-900 text-white px-6 py-2.5 rounded-lg font-button hover:bg-emerald-800 transition-all inline-flex items-center gap-2"
         >
           <span className="material-symbols-outlined text-sm">add</span>
-          Host Your First Match
+          Tạo bài đăng đầu tiên
         </button>
       </div>
     );
@@ -61,7 +61,7 @@ export const MyMatches: React.FC<MyMatchesProps> = ({
                 ? post.description
                     .replace(/^\[TÌM ĐỐI\]\s*/, '')
                     .replace(/^\[GHÉP ĐỘI\]\s*/, '')
-                : 'No description provided'}
+                : 'Không có mô tả.'}
             </h3>
             <div className="flex items-center text-xs text-gray-400 font-bold gap-3 mb-6">
               <span
@@ -69,11 +69,11 @@ export const MyMatches: React.FC<MyMatchesProps> = ({
                 onClick={() => onOpenComment(post.postId)}
               >
                 <span className="material-symbols-outlined text-[16px]">chat_bubble</span>
-                {post._count?.comments || 0} Comments
+                {post._count?.comments || 0} Bình luận
               </span>
               <span className="flex items-center gap-1">
                 <span className="material-symbols-outlined text-[16px]">thumb_up</span>
-                {post._count?.postlike || 0} Likes
+                {post._count?.postlike || 0} Lượt thích
               </span>
             </div>
           </div>
@@ -91,14 +91,14 @@ export const MyMatches: React.FC<MyMatchesProps> = ({
               <span className="material-symbols-outlined text-[16px]">
                 {post.status === 'open' ? 'lock' : 'lock_open'}
               </span>
-              {post.status === 'open' ? 'Close Match' : 'Reopen Match'}
+              {post.status === 'open' ? 'Đóng bài đăng' : 'Mở lại bài đăng'}
             </button>
             <button
               onClick={() => onOpenEdit(post)}
               className="flex-1 py-2 px-3 rounded-lg text-xs font-bold font-button border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 transition-all flex items-center justify-center gap-1.5"
             >
               <span className="material-symbols-outlined text-[16px]">edit</span>
-              Edit
+              Sửa
             </button>
             <button
               onClick={() => onDelete(post.postId)}

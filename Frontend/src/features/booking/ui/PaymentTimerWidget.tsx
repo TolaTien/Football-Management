@@ -37,10 +37,10 @@ export const PaymentTimerWidget: React.FC<PaymentTimerWidgetProps> = ({ isOpen, 
 
       <div className="flex flex-col">
         <span className="text-[10px] uppercase font-bold tracking-wider opacity-80 font-montserrat">
-          Unpaid Booking
+          Đơn Chưa Thanh Toán
         </span>
         <span className="text-sm font-extrabold font-mono leading-none mt-0.5">
-          {timeStr} remaining
+          Còn lại {timeStr}
         </span>
       </div>
 

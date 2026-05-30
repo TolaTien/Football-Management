@@ -56,7 +56,7 @@ export const ScheduleGrid: React.FC<ScheduleGridProps> = ({
     if (booking) {
       return {
         status: (booking.status === 'approved' ? 'booked' : 'pending') as 'booked' | 'pending',
-        title: booking.status === 'approved' ? 'Confirmed' : 'Pending'
+        title: booking.status === 'approved' ? 'Đã duyệt' : 'Chờ duyệt'
       };
     }
 
@@ -88,13 +88,13 @@ export const ScheduleGrid: React.FC<ScheduleGridProps> = ({
               <PitchHeaderCell 
                 key={day.toISOString()} 
                 name={day.format('ddd DD/MM')} 
-                type={day.isSame(dayjs(), 'day') ? 'TODAY' : day.format('dddd')} 
+                type={day.isSame(dayjs(), 'day') ? 'HÔM NAY' : day.format('dddd')} 
                 isLast={idx === 6} 
               />
             ))
           )}
           {viewMode === 'day' && safePitches.length === 0 && [1, 2, 3, 4].map(i => (
-            <PitchHeaderCell key={i} name={`Pitch ${i}`} type="Loading..." isLast={i === 4} />
+            <PitchHeaderCell key={i} name={`Sân ${i}`} type="Đang tải..." isLast={i === 4} />
           ))}
         </div>
       </div>
@@ -131,7 +131,7 @@ export const ScheduleGrid: React.FC<ScheduleGridProps> = ({
                         <BookingBlock status={booking.status} title={booking.title} />
                       ) : (
                         <div className="w-full h-full hover:bg-primary/10 transition-colors cursor-pointer flex items-center justify-center opacity-0 group-hover:opacity-100">
-                          <span className="text-primary font-bold text-sm">+ Book Now</span>
+                          <span className="text-primary font-bold text-sm">+ Đặt ngay</span>
                         </div>
                       )}
                     </div>

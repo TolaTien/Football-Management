@@ -47,5 +47,10 @@ export const postService = {
 
   deletePost: async (postId: string): Promise<void> => {
     await $api.delete(`/posts/${postId}`);
+  },
+
+  getPostById: async (postId: string): Promise<PostItem> => {
+    const { data } = await $api.get(`/posts/${postId}`);
+    return data;
   }
 };

@@ -150,9 +150,9 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 bg-emerald-500/20 border border-emerald-500/30 text-[9px] font-black rounded-md font-mono uppercase tracking-widest text-emerald-300">
-                PENDING
+                CHỜ DUYỆT
               </span>
-              <span className="text-[11px] text-emerald-300/80 font-mono">Invoice #{shortBookId}</span>
+              <span className="text-[11px] text-emerald-300/80 font-mono">Hóa đơn #{shortBookId}</span>
             </div>
             <h3 className="text-lg font-black font-montserrat mt-1 tracking-tight">Thanh Toán Đơn Đặt Sân</h3>
           </div>
@@ -470,7 +470,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                   <div className="bg-emerald-950 text-white p-5 rounded-2xl border border-emerald-900 flex flex-col gap-3 relative overflow-hidden shadow-md">
                     <div className="flex justify-between items-center text-xs relative z-10">
                       <span className="font-extrabold text-emerald-300 uppercase tracking-wider">Ví Cá Nhân thành viên</span>
-                      <span className="text-[9px] bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 px-2 py-0.5 rounded-lg font-black font-mono">ACTIVE</span>
+                      <span className="text-[9px] bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 px-2 py-0.5 rounded-lg font-black font-mono">ĐANG HOẠT ĐỘNG</span>
                     </div>
                     
                     <div className="py-1 relative z-10">

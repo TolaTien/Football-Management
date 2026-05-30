@@ -25,15 +25,15 @@ export const ScheduleToolbar: React.FC<ScheduleToolbarProps> = ({
   return (
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-lg gap-4">
       <div>
-        <h2 className="font-h1 text-h1 text-emerald-900">Pitch Schedule</h2>
-        <p className="font-body-lg text-secondary">Manage and track real-time bookings across all facilities.</p>
+        <h2 className="font-h1 text-h1 text-emerald-900">Lịch đặt sân</h2>
+        <p className="font-body-lg text-secondary">Theo dõi và đặt lịch sân bóng thời gian thực.</p>
       </div>
       
       <div className="flex items-center gap-md self-stretch sm:self-auto justify-between sm:justify-start">
         {/* Date Selector - Only shown in Day view */}
         {viewMode === 'day' && (
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-gray-500 font-montserrat uppercase tracking-wider">Date:</span>
+            <span className="text-xs font-bold text-gray-500 font-montserrat uppercase tracking-wider">Ngày:</span>
             <DatePicker 
               value={selectedDate} 
               onChange={(val) => val && onDateChange(val)} 
@@ -54,7 +54,7 @@ export const ScheduleToolbar: React.FC<ScheduleToolbarProps> = ({
               : 'text-gray-400 hover:text-emerald-900'
             }`}
           >
-            Day
+            Ngày
           </button>
           <button 
             onClick={() => onViewModeChange('week')}
@@ -64,7 +64,7 @@ export const ScheduleToolbar: React.FC<ScheduleToolbarProps> = ({
               : 'text-gray-400 hover:text-emerald-900'
             }`}
           >
-            Week
+            Tuần
           </button>
         </div>
       </div>
