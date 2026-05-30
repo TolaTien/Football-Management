@@ -63,6 +63,8 @@ const mapBackendBooking = (
   price: b.total ?? b.pitchPriceAtBooking ?? 0,
   note: b.cancelrequests?.[0]?.content ?? '',
   source: b.userId ? 'app' : 'phone',
+  pitchPriceAtBooking: b.pitchPriceAtBooking,
+  total: b.total,
 });
 
 export const fetchAllBookings = createAsyncThunk(

@@ -17,7 +17,8 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
         >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
                 <div>
-                    <div style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>Phân tích doanh thu AI</div>
+                    <Text style={{ color: '#94a3b8', fontSize: 13 }}>Doanh thu ca thành công trong tuần · Doanh thu thực tế (gồm cả phí phạt hủy ca) xem tại thẻ phía trên</Text>
+
                     <Text style={{ color: '#94a3b8', fontSize: 13 }}>Ước tính theo lịch đặt sân hiện tại · 7 ngày qua</Text>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
