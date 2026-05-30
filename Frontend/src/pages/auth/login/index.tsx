@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { history } from '@umijs/max';
-import api from '@/services/api';
-
-// Test account
-const TEST_ACCOUNTS = [
-  { email: 'admin@turfmanager.com', password: 'admin123', role: 'admin' },
-  { email: 'user@pitchhub.com', password: 'user123', role: 'user' },
-  { email: 'test@pitchhub.com', password: '123456', role: 'user' },
-];
+import { useNavigate } from '@umijs/max';
+import { AuthService } from '@/features/auth/api/authService';
+import { message } from 'antd';
+import { useAppDispatch } from '@/app/store/hooks';
+import { setCurrentUser } from '@/entities/user';
 
 const PlayerLogin: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -15,32 +11,42 @@ const PlayerLogin: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      // goij api tuwf be
-      const response = await api.post('/auth/login', { email, password });
-      const loginResult = response.data?.data || response.data;
-      const user = loginResult?.user || loginResult; // BE trả về { accessToken, refreshToken, user }
+      // 1. Gọi API đăng nhập
+      const res = await AuthService.login({ email, password });
       
-      // luu thong tin user vao localStorage
-      localStorage.setItem('pitchhub_user', JSON.stringify({
-        email: user.email,
-        fullName: user.fullName || user.name,
-        role: user.role,
-        userId: user.userId || user.id
-      }));
-      // dieu huong vao vai tro
+      const user = res.data?.user;
+      const accessToken = res.data?.accessToken;
+
+      if (!user) {
+        throw new Error('Không lấy được thông tin người dùng.');
+      }
+
+      // 2. Lưu token & user vào localStorage và Redux state
+      localStorage.setItem('pitchhub_user', JSON.stringify(user));
+      if (accessToken) {
+        localStorage.setItem('pitchhub_token', accessToken);
+      }
+      dispatch(setCurrentUser(user));
+
+      message.success('Đăng nhập thành công!');
+
+      // 3. Chuyển hướng theo role
       if (user.role === 'admin') {
-        history.push('/admin/dashboard');
+        navigate('/admin/dashboard');
       } else {
-        history.push('/user/dashboard');
+        navigate('/user/dashboard');
       }
     } catch (err: any) {
-      const errMsg = err.response?.data?.message || "Đăng nhập thất bại";
-      setError(errMsg);
+      // 4. Hiển thị lỗi
+      setError(err.response?.data?.message || err.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
     } finally {
       setLoading(false);
     }
@@ -51,7 +57,6 @@ const PlayerLogin: React.FC = () => {
       <div className="absolute inset-0 pitch-grid pointer-events-none opacity-40"></div>
 
       <main className="w-full max-w-[440px] px-md relative z-10">
-
         <div className="flex flex-col items-center mb-xl">
           <div className="w-16 h-16 bg-primary-container rounded-xl flex items-center justify-center mb-md shadow-lg">
             <span className="material-symbols-outlined text-on-primary-container text-[40px]" data-icon="sports_soccer">sports_soccer</span>
@@ -64,20 +69,6 @@ const PlayerLogin: React.FC = () => {
           <div className="mb-lg">
             <h2 className="font-h2 text-h2 text-on-surface">Chào mừng quay lại</h2>
             <p className="font-body-md text-secondary">Nhập thông tin của bạn để truy cập hệ thống</p>
-          </div>
-
-          {/* Demo credentials hint */}
-          <div className="mb-lg bg-emerald-50 border border-emerald-200 rounded-lg p-md">
-            <p className="text-xs font-label-caps text-emerald-700 mb-xs">TÀI KHOẢN MẪU (TEST)</p>
-            <div className="flex gap-4">
-              <div className="flex-1">
-                <p className="text-[11px] font-bold text-emerald-800 mb-1">ADMIN (DATABASE CỦA BẠN)</p>
-                <p className="text-sm font-body-md text-emerald-900">
-                  📧 admin@gmail.com<br />
-                  🔑 admin123
-                </p>
-              </div>
-            </div>
           </div>
 
           <form className="space-y-lg" onSubmit={handleLogin}>
@@ -129,11 +120,18 @@ const PlayerLogin: React.FC = () => {
             </div>
 
             <button
-              className="w-full bg-primary text-white font-button text-button py-md rounded-lg hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm disabled:opacity-60"
+              className="w-full bg-primary text-white font-button text-button py-md rounded-lg hover:bg-primary-container transition-all active:scale-[0.98] shadow-sm flex justify-center items-center gap-2 disabled:opacity-60"
               type="submit"
               disabled={loading}
             >
-              {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+              {loading ? (
+                <>
+                  <span className="material-symbols-outlined animate-spin">refresh</span>
+                  Logging in...
+                </>
+              ) : (
+                'Login to Dashboard'
+              )}
             </button>
           </form>
 
@@ -154,20 +152,13 @@ const PlayerLogin: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-xl pt-lg border-t border-outline-variant text-center">
-            <p className="font-body-md text-secondary">
-              Bạn là người chơi mới?{' '}
-              <a 
-                className="text-primary font-bold hover:underline ml-xs cursor-pointer" 
-                onClick={() => history.push('/auth/signup')}
-              >
-                Đăng ký ngay
-              </a>
+          <div className="text-center mt-md">
+            <p className="text-secondary font-body-md">
+              New player on the field?{' '}
+              <a className="text-primary font-bold hover:underline cursor-pointer" onClick={(e) => { e.preventDefault(); navigate('/auth/signup'); }}>Sign Up Now</a>
             </p>
           </div>
-
         </div>
-
       </main>
     </div>
   );

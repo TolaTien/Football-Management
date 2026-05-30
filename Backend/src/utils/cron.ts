@@ -4,6 +4,7 @@ import { StatisticService } from '../modules/statistic/statistic.service.js';
 import { sendEmail } from './email.js';
 import { v4 as uuidv4 } from 'uuid';
 
+
 const formatCurrency = (value: number) => {
     return value.toLocaleString('vi-VN') + 'VNĐ';
 };
@@ -130,7 +131,7 @@ export const startCron = () => {
             });
 
             if (cancelBooking.count > 0) console.log(`Đã hủy ${cancelBooking.count} do chưa thanh toán `)
-        } catch(err: any){
+        } catch (err: any) {
             console.error("Lỗi khi chạy cron hủy booking: ", err);
         }
     })

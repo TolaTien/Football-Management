@@ -46,4 +46,11 @@
       linear-gradient(90deg, #ededed 1px, transparent 1px);
     background-size: 40px 40px;
   }
+  .pitch-grid-line {
+    background-image: linear-gradient(to right, #EDEDED 1px, transparent 1px), linear-gradient(to bottom, #EDEDED 1px, transparent 1px);
+    background-size: 100% 48px;
+  }
+  .active-drag-shadow {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  }
 }

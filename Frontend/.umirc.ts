@@ -1,12 +1,18 @@
 import { defineConfig } from '@umijs/max';
 
 export default defineConfig({
-  antd: {},
-  tailwindcss: {},
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3000',
+      changeOrigin: true,
+      pathRewrite: { '^/api': '' },
+    },
+  },
+  antd: false,
+  tailwindcss: { checkTimeout: 20000 },
   access: {},
-  model: {},
-  initialState: {},
   request: {},
+  mfsu: false,
   layout: false, // Disable the built-in Pro Layout globally, we manage our own
   routes: [
     {
@@ -25,21 +31,21 @@ export default defineConfig({
     // User routes sharing UserLayout
     {
       path: '/',
-      component: '@/layouts/UserLayout',
+      component: '@/app/layouts/UserLayout',
       routes: [
         { path: '/user/dashboard', component: './user/dashboard' },
         { path: '/user/activity', component: './user/activity' },
-        { path: '/user/team', component: './user/team' },
-        { path: '/user/wallet', component: './user/wallet' },
-        { path: '/booking/availability', component: './booking/availability' },
-        { path: '/matchmaking/feed', component: './matchmaking/feed' },
-        { path: '/matchmaking/messages', component: './matchmaking/messages' },
+        { path: '/user/rules', component: './user/rules' },
+        { path: '/user/profile', component: './user/profile' },
+        { path: '/user/support', component: './user/support' },
+        { path: '/booking/availability', component: './user/booking/availability' },
+        { path: '/matchmaking/feed', component: './user/matchmaking/feed' },
       ],
     },
     // Admin routes sharing AdminLayout
     {
       path: '/admin',
-      component: '@/layouts/AdminLayout',
+      component: '@/app/layouts/AdminLayout',
       routes: [
         {
           path: '/admin/dashboard',
@@ -93,4 +99,6 @@ export default defineConfig({
     '@app': __dirname + '/src/app',
   },
   npmClient: 'npm',
+  esbuildMinifyIIFE: true,
 });
+

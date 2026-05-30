@@ -6,23 +6,23 @@ import { v4 as uuidv4 } from "uuid";
 
 
 export class AdminUserService {
-    
+
     // =====================================================================
     // 1. LẤY DANH SÁCH USER (Hỗ trợ phân trang và tìm kiếm)
     // =====================================================================
     static async getAllUsers(page: number, limit: number, search: string) {
         // Tính toán số bản ghi cần bỏ qua (dùng cho phân trang)
         const skip = (page - 1) * limit;
-        
+
         // Tạo điều kiện tìm kiếm. Nếu có chữ trong biến 'search', thì tìm trong Tên, Email hoặc Số điện thoại
         const whereCondition = search
             ? {
-                  OR: [
-                      { fullName: { contains: search } },
-                      { email: { contains: search } },
-                      { phone: { contains: search } },
-                  ],
-              }
+                OR: [
+                    { fullName: { contains: search } },
+                    { email: { contains: search } },
+                    { phone: { contains: search } },
+                ],
+            }
             : {};
 
         // Chạy song song 2 câu lệnh bằng Promise.all để tối ưu tốc độ:
@@ -34,8 +34,9 @@ export class AdminUserService {
                 skip,
                 take: limit,
                 select: {
-                    userId: true, email: true, fullName: true, 
+                    userId: true, email: true, fullName: true,
                     avt: true, role: true, phone: true, createdAt: true,
+                    status: true,
                     // Lưu ý: Cố tình không select cột 'password' để bảo mật
                 },
                 orderBy: { createdAt: 'desc' }, // Sắp xếp mới nhất lên đầu
@@ -59,7 +60,7 @@ export class AdminUserService {
             where: { userId },
             select: { userId: true, email: true, fullName: true, avt: true, role: true, phone: true, createdAt: true },
         });
-        
+
         // Nếu không tìm thấy trong database thì ném lỗi 404
         if (!user) {
             throw new ApiError(StatusCodes.NOT_FOUND, "Không tìm thấy người dùng");
@@ -79,7 +80,7 @@ export class AdminUserService {
 
         // Bước 2: Mã hóa mật khẩu trước khi lưu vào database (Băm 10 vòng)
         const hashedPassword = await bcrypt.hash(data.password, 10);
-        
+
         // Bước 3: Lưu user mới vào database
         const newUser = await prisma.users.create({
             data: {

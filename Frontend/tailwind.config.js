@@ -1,24 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/pages/**/*.{js,jsx,ts,tsx}',
-    './src/components/**/*.{js,jsx,ts,tsx}',
-    './src/layouts/**/*.{js,jsx,ts,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}',
   ],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        'primary': '#154212',
+        'primary': '#059669',
         'on-primary': '#ffffff',
-        'primary-container': '#2d5a27',
-        'on-primary-container': '#9dd090',
-        'primary-fixed': '#bcf0ae',
-        'primary-fixed-dim': '#a1d494',
-        'on-primary-fixed': '#002201',
-        'on-primary-fixed-variant': '#23501e',
-        'inverse-primary': '#a1d494',
-        'surface-tint': '#3b6934',
+        'primary-container': '#dcfce7',
+        'on-primary-container': '#064e3b',
+        'primary-fixed': '#a7f3d0',
+        'primary-fixed-dim': '#6ee7b7',
+        'on-primary-fixed': '#064e3b',
+        'on-primary-fixed-variant': '#047857',
+        'inverse-primary': '#a7f3d0',
+        'surface-tint': '#059669',
         'secondary': '#5c5f60',
         'on-secondary': '#ffffff',
         'secondary-container': '#e1e3e4',

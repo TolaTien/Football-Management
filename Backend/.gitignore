@@ -3,3 +3,6 @@ node_modules
 
 /generated/prisma
 
+test-*.ts
+check-*.ts
+
