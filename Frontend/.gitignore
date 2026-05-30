@@ -10,6 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+src/.umi/
+src/.umi-production/
 *.local
 
 # Editor directories and files
@@ -22,3 +24,23 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Temporary development scripts
+build-*.cjs
+extract-*.cjs
+fetch-*.cjs
+fix-*.cjs
+inject-*.cjs
+strip-*.cjs
+purify-*.cjs
+convert-*.js
+check-*.js
+
+# Temporary HTML mockups at root level
+/*.html
+
+# Temporary source files
+temp_*.tsx
+temp_*.ts
+*.txt
+implementation-*.md

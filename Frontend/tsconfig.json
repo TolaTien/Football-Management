@@ -1,7 +1,7 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "extends": "./src/.umi/tsconfig.json",
+  "compilerOptions": {
+    "ignoreDeprecations": "5.0",
+    "skipLibCheck": true
+  }
 }
