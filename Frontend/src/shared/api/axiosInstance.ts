@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-export const API_URL = '/api';
+export const API_URL = process.env.NODE_ENV === 'production' 
+  ? (window as any).UMI_APP_API_URL || 'https://your-backend-url.onrender.com' 
+  : '/api';
 
 export const $api = axios.create({
   baseURL: API_URL,
