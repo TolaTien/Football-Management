@@ -349,9 +349,6 @@ const PlayerAuth: React.FC = () => {
                     <label className="text-xs font-semibold text-slate-500 tracking-wider uppercase" htmlFor="login-password">
                       Mật khẩu
                     </label>
-                    <a className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition-colors" href="#">
-                      Quên mật khẩu?
-                    </a>
                   </div>
                   <div className="relative">
                     <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg">lock</span>
@@ -413,27 +410,6 @@ const PlayerAuth: React.FC = () => {
                   )}
                 </button>
               </form>
-
-              {/* Ngăn cách đăng nhập MXH */}
-              <div className="mt-8">
-                <div className="relative flex items-center justify-center mb-6">
-                  <div className="border-t border-slate-200 w-full"></div>
-                  <span className="absolute bg-white px-3 text-[10px] font-bold tracking-wider text-slate-400 uppercase">
-                    Hoặc kết nối qua
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3.5">
-                  <button className="flex items-center justify-center gap-2 py-2.5 border border-slate-200 hover:border-slate-300 rounded-xl hover:bg-slate-50 transition-all duration-200 active:scale-[0.98] cursor-pointer focus:outline-none">
-                    <img alt="Google" className="w-4 h-4 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoJXV-O63DUxDWwnqd_anJsycaA_UCEGrA1ce-pmeLDaML_6u_8rV1wpUGy8hsHS4nQiwMYxDXHUvq3Ad-gw8ZEit2_i8_NA_BfrRKCyxAtn6sA74KG827zdUGnb1T_ZHe_EVbLN9a_8o2v2Or3noFIuYmYzY6EJCy11dws_T_W7djaN40pTSOJZCHT83vST1NEoz814xX75Bhfxj9fc34GD39V4CakM4acrWHO82gf0UtNFuYuSOgugKsTDHu_tnbOm9Jw2paL2k" />
-                    <span className="text-xs font-semibold text-slate-700">Google</span>
-                  </button>
-                  <button className="flex items-center justify-center gap-2 py-2.5 border border-slate-200 hover:border-slate-300 rounded-xl hover:bg-slate-50 transition-all duration-200 active:scale-[0.98] cursor-pointer focus:outline-none">
-                    <span className="material-symbols-outlined text-[16px] text-slate-800">ios</span>
-                    <span className="text-xs font-semibold text-slate-700">Apple ID</span>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
 
