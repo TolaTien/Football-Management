@@ -25,7 +25,7 @@ export const PostsManageController = {
     update: async (req: Request, res: Response) => {
         try {
             const adminId = requireAdmin(req);
-            const updatedPost = await PostsManageLogic.updateAdminPost(adminId, req.params.postId, req.body);
+            const updatedPost = await PostsManageLogic.updateAdminPost(adminId, req.params.postId as string, req.body);
             res.status(200).json({ message: "Admin sửa bài thành công", data: updatedPost });
         } catch (error: any) { res.status(403).json({ message: error.message }); }
     },
@@ -33,7 +33,7 @@ export const PostsManageController = {
     delete: async (req: Request, res: Response) => {
         try {
             requireAdmin(req); 
-            await PostsManageLogic.deleteAnyPost(req.params.postId);
+            await PostsManageLogic.deleteAnyPost(req.params.postId as string);
             res.status(200).json({ message: "Admin đã xóa bài viết vi phạm thành công" });
         } catch (error: any) { res.status(403).json({ message: error.message }); }
     }
