@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const API_URL = process.env.NODE_ENV === 'production' 
-  ? (window as any).UMI_APP_API_URL || 'https://your-backend-url.onrender.com' 
+  ? (window as any).UMI_APP_API_URL || 'https://football-management-ocd0.onrender.com' 
   : '/api';
 
 export const $api = axios.create({
