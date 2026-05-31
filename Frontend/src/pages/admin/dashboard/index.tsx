@@ -9,10 +9,11 @@ import { StatCard, fetchSystemOverview, fetchMonthlyRevenue, statisticService } 
 import { RevenueChart } from '@/widgets/admin-revenue-chart';
 import { HourlyDistribution } from '@/widgets/admin-hourly-distribution';
 import { RecentBookingsTable } from '@/widgets/admin-recent-bookings';
+import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
+dayjs.locale('vi');
 
 const { Title, Text } = Typography;
-
-import dayjs from 'dayjs';
 
 // Constants
 const VIETNAMESE_DONG_TO_MILLION = 1000000;

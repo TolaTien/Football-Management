@@ -8,6 +8,7 @@ export interface UserItem {
   phone: string;
   role: UserRole;
   status: UserStatus;
+  avt?: string;
 }
 
 export interface CreateUserDto {

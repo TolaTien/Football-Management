@@ -12,22 +12,21 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
     return (
         <Card
             bordered={false}
-            style={{ borderRadius: 16, border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
+            className="rounded-2xl border border-slate-200 shadow-sm"
             bodyStyle={{ padding: 28 }}
         >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
+            <div className="flex justify-between items-start mb-6">
                 <div>
-                    <Text style={{ color: '#94a3b8', fontSize: 13 }}>Doanh thu ca thành công trong tuần · Doanh thu thực tế (gồm cả phí phạt hủy ca) xem tại thẻ phía trên</Text>
-
-                    <Text style={{ color: '#94a3b8', fontSize: 13 }}>Ước tính theo lịch đặt sân hiện tại · 7 ngày qua</Text>
+                    <Text className="text-slate-400 text-[13px] block">Doanh thu ca thành công trong tuần · Doanh thu thực tế (gồm cả phí phạt hủy ca) xem tại thẻ phía trên</Text>
+                    <Text className="text-slate-400 text-[13px] block">Ước tính theo lịch đặt sân hiện tại · 7 ngày qua</Text>
                 </div>
-                <div style={{ display: 'flex', gap: 8 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#94a3b8', fontSize: 12 }}>
-                        <div style={{ width: 10, height: 10, borderRadius: 3, backgroundColor: '#059669' }} /> Doanh thu
+                <div className="flex gap-2">
+                    <div className="flex items-center gap-1.5 text-slate-400 text-xs">
+                        <div className="w-2.5 h-2.5 rounded-[3px] bg-emerald-600" /> Doanh thu
                     </div>
                 </div>
             </div>
-            <div style={{ height: 260 }}>
+            <div className="h-[260px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />

@@ -173,23 +173,16 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
         <>
             <Card
                 bordered={false}
-                style={{ borderRadius: 16, border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.04)', overflow: 'hidden' }}
+                className="rounded-2xl border border-slate-200 shadow-sm overflow-hidden"
                 bodyStyle={{ padding: 0 }}
             >
-                <div style={{
-                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                    padding: '20px 24px', borderBottom: '1px solid #f1f5f9',
-                }}>
+                <div className="flex justify-between items-center py-5 px-6 border-b border-slate-100">
                     <div>
-                        <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a' }}>Danh sách lịch đặt</div>
-                        <Text style={{ color: '#94a3b8', fontSize: 12 }}>Toàn bộ hệ thống · {bookings.length} lượt</Text>
+                        <div className="text-base font-bold text-slate-900">Danh sách lịch đặt</div>
+                        <Text className="text-slate-400 text-xs">Toàn bộ hệ thống · {bookings.length} lượt</Text>
                     </div>
                     {pendingCount > 0 && (
-                        <div style={{
-                            background: '#fef9c3', color: '#b45309', padding: '6px 14px',
-                            borderRadius: 20, fontWeight: 700, fontSize: 12,
-                            border: '1px solid #fde68a',
-                        }}>
+                        <div className="bg-yellow-50 text-yellow-750 py-1.5 px-3.5 rounded-full font-bold text-xs border border-yellow-200">
                             ⏳ {pendingCount} đơn chờ duyệt
                         </div>
                     )}
@@ -199,8 +192,7 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
                     dataSource={bookings}
                     pagination={{ pageSize: 5, size: 'small' }}
                     rowKey="id"
-                    style={{ borderRadius: 0 }}
-                    className="admin-table"
+                    className="admin-table rounded-none"
                 />
             </Card>
 
