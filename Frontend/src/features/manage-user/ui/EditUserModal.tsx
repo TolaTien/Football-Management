@@ -1,32 +1,43 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Select, Switch, Button, Row, Col, Typography } from 'antd';
+import React, { useEffect } from 'react';
+import { Modal, Form, Input, Select, Button, Row, Col } from 'antd';
 import {
-    UserAddOutlined, IdcardOutlined, PhoneOutlined, MailOutlined,
-    UserOutlined, CheckCircleOutlined, LockOutlined,
+    EditOutlined, IdcardOutlined, PhoneOutlined, MailOutlined,
+    UserOutlined, LockOutlined,
 } from '@ant-design/icons';
-import type { UserRole } from '@/entities/user/model/types';
+import type { UserItem, UserRole } from '@/entities/user/model/types';
 
-const { Text } = Typography;
-
-interface AddUserModalProps {
+interface EditUserModalProps {
     open: boolean;
+    user: UserItem | null;
     onCancel: () => void;
     onConfirm: (values: { name: string; email: string; phone: string; role: UserRole; password?: string }) => void;
 }
 
-const AddUserModal: React.FC<AddUserModalProps> = ({ open, onCancel, onConfirm }) => {
+const EditUserModal: React.FC<EditUserModalProps> = ({ open, user, onCancel, onConfirm }) => {
     const [form] = Form.useForm();
-    const [isActive, setIsActive] = useState(true);
+
+    useEffect(() => {
+        if (open && user) {
+            form.setFieldsValue({
+                name: user.name,
+                email: user.email,
+                phone: user.phone === '—' ? '' : user.phone,
+                role: user.role,
+                password: '',
+            });
+        }
+    }, [open, user, form]);
 
     const handleSubmit = (values: { name: string; email: string; phone: string; role: UserRole; password?: string }) => {
-        onConfirm(values);
-        form.resetFields();
-        setIsActive(true);
+        const submitData = { ...values };
+        if (!submitData.password) {
+            delete submitData.password;
+        }
+        onConfirm(submitData);
     };
 
     const handleClose = () => {
         form.resetFields();
-        setIsActive(true);
         onCancel();
     };
 
@@ -41,17 +52,23 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onCancel, onConfirm }
             closeIcon={<span className="text-lg text-slate-400 hover:text-slate-600 transition-colors">✕</span>}
         >
             <div className="flex rounded-2xl overflow-hidden min-h-[500px]">
-                {/* Panel trái*/}
+                {/* Panel trái */}
                 <div className="w-[200px] min-w-[200px] bg-gradient-to-br from-emerald-600 to-emerald-700 p-8 flex flex-col justify-between text-white">
                     <div>
                         <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-5">
-                            <UserAddOutlined className="text-2xl text-white" />
+                            <EditOutlined className="text-2xl text-white" />
                         </div>
                         <div className="text-white text-lg font-extrabold leading-snug mb-3">
-                            Thông tin người dùng
+                            Cập nhật thành viên
                         </div>
                         <div className="text-white/75 text-xs leading-relaxed">
-                            Vui lòng điền đầy đủ các thông tin bên dưới để cập nhật hệ thống.
+                            Thay đổi các thông tin cần thiết của thành viên. Nhấn Cập nhật để đồng bộ hệ thống.
+                        </div>
+                    </div>
+                    <div className="p-3 bg-white/10 rounded-lg border border-white/15">
+                        <div className="text-white/70 text-[11px] mb-1">ℹ️ Lưu ý</div>
+                        <div className="text-white text-xs leading-normal">
+                            Email thay đổi phải chưa từng tồn tại trên hệ thống.
                         </div>
                     </div>
                 </div>
@@ -114,57 +131,32 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onCancel, onConfirm }
                             />
                         </Form.Item>
 
-                        {/* Vai trò + Trạng thái */}
-                        <Row gutter={16} align="bottom">
-                            <Col span={14}>
-                                <Form.Item
-                                    name="role"
-                                    initialValue="Khách hàng"
-                                    label={
-                                        <span className="font-semibold text-slate-700 text-xs flex items-center gap-1.5">
-                                            <UserOutlined className="text-emerald-600" /> Vai trò
-                                        </span>
-                                    }
-                                >
-                                    <Select size="large" className="rounded-xl w-full">
-                                        <Select.Option value="Khách hàng">Khách hàng</Select.Option>
-                                        <Select.Option value="Quản trị">Quản trị viên</Select.Option>
-                                    </Select>
-                                </Form.Item>
-                            </Col>
-                            <Col span={10}>
-                                <Form.Item
-                                    label={
-                                        <span className="font-semibold text-slate-700 text-xs flex items-center gap-1.5">
-                                            <CheckCircleOutlined className="text-emerald-600" /> Trạng thái
-                                        </span>
-                                    }
-                                >
-                                    <div className="flex items-center gap-2.5 pb-1">
-                                        <Switch
-                                            checked={isActive}
-                                            onChange={setIsActive}
-                                            className={isActive ? 'bg-emerald-600' : 'bg-slate-300'}
-                                        />
-                                        <Text className={`font-semibold text-sm ${isActive ? 'text-emerald-600' : 'text-slate-400'}`}>
-                                            {isActive ? 'Đang hoạt động' : 'Không hoạt động'}
-                                        </Text>
-                                    </div>
-                                </Form.Item>
-                            </Col>
-                        </Row>
+                        {/* Vai trò */}
+                        <Form.Item
+                            name="role"
+                            label={
+                                <span className="font-semibold text-slate-700 text-xs flex items-center gap-1.5">
+                                    <UserOutlined className="text-emerald-600" /> Vai trò
+                                </span>
+                            }
+                        >
+                            <Select size="large" className="rounded-xl w-full">
+                                <Select.Option value="Khách hàng">Khách hàng</Select.Option>
+                                <Select.Option value="Quản trị">Quản trị viên</Select.Option>
+                            </Select>
+                        </Form.Item>
 
-                        {/* Mật khẩu mặc định */}
+                        {/* Thay đổi Mật khẩu */}
                         <Form.Item
                             name="password"
                             label={
                                 <span className="font-semibold text-slate-700 text-xs flex items-center gap-1.5">
-                                    <LockOutlined className="text-emerald-600" /> Mật khẩu mặc định
+                                    <LockOutlined className="text-emerald-600" /> Đặt lại mật khẩu (Tùy chọn)
                                 </span>
                             }
                         >
                             <Input.Password
-                                placeholder="Để trống để tự động tạo"
+                                placeholder="Nhập nếu muốn đổi mật khẩu mới"
                                 size="large"
                                 className="rounded-xl border-slate-300"
                             />
@@ -175,7 +167,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onCancel, onConfirm }
                             <Button
                                 size="large"
                                 onClick={handleClose}
-                                className="rounded-xl h-11 px-6 font-semibold text-slate-650 border-slate-300 hover:text-slate-800 transition-colors"
+                                className="rounded-xl h-11 px-6 font-semibold text-slate-600 border-slate-300 hover:text-slate-800 transition-colors"
                             >
                                 Hủy bỏ
                             </Button>
@@ -183,10 +175,10 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onCancel, onConfirm }
                                 type="primary"
                                 htmlType="submit"
                                 size="large"
-                                icon={<UserAddOutlined />}
+                                icon={<EditOutlined />}
                                 className="bg-emerald-600 border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 text-white rounded-xl h-11 px-7 font-bold shadow-md shadow-emerald-600/10 flex items-center"
                             >
-                                Lưu thay đổi
+                                Cập nhật
                             </Button>
                         </div>
                     </Form>
@@ -196,4 +188,4 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ open, onCancel, onConfirm }
     );
 };
 
-export default AddUserModal;
+export default EditUserModal;

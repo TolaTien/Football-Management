@@ -16,56 +16,59 @@ export const PitchSelector: React.FC<PitchSelectorProps> = ({
 }) => {
   return (
     <>
-      <Card bordered={false} bodyStyle={{ padding: 24, borderRadius: 12, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-        <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ color: '#00a67d' }}>⚽</div> Chọn sân
+      <Card
+        bordered={false}
+        className="rounded-xl shadow-sm border border-slate-100"
+        bodyStyle={{ padding: 24 }}
+      >
+        <div className="text-lg font-bold mb-4 flex items-center gap-2">
+          <div className="text-[#00a67d]">⚽</div> Chọn sân
         </div>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+
+        <div className="flex flex-col gap-3">
           {pitches.map(p => (
-            <div 
+            <div
               key={p.id}
               onClick={() => onSelectPitch(p.id)}
-              style={{
-                padding: '16px 20px',
-                borderRadius: 12,
-                border: activePitch === p.id ? '2px solid #00a67d' : '1px solid #f3f4f6',
-                backgroundColor: activePitch === p.id ? '#ecfdf5' : '#ffffff',
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                transition: 'all 0.2s'
-              }}
+              className={`py-4 px-5 rounded-xl cursor-pointer flex justify-between items-center transition-all duration-200 border ${activePitch === p.id ? 'border-[#00a67d] bg-[#ecfdf5] border-2' : 'border-slate-100 bg-white'
+                }`}
             >
               <div>
-                <div style={{ fontWeight: 700, color: '#1f2937', fontSize: 15, marginBottom: 4 }}>{p.name}</div>
-                <div style={{ color: '#6b7280', fontSize: 13 }}>{p.desc}</div>
+                <div className="font-bold text-slate-800 text-[15px] mb-1">{p.name}</div>
+                <div className="text-slate-500 text-[13px]">{p.desc}</div>
               </div>
-              {activePitch === p.id ? <CheckCircleOutlined style={{ color: '#00a67d', fontSize: 20 }} /> : <RightOutlined style={{ color: '#9ca3af' }} />}
+              {activePitch === p.id ? (
+                <CheckCircleOutlined className="text-[#00a67d] text-xl" />
+              ) : (
+                <RightOutlined className="text-slate-400" />
+              )}
             </div>
           ))}
         </div>
 
-        <div style={{ marginTop: 24, padding: '16px 20px', backgroundColor: '#f9fafb', borderRadius: 12, border: '1px solid #e5e7eb' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text style={{ fontWeight: 600, color: '#6b7280', fontSize: 12 }}>TÌNH TRẠNG SÂN</Text>
-            <div style={{ padding: '4px 12px', backgroundColor: '#d1fae5', color: '#059669', borderRadius: 16, fontWeight: 800, fontSize: 12 }}>
+        <div className="mt-6 py-4 px-5 bg-slate-50 rounded-xl border border-slate-200">
+          <div className="flex justify-between items-center">
+            <Text className="font-semibold text-slate-500 text-xs">TÌNH TRẠNG SÂN</Text>
+            <div className="py-1 px-3 bg-emerald-100 text-emerald-600 rounded-full font-extrabold text-xs">
               RẤT TỐT
             </div>
           </div>
-          <div style={{ width: '100%', height: 4, backgroundColor: '#e5e7eb', borderRadius: 2, marginTop: 12 }}>
-            <div style={{ width: '85%', height: '100%', backgroundColor: '#059669', borderRadius: 2 }}></div>
+          <div className="w-full h-1 bg-slate-200 rounded-sm mt-3">
+            <div className="w-[85%] h-full bg-emerald-600 rounded-sm"></div>
           </div>
         </div>
       </Card>
 
-      <Card bordered={false} style={{ marginTop: 24, backgroundColor: '#1e293b', border: 'none', borderRadius: 12 }} bodyStyle={{ padding: 24 }}>
-        <div style={{ color: '#f8fafc', fontSize: 18, fontWeight: 700, marginBottom: 4 }}>Phân tích doanh thu</div>
-        <div style={{ color: '#94a3b8', fontSize: 14, marginBottom: 24 }}>30 ngày qua cho {pitches.find(p=>p.id === activePitch)?.name}</div>
-        
-        <div style={{ color: '#ffffff', fontSize: 36, fontWeight: 800, marginBottom: 8 }}>48.2M VNĐ</div>
-        <div style={{ color: '#34d399', fontSize: 14, fontWeight: 600 }}>↗ +12.4% so với tháng trước</div>
+      <Card
+        bordered={false}
+        className="mt-6 bg-slate-800 border-none rounded-xl"
+        bodyStyle={{ padding: 24 }}
+      >
+        <div className="text-slate-50 text-lg font-bold mb-1">Phân tích doanh thu</div>
+        <div className="text-slate-400 text-sm mb-6">30 ngày qua cho {pitches.find(p => p.id === activePitch)?.name}</div>
+
+        <div className="text-white text-4xl font-extrabold mb-2">48.2M VNĐ</div>
+        <div className="text-emerald-400 text-sm font-semibold">↗ +12.4% so với tháng trước</div>
       </Card>
     </>
   );

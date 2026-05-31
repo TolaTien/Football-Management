@@ -65,16 +65,22 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
                     className="flex items-center gap-3 cursor-pointer group"
                     onClick={() => setSelectedBooking(record)}
                 >
-                    <div className="w-[34px] h-[34px] rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center font-extrabold text-[13px] flex-shrink-0 shadow-sm transition-transform group-hover:scale-105">
-                        {text.substring(0, 2).toUpperCase()}
-                    </div>
+                    {/* Luôn dùng thẻ img, nếu không có avt thì dùng link Dicebear tạo avatar từ email */}
+                    <img
+                        src={record.avt || `https://api.dicebear.com/7.x/avataaars/svg?seed=${record.email || text || 'default'}`}
+                        alt={text}
+                        className="w-[34px] h-[34px] rounded-full object-cover shadow-sm transition-transform group-hover:scale-105 border border-slate-100 bg-slate-50"
+                    />
+
                     <div className="flex flex-col">
                         <span className="font-semibold text-slate-800 text-xs group-hover:text-emerald-700 transition-colors">{text}</span>
                         {record.phone && <span className="text-[10px] text-slate-400 font-mono mt-0.5">{record.phone}</span>}
                     </div>
                 </div>
-            ),
+            )
+
         },
+
         {
             title: 'Sân bóng',
             dataIndex: 'pitchName',
@@ -173,23 +179,16 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
         <>
             <Card
                 bordered={false}
-                style={{ borderRadius: 16, border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.04)', overflow: 'hidden' }}
+                className="rounded-2xl border border-slate-200 shadow-sm overflow-hidden"
                 bodyStyle={{ padding: 0 }}
             >
-                <div style={{
-                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                    padding: '20px 24px', borderBottom: '1px solid #f1f5f9',
-                }}>
+                <div className="flex justify-between items-center py-5 px-6 border-b border-slate-100">
                     <div>
-                        <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a' }}>Danh sách lịch đặt</div>
-                        <Text style={{ color: '#94a3b8', fontSize: 12 }}>Toàn bộ hệ thống · {bookings.length} lượt</Text>
+                        <div className="text-base font-bold text-slate-900">Danh sách lịch đặt</div>
+                        <Text className="text-slate-400 text-xs">Toàn bộ hệ thống · {bookings.length} lượt</Text>
                     </div>
                     {pendingCount > 0 && (
-                        <div style={{
-                            background: '#fef9c3', color: '#b45309', padding: '6px 14px',
-                            borderRadius: 20, fontWeight: 700, fontSize: 12,
-                            border: '1px solid #fde68a',
-                        }}>
+                        <div className="bg-yellow-50 text-yellow-750 py-1.5 px-3.5 rounded-full font-bold text-xs border border-yellow-200">
                             ⏳ {pendingCount} đơn chờ duyệt
                         </div>
                     )}
@@ -199,8 +198,7 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
                     dataSource={bookings}
                     pagination={{ pageSize: 5, size: 'small' }}
                     rowKey="id"
-                    style={{ borderRadius: 0 }}
-                    className="admin-table"
+                    className="admin-table rounded-none"
                 />
             </Card>
 

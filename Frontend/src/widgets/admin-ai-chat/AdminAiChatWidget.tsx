@@ -35,23 +35,7 @@ const AdminAiChatWidget: React.FC = () => {
             {!isOpen && (
                 <button
                     onClick={() => setIsOpen(true)}
-                    style={{
-                        position: 'fixed', bottom: 24, right: 24, zIndex: 1000,
-                        background: '#059669', color: 'white',
-                        border: 'none', borderRadius: 50,
-                        width: 56, height: 56, cursor: 'pointer',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: 24, boxShadow: '0 4px 20px rgba(5,150,105,0.4)',
-                        transition: 'transform 0.2s, box-shadow 0.2s',
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'scale(1.1)';
-                        e.currentTarget.style.boxShadow = '0 6px 24px rgba(5,150,105,0.5)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'scale(1)';
-                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(5,150,105,0.4)';
-                    }}
+                    className="fixed bottom-6 right-6 z-[1000] bg-emerald-650 text-white border-none rounded-full w-14 h-14 cursor-pointer flex items-center justify-center text-2xl shadow-lg shadow-emerald-600/40 transition-all duration-200 hover:scale-110 hover:shadow-xl hover:shadow-emerald-605/50"
                     title="AI Trợ lý Admin"
                 >
                     🤖
@@ -60,45 +44,28 @@ const AdminAiChatWidget: React.FC = () => {
 
             {/* Chat Panel */}
             {isOpen && (
-                <div style={{
-                    position: 'fixed', bottom: 24, right: 24, zIndex: 1000,
-                    width: 400, height: 600,
-                    background: 'white', borderRadius: 16,
-                    boxShadow: '0 8px 40px rgba(0,0,0,0.15)',
-                    display: 'flex', flexDirection: 'column',
-                    overflow: 'hidden', border: '1px solid #e5e7eb',
-                }}>
+                <div className="fixed bottom-6 right-6 z-[1000] w-[400px] h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
                     {/* Header */}
-                    <div style={{
-                        padding: '14px 16px',
-                        background: '#059669',
-                        display: 'flex', alignItems: 'center', gap: 10,
-                    }}>
+                    <div className="py-3.5 px-4 bg-emerald-650 flex items-center gap-2.5">
                         {activeId && (
                             <button
                                 onClick={handleBack}
-                                style={{
-                                    background: 'transparent', border: 'none',
-                                    color: 'white', cursor: 'pointer', padding: 4,
-                                }}
+                                className="bg-transparent border-none text-white cursor-pointer p-1 flex items-center justify-center"
                             >
                                 <ArrowLeftOutlined />
                             </button>
                         )}
-                        <div style={{ flex: 1 }}>
-                            <p style={{ margin: 0, color: 'white', fontWeight: 600, fontSize: 14 }}>
+                        <div className="flex-1">
+                            <p className="m-0 text-white font-semibold text-sm">
                                 🤖 AI Admin Assistant
                             </p>
-                            <p style={{ margin: 0, color: 'rgba(255,255,255,0.75)', fontSize: 11 }}>
+                            <p className="m-0 text-white/75 text-[11px]">
                                 {activeId ? 'Đang trò chuyện' : 'Chọn hoặc tạo hội thoại'}
                             </p>
                         </div>
                         <button
                             onClick={handleClose}
-                            style={{
-                                background: 'transparent', border: 'none',
-                                color: 'white', cursor: 'pointer', padding: 4,
-                            }}
+                            className="bg-transparent border-none text-white cursor-pointer p-1 flex items-center justify-center"
                         >
                             <CloseOutlined />
                         </button>
