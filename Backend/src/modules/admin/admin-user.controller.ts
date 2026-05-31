@@ -11,7 +11,7 @@ class AdminUserController {
             const result = await AdminUserService.getAllUsers(page, limit, search);
 
             res.status(StatusCodes.OK).json({ message: "Lấy danh sách user thành công", data: result });
-        } catch (error) {
+        } catch (error: any) {
             next(error);
         }
     }
@@ -20,7 +20,7 @@ class AdminUserController {
         try {
             const user = await AdminUserService.getUserById(req.params.id as string);
             res.status(StatusCodes.OK).json({ message: "Lấy thông tin user thành công", data: user });
-        } catch (error) {
+        } catch (error: any) {
             next(error);
         }
     }
@@ -29,7 +29,7 @@ class AdminUserController {
         try {
             const user = await AdminUserService.createUser(req.body);
             res.status(StatusCodes.CREATED).json({ message: "Tạo user thành công", data: user });
-        } catch (error) {
+        } catch (error: any) {
             next(error);
         }
     }
@@ -38,7 +38,7 @@ class AdminUserController {
         try {
             const user = await AdminUserService.updateUser(req.params.id as string, req.body);
             res.status(StatusCodes.OK).json({ message: "Cập nhật user thành công", data: user });
-        } catch (error) {
+        } catch (error: any) {
             next(error);
         }
     }
@@ -47,7 +47,7 @@ class AdminUserController {
         try {
             const result = await AdminUserService.deleteUser(req.params.id as string);
             res.status(StatusCodes.OK).json(result);
-        } catch (error) {
+        } catch (error: any) {
             next(error);
         }
     }
