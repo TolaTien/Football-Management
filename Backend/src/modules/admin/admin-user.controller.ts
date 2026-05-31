@@ -28,7 +28,6 @@ class AdminUserController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
             const user = await AdminUserService.createUser(req.body);
-            // Trả về status 201 (Created)
             res.status(StatusCodes.CREATED).json({ message: "Tạo user thành công", data: user });
         } catch (error) {
             next(error);

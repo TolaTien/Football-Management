@@ -32,7 +32,6 @@ export class AdminUserService {
             prisma.users.count({ where: whereCondition }),
         ]);
 
-        // Trả về data kèm theo thông tin meta để frontend vẽ phân trang
         return {
             users,
             meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
@@ -40,14 +39,11 @@ export class AdminUserService {
     }
 
     static async getUserById(userId: string) {
-        // Tìm user theo ID
         const user = await prisma.users.findUnique({
             where: { userId },
             select: { userId: true, email: true, fullName: true, avt: true, role: true, phone: true, createdAt: true },
         });
-        
-        // Nếu không tìm thấy trong database thì ném lỗi 404
-        if (!user) {
+                if (!user) {
             throw new ApiError(StatusCodes.NOT_FOUND, "Không tìm thấy người dùng");
         }
         return user;
