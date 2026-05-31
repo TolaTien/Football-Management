@@ -29,7 +29,7 @@ export default defineConfig({
     },
     {
       path: '/auth/signup',
-      component: './auth/signup',
+      component: './auth/login',
     },
     // User routes sharing UserLayout
     {
