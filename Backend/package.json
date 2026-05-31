@@ -21,8 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "@google/genai": "^2.4.0",
-    "@prisma/adapter-mariadb": "^7.8.0",
-    "@prisma/client": "^7.8.0",
+    "@prisma/client": "6.19.3",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.10.0",
     "cookie-parser": "^1.4.7",
@@ -51,7 +50,7 @@
     "@types/node": "^25.6.0",
     "@types/node-cron": "^3.0.11",
     "@types/nodemailer": "^8.0.0",
-    "prisma": "^6.19.3",
+    "prisma": "6.19.3",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3"
   }
