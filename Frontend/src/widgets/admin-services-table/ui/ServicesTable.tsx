@@ -59,7 +59,6 @@ export const ServicesTable: React.FC<ServicesTableProps> = ({
           <span className="font-bold text-slate-800 text-sm font-mono whitespace-nowrap">
             {price.toLocaleString()} <span className="text-[10px] text-slate-400 font-normal">đ</span>
           </span>
-          <span className="text-[9px] text-slate-450 uppercase font-bold tracking-wider mt-0.5 whitespace-nowrap">mỗi đơn vị</span>
         </div>
       ),
     },
@@ -85,8 +84,8 @@ export const ServicesTable: React.FC<ServicesTableProps> = ({
                   size="small"
                   controls={false}
                 />
-                <Button 
-                  size="small" 
+                <Button
+                  size="small"
                   type="primary"
                   className="bg-emerald-600 border-emerald-600 hover:bg-emerald-700 flex items-center justify-center w-6 h-6 p-0 min-w-0 rounded-md text-white"
                   icon={<SaveOutlined className="text-xs" />}
@@ -95,8 +94,8 @@ export const ServicesTable: React.FC<ServicesTableProps> = ({
                     setEditingStock(null);
                   }}
                 />
-                <Button 
-                  size="small" 
+                <Button
+                  size="small"
                   type="text"
                   className="hover:bg-slate-200 text-slate-450 flex items-center justify-center w-6 h-6 p-0 min-w-0 rounded-md"
                   icon={<CloseOutlined className="text-xs" />}
@@ -105,13 +104,12 @@ export const ServicesTable: React.FC<ServicesTableProps> = ({
               </div>
             ) : (
               <div className="flex items-center gap-2 group">
-                <div className={`h-7 px-2.5 rounded-lg flex items-center justify-center font-black font-mono text-xs shadow-sm ${
-                  stock === 0 
-                  ? 'bg-rose-50 text-rose-600 border border-rose-100' 
-                  : stock < 10 
-                    ? 'bg-amber-50 text-amber-600 border border-amber-100' 
+                <div className={`h-7 px-2.5 rounded-lg flex items-center justify-center font-black font-mono text-xs shadow-sm ${stock === 0
+                  ? 'bg-rose-50 text-rose-600 border border-rose-100'
+                  : stock < 10
+                    ? 'bg-amber-50 text-amber-600 border border-amber-100'
                     : 'bg-emerald-50 text-emerald-600 border border-emerald-100'
-                }`}>
+                  }`}>
                   {stock}
                 </div>
                 <Tooltip title="Cập nhật nhanh kho">
@@ -168,9 +166,9 @@ export const ServicesTable: React.FC<ServicesTableProps> = ({
           >
             <Tooltip title="Xóa dịch vụ">
               <Button
-                danger 
-                icon={<DeleteOutlined />} 
-                type="text" 
+                danger
+                icon={<DeleteOutlined />}
+                type="text"
                 size="small"
                 className="rounded-lg hover:bg-rose-50"
               />

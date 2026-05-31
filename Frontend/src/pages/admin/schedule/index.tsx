@@ -22,7 +22,7 @@ const { Title, Text } = Typography;
 
 const SLOT_MIN = 30;
 const START_HOUR = 6;
-const END_HOUR = 22;
+const END_HOUR = 24;
 const START_MIN_VAL = START_HOUR * 60;
 const SLOT_COUNT = ((END_HOUR - START_HOUR) * 60) / SLOT_MIN;
 const GRID_TPL = `160px repeat(${SLOT_COUNT}, minmax(28px, 1fr))`;
@@ -101,10 +101,10 @@ const AdminScheduleGrid: React.FC = () => {
           </div>
         ),
         extra: [
-          <Button 
-            key="add" 
-            type="primary" 
-            icon={<PlusOutlined />} 
+          <Button
+            key="add"
+            type="primary"
+            icon={<PlusOutlined />}
             onClick={() => setShowAdd(true)}
             className="bg-emerald-600 border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 rounded-xl font-bold h-10 px-5 shadow-md shadow-emerald-600/10"
           >

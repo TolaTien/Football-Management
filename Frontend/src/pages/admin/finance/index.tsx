@@ -13,7 +13,6 @@ import dayjs from 'dayjs';
 
 // FSD Imports
 import { FinanceStatCard } from '@/widgets/admin-finance-stats';
-import { RevenueStructure } from '@/widgets/admin-revenue-structure';
 import { TransactionHistoryTable } from '@/widgets/admin-transaction-history';
 
 const { Text } = Typography;
@@ -64,11 +63,6 @@ const AdminFinance: React.FC = () => {
   const dbDrinkRevenue = Math.round((dbTotalServiceRevenue * 0.60) / 10000) * 10000;
   const dbEquipmentRevenue = dbTotalServiceRevenue - dbDrinkRevenue; // Khớp 100% phần còn lại
 
-  const revenueBreakdown = [
-    { name: 'Tiền thuê sân', value: dbPitchRevenue },
-    { name: 'Nước uống', value: dbDrinkRevenue },
-    { name: 'Thuê áo, bóng', value: dbEquipmentRevenue },
-  ];
 
   // Tính doanh thu hủy cọc (50% giá trị đặt sân đối với đơn hủy nhưng đã cọc)
   const cancelledWithDeposit = filteredBookings.filter(
@@ -84,13 +78,7 @@ const AdminFinance: React.FC = () => {
 
   // Lượt đã thanh toán thành công
   const successTxn = filteredBookings.filter((b) => b.paymentStatus === 'paid').length;
-  
-  // Lượt hoàn tiền
-  const refundedTxn = filteredBookings.filter((b) => b.status === 'cancelled').length;
-  
-  // Tính số tiền hoàn trả ước tính
-  const refundedAmount = refundedTxn * (computedTotalRevenue > 0 && computedTotalBookings > 0 ? computedTotalRevenue / computedTotalBookings : 0);
-  
+
   // Phần trăm thành công
   const successPercentage = computedTotalBookings > 0 ? Math.round((successTxn / computedTotalBookings) * 100) : 0;
 
@@ -121,7 +109,7 @@ const AdminFinance: React.FC = () => {
     {
       icon: <WalletOutlined />,
       label: 'Tổng doanh thu',
-      value: `${(computedTotalRevenue / VIETNAMESE_DONG_TO_MILLION).toFixed(1)}M đ`, // Làm tròn 1 chữ số thập phân để đồng bộ trang tổng quan
+      value: `${((revenue?.totalRevenue ?? 0) / VIETNAMESE_DONG_TO_MILLION).toFixed(1)}M đ`, // Lấy trực tiếp từ Database
       trend: `${revenue?.rate ?? 0}%`,
       color: '#059669',
       bg: '#dcfce7',
@@ -130,7 +118,7 @@ const AdminFinance: React.FC = () => {
     {
       icon: <TransactionOutlined />,
       label: 'Tổng lượt đặt sân',
-      value: `${computedTotalBookings} lượt`,
+      value: `${revenue?.totalBookings ?? 0} lượt`, // Lấy trực tiếp từ Database
       trend: `+${overview?.totalPendingRequests ?? 0} chờ`,
       color: '#2563eb',
       bg: '#dbeafe',
@@ -142,14 +130,6 @@ const AdminFinance: React.FC = () => {
       trend: `${successPercentage}%`,
       color: '#7c3aed',
       bg: '#ede9fe',
-    },
-    {
-      icon: <ReloadOutlined />,
-      label: 'Hoàn tiền',
-      value: `${(refundedAmount / VIETNAMESE_DONG_TO_THOUSAND).toFixed(0)}K đ`,
-      trend: `${refundedTxn} lượt`,
-      color: '#dc2626',
-      bg: '#fee2e2',
     },
   ];
 
@@ -202,7 +182,7 @@ const AdminFinance: React.FC = () => {
       {/* Summary Stats */}
       <Row gutter={[16, 16]} className="mb-6">
         {summaryItems.map((item, i) => (
-          <Col xs={24} sm={12} lg={6} key={i}>
+          <Col xs={24} sm={8} lg={8} key={i}>
             <FinanceStatCard
               icon={item.icon}
               label={item.label}
@@ -218,12 +198,7 @@ const AdminFinance: React.FC = () => {
 
       <Row gutter={[20, 20]}>
         {/* Pie Chart */}
-        <Col xs={24} lg={8}>
-          <RevenueStructure data={revenueBreakdown} totalRevenue={computedTotalRevenue} />
-        </Col>
-
-        {/* Transaction History Table */}
-        <Col xs={24} lg={16}>
+        <Col xs={24}>
           <TransactionHistoryTable
             data={tableData}
             selectedDate={selectedDate}

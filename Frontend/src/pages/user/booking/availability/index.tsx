@@ -12,13 +12,13 @@ const formatTime = (dateStr: string | Date | null | undefined): string => {
   return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 };
 
-const getPitchPriceForSlot = (pitch: PitchItem, timeSlot: string): string => {
+const getPitchPriceForSlot = (pitch: PitchItem, timeSlot: string): string | null => {
   if (!pitch || !pitch.pitchprice || !Array.isArray(pitch.pitchprice) || pitch.pitchprice.length === 0) {
-    return '120,000 VNĐ'; // Fallback
+    return null;
   }
 
   const [slotStart] = timeSlot.split(' - ');
-  if (!slotStart) return '120,000 VNĐ';
+  if (!slotStart) return null;
 
   const [slotHour, slotMin] = slotStart.split(':').map(Number);
   const slotMinutes = slotHour * 60 + slotMin;
@@ -45,7 +45,7 @@ const getPitchPriceForSlot = (pitch: PitchItem, timeSlot: string): string => {
     return `${defaultPrice.toLocaleString('vi-VN')} VNĐ`;
   }
 
-  return '120,000 VNĐ';
+  return null;
 };
 
 const BookingAvailabilityPage: React.FC = () => {
@@ -155,32 +155,33 @@ const BookingAvailabilityPage: React.FC = () => {
       return;
     }
 
+    let pitch: PitchItem | undefined;
+    let targetDateStr = selectedDate.format('YYYY-MM-DD');
+
     if (viewMode === 'day') {
-      const pitch = pitches[pitchIndexOrDayIndex];
-      if (!pitch) return;
-      
-      const calculatedPrice = getPitchPriceForSlot(pitch, timeSlot);
-      setSelectedSlot({ 
-        pitchName: pitch.namePitch, 
-        timeSlot, 
-        price: calculatedPrice, 
-        pitchId: pitch.pitchId,
-        date: selectedDate.format('YYYY-MM-DD')
-      });
+      pitch = pitches[pitchIndexOrDayIndex];
     } else {
-      const pitch = pitches.find(p => p.pitchId === selectedPitchId);
-      if (!pitch) return;
-      
+      pitch = pitches.find(p => p.pitchId === selectedPitchId);
       const targetDate = dayjs().add(pitchIndexOrDayIndex, 'day');
-      const calculatedPrice = getPitchPriceForSlot(pitch, timeSlot);
-      setSelectedSlot({
-        pitchName: pitch.namePitch,
-        timeSlot,
-        price: calculatedPrice,
-        pitchId: pitch.pitchId,
-        date: targetDate.format('YYYY-MM-DD')
-      });
+      targetDateStr = targetDate.format('YYYY-MM-DD');
     }
+
+    if (!pitch) return;
+
+    const calculatedPrice = getPitchPriceForSlot(pitch, timeSlot);
+    if (!calculatedPrice) {
+      message.error('Khung giờ này của sân hiện chưa được cấu hình giá. Vui lòng liên hệ quản lý sân để được hỗ trợ!');
+      return;
+    }
+
+    setSelectedSlot({ 
+      pitchName: pitch.namePitch, 
+      timeSlot, 
+      price: calculatedPrice, 
+      pitchId: pitch.pitchId,
+      date: targetDateStr
+    });
+    
     setShowConfirm(true);
   };
 

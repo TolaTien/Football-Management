@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { Card, Table, Tag, Typography, Button, Space, Popconfirm, Tooltip, message } from 'antd';
-import { 
-  CheckOutlined, 
-  CloseOutlined, 
-  EyeOutlined, 
-  CreditCardOutlined, 
-  DollarOutlined 
+import {
+    EyeOutlined,
+    CreditCardOutlined,
+    DollarOutlined
 } from '@ant-design/icons';
 import type { Booking, PaymentStatus, BookingStatus } from '@/entities/booking/model/types';
 import { useAppDispatch } from '@/app/store/hooks';
-import { 
-  updateBookingStatus, 
-  updatePaymentStatus, 
-  deleteBookingThunk, 
-  refundBookingThunk,
-  fetchAllBookings
+import {
+    updateBookingStatus,
+    updatePaymentStatus,
+    deleteBookingThunk,
+    refundBookingThunk,
+    fetchAllBookings
 } from '@/entities/booking/model/bookingSlice';
 import { BookingDetailModal } from '@/features/manage-booking';
 
@@ -63,7 +61,7 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
             dataIndex: 'userName',
             key: 'userName',
             render: (text: string, record: Booking) => (
-                <div 
+                <div
                     className="flex items-center gap-3 cursor-pointer group"
                     onClick={() => setSelectedBooking(record)}
                 >
@@ -123,47 +121,14 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
             key: 'actions',
             render: (_: unknown, record: Booking) => (
                 <Space size="middle">
-                    {/* Approval buttons when booking is pending */}
-                    {record.status === 'pending' && (
-                        <>
-                            <Tooltip title="Duyệt đặt sân">
-                                <Button 
-                                    size="small" 
-                                    type="primary" 
-                                    shape="circle" 
-                                    icon={<CheckOutlined />} 
-                                    className="bg-emerald-600 border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 text-white"
-                                    onClick={() => handleUpdateStatus(record.id, 'approved')}
-                                />
-                            </Tooltip>
-                            <Tooltip title="Từ chối đặt sân">
-                                <Popconfirm 
-                                    title="Từ chối yêu cầu đặt sân này?" 
-                                    onConfirm={() => handleUpdateStatus(record.id, 'rejected')}
-                                    okText="Từ chối" cancelText="Thôi"
-                                    okButtonProps={{ danger: true }}
-                                >
-                                    <Button 
-                                        size="small" 
-                                        danger 
-                                        type="primary" 
-                                        shape="circle" 
-                                        icon={<CloseOutlined />} 
-                                        className="text-white"
-                                    />
-                                </Popconfirm>
-                            </Tooltip>
-                        </>
-                    )}
-
                     {/* Quick Payment update buttons when booking is approved */}
                     {record.status === 'approved' && (
                         <>
                             {record.paymentStatus === 'unpaid' && (
                                 <Tooltip title="Xác nhận đóng cọc 50%">
-                                    <Button 
-                                        size="small" 
-                                        type="primary" 
+                                    <Button
+                                        size="small"
+                                        type="primary"
                                         className="bg-blue-600 border-blue-600 hover:bg-blue-700 text-white flex items-center justify-center rounded-lg text-[10px] font-bold h-7"
                                         icon={<CreditCardOutlined />}
                                         onClick={() => handleUpdatePayment(record.id, 'deposited')}
@@ -174,9 +139,9 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
                             )}
                             {record.paymentStatus === 'deposited' && (
                                 <Tooltip title="Xác nhận đóng nốt 50% còn lại">
-                                    <Button 
-                                        size="small" 
-                                        type="primary" 
+                                    <Button
+                                        size="small"
+                                        type="primary"
                                         className="bg-emerald-600 border-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center rounded-lg text-[10px] font-bold h-7"
                                         icon={<DollarOutlined />}
                                         onClick={() => handleUpdatePayment(record.id, 'paid')}
@@ -190,11 +155,11 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
 
                     {/* Always show Details view button */}
                     <Tooltip title="Xem chi tiết">
-                        <Button 
-                            size="small" 
-                            type="text" 
-                            shape="circle" 
-                            icon={<EyeOutlined />} 
+                        <Button
+                            size="small"
+                            type="text"
+                            shape="circle"
+                            icon={<EyeOutlined />}
                             className="text-slate-500 hover:text-emerald-700 hover:bg-slate-100"
                             onClick={() => setSelectedBooking(record)}
                         />

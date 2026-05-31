@@ -55,23 +55,22 @@ const AdminDashboard: React.FC = () => {
   const totalUsers = overview?.totalUsers ?? 0;
   const pendingCount = overview?.totalPendingRequests ?? 0;
 
-  // Dynamically calculate revenue data by day of the current week and weekly trends
   const {
     revenueData,
   } = React.useMemo(() => {
     const today = dayjs();
     const days = [
-      { name: 'T2', dayOffset: 1 },
-      { name: 'T3', dayOffset: 2 },
-      { name: 'T4', dayOffset: 3 },
-      { name: 'T5', dayOffset: 4 },
-      { name: 'T6', dayOffset: 5 },
-      { name: 'T7', dayOffset: 6 },
-      { name: 'CN', dayOffset: 0 },
+      { name: 'T2', dayOffset: 0 },
+      { name: 'T3', dayOffset: 1 },
+      { name: 'T4', dayOffset: 2 },
+      { name: 'T5', dayOffset: 3 },
+      { name: 'T6', dayOffset: 4 },
+      { name: 'T7', dayOffset: 5 },
+      { name: 'CN', dayOffset: 6 },
     ];
-
+    const mondayOfWeek = today.startOf('week');
     const revData = days.map(({ name, dayOffset }) => {
-      const targetDateStr = today.day(dayOffset).format('YYYY-MM-DD');
+      const targetDateStr = mondayOfWeek.add(dayOffset, 'day').format('YYYY-MM-DD');
       const dayBookings = bookings.filter(
         (b) => b.date === targetDateStr && b.status === 'approved'
       );
@@ -98,17 +97,6 @@ const AdminDashboard: React.FC = () => {
           </div>
         ),
         extra: [
-          <Select
-            key="address"
-            placeholder="Lọc địa điểm"
-            className="w-44 h-10 rounded-xl"
-            allowClear
-            onChange={(value) => setAddress(value || '')}
-            options={[
-              { value: 'Hà Nội', label: 'Hà Nội' },
-              { value: 'Hồ Chí Minh', label: 'Hồ Chí Minh' },
-            ]}
-          />,
           <Button
             key="export"
             type="primary"
