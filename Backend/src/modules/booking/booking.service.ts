@@ -27,17 +27,17 @@ export class BookingService {
         });
 
         const validRules = priceRules
-            .map((rule) => {
+            .flatMap((rule) => {
                 let start = BookingService.getMinuteOfDay(rule.startTime!);
                 let end = BookingService.getMinuteOfDay(rule.endTime!);
                 if (rule.endTime! > rule.startTime! && end <= start) {
                     end += 24 * 60;
                 }
-                return {
-                    start,
-                    end,
-                    price: rule.price!
-                };
+                return [
+                    { start: start - 24 * 60, end: end - 24 * 60, price: rule.price! },
+                    { start, end, price: rule.price! },
+                    { start: start + 24 * 60, end: end + 24 * 60, price: rule.price! }
+                ];
             })
             .filter((rule) => rule.end > rule.start);
 
