@@ -83,18 +83,18 @@ const PersonalInfo: React.FC = () => {
       <section className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
         <div className="p-6 border-b border-gray-100 flex justify-between items-center">
           <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
-            Personal Information
+            Thông tin cá nhân
           </h3>
           {!isEditingProfile ? (
             <button 
               onClick={() => setIsEditingProfile(true)}
               className="flex items-center gap-2 px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-full border border-primary hover:bg-emerald-700 transition-all shadow-sm font-button"
             >
-              Change Information
+              Thay đổi thông tin
             </button>
           ) : (
             <span className="px-3 py-1 bg-amber-50 text-amber-700 text-xs font-bold rounded-full border border-amber-100">
-              Editing Mode
+              Chế độ chỉnh sửa
             </span>
           )}
         </div>
@@ -138,14 +138,14 @@ const PersonalInfo: React.FC = () => {
                     className="px-4 py-1.5 border border-gray-200 rounded-lg text-sm font-medium text-secondary hover:bg-gray-50 transition-colors"
                     type="button"
                   >
-                    Change Photo
+                    Thay ảnh đại diện
                   </button>
                   <button
                     onClick={handleRemoveAvatar}
                     className="px-4 py-1.5 text-sm font-medium text-red-600 hover:text-red-700"
                     type="button"
                   >
-                    Remove
+                    Xóa
                   </button>
                 </div>
               )}
