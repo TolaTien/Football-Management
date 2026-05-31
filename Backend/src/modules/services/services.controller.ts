@@ -18,7 +18,7 @@ const ServiceController = {
         try {
             const data = await ServiceLogic.getAll();
             res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             res.status(500).json({ message: "Lỗi lấy danh sách" });
         }
     },
@@ -28,7 +28,7 @@ const ServiceController = {
             const data = await ServiceLogic.getOne(req.params.id as string);
             if (!data) return res.status(404).json({ message: "Không tìm thấy dịch vụ" });
             res.status(200).json(data);
-        } catch (error) {
+        } catch (error: any) {
             res.status(500).json({ message: "Lỗi server" });
         }
     },
@@ -52,7 +52,7 @@ const ServiceController = {
 
             await ServiceLogic.delete(req.params.id as string);
             res.status(200).json({ message: "Đã xóa dịch vụ vĩnh viễn" });
-        } catch (error) {
+        } catch (error: any) {
             res.status(400).json({ message: "Xóa thất bại" });
         }
     }
