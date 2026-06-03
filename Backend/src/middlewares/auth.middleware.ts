@@ -37,8 +37,7 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
         req.user = decode;
         next();
     }catch(err) {
-        console.log(err);
-        return res.status(500).json({ message: "Lỗi xác thực người dùng" });
+        next(err);
     }
 }
 

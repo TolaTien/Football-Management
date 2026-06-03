@@ -31,7 +31,11 @@ io.use((socket, next) => {
             return next(new Error('Vui lòng đăng nhập'));
         }
 
-        socket.data.user = verifyToken(accessToken) as Payload;
+        const decoded = verifyToken(accessToken);
+        if (!decoded) {
+            return next(new Error('Token không hợp lệ'));
+        }
+        socket.data.user = decoded;
         return next();
     } catch {
         return next(new Error('Token không hợp lệ'));
