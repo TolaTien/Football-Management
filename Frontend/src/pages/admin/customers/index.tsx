@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
-import { Card, Table, Tag, Button, Space, Typography, Popconfirm, Tabs } from 'antd';
-import { StopOutlined, CheckCircleOutlined, UserAddOutlined } from '@ant-design/icons';
+import { Card, Table, Tag, Button, Space, Typography, Popconfirm, Tabs, message, Avatar } from 'antd';
+import { StopOutlined, CheckCircleOutlined, UserAddOutlined, EditOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { fetchUsers, addUser, toggleBanUser } from '@/entities/user/model/userSlice';
+import { fetchUsers, addUser, toggleBanUser, updateUser } from '@/entities/user/model/userSlice';
 import type { UserItem, UserRole } from '@/entities/user/model/types';
-import { AddUserModal } from '@/features/manage-user';
+import { AddUserModal, EditUserModal } from '@/features/manage-user';
 import { UserStatCards } from '@/widgets/admin-user-stats';
 
 const { Text } = Typography;
@@ -15,6 +15,8 @@ const AdminCustomers: React.FC = () => {
   const { users } = useAppSelector((state) => state.user);
   const [activeTab, setActiveTab] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserItem | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -31,33 +33,60 @@ const AdminCustomers: React.FC = () => {
     return true;
   });
 
+  // Hàm xử lý khi THÊM mới người dùng
   const handleAddUser = (values: { name: string; email: string; phone: string; role: UserRole; password?: string }) => {
     dispatch(addUser({
       name: values.name,
       email: values.email,
       phone: values.phone,
       role: values.role,
+      password: values.password,
     }));
     setIsModalOpen(false);
   };
+
+  // Hàm xử lý khi CẬP NHẬT thông tin người dùng
+  const handleEditUser = (values: { name: string; email: string; phone: string; role: UserRole; password?: string }) => {
+    if (selectedUser) {
+      dispatch(updateUser({
+        userId: selectedUser.id,
+        userData: values
+      })).then(() => {
+        message.success('Cập nhật thông tin người dùng thành công!');
+      });
+    }
+    setIsEditModalOpen(false);
+    setSelectedUser(null);
+  };
+
 
   const columns = [
     {
       title: 'HỒ SƠ',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string, record: UserItem) => (
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-700 text-white flex items-center justify-center font-bold text-base shadow-sm">
-            {text.substring(0, 1).toUpperCase()}
+      render: (text: string, record: UserItem) => {
+        // Tạo ảnh hoạt hình dự phòng dựa trên email của user giống trang client
+        const displayAvatar = record.avt || `https://api.dicebear.com/7.x/avataaars/svg?seed=${record.email || 'default'}`;
+
+        return (
+          <div className="flex items-center gap-3">
+            <Avatar
+              src={displayAvatar}
+              alt={text}
+              size={40}
+              className="shadow-sm border border-slate-100 bg-slate-50"
+            />
+            <div className="flex flex-col">
+              <Text className="font-semibold text-slate-800">{text}</Text>
+              <Text type="secondary" className="text-xs">{record.email}</Text>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <Text className="font-semibold text-slate-800">{text}</Text>
-            <Text type="secondary" className="text-xs">{record.email}</Text>
-          </div>
-        </div>
-      )
+        );
+      }
     },
+
+
     {
       title: 'SỐ ĐIỆN THOẠI',
       dataIndex: 'phone',
@@ -90,6 +119,17 @@ const AdminCustomers: React.FC = () => {
       key: 'action',
       render: (_: unknown, record: UserItem) => (
         <Space size="middle">
+          {/* Nút chỉnh sửa mới thêm */}
+          <Button
+            type="text"
+            icon={<EditOutlined className="text-emerald-600" />}
+            onClick={() => {
+              setSelectedUser(record);
+              setIsEditModalOpen(true);
+            }}
+          >
+            Sửa
+          </Button>
           <Popconfirm
             title={record.status === 'active' ? "Chặn người dùng này?" : "Bỏ chặn người dùng này?"}
             onConfirm={() => {
@@ -158,6 +198,16 @@ const AdminCustomers: React.FC = () => {
         onCancel={() => setIsModalOpen(false)}
         onConfirm={handleAddUser}
       />
+      <EditUserModal
+        open={isEditModalOpen}
+        user={selectedUser}
+        onCancel={() => {
+          setIsEditModalOpen(false);
+          setSelectedUser(null);
+        }}
+        onConfirm={handleEditUser}
+      />
+
     </PageContainer>
   );
 };

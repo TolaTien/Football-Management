@@ -12,6 +12,7 @@ interface BackendUser {
   phone?: string;
   role: string;
   status?: string;
+  avt?: string;
 }
 
 interface UserState {
@@ -29,6 +30,7 @@ const mapBackendUser = (u: BackendUser): UserItem => ({
   phone: u.phone ?? '—',
   role: (u.role === 'admin' ? 'Quản trị' : 'Khách hàng') as UserRole,
   status: (u.status === 'banned' ? 'banned' : 'active') as UserStatus,
+  avt: u.avt,
 });
 
 const getInitialUser = (): UserInfo | null => {

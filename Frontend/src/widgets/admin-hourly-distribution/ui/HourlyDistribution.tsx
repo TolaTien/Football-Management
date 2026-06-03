@@ -73,13 +73,13 @@ export const HourlyDistribution: React.FC<HourlyDistributionProps> = ({
     return (
         <Card
             bordered={false}
-            style={{ borderRadius: 16, border: '1px solid #e2e8f0', boxShadow: '0 1px 4px rgba(0,0,0,0.04)', height: '100%' }}
+            className="rounded-2xl border border-slate-200 shadow-sm h-full"
             bodyStyle={{ padding: 24 }}
         >
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>Hiệu suất sử dụng sân</div>
-            <Text style={{ color: '#94a3b8', fontSize: 12 }}>Tỷ lệ đặt sân theo các sân trong hệ thống</Text>
+            <div className="text-sm font-bold text-slate-900 mb-1">Hiệu suất sử dụng sân</div>
+            <Text className="text-slate-400 text-xs">Tỷ lệ đặt sân theo các sân trong hệ thống</Text>
 
-            <div style={{ height: 160, marginTop: 8 }}>
+            <div className="h-40 mt-2">
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie
@@ -95,22 +95,22 @@ export const HourlyDistribution: React.FC<HourlyDistributionProps> = ({
                                 <Cell key={`cell-${index}`} fill={entry.color} />
                             ))}
                         </Pie>
-                        <Tooltip 
-                            formatter={(val: any, name: any, props: any) => [`${props.payload.displayValue}% (${props.payload.count} lượt)`, '']} 
-                            contentStyle={{ borderRadius: 10, border: 'none', fontSize: 12 }} 
+                        <Tooltip
+                            formatter={(val: any, name: any, props: any) => [`${props.payload.displayValue}% (${props.payload.count} lượt)`, '']}
+                            contentStyle={{ borderRadius: 10, border: 'none', fontSize: 12 }}
                         />
                     </PieChart>
                 </ResponsiveContainer>
             </div>
 
             {/* Legend */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4, maxHeight: 150, overflowY: 'auto' }}>
+            <div className="flex flex-col gap-1.5 mt-1 max-h-[150px] overflow-y-auto">
                 {pieData.map(d => (
-                    <div key={d.name} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12 }}>
-                        <div style={{ width: 10, height: 10, borderRadius: 3, backgroundColor: d.color, flexShrink: 0 }} />
-                        <span style={{ color: '#64748b', flex: 1, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{d.name}</span>
-                        <span style={{ color: '#94a3b8', marginRight: 4 }}>({d.count} lượt)</span>
-                        <span style={{ fontWeight: 700, color: '#0f172a' }}>{d.displayValue}%</span>
+                    <div key={d.name} className="flex items-center gap-2 text-xs">
+                        <div className="w-2.5 h-2.5 rounded-[3px] flex-shrink-0" style={{ backgroundColor: d.color }} />
+                        <span className="text-slate-500 flex-1 truncate">{d.name}</span>
+                        <span className="text-slate-400 mr-1">({d.count} lượt)</span>
+                        <span className="font-bold text-slate-900">{d.displayValue}%</span>
                     </div>
                 ))}
             </div>
