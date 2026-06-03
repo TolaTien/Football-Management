@@ -83,18 +83,18 @@ const PersonalInfo: React.FC = () => {
       <section className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
         <div className="p-6 border-b border-gray-100 flex justify-between items-center">
           <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
-            Personal Information
+            Thông tin cá nhân
           </h3>
           {!isEditingProfile ? (
             <button 
               onClick={() => setIsEditingProfile(true)}
               className="flex items-center gap-2 px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-full border border-primary hover:bg-emerald-700 transition-all shadow-sm font-button"
             >
-              Change Information
+              Thay đổi thông tin
             </button>
           ) : (
             <span className="px-3 py-1 bg-amber-50 text-amber-700 text-xs font-bold rounded-full border border-amber-100">
-              Editing Mode
+              Chế độ chỉnh sửa
             </span>
           )}
         </div>
@@ -138,14 +138,14 @@ const PersonalInfo: React.FC = () => {
                     className="px-4 py-1.5 border border-gray-200 rounded-lg text-sm font-medium text-secondary hover:bg-gray-50 transition-colors"
                     type="button"
                   >
-                    Change Photo
+                    Thay ảnh đại diện
                   </button>
                   <button
                     onClick={handleRemoveAvatar}
                     className="px-4 py-1.5 text-sm font-medium text-red-600 hover:text-red-700"
                     type="button"
                   >
-                    Remove
+                    Xóa
                   </button>
                 </div>
               )}
@@ -154,7 +154,7 @@ const PersonalInfo: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-1">
-              <label className="text-xs font-bold uppercase tracking-widest text-secondary">Full Name</label>
+              <label className="text-xs font-bold uppercase tracking-widest text-secondary">Họ và tên</label>
               <input
                 className={`px-4 py-2 rounded-lg border border-gray-200 transition-all text-sm outline-none ${
                   !isEditingProfile ? 'bg-gray-50 text-gray-500 cursor-not-allowed' : 'focus:border-primary focus:ring-2 focus:ring-primary/10'
@@ -167,7 +167,7 @@ const PersonalInfo: React.FC = () => {
             </div>
 
             <div className="flex flex-col gap-1">
-              <label className="text-xs font-bold uppercase tracking-widest text-secondary">Email Address</label>
+              <label className="text-xs font-bold uppercase tracking-widest text-secondary">Địa chỉ Email</label>
               <div className="relative">
                 <input
                   className={`w-full px-4 py-2 rounded-lg border border-gray-200 transition-all text-sm outline-none pr-24 ${
@@ -179,13 +179,13 @@ const PersonalInfo: React.FC = () => {
                   disabled={!isEditingProfile}
                 />
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-emerald-600 text-[10px] font-bold bg-emerald-50 px-2 py-0.5 rounded">
-                  VERIFIED
+                  Đã xác thực
                 </span>
               </div>
             </div>
 
             <div className="flex flex-col gap-1">
-              <label className="text-xs font-bold uppercase tracking-widest text-secondary">Phone Number</label>
+              <label className="text-xs font-bold uppercase tracking-widest text-secondary">Số điện thoại</label>
               <input
                 className={`px-4 py-2 rounded-lg border border-gray-200 transition-all text-sm outline-none ${
                   !isEditingProfile ? 'bg-gray-50 text-gray-500 cursor-not-allowed' : 'focus:border-primary focus:ring-2 focus:ring-primary/10'
@@ -193,7 +193,7 @@ const PersonalInfo: React.FC = () => {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="Enter your phone number"
+                placeholder="Điền số điện thoại của bạn"
                 disabled={!isEditingProfile}
               />
             </div>
@@ -208,7 +208,7 @@ const PersonalInfo: React.FC = () => {
             className="px-8 py-2.5 bg-white border border-gray-200 text-primary text-sm font-semibold rounded-lg hover:bg-gray-50 transition-all font-button"
             type="button"
           >
-            Cancel
+            Đóng
           </button>
           <button
             onClick={handleSave}

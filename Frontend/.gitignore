@@ -44,3 +44,7 @@ temp_*.tsx
 temp_*.ts
 *.txt
 implementation-*.md
+
+# Test files
+*.test.ts
+*.test.tsx
