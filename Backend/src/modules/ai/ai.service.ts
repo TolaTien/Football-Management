@@ -81,7 +81,7 @@ export class AiService {
       },
     ];
 
-    const reply = await this.callGeminiWithTools(dto.role, contents);
+    const reply = await this.callGeminiWithTools(dto.role, contents, dto.userId);
     const [, assistantMessage] = await prisma.$transaction([
       prisma.ai_message.create({
         data: {
@@ -115,8 +115,23 @@ export class AiService {
   private static getGeminiTools(role: Role) {
     const tools: any[] = [
       {
+        name: "get_user_profile",
+        description: "Lấy thông tin cá nhân của người dùng hiện tại (họ tên, email, sđt...).",
+        parameters: { type: Type.OBJECT, properties: {} }
+      },
+      {
+        name: "get_user_booking_history",
+        description: "Lấy lịch sử đặt sân gần đây của người dùng hiện tại.",
+        parameters: { type: Type.OBJECT, properties: {} }
+      },
+      {
+        name: "get_recent_matchmaking_posts",
+        description: "Lấy danh sách các bài đăng tìm đối tác giao hữu gần đây (forum/matchmaking).",
+        parameters: { type: Type.OBJECT, properties: {} }
+      },
+      {
         name: "check_pitch_availability",
-        description: "Kiểm tra xem còn sân bóng nào trống trong một khoảng thời gian cụ thể hay không. Trả về cả sức chứa của sân (sân 5 người, sân 7 người...).",
+        description: "Kiểm tra xem còn sân bóng nào trống trong một khoảng thời gian cụ thể hay không. Trả về cả sức chứa của sân (sân 5 người, sân 7 người,11 người...).",
         parameters: {
           type: Type.OBJECT,
           properties: {
@@ -140,7 +155,7 @@ export class AiService {
     if (role === "admin") {
       tools.push({
         name: "get_revenue_statistics",
-        description: "Lấy báo cáo thống kê doanh thu, số lượng booking và tỷ lệ lấp đầy. CHỈ dành cho admin.",
+        description: "Lấy báo cáo thống kê doanh thu, số lượng booking và tỷ lệ lấp đầy, nếu hỏi tháng trước thì phải tự tính ra tháng trước là thời gian nào. CHỈ dành cho admin.",
         parameters: {
           type: Type.OBJECT,
           properties: {
@@ -155,8 +170,8 @@ export class AiService {
     return [{ functionDeclarations: tools }];
   }
 
-  private static async callGeminiWithTools(role: Role, contents: GeminiContent[]) {
-    const rawModels = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
+  private static async callGeminiWithTools(role: Role, contents: GeminiContent[], userId: string) {
+    const rawModels = process.env.GEMINI_MODEL
     const models = rawModels.split(",").map(m => m.trim()).filter(m => m.length > 0);
     const apiKey = process.env.GEMINI_API_KEY;
 
@@ -197,6 +212,12 @@ export class AiService {
             } else if (call.name === "get_revenue_statistics" && role === "admin") {
               const args = call.args as { month: number, year: number };
               toolResult = await this.getRevenueContextByArgs(args.month, args.year);
+            } else if (call.name === "get_user_profile") {
+              toolResult = await this.getUserProfileContext(userId);
+            } else if (call.name === "get_user_booking_history") {
+              toolResult = await this.getUserBookingHistoryContext(userId);
+            } else if (call.name === "get_recent_matchmaking_posts") {
+              toolResult = await this.getRecentMatchmakingPostsContext();
             } else {
               toolResult = "Không tìm thấy công cụ hoặc bạn không có quyền.";
             }
@@ -309,5 +330,42 @@ ${pitches.map((pitch) => {
 - Tỷ lệ lấp đầy: ${current.rate}%
 - Doanh thu tháng trước: ${previousRevenue}đ
 - Mức thay đổi so với tháng trước: ${changePercent === null ? "chưa đủ dữ liệu để so sánh" : `${changePercent}%`}`;
+  }
+
+  private static async getUserProfileContext(userId: string) {
+    const user = await prisma.users.findUnique({ where: { userId } });
+    if (!user) return "Không tìm thấy thông tin người dùng.";
+    return `Thông tin người dùng:
+- Họ tên: ${user.fullName}
+- Email: ${user.email}
+- SĐT: ${user.phone ?? 'chưa cập nhật'}
+- Chức vụ: ${user.role}
+`;
+  }
+
+  private static async getUserBookingHistoryContext(userId: string) {
+    const bookings = await prisma.booking.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      include: { pitch: true }
+    });
+    if (!bookings.length) return "Người dùng chưa có lịch sử đặt sân nào gần đây.";
+    return `Lịch sử 5 lần đặt sân gần nhất của người dùng:
+${bookings.map(b => `- Mã đặt sân: ${b.bookId} | Sân: ${b.pitch?.namePitch ?? 'không rõ'} | Thời gian: ${b.startTime?.toLocaleString('vi-VN')} đến ${b.endTime?.toLocaleString('vi-VN')} | Trạng thái: ${b.status}`).join("\n")}
+`;
+  }
+
+  private static async getRecentMatchmakingPostsContext() {
+    const posts = await prisma.post.findMany({
+      where: { status: "open" },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      include: { users: true }
+    });
+    if (!posts.length) return "Hiện tại không có bài đăng tìm đối tác nào.";
+    return `5 bài đăng tìm đối tác giao hữu gần nhất:
+${posts.map(p => `- Người đăng: ${p.users?.fullName ?? 'ẩn danh'} | Nội dung: ${p.description} | Thời gian đăng: ${p.createdAt?.toLocaleString('vi-VN')}`).join("\n")}
+`;
   }
 }
