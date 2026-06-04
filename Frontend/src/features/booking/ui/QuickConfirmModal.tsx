@@ -14,6 +14,7 @@ interface QuickConfirmModalProps {
   price: string;
   pitchId?: string; // Optional for now, fallback to a mock if missing
   selectedDate?: string;
+  pitchAddress?: string;
 }
 
 export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({ 
@@ -24,7 +25,8 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
   timeSlot, 
   price,
   pitchId = 'pitch-1',
-  selectedDate
+  selectedDate,
+  pitchAddress
 }) => {
   // dispatch removed
   const [services, setServices] = useState<ServiceItem[]>([]);
@@ -141,7 +143,15 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
               <div className="space-y-4">
                 <div className="flex justify-between items-center pb-3 border-b border-gray-50">
                   <span className="text-secondary text-sm">Sân bóng</span>
-                  <span className="font-bold text-emerald-900">{pitchName}</span>
+                  <div className="text-right">
+                    <span className="font-bold text-emerald-900 block">{pitchName}</span>
+                    {pitchAddress && (
+                      <span className="text-xs text-gray-400 font-medium inline-flex items-center gap-0.5 mt-0.5">
+                        <span className="material-symbols-outlined text-[14px]">location_on</span>
+                        {pitchAddress}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="flex justify-between items-center pb-3 border-b border-gray-50">
                   <span className="text-secondary text-sm">Khung giờ</span>
@@ -154,32 +164,6 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
               </div>
             </section>
 
-            <section className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <h4 className="text-sm font-bold text-emerald-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[20px]">payments</span>
-                Phương Thức Thanh Toán
-              </h4>
-              <div className="grid grid-cols-3 gap-3">
-                {[
-                  { id: 'banking', label: 'Chuyển khoản', icon: 'account_balance' },
-                  { id: 'cash', label: 'Tiền mặt', icon: 'payments' },
-                  { id: 'wallet', label: 'Ví số dư', icon: 'wallet' },
-                ].map((method) => (
-                  <button
-                    key={method.id}
-                    onClick={() => setPaymentMethod(method.id)}
-                    className={`flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all ${
-                      paymentMethod === method.id 
-                      ? 'border-primary bg-emerald-50 text-primary' 
-                      : 'border-gray-100 bg-white text-gray-400 hover:border-gray-200'
-                    }`}
-                  >
-                    <span className="material-symbols-outlined">{method.icon}</span>
-                    <span className="text-[10px] font-bold uppercase">{method.label}</span>
-                  </button>
-                ))}
-              </div>
-            </section>
           </div>
 
           {/* Block 2: Additional Services */}
