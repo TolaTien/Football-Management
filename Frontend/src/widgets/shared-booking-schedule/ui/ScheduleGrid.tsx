@@ -64,23 +64,32 @@ export const ScheduleGrid: React.FC<ScheduleGridProps> = ({
   };
 
   // Determine column array to render
-  const columnIndices = viewMode === 'day' ? [0, 1, 2, 3] : [0, 1, 2, 3, 4, 5, 6];
+  const columnIndices = viewMode === 'day' 
+    ? Array.from({ length: safePitches.length }).map((_, i) => i) 
+    : [0, 1, 2, 3, 4, 5, 6];
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col h-[calc(100vh-250px)]">
+    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-x-auto flex flex-col h-[calc(100vh-250px)] custom-scrollbar">
       {/* Grid Headers */}
-      <div className="flex border-b border-gray-200 bg-gray-50">
-        <div className="w-24 flex-shrink-0 border-r border-gray-200 flex items-center justify-center p-4">
+      <div className="flex border-b border-gray-200 bg-gray-50 min-w-max sticky top-0 z-30">
+        <div className="w-24 flex-shrink-0 border-r border-gray-200 flex items-center justify-center p-4 sticky left-0 bg-gray-50 z-40 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">
           <span className="material-symbols-outlined text-gray-400" data-icon="schedule">schedule</span>
         </div>
-        <div className={`flex-1 grid ${viewMode === 'day' ? 'grid-cols-4' : 'grid-cols-7'}`}>
+        <div 
+          className="grid flex-1"
+          style={{ 
+            gridTemplateColumns: viewMode === 'day' 
+              ? `repeat(${safePitches.length || 1}, minmax(220px, 1fr))` 
+              : 'repeat(7, minmax(130px, 1fr))' 
+          }}
+        >
           {viewMode === 'day' ? (
-            safePitches.slice(0, 4).map((pitch, idx) => (
+            safePitches.map((pitch, idx) => (
               <PitchHeaderCell 
                 key={pitch.pitchId} 
                 name={pitch.namePitch} 
                 type={`${pitch.pitchCategory}-A-SIDE`} 
-                isLast={idx === 3 || idx === safePitches.length - 1} 
+                isLast={idx === safePitches.length - 1} 
               />
             ))
           ) : (
@@ -93,18 +102,29 @@ export const ScheduleGrid: React.FC<ScheduleGridProps> = ({
               />
             ))
           )}
-          {viewMode === 'day' && safePitches.length === 0 && [1, 2, 3, 4].map(i => (
-            <PitchHeaderCell key={i} name={`Sân ${i}`} type="Đang tải..." isLast={i === 4} />
-          ))}
+          {viewMode === 'day' && safePitches.length === 0 && (
+            <div className="col-span-full flex items-center justify-center p-8 text-gray-400 font-bold">
+              Không tìm thấy sân bóng nào hoạt động tại cơ sở này.
+            </div>
+          )}
         </div>
       </div>
 
       {/* Grid Body - Scrollable Container */}
-      <div className="flex-1 flex overflow-y-auto relative">
-        <TimeAxis />
+      <div className="flex-1 flex overflow-y-auto relative min-w-max">
+        <div className="sticky left-0 bg-white z-20 border-r border-gray-200 shadow-[2px_0_5px_rgba(0,0,0,0.02)]">
+          <TimeAxis />
+        </div>
 
         {/* Interactive Grid Cells */}
-        <div className={`flex-1 grid ${viewMode === 'day' ? 'grid-cols-4' : 'grid-cols-7'}`}>
+        <div 
+          className="grid flex-1"
+          style={{ 
+            gridTemplateColumns: viewMode === 'day' 
+              ? `repeat(${safePitches.length || 1}, minmax(220px, 1fr))` 
+              : 'repeat(7, minmax(130px, 1fr))' 
+          }}
+        >
           {columnIndices.map(colIndex => {
             // Find appropriate pitch and date for this column
             const pitch = viewMode === 'day' 
