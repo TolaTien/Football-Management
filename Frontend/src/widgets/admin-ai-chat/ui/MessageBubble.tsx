@@ -1,5 +1,6 @@
 import React from 'react';
-import type { AiMessage } from '@/entities/ai/types';
+import type { AiMessage } from '@/entities/ai';
+
 
 interface Props {
     message: AiMessage;

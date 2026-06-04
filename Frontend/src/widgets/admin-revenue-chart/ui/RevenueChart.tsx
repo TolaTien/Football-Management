@@ -18,7 +18,6 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
             <div className="flex justify-between items-start mb-6">
                 <div>
                     <Text className="text-slate-400 text-[13px] block">Doanh thu ca thành công trong tuần · Doanh thu thực tế (gồm cả phí phạt hủy ca) xem tại thẻ phía trên</Text>
-                    <Text className="text-slate-400 text-[13px] block">Ước tính theo lịch đặt sân hiện tại · 7 ngày qua</Text>
                 </div>
                 <div className="flex gap-2">
                     <div className="flex items-center gap-1.5 text-slate-400 text-xs">

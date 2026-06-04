@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Popconfirm, Button, InputNumber, Tooltip } from 'antd';
-import { EditOutlined, SaveOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
+import { EditOutlined, SaveOutlined, DeleteOutlined, CloseOutlined, CoffeeOutlined, SkinOutlined, EllipsisOutlined } from '@ant-design/icons';
 import type { ServiceItem } from '@/entities/service-item/model/types';
 
 interface ServicesTableProps {
@@ -12,12 +12,12 @@ interface ServicesTableProps {
   onEditService: (record: ServiceItem) => void;
 }
 
-const TYPE_CONFIG: Record<string, { label: string; icon: string; bg: string; text: string; badgeBg: string }> = {
-  drink: { label: 'Đồ uống', icon: '🧃', bg: 'bg-sky-50 text-sky-600', text: 'text-sky-700', badgeBg: 'bg-sky-100' },
-  equipment: { label: 'Trang bị', icon: '⚽', bg: 'bg-emerald-50 text-emerald-600', text: 'text-emerald-700', badgeBg: 'bg-emerald-100' },
-  food: { label: 'Đồ ăn', icon: '🍔', bg: 'bg-amber-50 text-amber-600', text: 'text-amber-700', badgeBg: 'bg-amber-100' },
-  other: { label: 'Khác', icon: '📦', bg: 'bg-slate-50 text-slate-600', text: 'text-slate-700', badgeBg: 'bg-slate-100' },
+const TYPE_CONFIG: Record<string, { label: string; icon: React.ReactNode; bg: string; text: string; badgeBg: string }> = {
+  drink: { label: 'Đồ uống', icon: <CoffeeOutlined />, bg: 'bg-sky-50 text-sky-600', text: 'text-sky-700', badgeBg: 'bg-sky-100' },
+  equipment: { label: 'Trang bị', icon: <SkinOutlined />, bg: 'bg-emerald-50 text-emerald-600', text: 'text-emerald-700', badgeBg: 'bg-emerald-100' },
+  other: { label: 'Khác', icon: <EllipsisOutlined />, bg: 'bg-slate-50 text-slate-600', text: 'text-slate-700', badgeBg: 'bg-slate-100' },
 };
+
 
 const STATUS_CONFIG: Record<string, { label: string; bg: string; color: string }> = {
   in_stock: { label: 'Còn hàng', bg: 'bg-emerald-50 text-emerald-700', color: 'bg-emerald-500' },
