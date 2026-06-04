@@ -11,7 +11,7 @@ export const PostController = {
 
     getOne: async (req: Request, res: Response) => {
         try {
-            const post = await PostLogic.getPostById(req.params.postId);
+            const post = await PostLogic.getPostById(req.params.postId as string);
             res.status(200).json(post);
         } catch (error: any) { res.status(404).json({ message: error.message }); }
     },
@@ -27,7 +27,7 @@ export const PostController = {
     update: async (req: Request, res: Response) => {
         try {
             const userId = (req as any).user.userId;
-            const updatedPost = await PostLogic.updatePost(userId, req.params.postId, req.body);
+            const updatedPost = await PostLogic.updatePost(userId, req.params.postId as string, req.body);
             res.status(200).json({ message: "Cập nhật bài viết thành công", data: updatedPost });
         } catch (error: any) { res.status(403).json({ message: error.message }); }
     },
@@ -35,7 +35,7 @@ export const PostController = {
     delete: async (req: Request, res: Response) => {
         try {
             const userId = (req as any).user.userId;
-            await PostLogic.deletePost(userId, req.params.postId);
+            await PostLogic.deletePost(userId, req.params.postId as string);
             res.status(200).json({ message: "User đã tự xóa bài viết thành công" }); 
         } catch (error: any) { res.status(403).json({ message: error.message }); }
     }

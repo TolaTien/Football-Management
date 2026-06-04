@@ -94,7 +94,7 @@ export class AuthService {
         const decoded = verifyToken(dto.refreshToken);
         
         if(!decoded){
-            throw new ApiError(StatusCodes.UNAUTHORIZED, "Token không hợp lệ")
+            throw new ApiError(StatusCodes.UNAUTHORIZED, "Refresh token không hợp lệ hoặc đã hết hạn")
         };
         const user = await prisma.users.findUnique({ where: {userId: decoded.userId}});
         if(!user){

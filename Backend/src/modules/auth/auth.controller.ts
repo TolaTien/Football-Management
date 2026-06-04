@@ -10,13 +10,13 @@ class Auth {
             maxAge: 1 * 60 * 60 * 1000, 
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict", 
+            sameSite: process.env.NODE_ENV === 'production' ? "none" : "strict", 
         });
         res.cookie('refreshToken', result.refreshToken,{
             maxAge: 7 * 24 * 60 * 60 * 1000, 
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict", 
+            sameSite: process.env.NODE_ENV === 'production' ? "none" : "strict", 
         });
         
         return res.status(200).json({ message: "Đăng nhập thành công", data: result})
@@ -30,13 +30,13 @@ class Auth {
             maxAge: 1 * 60 * 60 * 1000, 
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict", 
+            sameSite: process.env.NODE_ENV === 'production' ? "none" : "strict", 
         });
         res.cookie('refreshToken', newUser.refreshToken,{
             maxAge: 7 * 24 * 60 * 60 * 1000, 
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict", 
+            sameSite: process.env.NODE_ENV === 'production' ? "none" : "strict", 
         });
 
         return res.status(201).json({ message: "Đăng ký thành công", data: newUser})
@@ -50,7 +50,7 @@ class Auth {
             maxAge: 1 * 60 * 60 * 1000, 
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production',
-            sameSite: "strict", 
+            sameSite: process.env.NODE_ENV === 'production' ? "none" : "strict", 
         });
         //note: bỏ đoạn này
         return res.status(200).json({accessToken: result.newAccessToken })
@@ -63,8 +63,13 @@ class Auth {
     };
 
     async logout(req: Request, res: Response){
-        res.clearCookie("accessToken");
-        res.clearCookie("refreshToken");
+        const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? ("none" as const) : ("strict" as const),
+        };
+        res.clearCookie("accessToken", cookieOptions);
+        res.clearCookie("refreshToken", cookieOptions);
         return res.status(200).json({ message: "Đăng xuất thành công"})
     };
 }

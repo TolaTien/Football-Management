@@ -16,7 +16,10 @@ export class BookingService {
         endTime: Date
     ) {
         const bookingStart = BookingService.getMinuteOfDay(startTime);
-        const bookingEnd = BookingService.getMinuteOfDay(endTime);
+        let bookingEnd = BookingService.getMinuteOfDay(endTime);
+        if (endTime > startTime && bookingEnd <= bookingStart) {
+            bookingEnd += 24 * 60;
+        }
 
         const priceRules = await prisma.pitchprice.findMany({
             where: { pitchId },
@@ -24,11 +27,18 @@ export class BookingService {
         });
 
         const validRules = priceRules
-            .map((rule) => ({
-                start: BookingService.getMinuteOfDay(rule.startTime!),
-                end: BookingService.getMinuteOfDay(rule.endTime!),
-                price: rule.price!
-            }))
+            .flatMap((rule) => {
+                let start = BookingService.getMinuteOfDay(rule.startTime!);
+                let end = BookingService.getMinuteOfDay(rule.endTime!);
+                if (rule.endTime! > rule.startTime! && end <= start) {
+                    end += 24 * 60;
+                }
+                return [
+                    { start: start - 24 * 60, end: end - 24 * 60, price: rule.price! },
+                    { start, end, price: rule.price! },
+                    { start: start + 24 * 60, end: end + 24 * 60, price: rule.price! }
+                ];
+            })
             .filter((rule) => rule.end > rule.start);
 
         if (validRules.length === 0) {

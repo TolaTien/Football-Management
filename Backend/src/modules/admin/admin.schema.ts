@@ -1,4 +1,4 @@
-import { payments_paymentMethod } from "../../prisma/enums.js"
+import { payments_paymentMethod } from "@prisma/client"
 
 export interface ApproveRequestUser {
     bookId: string,

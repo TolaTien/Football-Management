@@ -6,7 +6,12 @@ import { prisma } from "../config/prisma.js";
 
 export const authUser = async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const token = req.cookies?.accessToken;
+        let token = req.cookies?.accessToken;
+
+        if (!token && req.headers.authorization?.startsWith('Bearer ')) {
+            token = req.headers.authorization.split(' ')[1];
+        }
+
         if(!token) {
             return res.status(401).json({ message: "Vui lòng đăng nhập"})
         }
@@ -32,8 +37,7 @@ export const authUser = async (req: Request, res: Response, next: NextFunction) 
         req.user = decode;
         next();
     }catch(err) {
-        console.log(err);
-        return res.status(500).json({ message: "Lỗi xác thực người dùng" });
+        next(err);
     }
 }
 

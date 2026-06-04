@@ -16,6 +16,10 @@ export const generateRefreshToken = (payload: Payload) => {
     });
 };
 
-export const verifyToken =  (token: string): Payload  => {
-    return jwt.verify(token, JWT_SECRET) as Payload
+export const verifyToken =  (token: string): Payload | null => {
+    try {
+        return jwt.verify(token, JWT_SECRET) as Payload;
+    } catch (error) {
+        return null;
+    }
 };

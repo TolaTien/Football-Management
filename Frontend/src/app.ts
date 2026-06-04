@@ -1,4 +1,3 @@
-import '@ant-design/v5-patch-for-react-19';
 import { RequestConfig } from '@umijs/max';
 import { message } from 'antd';
 import { AuthService } from '@/features/auth/api/authService';
@@ -50,9 +49,9 @@ export const request: RequestConfig = {
               return umiRequest(config.url, { ...config, headers: { ...config.headers, Authorization: `Bearer ${refreshRes.accessToken}` } });
             }
           } catch (refreshError) {
-            // localStorage.removeItem('pitchhub_token');
-            // localStorage.removeItem('pitchhub_user');
-            // window.location.href = '/auth/login';
+            localStorage.removeItem('pitchhub_token');
+            localStorage.removeItem('pitchhub_user');
+            window.location.href = '/auth/login';
             return Promise.reject(refreshError);
           }
         }

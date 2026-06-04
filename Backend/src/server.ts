@@ -10,7 +10,7 @@ import cors from 'cors';
 import { server, app } from "./config/socket.js";
 import { initEmail } from "./utils/email.js";
 
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000; 
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
@@ -32,7 +32,7 @@ async function init() {
     await connectDB();
     startCron(); 
     // await initEmail()
-    server.listen(PORT, "0.0.0.0", async () =>{
+    server.listen(PORT, async () =>{
         console.log(`Server is running on port ${PORT}`);
     });
 }

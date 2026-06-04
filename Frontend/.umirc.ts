@@ -1,6 +1,9 @@
 import { defineConfig } from '@umijs/max';
 
 export default defineConfig({
+  publicPath: '/',
+  hash: true,
+  history: { type: 'browser' },
   proxy: {
     '/api': {
       target: 'http://localhost:3000',
