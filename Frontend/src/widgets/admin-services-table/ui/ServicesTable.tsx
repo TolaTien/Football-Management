@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Popconfirm, Button, InputNumber, Tooltip } from 'antd';
 import { EditOutlined, SaveOutlined, DeleteOutlined, CloseOutlined, CoffeeOutlined, SkinOutlined, EllipsisOutlined } from '@ant-design/icons';
-import type { ServiceItem } from '@/entities/service-item/model/types';
+import type { ServiceItem } from '@/entities/service-item';
 
 interface ServicesTableProps {
   services: ServiceItem[];

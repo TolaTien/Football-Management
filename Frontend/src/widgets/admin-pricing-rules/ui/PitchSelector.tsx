@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, Typography } from 'antd';
 import { CheckCircleOutlined, RightOutlined } from '@ant-design/icons';
-import type { Pitch } from '@/entities/pitch/model/types';
+import type { Pitch } from '@/entities/pitch';
+
 
 const { Text } = Typography;
 
