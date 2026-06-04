@@ -65,16 +65,22 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
                     className="flex items-center gap-3 cursor-pointer group"
                     onClick={() => setSelectedBooking(record)}
                 >
-                    <div className="w-[34px] h-[34px] rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center font-extrabold text-[13px] flex-shrink-0 shadow-sm transition-transform group-hover:scale-105">
-                        {text.substring(0, 2).toUpperCase()}
-                    </div>
+                    {/* Luôn dùng thẻ img, nếu không có avt thì dùng link Dicebear tạo avatar từ email */}
+                    <img
+                        src={record.avt || `https://api.dicebear.com/7.x/avataaars/svg?seed=${record.email || text || 'default'}`}
+                        alt={text}
+                        className="w-[34px] h-[34px] rounded-full object-cover shadow-sm transition-transform group-hover:scale-105 border border-slate-100 bg-slate-50"
+                    />
+
                     <div className="flex flex-col">
                         <span className="font-semibold text-slate-800 text-xs group-hover:text-emerald-700 transition-colors">{text}</span>
                         {record.phone && <span className="text-[10px] text-slate-400 font-mono mt-0.5">{record.phone}</span>}
                     </div>
                 </div>
-            ),
+            )
+
         },
+
         {
             title: 'Sân bóng',
             dataIndex: 'pitchName',

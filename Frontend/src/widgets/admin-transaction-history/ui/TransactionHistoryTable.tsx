@@ -9,6 +9,8 @@ interface Transaction {
   id: string;
   date: string;
   user: string;
+  email?: string;
+  avt?: string;
   type: string;
   amount: number;
   method: string;
@@ -51,15 +53,18 @@ export const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = (
       title: 'Khách hàng',
       dataIndex: 'user',
       key: 'user',
-      render: (text: string) => (
+      render: (text: string, record: Transaction) => (
         <div className="flex items-center gap-2.5">
-          <div className="w-[30px] h-[30px] rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center font-extrabold text-[11px] flex-shrink-0">
-            {text.substring(0, 2).toUpperCase()}
-          </div>
+          <img
+            src={record.avt || `https://api.dicebear.com/7.x/avataaars/svg?seed=${record.email || text || 'default'}`}
+            alt={text}
+            className="w-[30px] h-[30px] rounded-full object-cover shadow-sm border border-slate-100 bg-slate-50"
+          />
           <span className="font-bold text-slate-800 text-xs">{text}</span>
         </div>
       ),
     },
+
     { title: 'Loại', dataIndex: 'type', key: 'type', render: (text: string) => <Text className="text-slate-600 text-xs">{text}</Text> },
     {
       title: 'Phương thức',
@@ -138,7 +143,7 @@ export const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = (
           >
             Tất cả
           </Button>
-          <Select 
+          <Select
             value={statusFilter}
             onChange={(val) => setStatusFilter(val)}
             className="w-32 h-9 rounded-xl"
@@ -146,7 +151,7 @@ export const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = (
               { value: 'all', label: 'Tất cả TT' },
               { value: 'success', label: 'Thành công' },
               { value: 'refunded', label: 'Hoàn tiền' },
-            ]} 
+            ]}
           />
         </Space>
       </div>

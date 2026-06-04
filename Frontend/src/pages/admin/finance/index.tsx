@@ -93,6 +93,8 @@ const AdminFinance: React.FC = () => {
       id: b.id.substring(0, 8).toUpperCase(),
       date: `${b.date} ${b.startTime}`,
       user: b.userName,
+      email: b.email,
+      avt: b.avt,
       type: 'Đặt sân',
       amount: b.price,
       method: b.paymentStatus === 'paid' ? 'Chuyển khoản' : 'Tiền mặt',

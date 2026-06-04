@@ -25,9 +25,9 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
   const dispatch = useAppDispatch();
   const [submitting, setSubmitting] = useState(false);
   const [cancelling, setCancelling] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'banking' | 'wallet' | 'cash'>('banking');
+  const [paymentMethod, setPaymentMethod] = useState<'banking' | 'cash'>('banking');
   const [walletBalance, setWalletBalance] = useState(1500000); // 1.5M VNĐ mock balance
-  const [payMode, setPayMode] = useState<'deposit' | 'full'>('deposit');
+  const payMode = 'deposit';
 
   if (!isOpen || !booking) return null;
 
@@ -57,32 +57,22 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
   
   // Robust base pitch price recovery with intelligent fallbacks (supports legacy/mock database entries)
   const basePitchPrice = booking.pitchPriceAtBooking || 
-                         (booking.total ? (booking.total - totalServices) * 2 : 0) || 
+                         (booking.total ? (booking.paymentStatus === 'partial' ? (booking.total - totalServices) * 2 : (booking.total - totalServices)) : 0) || 
                          120000;
   
-  const depositAmount = basePitchPrice * 0.5 + totalServices;
   const fullAmount = basePitchPrice + totalServices;
+  const depositAmount = fullAmount * 0.5;
   const activeAmount = payMode === 'deposit' ? depositAmount : fullAmount;
 
   // Handle Payment Submit
   const handlePayment = async () => {
     setSubmitting(true);
     try {
-      if (paymentMethod === 'wallet' && walletBalance < activeAmount) {
-        message.error('Số dư ví không đủ! Vui lòng nạp thêm hoặc chọn phương thức khác.');
-        setSubmitting(false);
-        return;
-      }
-
       // Call partialPayment API with dynamic activeAmount
       await BookingService.partialPayment({
         bookingId: booking.bookId,
         amount: activeAmount,
       });
-
-      if (paymentMethod === 'wallet') {
-        setWalletBalance(prev => prev - activeAmount);
-      }
 
       // Kéo notification từ DB ngay lập tức → chuông cập nhật real-time
       dispatch(fetchNotifications(1));
@@ -182,63 +172,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
         {/* Content Body */}
         <div className="p-6 flex flex-col gap-5 bg-slate-50/50 max-h-[70vh] overflow-y-auto custom-scrollbar">
           
-          {/* Payment Option Selection */}
-          <section className="bg-white p-5 rounded-[24px] border border-slate-100 shadow-sm space-y-4 flex-none">
-            <h4 className="text-[10px] font-black text-emerald-950 uppercase tracking-widest flex items-center gap-2">
-              Chọn hạn mức thanh toán
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <button
-                type="button"
-                onClick={() => setPayMode('deposit')}
-                className={`flex flex-col p-4 rounded-2xl border text-left transition-all relative ${
-                  payMode === 'deposit'
-                    ? 'border-emerald-600 bg-emerald-50/20 ring-1 ring-emerald-600/20'
-                    : 'border-slate-100 hover:border-slate-200 bg-white'
-                }`}
-              >
-                <div className="flex items-center justify-between w-full">
-                  <span className={`text-[10px] font-extrabold uppercase tracking-wider ${payMode === 'deposit' ? 'text-emerald-900' : 'text-slate-500'}`}>
-                    Đặt cọc (50% Sân)
-                  </span>
-                  <span className={`material-symbols-outlined text-sm ${payMode === 'deposit' ? 'text-emerald-600' : 'text-slate-300'}`}>
-                    {payMode === 'deposit' ? 'radio_button_checked' : 'radio_button_unchecked'}
-                  </span>
-                </div>
-                <p className={`text-base font-black mt-2 ${payMode === 'deposit' ? 'text-emerald-950' : 'text-slate-800'}`}>
-                  {formatCurrency(depositAmount)}
-                </p>
-                <p className="text-[10px] text-gray-400 mt-1 leading-normal">
-                  Trả trước 50% tiền sân và 100% dịch vụ. Số còn lại thanh toán tại quầy khi đến sân.
-                </p>
-              </button>
 
-              <button
-                type="button"
-                onClick={() => setPayMode('full')}
-                className={`flex flex-col p-4 rounded-2xl border text-left transition-all relative ${
-                  payMode === 'full'
-                    ? 'border-emerald-600 bg-emerald-50/20 ring-1 ring-emerald-600/20'
-                    : 'border-slate-100 hover:border-slate-200 bg-white'
-                }`}
-              >
-                <div className="flex items-center justify-between w-full">
-                  <span className={`text-[10px] font-extrabold uppercase tracking-wider ${payMode === 'full' ? 'text-emerald-900' : 'text-slate-500'}`}>
-                    Thanh toán hết (100%)
-                  </span>
-                  <span className={`material-symbols-outlined text-sm ${payMode === 'full' ? 'text-emerald-600' : 'text-slate-300'}`}>
-                    {payMode === 'full' ? 'radio_button_checked' : 'radio_button_unchecked'}
-                  </span>
-                </div>
-                <p className={`text-base font-black mt-2 ${payMode === 'full' ? 'text-emerald-950' : 'text-slate-800'}`}>
-                  {formatCurrency(fullAmount)}
-                </p>
-                <p className="text-[10px] text-gray-400 mt-1 leading-normal">
-                  Thanh toán toàn bộ 100% chi phí sân bóng và các dịch vụ. Không cần thanh toán thêm tại sân.
-                </p>
-              </button>
-            </div>
-          </section>
 
           {/* Detailed breakdown card */}
           <section className="bg-white p-5 rounded-[24px] border border-slate-100 shadow-sm space-y-4 flex-none">
@@ -248,6 +182,12 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                 <h4 className="font-extrabold text-slate-800 mt-1 text-base">
                   {booking.pitch?.namePitch || 'Sân bóng'}
                 </h4>
+                {booking.pitch?.address && (
+                  <p className="text-xs text-gray-400 font-medium inline-flex items-center gap-0.5 mt-1">
+                    <span className="material-symbols-outlined text-[14px]">location_on</span>
+                    {booking.pitch.address}
+                  </p>
+                )}
                 <p className="text-xs text-emerald-800 font-bold mt-2 bg-emerald-50 border border-emerald-100/50 px-3 py-1 rounded-xl inline-flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-xs">calendar_month</span>
                   {dayjs(booking.startTime).format('DD/MM/YYYY')} • {dayjs(booking.startTime).format('HH:mm')} - {dayjs(booking.endTime).format('HH:mm')}
@@ -288,7 +228,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
             <div className="flex justify-between items-start border-b border-white/10 pb-4 relative z-10">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-widest text-emerald-300/80">
-                  Hạn mức: {payMode === 'deposit' ? 'ĐẶT CỌC 50% SÂN' : 'THANH TOÁN TOÀN BỘ'}
+                  Hạn mức: {payMode === 'deposit' ? 'ĐẶT CỌC 50% TỔNG ĐƠN' : 'THANH TOÁN TOÀN BỘ'}
                 </span>
                 <h3 className="text-2xl font-black text-amber-300 font-montserrat mt-1">
                   {formatCurrency(activeAmount)}
@@ -308,15 +248,15 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                 <span className="text-emerald-300/80">Chi phí thuê sân:</span>
                 <span>{formatCurrency(booking.pitchPriceAtBooking)}</span>
               </div>
+              <div className="flex justify-between items-center">
+                <span className="text-emerald-300/80">Tổng tiền dịch vụ:</span>
+                <span>+{formatCurrency(totalServices)}</span>
+              </div>
               {payMode === 'deposit' ? (
                 <>
                   <div className="flex justify-between items-center text-amber-300">
-                    <span>Mức cọc sân áp dụng (50%):</span>
-                    <span className="font-bold">+{formatCurrency(booking.pitchPriceAtBooking * 0.5)}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span>Tổng tiền dịch vụ đi kèm (100%):</span>
-                    <span>+{formatCurrency(totalServices)}</span>
+                    <span>Mức đặt cọc áp dụng (50%):</span>
+                    <span className="font-bold">x50%</span>
                   </div>
                   <div className="border-t border-white/10 pt-2 flex justify-between items-center font-bold text-amber-300 text-xs">
                     <span>TỔNG CỌC CẦN ĐÓNG:</span>
@@ -349,10 +289,9 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
               Chọn phương thức thanh toán
             </h4>
             
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {[
                 { id: 'banking', label: 'Chuyển Khoản', icon: 'account_balance' },
-                { id: 'wallet', label: 'Ví Số Dư', icon: 'wallet' },
                 { id: 'cash', label: 'Tiền Mặt', icon: 'payments' }
               ].map(m => (
                 <button
@@ -464,39 +403,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                 </div>
               )}
 
-              {/* Method 2: Wallet */}
-              {paymentMethod === 'wallet' && (
-                <div className="space-y-4 animate-in fade-in duration-300">
-                  <div className="bg-emerald-950 text-white p-5 rounded-2xl border border-emerald-900 flex flex-col gap-3 relative overflow-hidden shadow-md">
-                    <div className="flex justify-between items-center text-xs relative z-10">
-                      <span className="font-extrabold text-emerald-300 uppercase tracking-wider">Ví Cá Nhân thành viên</span>
-                      <span className="text-[9px] bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 px-2 py-0.5 rounded-lg font-black font-mono">ĐANG HOẠT ĐỘNG</span>
-                    </div>
-                    
-                    <div className="py-1 relative z-10">
-                      <p className="text-[10px] text-emerald-300/80 uppercase tracking-widest font-black">Số dư ví:</p>
-                      <p className="text-2xl font-black text-white mt-0.5 font-montserrat">{formatCurrency(walletBalance)}</p>
-                    </div>
-
-                    <div className="text-xs border-t border-emerald-900 pt-3 space-y-1.5 relative z-10">
-                      <div className="flex justify-between text-emerald-300/80">
-                        <span>Số tiền cần thanh toán:</span>
-                        <span className="font-bold text-white">-{formatCurrency(activeAmount)}</span>
-                      </div>
-                      <div className="flex justify-between font-black text-amber-300 text-sm">
-                        <span>Số dư còn lại:</span>
-                        <span>{formatCurrency(walletBalance - activeAmount)}</span>
-                      </div>
-                    </div>
-
-                    <div className="absolute -bottom-6 -right-6 opacity-5 z-0">
-                      <span className="material-symbols-outlined text-[100px]">account_balance_wallet</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Method 3: Cash */}
+              {/* Method 2: Cash */}
               {paymentMethod === 'cash' && (
                 <div className="p-5 bg-amber-50 border border-amber-100 rounded-2xl text-xs text-amber-950 space-y-3 animate-in fade-in duration-300">
                   <h5 className="font-black flex items-center gap-1.5 text-amber-950 text-xs">
@@ -523,7 +430,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
               ) : (
                 <>
                   <span className="material-symbols-outlined text-sm">check_circle</span>
-                  {paymentMethod === 'banking' ? 'Tôi Đã Chuyển Khoản' : paymentMethod === 'wallet' ? 'Xác Nhận Thanh Toán Ví' : 'Xác Nhận Giữ Chỗ Quầy'}
+                  {paymentMethod === 'banking' ? 'Tôi Đã Chuyển Khoản' : 'Xác Nhận Giữ Chỗ Quầy'}
                 </>
               )}
             </button>

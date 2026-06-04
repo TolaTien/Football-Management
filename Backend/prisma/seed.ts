@@ -12,13 +12,14 @@ async function main() {
 
   for (let i = 0; i < 20; i++) {
     const pitchId = uuidv4();
+    const isHaNoi = i % 2 === 0;
     await prisma.pitch.create({
       data: {
         pitchId: pitchId,
-        namePitch: `Sân bóng ${faker.person.lastName()}`,
+        namePitch: isHaNoi ? `Sân Hà Nội ${Math.floor(i/2) + 1}` : `Sân Hồ Chí Minh ${Math.floor(i/2) + 1}`,
         status: 'active',
         pitchCategory: faker.helpers.arrayElement([5, 7, 11]),
-        address: faker.location.streetAddress(),
+        address: isHaNoi ? 'Hà Nội' : 'Hồ Chí Minh',
       },
     });
 
