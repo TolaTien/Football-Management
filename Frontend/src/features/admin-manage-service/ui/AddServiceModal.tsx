@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Form, Input, Select, InputNumber, Upload, Button } from 'antd';
-import { ShopOutlined, TagsOutlined, AppstoreOutlined, DollarOutlined, InboxOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { ShopOutlined, TagsOutlined, AppstoreOutlined, DollarOutlined, InboxOutlined, CheckCircleOutlined, CoffeeOutlined, SkinOutlined, SmileOutlined, EllipsisOutlined } from '@ant-design/icons';
 import type { ServiceType } from '@/entities/service-item/model/types';
 
 const { Dragger } = Upload;
@@ -73,11 +73,20 @@ export const AddServiceModal: React.FC<AddServiceModalProps> = ({
               initialValue="drink"
             >
               <Select size="large" className="rounded-xl w-full" options={[
-                { value: 'drink', label: '🧃 Đồ uống' },
-                { value: 'equipment', label: '⚽ Trang thiết bị' },
-                { value: 'food', label: '🍔 Đồ ăn nhanh' },
-                { value: 'other', label: '📦 Khác' },
+                {
+                  value: 'drink',
+                  label: <span className="flex items-center gap-2"><CoffeeOutlined className="text-emerald-650" /> Đồ uống</span>
+                },
+                {
+                  value: 'equipment',
+                  label: <span className="flex items-center gap-2"><SkinOutlined className="text-emerald-650" /> Trang thiết bị</span>
+                },
+                {
+                  value: 'other',
+                  label: <span className="flex items-center gap-2"><EllipsisOutlined className="text-emerald-655" /> Khác</span>
+                },
               ]} />
+
             </Form.Item>
 
             <Form.Item
@@ -98,27 +107,6 @@ export const AddServiceModal: React.FC<AddServiceModalProps> = ({
                 step={1000}
                 placeholder="15,000"
               />
-            </Form.Item>
-
-            {/* Upload ảnh */}
-            <Form.Item
-              name="image"
-              label={
-                <span className="font-semibold text-slate-700 text-[13px] flex items-center gap-1.5">
-                  <InboxOutlined className="text-emerald-650" /> Hình ảnh (tuỳ chọn)
-                </span>
-              }
-            >
-              <Dragger
-                name="file"
-                multiple={false}
-                beforeUpload={() => false}
-                className="rounded-xl border-slate-300"
-              >
-                <p className="text-emerald-650 text-2xl mb-1"><InboxOutlined /></p>
-                <p className="text-slate-700 font-semibold text-[13px]">Kéo & thả ảnh vào đây</p>
-                <p className="text-slate-400 text-[11px]">PNG, JPG tối đa 2MB</p>
-              </Dragger>
             </Form.Item>
 
             <div className="pt-4 border-t border-slate-100 flex justify-end gap-2.5">

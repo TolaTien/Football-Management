@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ArrowLeftOutlined, CloseOutlined } from '@ant-design/icons';
 import { useAppDispatch } from '@/app/store/hooks';
-import { selectActiveConversationId } from '@/entities/ai/model/selectors';
-import { setActiveConversation } from '@/entities/ai/model/aiSlice';
+import { selectActiveConversationId, setActiveConversation } from '@/entities/ai';
 import ConversationList from './ConversationList';
 import ChatWindow from './ChatWindow';
+
 
 const AdminAiChatWidget: React.FC = () => {
     const dispatch = useAppDispatch();

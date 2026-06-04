@@ -6,8 +6,8 @@ import bookingReducer from '@/entities/booking/model/bookingSlice';
 import serviceReducer from '@/entities/service-item/model/serviceSlice';
 import forumReducer from '@/entities/forum/model/forumSlice';
 import statisticReducer from '@/entities/statistic/model/statisticSlice';
-import aiReducer from '@/entities/ai/model/aiSlice';
-import aiChatReducer from '@/entities/ai-chat/model/aiSlice';
+import { aiReducer } from '@/entities/ai';
+import { aiChatReducer } from '@/entities/ai-chat';
 
 export const store = configureStore({
   reducer: {

@@ -10,7 +10,7 @@ interface EditUserModalProps {
     open: boolean;
     user: UserItem | null;
     onCancel: () => void;
-    onConfirm: (values: { name: string; email: string; phone: string; role: UserRole; password?: string }) => void;
+    onConfirm: (values: { name: string; email: string; phone: string; role: UserRole }) => void;
 }
 
 const EditUserModal: React.FC<EditUserModalProps> = ({ open, user, onCancel, onConfirm }) => {
@@ -23,17 +23,12 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, user, onCancel, onC
                 email: user.email,
                 phone: user.phone === '—' ? '' : user.phone,
                 role: user.role,
-                password: '',
             });
         }
     }, [open, user, form]);
 
-    const handleSubmit = (values: { name: string; email: string; phone: string; role: UserRole; password?: string }) => {
-        const submitData = { ...values };
-        if (!submitData.password) {
-            delete submitData.password;
-        }
-        onConfirm(submitData);
+    const handleSubmit = (values: { name: string; email: string; phone: string; role: UserRole }) => {
+        onConfirm(values);
     };
 
     const handleClose = () => {
@@ -144,22 +139,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ open, user, onCancel, onC
                                 <Select.Option value="Khách hàng">Khách hàng</Select.Option>
                                 <Select.Option value="Quản trị">Quản trị viên</Select.Option>
                             </Select>
-                        </Form.Item>
-
-                        {/* Thay đổi Mật khẩu */}
-                        <Form.Item
-                            name="password"
-                            label={
-                                <span className="font-semibold text-slate-700 text-xs flex items-center gap-1.5">
-                                    <LockOutlined className="text-emerald-600" /> Đặt lại mật khẩu (Tùy chọn)
-                                </span>
-                            }
-                        >
-                            <Input.Password
-                                placeholder="Nhập nếu muốn đổi mật khẩu mới"
-                                size="large"
-                                className="rounded-xl border-slate-300"
-                            />
                         </Form.Item>
 
                         {/* Footer Buttons */}

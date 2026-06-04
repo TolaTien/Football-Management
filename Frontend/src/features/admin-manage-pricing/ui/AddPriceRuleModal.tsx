@@ -35,10 +35,6 @@ export const AddPriceRuleModal: React.FC<AddPriceRuleModalProps> = ({
               Thiết lập khung giờ và mức giá phù hợp để tối ưu doanh thu sân bóng.
             </div>
           </div>
-          <div className="p-3 bg-white/10 rounded-lg border border-white/15">
-            <div className="text-white/70 text-[11px] mb-1">💡 Mẹo</div>
-            <div className="text-white text-xs leading-normal">Giờ 18–20h có mật độ đặt cao nhất.</div>
-          </div>
         </div>
 
         {/* Panel phải */}

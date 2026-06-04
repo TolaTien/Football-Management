@@ -5,10 +5,9 @@ import { PlusOutlined, MessageOutlined } from '@ant-design/icons';
 import { useAppDispatch } from '@/app/store/hooks';
 import {
     selectConversations, selectLoadingConversations,
-} from '@/entities/ai/model/selectors';
-import {
     fetchConversations, createConversation, fetchMessages, setActiveConversation,
-} from '@/entities/ai/model/aiSlice';
+} from '@/entities/ai';
+
 
 const ConversationList: React.FC = () => {
     const dispatch = useAppDispatch();

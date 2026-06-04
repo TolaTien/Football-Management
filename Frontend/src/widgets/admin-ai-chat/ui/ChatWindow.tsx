@@ -5,9 +5,10 @@ import { SendOutlined } from '@ant-design/icons';
 import { useAppDispatch } from '@/app/store/hooks';
 import {
     selectMessages, selectLoadingSend, selectLoadingMessages,
-} from '@/entities/ai/model/selectors';
-import { sendMessage, appendOptimisticMessage } from '@/entities/ai/model/aiSlice';
-import type { AiMessage } from '@/entities/ai/types';
+    sendMessage, appendOptimisticMessage,
+} from '@/entities/ai';
+import type { AiMessage } from '@/entities/ai';
+
 import { v4 as uuidv4 } from 'uuid';
 import MessageBubble from './MessageBubble';
 

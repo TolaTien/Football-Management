@@ -157,7 +157,6 @@ const AdminCustomers: React.FC = () => {
           </div>
         ),
         extra: [
-          <Button key="export" className="rounded-xl h-10 px-5 font-bold border-slate-300 hover:border-emerald-500 hover:text-emerald-600 transition-colors shadow-sm">Xuất PDF</Button>,
           <Button key="add" type="primary" icon={<UserAddOutlined />} className="h-10 px-5 font-bold rounded-xl bg-emerald-600 border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 shadow-md shadow-emerald-600/10 flex items-center" onClick={() => setIsModalOpen(true)}>
             Thêm người dùng
           </Button>

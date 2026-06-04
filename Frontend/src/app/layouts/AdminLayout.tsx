@@ -4,7 +4,7 @@ import { ConfigProvider, notification, Popover, Badge, List } from 'antd';
 import viVN from 'antd/locale/vi_VN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
-import AdminAiChatWidget from '@/widgets/admin-ai-chat/AdminAiChatWidget';
+import { AdminAiChatWidget } from '@/widgets/admin-ai-chat';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
 
