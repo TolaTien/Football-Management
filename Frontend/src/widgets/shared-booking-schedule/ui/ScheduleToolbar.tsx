@@ -1,27 +1,14 @@
 import React from 'react';
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
 
 interface ScheduleToolbarProps {
   viewMode: 'day' | 'week';
   onViewModeChange: (mode: 'day' | 'week') => void;
-  selectedDate: dayjs.Dayjs;
-  onDateChange: (date: dayjs.Dayjs) => void;
 }
 
 export const ScheduleToolbar: React.FC<ScheduleToolbarProps> = ({
   viewMode,
-  onViewModeChange,
-  selectedDate,
-  onDateChange
+  onViewModeChange
 }) => {
-  const disabledDate = (current: dayjs.Dayjs) => {
-    // Can only select from today to today + 6 days (1 week)
-    const today = dayjs().startOf('day');
-    const maxDate = dayjs().add(6, 'day').endOf('day');
-    return current && (current < today || current > maxDate);
-  };
-
   return (
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-lg gap-4">
       <div>
@@ -30,20 +17,6 @@ export const ScheduleToolbar: React.FC<ScheduleToolbarProps> = ({
       </div>
       
       <div className="flex items-center gap-md self-stretch sm:self-auto justify-between sm:justify-start">
-        {/* Date Selector - Only shown in Day view */}
-        {viewMode === 'day' && (
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-gray-500 font-montserrat uppercase tracking-wider">Ngày:</span>
-            <DatePicker 
-              value={selectedDate} 
-              onChange={(val) => val && onDateChange(val)} 
-              disabledDate={disabledDate}
-              allowClear={false}
-              className="border-gray-200 rounded-lg h-10 hover:border-primary focus:border-primary"
-            />
-          </div>
-        )}
-
         {/* View Mode Toggle */}
         <div className="flex items-center bg-white border border-outline-variant rounded-lg p-xs h-10 shadow-sm">
           <button 
