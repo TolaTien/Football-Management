@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from '@umijs/max';
 import { message, Spin, Empty, Avatar } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { 
-  fetchNotifications, 
-  markAllNotificationsRead 
+import {
+  fetchNotifications,
+  markAllNotificationsRead
 } from '@/entities/notification';
-import { UsersService } from '@/entities/user/api/userService';
+import { UsersService } from '@/entities/user';
 import { StatCard } from '../../../entities/user/ui/StatCard';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -102,14 +102,14 @@ export const DashboardStatsPanel: React.FC = () => {
       <div className="bg-white border border-outline-variant rounded-xl p-lg shadow-sm">
         <div className="flex justify-between items-center mb-md">
           <h3 className="font-h3 text-h3 text-primary">Thông báo</h3>
-          <button 
+          <button
             onClick={handleMarkReadAll}
             className="text-xs font-button text-gray-400 hover:text-primary transition-colors"
           >
             Đánh dấu đã đọc
           </button>
         </div>
-        
+
         <div className="space-y-md min-h-[100px]">
           {loading ? (
             <div className="flex justify-center py-4"><Spin size="small" /></div>
@@ -128,8 +128,8 @@ export const DashboardStatsPanel: React.FC = () => {
             ))
           )}
         </div>
-        
-        <button 
+
+        <button
           onClick={() => navigate('/user/profile?tab=notifications')}
           className="w-full mt-lg pt-md border-t border-gray-100 text-sm font-button text-gray-500 hover:text-primary transition-colors"
         >
@@ -164,11 +164,11 @@ export const DashboardStatsPanel: React.FC = () => {
                     <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs shrink-0 ${rankBg}`}>
                       {spender.rank}
                     </span>
-                    
+
                     {/* Avatar */}
-                    <Avatar 
-                      src={spender.avt || `https://ui-avatars.com/api/?name=${spender.fullName || 'P'}&background=10b981&color=fff`} 
-                      size="small" 
+                    <Avatar
+                      src={spender.avt || `https://ui-avatars.com/api/?name=${spender.fullName || 'P'}&background=10b981&color=fff`}
+                      size="small"
                       className="shrink-0 border border-gray-100"
                     />
 

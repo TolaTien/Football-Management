@@ -3,8 +3,7 @@ import { PageContainer } from '@ant-design/pro-components';
 import { Card, Table, Tag, Button, Space, Typography, Popconfirm, Tabs, message, Avatar } from 'antd';
 import { StopOutlined, CheckCircleOutlined, UserAddOutlined, EditOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { fetchUsers, addUser, toggleBanUser, updateUser } from '@/entities/user/model/userSlice';
-import type { UserItem, UserRole } from '@/entities/user/model/types';
+import { fetchUsers, addUser, toggleBanUser, updateUser, type UserItem, type UserRole } from '@/entities/user';
 import { AddUserModal, EditUserModal } from '@/features/manage-user';
 import { UserStatCards } from '@/widgets/admin-user-stats';
 

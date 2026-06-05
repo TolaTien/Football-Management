@@ -31,10 +31,11 @@ const HOUR_LABELS = Array.from({ length: END_HOUR - START_HOUR }, (_, i) =>
   `${String(START_HOUR + i).padStart(2, '0')}:00`
 );
 
-const PAY_CFG: Record<string, { bg: string; label: string }> = {
-  deposited: { bg: '#10b981', label: 'Đã cọc' },
-  paid: { bg: '#059669', label: 'Đã thanh toán' },
-  unpaid: { bg: '#f87171', label: 'Chưa TT' },
+// Cấu hình màu nền sử dụng Tailwind CSS (bgClass) và mã màu hex cho Tooltip/API nếu cần (bg)
+const PAY_CFG: Record<string, { bgClass: string; bg: string; label: string }> = {
+  deposited: { bgClass: 'bg-emerald-500', bg: '#10b981', label: 'Đã cọc' },
+  paid: { bgClass: 'bg-emerald-600', bg: '#059669', label: 'Đã thanh toán' },
+  unpaid: { bgClass: 'bg-red-400', bg: '#f87171', label: 'Chưa TT' },
 };
 
 const toMin = (t: string) => {
@@ -75,8 +76,18 @@ const AdminScheduleGrid: React.FC = () => {
     ), [bookings, dateStr, filterPitch, filterPayment]);
 
   const displayPitches = useMemo(() =>
-    filterPitch === 'all' ? pitches : pitches.filter((p) => p.id === filterPitch),
+    filterPitch === 'all' ? pitches : pitches.filter((p) => p.address === filterPitch),
     [pitches, filterPitch]);
+
+  // Lọc danh sách đặt sân dựa trên các sân hiển thị và trạng thái thanh toán
+  const filtered = useMemo(() => {
+    const displayedPitchIds = new Set(displayPitches.map(p => p.id));
+    return bookings.filter((b) =>
+      b.date === dateStr &&
+      displayedPitchIds.has(b.pitchId) &&
+      (filterPayment === 'all' || b.paymentStatus === filterPayment)
+    );
+  }, [bookings, dateStr, displayPitches, filterPayment]);
 
   const unpaidCount = filtered.filter((b) => b.paymentStatus === 'unpaid').length;
   const totalRev = filtered.reduce((s, b) => s + b.price, 0);
@@ -128,9 +139,9 @@ const AdminScheduleGrid: React.FC = () => {
       {/* Grid Timeline */}
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
         <div className="flex items-center gap-5 px-5 py-3 border-b border-slate-200 bg-slate-50">
-          {Object.values(PAY_CFG).map(({ bg, label }) => (
+          {Object.values(PAY_CFG).map(({ bgClass, label }) => (
             <div key={label} className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-              <div className="w-2.5 h-2.5 rounded-full" style={{ background: bg }} />{label}
+              <div className={`w-2.5 h-2.5 rounded-full ${bgClass}`} />{label}
             </div>
           ))}
           <div className="ml-auto flex items-center gap-1.5">
@@ -141,40 +152,60 @@ const AdminScheduleGrid: React.FC = () => {
 
         <div className="overflow-x-auto">
           <div className="min-w-[960px]">
+            {/* Thanh hiển thị Giờ (Timeline Header) */}
             <div className="grid bg-indigo-50 border-b border-indigo-150" style={{ gridTemplateColumns: GRID_TPL }}>
               <div className="px-3.5 py-2.5 border-r border-indigo-100 font-extrabold text-indigo-700 text-xs">
                 SÂN / GIỜ
               </div>
               {HOUR_LABELS.map((lbl, i) => (
-                <div key={lbl} className="text-center font-bold text-slate-700 text-xs border-r border-indigo-100 py-2.5" style={{ gridColumn: `${i * 2 + 2} / ${i * 2 + 4}`, gridRow: '1' }}>
+                <div
+                  key={lbl}
+                  className="text-center font-bold text-slate-700 text-xs border-r border-indigo-100 py-2.5 row-start-1"
+                  style={{ gridColumn: `${i * 2 + 2} / ${i * 2 + 4}` }}
+                >
                   {lbl}
                 </div>
               ))}
             </div>
 
+            {/* Danh sách lưới các Sân và Lịch đặt */}
             {displayPitches.map((pitch) => {
               const pitchBookings = filtered.filter((b) => b.pitchId === pitch.id);
               return (
-                <div key={pitch.id} className="grid border-b border-slate-100 items-stretch" style={{ gridTemplateColumns: GRID_TPL, gridTemplateRows: '72px' }}>
-                  <div className="px-3.5 py-2 bg-slate-50/50 border-r border-slate-150 z-10 flex flex-col justify-center" style={{ gridColumn: '1', gridRow: '1' }}>
+                <div
+                  key={pitch.id}
+                  className="grid border-b border-slate-100 items-stretch grid-rows-[72px]"
+                  style={{ gridTemplateColumns: GRID_TPL }}
+                >
+                  {/* Cột Tên Sân */}
+                  <div
+                    className="px-3.5 py-2 bg-slate-50/50 border-r border-slate-150 z-10 flex flex-col justify-center col-start-1 row-start-1"
+                  >
                     <div className="font-extrabold text-slate-800 text-xs">{pitch.name}</div>
                     <div className={`text-[9px] font-extrabold uppercase mt-1 ${pitch.type?.includes('7') || pitch.type?.includes('11') ? 'text-blue-600' : 'text-emerald-600'}`}>
                       {pitch.type}
                     </div>
                   </div>
 
+                  {/* Các đường kẻ dọc phân chia khung giờ */}
                   {Array.from({ length: SLOT_COUNT }, (_, i) => (
-                    <div key={i} className={`border-r ${i % 2 === 1 ? 'border-slate-200' : 'border-slate-100'}`} style={{ gridColumn: `${i + 2}`, gridRow: '1' }} />
+                    <div
+                      key={i}
+                      className={`border-r row-start-1 ${i % 2 === 1 ? 'border-slate-200' : 'border-slate-100'}`}
+                      style={{ gridColumn: `${i + 2}` }}
+                    />
                   ))}
 
+                  {/* Danh sách các block Lịch đặt sân */}
                   {pitchBookings.map((b) => {
                     const cfg = PAY_CFG[b.paymentStatus] ?? PAY_CFG.unpaid;
                     const { gridColumnStart, gridColumnEnd } = bookingGridCol(b.startTime, b.endTime);
                     return (
                       <Tooltip key={b.id} title={`${b.userName} · ${b.startTime}–${b.endTime} · ${cfg.label}`}>
-                        <div onClick={() => setDetail(b)}
-                          className="mx-0.5 my-1.5 rounded-lg px-2 py-1 text-white cursor-pointer overflow-hidden z-20 shadow-md transition-all duration-150 hover:brightness-110 flex flex-col justify-center"
-                          style={{ gridColumn: `${gridColumnStart} / ${gridColumnEnd}`, gridRow: '1', background: cfg.bg }}
+                        <div
+                          onClick={() => setDetail(b)}
+                          className={`mx-0.5 my-1.5 rounded-lg px-2 py-1 text-white cursor-pointer overflow-hidden z-20 shadow-md transition-all duration-150 hover:brightness-110 flex flex-col justify-center row-start-1 ${cfg.bgClass}`}
+                          style={{ gridColumn: `${gridColumnStart} / ${gridColumnEnd}` }}
                         >
                           <div className="font-bold text-[10px] truncate leading-tight">{b.userName}</div>
                           <div className="text-[8px] opacity-90 font-medium mt-0.5">{b.startTime}–{b.endTime}</div>

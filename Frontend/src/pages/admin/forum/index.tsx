@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-components';
 import { Row, Col, Typography, Form, message } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { fetchForumPosts, addPost, deletePost } from '@/entities/forum/model/forumSlice';
-import type { CreateForumPostDto, ForumPost } from '@/entities/forum/model/types';
+import { fetchForumPosts, addPost, deletePost, type CreateForumPostDto, type ForumPost } from '@/entities/forum';
+
 
 // FSD Imports
 import { ForumListCard } from '@/widgets/admin-forum-list';

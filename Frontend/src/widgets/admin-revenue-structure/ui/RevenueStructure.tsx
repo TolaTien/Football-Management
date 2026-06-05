@@ -54,7 +54,7 @@ export const RevenueStructure: React.FC<RevenueStructureProps> = ({ data, totalR
       {/* Center label */}
       <div className="text-center -mt-2 mb-4">
         <div className="text-2xl font-extrabold text-emerald-600">
-          {(totalRevenue / VIETNAMESE_DONG_TO_MILLION).toFixed(2)}M đ
+          {totalRevenue.toLocaleString('vi-VN')} đ
         </div>
         <div className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Tổng doanh thu</div>
       </div>
