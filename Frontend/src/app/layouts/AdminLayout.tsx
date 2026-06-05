@@ -24,6 +24,7 @@ const AdminLayout: React.FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const [admin, setAdmin] = useState<{ email: string; role: string } | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { bookings } = useAppSelector((state) => state.booking);
   const [initialLoaded, setInitialLoaded] = useState(false);
@@ -47,6 +48,10 @@ const AdminLayout: React.FC = () => {
     } catch (e) {
       history.push('/auth/login');
     }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setSidebarOpen(false);
   }, [location.pathname]);
 
   // 2. Fetch danh sách đặt sân ban đầu và định kỳ 10 giây một lần (Real-time polling)
@@ -112,7 +117,7 @@ const AdminLayout: React.FC = () => {
 
   // Nội dung Popover thông báo khi click vào Quả chuông
   const notificationContent = (
-    <div style={{ width: 300 }}>
+    <div style={{ width: 'min(300px, calc(100vw - 32px))' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, borderBottom: '1px solid #f1f5f9', paddingBottom: 8 }}>
         <span style={{ fontWeight: 700, color: '#0f172a' }}>Yêu cầu mới ({pendingBookings.length})</span>
         <Link to="/admin/schedule" style={{ fontSize: 12, color: '#059669', fontWeight: 600 }}>Xem tất cả</Link>
@@ -152,9 +157,22 @@ const AdminLayout: React.FC = () => {
         }
       }}
     >
-      <div className="min-h-screen bg-slate-50 flex">
+      <div className="min-h-screen bg-slate-50 flex overflow-x-hidden">
+        {sidebarOpen && (
+          <button
+            type="button"
+            className="fixed inset-0 z-[45] bg-black/40 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Đóng menu"
+          />
+        )}
+
         {/* Sidebar */}
-        <aside className="fixed left-0 top-0 h-screen w-[260px] border-r border-gray-200 bg-white flex flex-col z-50">
+        <aside
+          className={`fixed left-0 top-0 h-screen w-[260px] border-r border-gray-200 bg-white flex flex-col z-50 transition-transform duration-300 lg:translate-x-0 ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
           <div className="px-6 py-6 flex items-center gap-3">
             <div className="w-8 h-8 bg-emerald-600 rounded-md flex items-center justify-center">
               <span className="material-symbols-outlined text-white text-lg">shield_person</span>
@@ -172,6 +190,7 @@ const AdminLayout: React.FC = () => {
                 <Link
                   key={item.path}
                   to={item.path}
+                  onClick={() => setSidebarOpen(false)}
                   className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all no-underline ${isActive
                     ? 'bg-emerald-500 text-white font-semibold shadow-sm'
                     : 'text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 font-medium'
@@ -208,18 +227,28 @@ const AdminLayout: React.FC = () => {
         </aside>
 
         {/* Header */}
-        <header className="fixed top-0 left-[260px] right-0 h-16 bg-white border-b border-gray-200 shadow-sm flex justify-between items-center px-8 z-45">
-          <div className="text-lg font-extrabold text-[#006644] tracking-wider uppercase">
-            {location.pathname.startsWith('/admin/dashboard') && 'Tổng quan hệ thống'}
-            {location.pathname.startsWith('/admin/schedule') && 'Lịch đặt sân'}
-            {location.pathname.startsWith('/admin/pitches') && 'Quản lý hệ thống sân'}
-            {location.pathname.startsWith('/admin/finance') && 'Báo cáo doanh thu'}
-            {location.pathname.startsWith('/admin/customers') && 'Quản lý người dùng'}
-            {location.pathname.startsWith('/admin/services') && 'Kho & Sản phẩm'}
-            {location.pathname.startsWith('/admin/forum') && 'Diễn đàn'}
+        <header className="fixed top-0 left-0 lg:left-[260px] right-0 h-16 bg-white border-b border-gray-200 shadow-sm flex justify-between items-center px-4 sm:px-6 lg:px-8 z-40">
+          <div className="flex items-center gap-3 min-w-0">
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
+              aria-label="Mở menu"
+            >
+              <span className="material-symbols-outlined">menu</span>
+            </button>
+            <div className="truncate text-sm sm:text-lg font-extrabold text-[#006644] tracking-wider uppercase">
+              {location.pathname.startsWith('/admin/dashboard') && 'Tổng quan hệ thống'}
+              {location.pathname.startsWith('/admin/schedule') && 'Lịch đặt sân'}
+              {location.pathname.startsWith('/admin/pitches') && 'Quản lý hệ thống sân'}
+              {location.pathname.startsWith('/admin/finance') && 'Báo cáo doanh thu'}
+              {location.pathname.startsWith('/admin/customers') && 'Quản lý người dùng'}
+              {location.pathname.startsWith('/admin/services') && 'Kho & Sản phẩm'}
+              {location.pathname.startsWith('/admin/forum') && 'Diễn đàn'}
+            </div>
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex flex-shrink-0 items-center gap-3 sm:gap-5">
             {/* Quả chuông thông báo */}
             <Popover
               content={notificationContent}
@@ -242,8 +271,8 @@ const AdminLayout: React.FC = () => {
         </header>
 
         {/* Main Content Area */}
-        <main className="ml-[260px] pt-16 flex-1 min-h-screen">
-          <div className="p-8">
+        <main className="pt-16 flex-1 min-h-screen lg:ml-[260px]">
+          <div className="p-4 sm:p-6 lg:p-8">
             <Outlet />
           </div>
         </main>

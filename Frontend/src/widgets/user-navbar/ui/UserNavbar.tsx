@@ -12,7 +12,11 @@ import {
 import { getSocket, connectSocket, disconnectSocket } from '@/shared/api/socket';
 import { Badge, Popover, List, Spin, Empty, Avatar, notification } from 'antd';
 
-export const UserNavbar: React.FC = () => {
+type UserNavbarProps = {
+  onMenuClick?: () => void;
+};
+
+export const UserNavbar: React.FC<UserNavbarProps> = ({ onMenuClick }) => {
   const user = useAppSelector((state) => state.user.currentUser);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -86,7 +90,7 @@ export const UserNavbar: React.FC = () => {
   };
 
   const notificationContent = (
-    <div className="w-80">
+    <div className="w-[calc(100vw-32px)] max-w-80">
       <div className="flex justify-between items-center mb-2 px-2 pt-2">
         <h4 className="font-bold text-gray-800">Thông báo</h4>
         {unreadCount > 0 && (
@@ -160,11 +164,18 @@ export const UserNavbar: React.FC = () => {
   );
 
   return (
-    <header className="h-16 px-8 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 shadow-sm ml-[260px]">
-      <div />
+    <header className="h-16 px-4 sm:px-6 lg:px-8 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-gray-100 shadow-sm lg:ml-[260px]">
+      <button
+        type="button"
+        onClick={onMenuClick}
+        className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
+        aria-label="Mở menu"
+      >
+        <span className="material-symbols-outlined">menu</span>
+      </button>
 
-      <div className="flex items-center gap-lg">
-        <div className="flex items-center gap-sm">
+      <div className="flex items-center gap-3 sm:gap-lg">
+        <div className="flex items-center gap-2 sm:gap-sm">
           <Popover
             content={notificationContent}
             trigger="click"
@@ -180,7 +191,7 @@ export const UserNavbar: React.FC = () => {
             </button>
           </Popover>
 
-          <div className="h-8 w-px bg-gray-200 mx-2"></div>
+          <div className="hidden sm:block h-8 w-px bg-gray-200 mx-2"></div>
 
           {/* User Profile — Click to navigate to Profile page */}
           <div className="flex items-center gap-3 group relative cursor-pointer">
@@ -188,7 +199,7 @@ export const UserNavbar: React.FC = () => {
               className="flex items-center gap-3"
               onClick={() => navigate('/user/profile')}
             >
-              <div className="text-right">
+              <div className="hidden sm:block text-right">
                 <p className="font-button text-on-surface text-sm leading-none">{user?.fullName || 'Người chơi'}</p>
                 <p className="text-[10px] font-label-caps text-gray-500 uppercase">{user?.role === 'admin' ? 'Quản trị viên' : 'Thành viên'}</p>
               </div>

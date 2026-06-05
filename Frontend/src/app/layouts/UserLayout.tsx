@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Outlet, Navigate } from '@umijs/max';
+import React, { useEffect, useState } from 'react';
+import { Outlet, Navigate, useLocation } from '@umijs/max';
 import { Spin } from 'antd';
 import { UserSidebar } from '@/widgets/user-sidebar';
 import { UserNavbar } from '@/widgets/user-navbar';
@@ -9,13 +9,19 @@ import { fetchCurrentUser } from '@/entities/user';
 
 const UserLayout: React.FC = () => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const { currentUser, isInitialized, loading } = useAppSelector((state) => state.user);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!isInitialized) {
       dispatch(fetchCurrentUser());
     }
   }, [dispatch, isInitialized]);
+
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [location.pathname]);
 
   // Wait for initial auth check to complete
   if (!isInitialized || loading) {
@@ -32,17 +38,26 @@ const UserLayout: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background font-body-md text-on-background flex">
+    <div className="min-h-screen bg-background font-body-md text-on-background flex overflow-x-hidden">
+      {sidebarOpen && (
+        <button
+          type="button"
+          className="fixed inset-0 z-[45] bg-black/40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+          aria-label="Đóng menu"
+        />
+      )}
+
       {/* Sidebar Widget */}
-      <UserSidebar />
+      <UserSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main Content Wrapper */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Navbar Widget */}
-        <UserNavbar />
+        <UserNavbar onMenuClick={() => setSidebarOpen(true)} />
 
         {/* Dynamic Page Content */}
-        <main className="ml-[260px] p-container-margin flex-1 overflow-x-hidden">
+        <main className="flex-1 overflow-x-hidden px-4 py-5 sm:px-6 lg:ml-[260px] lg:p-container-margin">
           <Outlet />
         </main>
       </div>

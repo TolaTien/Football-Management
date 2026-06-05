@@ -9,11 +9,20 @@ const NAV_ITEMS = [
   { path: '/user/activity', icon: 'leaderboard', label: 'Hoạt động cá nhân' },
 ];
 
-export const UserSidebar: React.FC = () => {
+type UserSidebarProps = {
+  isOpen?: boolean;
+  onClose?: () => void;
+};
+
+export const UserSidebar: React.FC<UserSidebarProps> = ({ isOpen = false, onClose }) => {
   const location = useLocation();
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-[260px] border-r border-gray-200 bg-gray-50 flex flex-col overflow-y-auto z-50">
+    <aside
+      className={`fixed left-0 top-0 h-screen w-[260px] border-r border-gray-200 bg-gray-50 flex flex-col overflow-y-auto z-50 transition-transform duration-300 lg:translate-x-0 ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}
+    >
       {/* Unified PitchHub Logo */}
       <div className="px-6 py-6 flex items-center gap-3 border-b border-gray-100">
         <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-sm">
@@ -32,6 +41,7 @@ export const UserSidebar: React.FC = () => {
             <Link
               key={item.path}
               to={item.path}
+              onClick={onClose}
               className={`flex items-center gap-3 px-4 py-3 font-button text-button transition-all no-underline ${
                 isActive
                   ? 'text-primary border-l-4 border-primary bg-white shadow-sm font-semibold'
@@ -50,16 +60,17 @@ export const UserSidebar: React.FC = () => {
       <div className="mt-auto px-sm pb-lg space-y-xs border-t border-gray-100 pt-4 bg-white/50 backdrop-blur-sm">
         <Link 
           to="/booking/availability"
+          onClick={onClose}
           className="w-full bg-primary text-white py-3 rounded-lg font-button flex items-center justify-center gap-2 mb-md shadow-sm active:scale-95 transition-all hover:bg-primary/95 no-underline"
         >
           <span className="material-symbols-outlined text-sm" data-icon="add">add</span>
           Đặt sân nhanh
         </Link>
-        <Link to="/user/profile" className="flex items-center gap-3 px-4 py-3 text-gray-500 border-l-4 border-transparent hover:bg-primary/10 hover:text-primary transition-colors no-underline">
+        <Link to="/user/profile" onClick={onClose} className="flex items-center gap-3 px-4 py-3 text-gray-500 border-l-4 border-transparent hover:bg-primary/10 hover:text-primary transition-colors no-underline">
           <span className="material-symbols-outlined" data-icon="settings">settings</span>
           <span className="font-button text-button">Thiết lập</span>
         </Link>
-        <Link to="/user/support" className="flex items-center gap-3 px-4 py-3 text-gray-500 border-l-4 border-transparent hover:bg-primary/10 hover:text-primary transition-colors no-underline">
+        <Link to="/user/support" onClick={onClose} className="flex items-center gap-3 px-4 py-3 text-gray-500 border-l-4 border-transparent hover:bg-primary/10 hover:text-primary transition-colors no-underline">
           <span className="material-symbols-outlined" data-icon="contact_support">contact_support</span>
           <span className="font-button text-button">Hỗ trợ</span>
         </Link>
