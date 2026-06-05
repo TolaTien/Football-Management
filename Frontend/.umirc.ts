@@ -1,7 +1,6 @@
 import { defineConfig } from '@umijs/max';
 
 export default defineConfig({
-  favicon: '/Logo_PTIT.jpg',
   publicPath: '/',
   hash: true,
   history: { type: 'browser' },
