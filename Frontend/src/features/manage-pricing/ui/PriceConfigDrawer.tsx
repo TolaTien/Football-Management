@@ -2,8 +2,8 @@ import React from 'react';
 import { Modal, Form, Button, TimePicker, InputNumber, Table, Popconfirm, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { syncPriceConfigThunk } from '@/entities/pitch/model/pitchSlice';
-import type { Pitch, PriceRule } from '@/entities/pitch/model/types';
+import { syncPriceConfigThunk, type Pitch, type PriceRule } from '@/entities/pitch';
+
 import type { Dayjs } from 'dayjs';
 
 interface PriceConfigDrawerProps {
@@ -14,16 +14,16 @@ interface PriceConfigDrawerProps {
 export const PriceConfigDrawer: React.FC<PriceConfigDrawerProps> = ({ pitch, onClose }) => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
-  
+
   const { prices } = useAppSelector((state) => state.pitch);
-  
+
   if (!pitch) return null;
 
   const currentPrices = prices.filter(p => p.pitchId === pitch.id);
 
   const handleAddRule = (values: { startTime: Dayjs; endTime: Dayjs; price: number }) => {
     const timeRange = `${values.startTime.format('HH:mm')} - ${values.endTime.format('HH:mm')}`;
-    
+
     const newRule: PriceRule = {
       id: `pr_${Date.now()}`,
       pitchId: pitch.id,
@@ -106,7 +106,7 @@ export const PriceConfigDrawer: React.FC<PriceConfigDrawerProps> = ({ pitch, onC
                 <TimePicker className="w-full h-10 rounded-xl" format="HH:mm" minuteStep={30} />
               </Form.Item>
             </div>
-            
+
             <Form.Item name="price" label={<span className="text-xs font-semibold text-slate-600">Giá tiền (VNĐ / Giờ)</span>} rules={[{ required: true, message: 'Nhập giá tiền!' }]}>
               <InputNumber
                 className="w-full rounded-xl"
@@ -118,10 +118,10 @@ export const PriceConfigDrawer: React.FC<PriceConfigDrawerProps> = ({ pitch, onC
                 step={10000}
               />
             </Form.Item>
-            
-            <Button 
-              type="primary" 
-              htmlType="submit" 
+
+            <Button
+              type="primary"
+              htmlType="submit"
               icon={<PlusOutlined />}
               className="w-full h-11 bg-emerald-600 border-emerald-600 hover:bg-emerald-700 hover:border-emerald-700 rounded-xl font-bold mt-2 shadow-md shadow-emerald-600/10"
             >
@@ -132,10 +132,10 @@ export const PriceConfigDrawer: React.FC<PriceConfigDrawerProps> = ({ pitch, onC
 
         <div>
           <div className="font-bold text-sm text-slate-800 mb-3">📋 Các khung giờ giá đang áp dụng</div>
-          <Table 
-            dataSource={currentPrices} 
-            columns={columns} 
-            rowKey="id" 
+          <Table
+            dataSource={currentPrices}
+            columns={columns}
+            rowKey="id"
             pagination={false}
             className="admin-table border border-slate-100 rounded-xl overflow-hidden shadow-sm"
           />

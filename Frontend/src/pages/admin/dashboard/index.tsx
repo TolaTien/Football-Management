@@ -116,7 +116,7 @@ const AdminDashboard: React.FC = () => {
           <StatCard
             icon={<WalletOutlined />}
             label="Doanh thu thực tế"
-            value={`${(totalRevenue / VIETNAMESE_DONG_TO_MILLION).toFixed(1)}M đ`}
+            value={`${totalRevenue.toLocaleString('vi-VN')} đ`}
             trendLabel="So với tuần trước"
             color="#059669"
             bg="#dcfce7"

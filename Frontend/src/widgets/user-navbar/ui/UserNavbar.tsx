@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from '@umijs/max';
 import { useAppSelector, useAppDispatch } from '@/app/store/hooks';
-import { logout } from '@/entities/user/model/userSlice';
+import { logout } from '@/entities/user';
 import { AuthService } from '@/features/auth/api/authService';
-import { 
+import {
   NotificationItem,
-  fetchNotifications, 
-  markNotificationRead, 
-  markAllNotificationsRead 
+  fetchNotifications,
+  markNotificationRead,
+  markAllNotificationsRead
 } from '@/entities/notification';
 import { getSocket, connectSocket, disconnectSocket } from '@/shared/api/socket';
 import { Badge, Popover, List, Spin, Empty, Avatar, notification } from 'antd';
@@ -52,11 +52,11 @@ export const UserNavbar: React.FC = () => {
       const interval = setInterval(() => {
         dispatch(fetchNotifications(1));
       }, 60000);
-      
+
       // Setup Socket.io
       connectSocket();
       const socket = getSocket();
-      
+
       const handleNewNotification = (data: any) => {
         notification.info({
           message: 'New Notification',
@@ -65,9 +65,9 @@ export const UserNavbar: React.FC = () => {
         });
         dispatch(fetchNotifications(1));
       };
-      
+
       socket.on('newNotification', handleNewNotification);
-      
+
       return () => {
         clearInterval(interval);
         socket.off('newNotification', handleNewNotification);
@@ -90,7 +90,7 @@ export const UserNavbar: React.FC = () => {
       <div className="flex justify-between items-center mb-2 px-2 pt-2">
         <h4 className="font-bold text-gray-800">Thông báo</h4>
         {unreadCount > 0 && (
-          <button 
+          <button
             className="text-xs text-primary hover:underline"
             onClick={() => {
               dispatch(markAllNotificationsRead());
@@ -100,7 +100,7 @@ export const UserNavbar: React.FC = () => {
           </button>
         )}
       </div>
-      
+
       {loadingNotifs ? (
         <div className="flex justify-center p-4"><Spin size="small" /></div>
       ) : notifications.length === 0 ? (
@@ -111,7 +111,7 @@ export const UserNavbar: React.FC = () => {
             itemLayout="horizontal"
             dataSource={sortedNotifications.slice(0, 10)}
             renderItem={(item) => (
-              <List.Item 
+              <List.Item
                 className={`pl-5 pr-3 py-2.5 cursor-pointer hover:bg-gray-50 transition-colors ${!item.isRead ? 'bg-emerald-50/50' : ''}`}
                 onClick={async () => {
                   if (!item.isRead) {
@@ -123,13 +123,13 @@ export const UserNavbar: React.FC = () => {
               >
                 <List.Item.Meta
                   avatar={
-                    <Avatar 
-                      size="small" 
+                    <Avatar
+                      size="small"
                       className={item.isRead ? 'bg-gray-200 text-gray-500' : 'bg-primary text-white'}
                       style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
                     >
-                      <span 
-                        className="material-symbols-outlined flex items-center justify-center" 
+                      <span
+                        className="material-symbols-outlined flex items-center justify-center"
                         style={{ fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', lineHeight: 1 }}
                       >
                         notifications
@@ -144,9 +144,9 @@ export const UserNavbar: React.FC = () => {
           />
         </div>
       )}
-      
+
       <div className="mt-2 pt-2 border-t border-gray-100 text-center pb-1">
-        <button 
+        <button
           className="text-sm text-primary font-medium hover:underline w-full py-1"
           onClick={() => {
             setPopoverOpen(false);
@@ -165,11 +165,11 @@ export const UserNavbar: React.FC = () => {
 
       <div className="flex items-center gap-lg">
         <div className="flex items-center gap-sm">
-          <Popover 
-            content={notificationContent} 
-            trigger="click" 
-            open={popoverOpen} 
-            onOpenChange={setPopoverOpen} 
+          <Popover
+            content={notificationContent}
+            trigger="click"
+            open={popoverOpen}
+            onOpenChange={setPopoverOpen}
             placement="bottomRight"
             styles={{ body: { padding: 0 } }}
           >
@@ -179,9 +179,9 @@ export const UserNavbar: React.FC = () => {
               </Badge>
             </button>
           </Popover>
-          
+
           <div className="h-8 w-px bg-gray-200 mx-2"></div>
-          
+
           {/* User Profile — Click to navigate to Profile page */}
           <div className="flex items-center gap-3 group relative cursor-pointer">
             <div

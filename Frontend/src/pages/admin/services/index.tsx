@@ -3,8 +3,7 @@ import { PageContainer } from '@ant-design/pro-components';
 import { Button, Typography, Form } from 'antd';
 import { PlusOutlined, AppstoreOutlined, DatabaseOutlined, AlertOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { fetchServices, addService, updateStock, deleteService, updateService } from '@/entities/service-item/model/serviceSlice';
-import type { ServiceItem, ServiceType } from '@/entities/service-item/model/types';
+import { fetchServices, addService, updateStock, deleteService, updateService, type ServiceItem, type ServiceType } from '@/entities/service-item';
 
 // FSD Imports
 import { ServicesSummaryStats, ServicesTable } from '@/widgets/admin-services-table';
@@ -54,37 +53,37 @@ const AdminServices: React.FC = () => {
   const outStockCount = services.filter(s => s.status === 'out_of_stock').length;
 
   const summaryItems = [
-    { 
-      icon: <AppstoreOutlined style={{ fontSize: '20px', color: '#0284c7' }} />, 
-      label: 'Tổng sản phẩm', 
-      value: services.length, 
-      color: '#0284c7', 
-      bg: '#f0f9ff', 
-      border: 'border-sky-100' 
+    {
+      icon: <AppstoreOutlined style={{ fontSize: '20px', color: '#0284c7' }} />,
+      label: 'Tổng sản phẩm',
+      value: services.length,
+      color: '#0284c7',
+      bg: '#f0f9ff',
+      border: 'border-sky-100'
     },
-    { 
-      icon: <DatabaseOutlined style={{ fontSize: '20px', color: '#059669' }} />, 
-      label: 'Tổng tồn kho', 
-      value: `${totalItems} đv`, 
-      color: '#059669', 
-      bg: '#f0fdf4', 
-      border: 'border-emerald-100' 
+    {
+      icon: <DatabaseOutlined style={{ fontSize: '20px', color: '#059669' }} />,
+      label: 'Tổng tồn kho',
+      value: `${totalItems} đv`,
+      color: '#059669',
+      bg: '#f0fdf4',
+      border: 'border-emerald-100'
     },
-    { 
-      icon: <AlertOutlined style={{ fontSize: '20px', color: '#d97706' }} />, 
-      label: 'Sắp hết hàng', 
-      value: lowStockCount, 
-      color: '#d97706', 
-      bg: '#fffbeb', 
-      border: 'border-amber-100' 
+    {
+      icon: <AlertOutlined style={{ fontSize: '20px', color: '#d97706' }} />,
+      label: 'Sắp hết hàng',
+      value: lowStockCount,
+      color: '#d97706',
+      bg: '#fffbeb',
+      border: 'border-amber-100'
     },
-    { 
-      icon: <CloseCircleOutlined style={{ fontSize: '20px', color: '#dc2626' }} />, 
-      label: 'Hết hàng', 
-      value: outStockCount, 
-      color: '#dc2626', 
-      bg: '#fff5f5', 
-      border: 'border-rose-100' 
+    {
+      icon: <CloseCircleOutlined style={{ fontSize: '20px', color: '#dc2626' }} />,
+      label: 'Hết hàng',
+      value: outStockCount,
+      color: '#dc2626',
+      bg: '#fff5f5',
+      border: 'border-rose-100'
     },
   ];
 

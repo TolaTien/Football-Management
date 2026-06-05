@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Spin, Empty, message } from 'antd';
 import { Link } from '@umijs/max';
 import { MatchCard, type MatchData, BookingDetailModal } from '@/entities/booking';
-import { MatchmakingCard } from '@/entities/matchmaking-post/ui/MatchmakingCard';
-import { CommentModal } from '@/features/user-matchmaking';
-import { UsersService } from '@/entities/user/api/userService';
-import { postService, type PostItem } from '@/entities/matchmaking-post/api/postService';
+import { MatchmakingCard, postService, type PostItem } from '@/entities/matchmaking-post';
+import { UsersService } from '@/entities/user';
 import { useAppSelector } from '@/app/store/hooks';
+import { CommentModal } from '@/features/user-matchmaking';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
@@ -40,11 +39,11 @@ export const UpcomingMatchesList: React.FC<UpcomingMatchesListProps> = ({ onLoad
       const res = await UsersService.getHistoryBooking(1);
       const bookingList = res.history || [];
       setRawBookings(bookingList);
-      
+
       const mappedMatches = bookingList.slice(0, 4).map((booking: any) => {
         const startDate = dayjs(booking.startTime);
         const isToday = startDate.isSame(dayjs(), 'day');
-        
+
         return {
           id: booking.bookId,
           dateLabel: isToday ? 'HÔM NAY' : startDate.format('ddd, DD'),
@@ -75,7 +74,7 @@ export const UpcomingMatchesList: React.FC<UpcomingMatchesListProps> = ({ onLoad
     try {
       setMatchmakingLoading(true);
       const posts = await postService.getAllPosts();
-      
+
       // Lọc tối đa 2 bài viết đang hoạt động (open)
       const openPosts = posts.filter(p => p.status === 'open').slice(0, 2);
       setMatchmakingPosts(openPosts);
@@ -156,20 +155,20 @@ export const UpcomingMatchesList: React.FC<UpcomingMatchesListProps> = ({ onLoad
         </div>
         <div className="grid grid-cols-1 gap-md">
           {loading ? (
-             <div className="flex justify-center p-8 bg-white rounded-xl border border-gray-100">
-               <Spin size="large" />
-             </div>
+            <div className="flex justify-center p-8 bg-white rounded-xl border border-gray-100">
+              <Spin size="large" />
+            </div>
           ) : matches.length === 0 ? (
-             <div className="bg-white rounded-xl border border-gray-100 p-8 text-center">
-                  <Empty description="Bạn chưa có lịch đặt sân nào" image={Empty.PRESENTED_IMAGE_SIMPLE} />
-             </div>
+            <div className="bg-white rounded-xl border border-gray-100 p-8 text-center">
+              <Empty description="Bạn chưa có lịch đặt sân nào" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            </div>
           ) : (
             matches.map(match => {
               const originalBooking = rawBookings.find(b => b.bookId === match.id);
               return (
-                <MatchCard 
-                  key={match.id} 
-                  data={match} 
+                <MatchCard
+                  key={match.id}
+                  data={match}
                   onViewDetails={() => {
                     setSelectedBooking(originalBooking);
                     setIsDetailModalOpen(true);
@@ -186,7 +185,7 @@ export const UpcomingMatchesList: React.FC<UpcomingMatchesListProps> = ({ onLoad
           <h3 className="font-h2 text-h2 text-primary">Tham gia cáp kèo nhanh</h3>
           <span className="text-xs font-label-caps text-primary bg-primary-container px-2 py-1 rounded">Kèo đấu trực tiếp gần đây</span>
         </div>
-        
+
         {matchmakingLoading ? (
           <div className="flex justify-center p-8 bg-white rounded-xl border border-gray-100">
             <Spin size="small" />
@@ -223,7 +222,7 @@ export const UpcomingMatchesList: React.FC<UpcomingMatchesListProps> = ({ onLoad
       />
 
       {/* Reusable Matchmaking Comment Modal */}
-      <CommentModal 
+      <CommentModal
         isOpen={isCommentOpen}
         onClose={() => setIsCommentOpen(false)}
         postId={activePostId}

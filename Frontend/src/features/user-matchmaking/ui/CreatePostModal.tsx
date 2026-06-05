@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Radio, message } from 'antd';
-import { postService, PostItem } from '@/entities/matchmaking-post/api/postService';
+import { postService, type PostItem } from '@/entities/matchmaking-post';
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -26,7 +26,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
       if (postToEdit) {
         let rawDescription = postToEdit.description || '';
         let initialType: 'opponent' | 'team' = 'opponent';
-        
+
         if (rawDescription.startsWith('[TÌM ĐỐI] ')) {
           initialType = 'opponent';
           rawDescription = rawDescription.replace('[TÌM ĐỐI] ', '');
@@ -87,8 +87,8 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       {/* Backdrop with Glassmorphism */}
-      <div 
-        className="absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" 
+      <div
+        className="absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
@@ -104,7 +104,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               {isEdit ? 'Cập nhật lại thông tin tìm đối thủ hoặc đồng đội' : 'Tìm kiếm đối thủ giao hữu hoặc bổ sung đồng đội cho trận đấu'}
             </p>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 text-gray-500 transition-colors"
           >
@@ -122,15 +122,15 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
               rules={[{ required: true, message: 'Vui lòng chọn loại kèo ghép cặp' }]}
             >
               <Radio.Group className="w-full grid grid-cols-2 gap-4" buttonStyle="outline">
-                <Radio.Button 
-                  value="opponent" 
+                <Radio.Button
+                  value="opponent"
                   className="h-auto py-3.5 px-4 rounded-xl border border-gray-200 hover:border-emerald-500 hover:text-emerald-700 focus-within:ring-2 focus-within:ring-emerald-100 flex items-center justify-center gap-2 font-bold text-sm text-gray-700 transition-all [&.ant-radio-button-wrapper-checked]:border-emerald-600 [&.ant-radio-button-wrapper-checked]:bg-emerald-50 [&.ant-radio-button-wrapper-checked]:text-emerald-950 [&.ant-radio-button-wrapper-checked::before]:hidden"
                 >
                   <span className="material-symbols-outlined text-[20px] text-emerald-600">sports_martial_arts</span>
                   Tìm đối thủ
                 </Radio.Button>
-                <Radio.Button 
-                  value="team" 
+                <Radio.Button
+                  value="team"
                   className="h-auto py-3.5 px-4 rounded-xl border border-gray-200 hover:border-emerald-500 hover:text-emerald-700 focus-within:ring-2 focus-within:ring-emerald-100 flex items-center justify-center gap-2 font-bold text-sm text-gray-700 transition-all [&.ant-radio-button-wrapper-checked]:border-emerald-600 [&.ant-radio-button-wrapper-checked]:bg-emerald-50 [&.ant-radio-button-wrapper-checked]:text-emerald-950 [&.ant-radio-button-wrapper-checked::before]:hidden"
                 >
                   <span className="material-symbols-outlined text-[20px] text-emerald-600">diversity_3</span>

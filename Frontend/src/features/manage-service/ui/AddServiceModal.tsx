@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, Input, Select, InputNumber, Upload, Button } from 'antd';
 import { ShopOutlined, TagsOutlined, AppstoreOutlined, DollarOutlined, InboxOutlined, CheckCircleOutlined, EditOutlined, CoffeeOutlined, SkinOutlined, SmileOutlined, EllipsisOutlined } from '@ant-design/icons';
-import type { ServiceItem, ServiceType } from '@/entities/service-item/model/types';
+import type { ServiceItem, ServiceType } from '@/entities/service-item';
 
 const { Dragger } = Upload;
 
