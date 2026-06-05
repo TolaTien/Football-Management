@@ -30,7 +30,7 @@ Nếu dữ liệu chưa đủ để kết luận nguyên nhân, hãy nói rõ gi
 
 export const POLICY_CONTEXT = `
 Chính sách hiện tại:
-- Khi người dùng đặt sân, hệ thống thu tiền cọc bằng 50% tiền sân.
+- Khi người dùng đặt sân, hệ thống thu tiền cọc bằng 50% tiền sân cộng với 100% chi phí dịch vụ đi kèm.
 - Nếu người dùng hủy sân trước giờ đá hơn 24 giờ và đã đặt cọc, hệ thống chuyển yêu cầu hoàn cọc cho admin xử lý.
 - Nếu người dùng hủy trong vòng 24 giờ trước giờ đá, tiền cọc không được hoàn.
 - Nếu người dùng hỏi bằng tiếng Việt, trả lời bằng tiếng Việt.

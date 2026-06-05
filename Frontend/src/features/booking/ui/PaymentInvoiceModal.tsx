@@ -61,7 +61,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                          120000;
   
   const fullAmount = basePitchPrice + totalServices;
-  const depositAmount = fullAmount * 0.5;
+  const depositAmount = Math.floor(basePitchPrice / 2) + totalServices;
   const activeAmount = payMode === 'deposit' ? depositAmount : fullAmount;
 
   // Handle Payment Submit
@@ -72,6 +72,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
       await BookingService.partialPayment({
         bookingId: booking.bookId,
         amount: activeAmount,
+        paymentMethod,
       });
 
       // Kéo notification từ DB ngay lập tức → chuông cập nhật real-time
@@ -228,7 +229,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
             <div className="flex justify-between items-start border-b border-white/10 pb-4 relative z-10">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-widest text-emerald-300/80">
-                  Hạn mức: {payMode === 'deposit' ? 'ĐẶT CỌC 50% TỔNG ĐƠN' : 'THANH TOÁN TOÀN BỘ'}
+                  Hạn mức: {payMode === 'deposit' ? 'CỌC 50% TIỀN SÂN + DỊCH VỤ' : 'THANH TOÁN TOÀN BỘ'}
                 </span>
                 <h3 className="text-2xl font-black text-amber-300 font-montserrat mt-1">
                   {formatCurrency(activeAmount)}
@@ -255,8 +256,8 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
               {payMode === 'deposit' ? (
                 <>
                   <div className="flex justify-between items-center text-amber-300">
-                    <span>Mức đặt cọc áp dụng (50%):</span>
-                    <span className="font-bold">x50%</span>
+                    <span>Cọc sân 50% + toàn bộ dịch vụ:</span>
+                    <span className="font-bold">Áp dụng</span>
                   </div>
                   <div className="border-t border-white/10 pt-2 flex justify-between items-center font-bold text-amber-300 text-xs">
                     <span>TỔNG CỌC CẦN ĐÓNG:</span>

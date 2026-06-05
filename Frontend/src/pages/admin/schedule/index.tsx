@@ -69,6 +69,7 @@ const AdminScheduleGrid: React.FC = () => {
   const filtered = useMemo(() =>
     bookings.filter((b) =>
       b.date === dateStr &&
+      b.status !== 'rejected' &&
       (filterPitch === 'all' || b.pitchId === filterPitch) &&
       (filterPayment === 'all' || b.paymentStatus === filterPayment)
     ), [bookings, dateStr, filterPitch, filterPayment]);

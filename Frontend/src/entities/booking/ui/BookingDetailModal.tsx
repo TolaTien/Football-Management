@@ -25,8 +25,24 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
     0
   );
   const fullAmount = (booking?.pitchPriceAtBooking || 0) + totalServices;
-  const paidAmount = (booking?.payments || []).reduce((sum: number, p: any) => sum + (p.amount || 0), 0);
-  const computedPaymentStatus = paidAmount >= (fullAmount - 1000) ? 'paid' : booking?.paymentStatus;
+  const payments = booking?.payments || [];
+  const paidAmount = payments.reduce((sum: number, p: any) => sum + (p.amount || 0), 0);
+  const fallbackPaidAmount =
+    booking?.paymentStatus === 'paid'
+      ? fullAmount
+      : booking?.paymentStatus === 'partial'
+        ? booking?.total || 0
+        : 0;
+  const displayPaidAmount = paidAmount || fallbackPaidAmount;
+  const hasBankingPayment = payments.some((p: any) => p.paymentMethod === 'banking');
+  const hasCashPayment = payments.some((p: any) => p.paymentMethod === 'cash');
+  const paidLabel =
+    hasBankingPayment && !hasCashPayment
+      ? 'Đã thanh toán trực tuyến:'
+      : hasCashPayment && !hasBankingPayment
+        ? 'Đã thanh toán tại quầy:'
+        : 'Đã thanh toán:';
+  const computedPaymentStatus = displayPaidAmount >= (fullAmount - 1000) ? 'paid' : booking?.paymentStatus;
 
   const getStatusPill = (status: string) => {
     const s = status?.toLowerCase();
@@ -217,14 +233,14 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
               <span className="font-bold text-slate-800 font-mono">{formatCurrency(fullAmount)}</span>
             </div>
             <div className="flex justify-between items-center text-xs text-emerald-700 font-medium">
-              <span>Đã thanh toán trực tuyến:</span>
-              <span className="font-black font-mono">-{formatCurrency(paidAmount)}</span>
+              <span>{paidLabel}</span>
+              <span className="font-black font-mono">-{formatCurrency(displayPaidAmount)}</span>
             </div>
             
-            {fullAmount - paidAmount > 1000 && (
+            {fullAmount - displayPaidAmount > 1000 && (
               <div className="flex justify-between items-center text-xs text-amber-700 bg-amber-50 px-2.5 py-1.5 rounded-lg border border-amber-100/80 font-medium">
                 <span>Còn lại cần đóng tại quầy:</span>
-                <span className="font-black font-mono text-xs">{formatCurrency(fullAmount - paidAmount)}</span>
+                <span className="font-black font-mono text-xs">{formatCurrency(fullAmount - displayPaidAmount)}</span>
               </div>
             )}
             
@@ -234,7 +250,7 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                 <span className="font-extrabold text-emerald-950 text-xs">Đã cọc giữ chỗ:</span>
               </div>
               <span className="text-base font-black text-emerald-800 font-mono">
-                {formatCurrency(booking.total)}
+                {formatCurrency(displayPaidAmount)}
               </span>
             </div>
           </div>

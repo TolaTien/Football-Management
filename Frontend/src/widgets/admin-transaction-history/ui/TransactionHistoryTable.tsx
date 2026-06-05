@@ -104,7 +104,7 @@ export const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = (
         );
         if (status === 'deposited') return (
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-extrabold text-[10px]">
-            🏦 Đã cọc 50%
+            🏦 Đã cọc sân + DV
           </div>
         );
         if (status === 'refunded') return (

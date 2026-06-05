@@ -66,7 +66,7 @@ const AdminFinance: React.FC = () => {
 
   // Tính doanh thu hủy cọc (50% giá trị đặt sân đối với đơn hủy nhưng đã cọc)
   const cancelledWithDeposit = filteredBookings.filter(
-    (b) => b.status === 'cancelled' && b.paymentStatus === 'deposited'
+    (b) => b.status === 'rejected' && b.paymentStatus === 'deposited'
   );
   const penaltyRevenue = cancelledWithDeposit.reduce((sum, b) => sum + (b.pitchPriceAtBooking ?? 0) / 2, 0);
 
@@ -86,7 +86,7 @@ const AdminFinance: React.FC = () => {
   const tableData = filteredBookings
     .filter((b) => {
       if (statusFilter === 'success') return b.paymentStatus === 'paid';
-      if (statusFilter === 'refunded') return b.status === 'cancelled';
+      if (statusFilter === 'refunded') return b.status === 'rejected';
       return true;
     })
     .map((b) => ({
@@ -102,7 +102,7 @@ const AdminFinance: React.FC = () => {
         ? 'success'
         : b.paymentStatus === 'deposited'
           ? 'deposited'
-          : b.status === 'cancelled'
+          : b.status === 'rejected'
             ? 'refunded'
             : 'pending') as any,
     }));

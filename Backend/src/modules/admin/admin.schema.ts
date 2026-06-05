@@ -19,7 +19,8 @@ export interface GetAllHistoryOfUser {
 
 export interface VerifyPaymentOfUser {
     bookId: string,
-    paymentMethod: payments_paymentMethod
+    paymentMethod: payments_paymentMethod,
+    paymentStatus?: 'partial' | 'paid'
 }
 
 export interface UpdateUserStatus {

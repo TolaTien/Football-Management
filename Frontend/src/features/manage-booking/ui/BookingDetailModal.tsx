@@ -7,7 +7,7 @@ import {
   ReloadOutlined
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
-import type { Booking, PaymentStatus, BookingStatus } from '@/entities/booking/model/types';
+import type { Booking, BookingServiceItem, PaymentStatus, BookingStatus } from '@/entities/booking/model/types';
 
 interface PaymentConfig {
   bg: string;
@@ -15,7 +15,7 @@ interface PaymentConfig {
 }
 
 const PAY_CFG: Record<string, PaymentConfig> = {
-  deposited: { bg: '#3b82f6', label: 'Đã cọc 50%' },
+  deposited: { bg: '#3b82f6', label: 'Đã cọc sân + dịch vụ' },
   paid: { bg: '#10b981', label: 'Đã thanh toán đủ' },
   unpaid: { bg: '#ef4444', label: 'Chưa thanh toán' },
 };
@@ -50,7 +50,8 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
   // Calculate service cost and detailed pricing
   const totalServices = detail
     ? (detail.bookingservices || []).reduce(
-        (acc: number, cur: any) => acc + (cur.servicePriceAtBooking || cur.services?.price || 0) * cur.quantity,
+        (acc: number, cur: BookingServiceItem) =>
+          acc + (cur.servicePriceAtBooking || cur.services?.price || 0) * (cur.quantity || 0),
         0
       )
     : 0;
@@ -58,11 +59,12 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
   const pitchPrice = detail ? (detail.pitchPriceAtBooking || detail.price || 0) : 0;
   const fullAmount = pitchPrice + totalServices;
 
-  // Determine amount already paid
+  // Determine amount already paid from real payment records first.
   const isPaid = detail?.paymentStatus === 'paid';
   const isDeposited = detail?.paymentStatus === 'deposited';
-  const depositAmount = detail?.total || (Math.floor(pitchPrice / 2) + totalServices);
-  const computedPaid = isPaid ? fullAmount : (isDeposited ? depositAmount : 0);
+  const paidFromPayments = (detail?.payments || []).reduce((sum, payment) => sum + (payment.amount || 0), 0);
+  const fallbackDepositAmount = detail?.total || (Math.floor(pitchPrice / 2) + totalServices);
+  const computedPaid = paidFromPayments || (isPaid ? fullAmount : (isDeposited ? fallbackDepositAmount : 0));
   const remainingAmount = Math.max(0, fullAmount - computedPaid);
 
   return (
@@ -140,7 +142,7 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                 <span className="font-mono text-emerald-600">{fullAmount.toLocaleString()}đ</span>
               </div>
               <div className="flex justify-between items-center text-slate-500 pt-1">
-                <span>Đã thanh toán (Cọc):</span>
+                <span>Đã thanh toán:</span>
                 <span className="font-semibold text-blue-600 font-mono">{computedPaid.toLocaleString()}đ</span>
               </div>
               {remainingAmount > 0 ? (

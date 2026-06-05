@@ -31,6 +31,8 @@ export const ScheduleGrid: React.FC<ScheduleGridProps> = ({
     const slotStart = date.set('hour', hours).set('minute', minutes).set('second', 0).set('millisecond', 0);
 
     const booking = pitch.booking.find(b => {
+      if (b.status === 'rejected') return false; // Ignore cancelled/rejected bookings
+      
       const bStart = dayjs(b.startTime);
       const bEnd = dayjs(b.endTime);
       

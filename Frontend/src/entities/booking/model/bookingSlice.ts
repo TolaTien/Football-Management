@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { message } from 'antd';
 import { bookingService } from '../api/bookingService';
 import { extractErrorMessage } from '@/shared/lib/errorUtils';
-import type { Booking, BookingStatus, PaymentStatus } from './types';
+import type { Booking, BookingPayment, BookingServiceItem, BookingStatus, PaymentStatus } from './types';
 
 const formatLocalDate = (dateStr: string): string => {
   const d = new Date(dateStr);
@@ -44,30 +44,49 @@ interface BackendBooking {
   users?: { fullName?: string; phone?: string; avt?: string, email?: string };
   pitch?: { namePitch?: string };
   cancelrequests?: Array<{ content?: string }>;
+  payments?: BookingPayment[];
+  bookingservices?: BookingServiceItem[];
 }
+
+const calcServicesTotal = (services: BookingServiceItem[] = []): number =>
+  services.reduce(
+    (sum, item) =>
+      sum + (item.servicePriceAtBooking ?? item.services?.price ?? 0) * (item.quantity ?? 0),
+    0
+  );
 
 const mapBackendBooking = (
   b: BackendBooking,
   pitchOverride?: { namePitch?: string }
-): Booking => ({
-  id: b.bookId,
-  userName: b.users?.fullName ?? `Khách (${b.phone ?? 'Vãng lai'})`,
-  phone: b.phone ?? b.users?.phone ?? '',
-  pitchId: b.pitchId,
-  pitchName: pitchOverride?.namePitch ?? b.pitch?.namePitch ?? `Sân ${b.pitchId}`,
-  date: formatLocalDate(b.startTime ?? new Date().toISOString()),
-  startTime: formatLocalTime(b.startTime ?? new Date().toISOString()),
-  endTime: formatLocalTime(b.endTime ?? new Date().toISOString()),
-  status: mapBookingStatus(b.status),
-  paymentStatus: mapPaymentStatus(b.paymentStatus),
-  price: b.total ?? b.pitchPriceAtBooking ?? 0,
-  note: b.cancelrequests?.[0]?.content ?? '',
-  source: b.userId ? 'app' : 'phone',
-  pitchPriceAtBooking: b.pitchPriceAtBooking,
-  total: b.total,
-  avt: b.users?.avt,
-  email: b.users?.email,
-});
+): Booking => {
+  const totalServices = calcServicesTotal(b.bookingservices);
+  const invoiceTotal =
+    b.pitchPriceAtBooking !== undefined
+      ? b.pitchPriceAtBooking + totalServices
+      : b.total ?? 0;
+
+  return {
+    id: b.bookId,
+    userName: b.users?.fullName ?? `Khách (${b.phone ?? 'Vãng lai'})`,
+    phone: b.phone ?? b.users?.phone ?? '',
+    pitchId: b.pitchId,
+    pitchName: pitchOverride?.namePitch ?? b.pitch?.namePitch ?? `Sân ${b.pitchId}`,
+    date: formatLocalDate(b.startTime ?? new Date().toISOString()),
+    startTime: formatLocalTime(b.startTime ?? new Date().toISOString()),
+    endTime: formatLocalTime(b.endTime ?? new Date().toISOString()),
+    status: mapBookingStatus(b.status),
+    paymentStatus: mapPaymentStatus(b.paymentStatus),
+    price: invoiceTotal,
+    note: b.cancelrequests?.[0]?.content ?? '',
+    source: b.userId ? 'app' : 'phone',
+    pitchPriceAtBooking: b.pitchPriceAtBooking,
+    total: b.total,
+    payments: b.payments ?? [],
+    bookingservices: b.bookingservices ?? [],
+    avt: b.users?.avt,
+    email: b.users?.email,
+  };
+};
 
 export const fetchAllBookings = createAsyncThunk(
   'booking/fetchAllBookings',
@@ -135,7 +154,8 @@ export const updatePaymentStatus = createAsyncThunk(
   ) => {
     try {
       const method = paymentStatus === 'paid' ? 'banking' : 'cash';
-      await bookingService.verifyPayment(id, method);
+      const backendPaymentStatus = paymentStatus === 'deposited' ? 'partial' : 'paid';
+      await bookingService.verifyPayment(id, method, backendPaymentStatus);
       message.success('Cập nhật trạng thái thanh toán thành công!');
       dispatch(fetchAllBookings());
     } catch (error: unknown) {

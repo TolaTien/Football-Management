@@ -13,6 +13,7 @@ export interface BookPitchPayload {
 export interface PaymentPayload {
   bookingId: string;
   amount: number;
+  paymentMethod: 'banking' | 'cash';
 }
 
 // Admin-facing service (lowercase)
@@ -29,8 +30,12 @@ export const bookingService = {
   cancel: (bookId: string) =>
     axiosInstance.post('/admin/cancel-booking-admin', { bookId }),
 
-  verifyPayment: (bookId: string, paymentMethod: 'banking' | 'cash') =>
-    axiosInstance.post('/admin/verify-payment-user', { bookId, paymentMethod }),
+  verifyPayment: (
+    bookId: string,
+    paymentMethod: 'banking' | 'cash',
+    paymentStatus: 'partial' | 'paid'
+  ) =>
+    axiosInstance.post('/admin/verify-payment-user', { bookId, paymentMethod, paymentStatus }),
 
   createAdminBooking: (dto: CreateBookingDto) =>
     axiosInstance.post('/booking/booking-booking-admin', dto),

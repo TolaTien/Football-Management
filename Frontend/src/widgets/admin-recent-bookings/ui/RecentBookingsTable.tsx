@@ -118,7 +118,7 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
             key: 'paymentStatus',
             render: (paymentStatus: string) => {
                 if (paymentStatus === 'paid') return <Tag className="m-0 bg-emerald-100 text-emerald-800 border-none rounded-lg font-bold px-2 py-0.5 text-[11px]">🟢 Đủ 100%</Tag>;
-                if (paymentStatus === 'deposited') return <Tag className="m-0 bg-blue-100 text-blue-800 border-none rounded-lg font-bold px-2 py-0.5 text-[11px]">🔵 Cọc 50%</Tag>;
+                if (paymentStatus === 'deposited') return <Tag className="m-0 bg-blue-100 text-blue-800 border-none rounded-lg font-bold px-2 py-0.5 text-[11px]">🔵 Cọc sân + DV</Tag>;
                 return <Tag className="m-0 bg-rose-100 text-rose-850 border-none rounded-lg font-bold px-2 py-0.5 text-[11px]">🔴 Chưa TT</Tag>;
             },
         },
@@ -131,7 +131,7 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
                     {record.status === 'approved' && (
                         <>
                             {record.paymentStatus === 'unpaid' && (
-                                <Tooltip title="Xác nhận đóng cọc 50%">
+                                <Tooltip title="Xác nhận đóng cọc 50% tiền sân + toàn bộ dịch vụ">
                                     <Button
                                         size="small"
                                         type="primary"
@@ -139,12 +139,12 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
                                         icon={<CreditCardOutlined />}
                                         onClick={() => handleUpdatePayment(record.id, 'deposited')}
                                     >
-                                        Cọc 50%
+                                        Cọc sân + DV
                                     </Button>
                                 </Tooltip>
                             )}
                             {record.paymentStatus === 'deposited' && (
-                                <Tooltip title="Xác nhận đóng nốt 50% còn lại">
+                                <Tooltip title="Xác nhận đóng nốt 50% tiền sân còn lại">
                                     <Button
                                         size="small"
                                         type="primary"

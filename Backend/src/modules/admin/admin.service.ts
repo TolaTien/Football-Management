@@ -196,44 +196,69 @@ export class AdminService {
     };
 
     static async verifyPaymentOfUser(dto: VerifyPaymentOfUser) {
-        const booking = await prisma.booking.findUnique({ where: { bookId: dto.bookId } });
+        const booking = await prisma.booking.findUnique({
+            where: { bookId: dto.bookId },
+            include: {
+                payments: true,
+                bookingservices: true
+            }
+        });
         if (!booking) throw new ApiError(400, "Không tìm thấy đơn đặt sân");
 
         const update = await prisma.$transaction(async (tx) => {
+            const pitchPrice = booking.pitchPriceAtBooking ?? 0;
+            const serviceTotal = booking.bookingservices.reduce(
+                (sum, item) => sum + (item.servicePriceAtBooking ?? 0) * (item.quantity ?? 0),
+                0
+            );
+            const fullAmount = pitchPrice + serviceTotal;
+            const depositAmount = Math.floor(pitchPrice / 2) + serviceTotal;
+            const paidAmount = booking.payments
+                .filter((payment) => payment.type !== 'refund')
+                .reduce((sum, payment) => sum + (payment.amount ?? 0), 0);
+            const targetStatus = dto.paymentStatus ?? 'paid';
+            const targetAmount = targetStatus === 'partial' ? depositAmount : fullAmount;
+            const amountToCollect = Math.max(0, targetAmount - paidAmount);
 
-            const newPayment = await tx.payments.create({
-                data: {
-                    id: uuidv4(),
-                    bookingId: booking.bookId,
-                    type: 'deposit',
-                    amount: (booking.pitchPriceAtBooking ?? 0) / 2,
-                    paymentMethod: dto.paymentMethod
-                }
-            });
+            if (amountToCollect > 0) {
+                await tx.payments.create({
+                    data: {
+                        id: uuidv4(),
+                        bookingId: booking.bookId,
+                        type: 'deposit',
+                        amount: amountToCollect,
+                        paymentMethod: dto.paymentMethod
+                    }
+                });
+            }
 
             const updateBooking = await tx.booking.update({
                 where: { bookId: booking.bookId },
                 data: {
-                    paymentStatus: 'paid',
-                    total: (booking.total ?? 0) + ((booking.pitchPriceAtBooking ?? 0) / 2)
+                    paymentStatus: targetStatus,
+                    total: targetAmount
                 },
                 include: {
-                    bookingservices: true,
+                    bookingservices: {
+                        include: { services: true }
+                    },
                     payments: true
                 }
             });
 
-            for (const items of updateBooking.bookingservices) {
-                if (items.quantity && items.serviceId) {
-                    const item = await tx.services.findUnique({ where: { serviceId: items.serviceId } });
-                    if (item) {
-                        await tx.services.update({
-                            where: { serviceId: item.serviceId },
-                            data: { returned: (item.returned ?? 0) + items.quantity }
-                        });
+            if (targetStatus === 'paid') {
+                for (const items of updateBooking.bookingservices) {
+                    if (items.quantity && items.serviceId) {
+                        const item = await tx.services.findUnique({ where: { serviceId: items.serviceId } });
+                        if (item) {
+                            await tx.services.update({
+                                where: { serviceId: item.serviceId },
+                                data: { returned: (item.returned ?? 0) + items.quantity }
+                            });
+                        }
                     }
-                }
-            };
+                };
+            }
 
             return updateBooking;
         });
