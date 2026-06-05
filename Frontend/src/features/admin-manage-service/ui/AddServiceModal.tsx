@@ -70,13 +70,9 @@ export const AddServiceModal: React.FC<AddServiceModalProps> = ({
                 </span>
               }
               rules={[{ required: true, message: 'Chọn loại' }]}
-              initialValue="drink"
+              initialValue="equipment"
             >
               <Select size="large" className="rounded-xl w-full" options={[
-                {
-                  value: 'drink',
-                  label: <span className="flex items-center gap-2"><CoffeeOutlined className="text-emerald-650" /> Đồ uống</span>
-                },
                 {
                   value: 'equipment',
                   label: <span className="flex items-center gap-2"><SkinOutlined className="text-emerald-650" /> Trang thiết bị</span>

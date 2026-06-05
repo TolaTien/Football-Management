@@ -13,13 +13,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(relativeTime);
 
-const MOCK_SPENDERS = [
-  { rank: 1, userId: 'm1', fullName: 'Leo Messi', avt: 'https://ui-avatars.com/api/?name=Leo+Messi&background=f59e0b&color=fff', bookingCount: 48, totalSpent: 2400000 },
-  { rank: 2, userId: 'm2', fullName: 'Cristiano Ronaldo', avt: 'https://ui-avatars.com/api/?name=Cristiano+Ronaldo&background=3b82f6&color=fff', bookingCount: 42, totalSpent: 2100000 },
-  { rank: 3, userId: 'm3', fullName: 'Neymar Jr', avt: 'https://ui-avatars.com/api/?name=Neymar+Jr&background=10b981&color=fff', bookingCount: 35, totalSpent: 1750000 },
-  { rank: 4, userId: 'm4', fullName: 'Kylian Mbappé', avt: 'https://ui-avatars.com/api/?name=Kylian+Mbappe&background=ec4899&color=fff', bookingCount: 29, totalSpent: 1450000 },
-  { rank: 5, userId: 'm5', fullName: 'Luka Modrić', avt: 'https://ui-avatars.com/api/?name=Luka+Modric&background=8b5cf6&color=fff', bookingCount: 24, totalSpent: 1200000 }
-];
 
 export const DashboardStatsPanel: React.FC = () => {
   const navigate = useNavigate();
@@ -65,11 +58,11 @@ export const DashboardStatsPanel: React.FC = () => {
       if (Array.isArray(data) && data.length > 0) {
         setSpenders(data);
       } else {
-        setSpenders(MOCK_SPENDERS); // mock data nếu chưa có data
+        setSpenders([]); // mock data nếu chưa có data
       }
     } catch (error) {
       console.error('Failed to fetch leaderboard:', error);
-      setSpenders(MOCK_SPENDERS);
+      setSpenders([]);
     } finally {
       setSpendersLoading(false);
     }

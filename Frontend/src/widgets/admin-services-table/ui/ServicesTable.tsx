@@ -13,7 +13,6 @@ interface ServicesTableProps {
 }
 
 const TYPE_CONFIG: Record<string, { label: string; icon: React.ReactNode; bg: string; text: string; badgeBg: string }> = {
-  drink: { label: 'Đồ uống', icon: <CoffeeOutlined />, bg: 'bg-sky-50 text-sky-600', text: 'text-sky-700', badgeBg: 'bg-sky-100' },
   equipment: { label: 'Trang bị', icon: <SkinOutlined />, bg: 'bg-emerald-50 text-emerald-600', text: 'text-emerald-700', badgeBg: 'bg-emerald-100' },
   other: { label: 'Khác', icon: <EllipsisOutlined />, bg: 'bg-slate-50 text-slate-600', text: 'text-slate-700', badgeBg: 'bg-slate-100' },
 };

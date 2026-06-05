@@ -207,8 +207,8 @@ export const BookingDetailModal: React.FC<BookingDetailModalProps> = ({
                   <div className="space-y-1.5 max-h-[75px] overflow-y-auto pr-1">
                     {booking.bookingservices.map((item: any, i: number) => (
                       <div key={i} className="flex justify-between items-center text-[11px] py-0.5">
-                        <span className="font-bold text-gray-700 truncate max-w-[100px]" title={item.services?.nameProduct}>
-                          {item.services?.nameProduct || 'Dịch vụ'}
+                        <span className="font-bold text-gray-700 truncate max-w-[100px]" title={(item.services?.nameProduct || 'Dịch vụ').replace(/^(?:\[?(?:drink|equipment|food|other)\]?|equipment|drink|food|other)\s*-?\s*/i, '')}>
+                          {(item.services?.nameProduct || 'Dịch vụ').replace(/^(?:\[?(?:drink|equipment|food|other)\]?|equipment|drink|food|other)\s*-?\s*/i, '')}
                         </span>
                         <span className="text-gray-400 font-mono">x{item.quantity || 1}</span>
                         <span className="font-bold text-emerald-800 font-mono">

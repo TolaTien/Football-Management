@@ -195,7 +195,7 @@ export const QuickConfirmModal: React.FC<QuickConfirmModalProps> = ({
                           }}
                         />
                         <div>
-                          <p className="text-sm font-bold text-emerald-900">{service.nameProduct}</p>
+                          <p className="text-sm font-bold text-emerald-900">{(service.nameProduct || '').replace(/^(?:\[?(?:drink|equipment|food|other)\]?|equipment|drink|food|other)\s*-?\s*/i, '')}</p>
                           <p className="text-xs text-secondary">{service.price.toLocaleString()} VNĐ</p>
                         </div>
                       </div>

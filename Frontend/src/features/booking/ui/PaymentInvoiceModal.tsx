@@ -210,7 +210,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                     return (
                       <div key={idx} className="flex justify-between items-center py-2.5 text-xs first:pt-0 last:pb-0">
                         <span className="text-slate-600 font-medium">
-                          {(svc.nameProduct || 'Dịch vụ').replace(/^\[(?:drink|equipment|food|other)\]\s*/, '')} <strong className="text-emerald-800 font-extrabold ml-1 bg-emerald-50 border border-emerald-100/30 px-1.5 py-0.5 rounded-md">x{bs.quantity}</strong>
+                          {(svc.nameProduct || 'Dịch vụ').replace(/^(?:\[?(?:drink|equipment|food|other)\]?|equipment|drink|food|other)\s*-?\s*/i, '')} <strong className="text-emerald-800 font-extrabold ml-1 bg-emerald-50 border border-emerald-100/30 px-1.5 py-0.5 rounded-md">x{bs.quantity}</strong>
                         </span>
                         <span className="font-bold text-slate-800">
                           {formatCurrency((bs.servicePriceAtBooking || svc.price) * bs.quantity)}
