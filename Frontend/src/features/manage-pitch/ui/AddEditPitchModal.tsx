@@ -111,15 +111,24 @@ export const AddEditPitchModal: React.FC<AddEditPitchModalProps> = ({
             </Form.Item>
 
             <Form.Item
-              name="desc"
+              name="address"
               label={
                 <span className="font-semibold text-slate-700 text-xs flex items-center gap-1.5">
-                  <FileTextOutlined className="text-emerald-600" /> Mô tả ngắn
+                  <EnvironmentOutlined className="text-emerald-600" /> Chọn địa điểm
                 </span>
               }
             >
-              <Input.TextArea rows={2} placeholder="Sân cỏ nhân tạo cao cấp, đầy đủ tiện nghi..." className="rounded-xl border-slate-300 focus:border-emerald-500" />
+              <Select
+                placeholder="Chọn địa điểm"
+                size="large"
+                className="rounded-xl border-slate-300 focus:border-emerald-500"
+              >
+                <Select.Option value="Hà Nội">Hà Nội</Select.Option>
+                <Select.Option value="Đà Nẵng">Đà Nẵng</Select.Option>
+                <Select.Option value="Hồ Chí Minh">Hồ Chí Minh</Select.Option>
+              </Select>
             </Form.Item>
+
 
             <div className="mt-2 pt-5 border-t border-slate-100 flex justify-end gap-3">
               <Button size="large" onClick={onCancel}

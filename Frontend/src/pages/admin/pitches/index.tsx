@@ -42,18 +42,18 @@ const AdminPitchesList: React.FC = () => {
     form.setFieldsValue({
       name: pitch.name,
       type: pitch.type.includes('5') ? '5' : pitch.type.includes('7') ? '7' : '11',
-      desc: pitch.desc,
+      address: pitch.address || 'Hà Nội',
       price: MOCK_PRICE,
       status: pitch.status,
     });
     setIsModalOpen(true);
   };
 
-  const handleFormSubmit = (values: { name: string; type: string; desc?: string; price?: number; status: 'active' | 'maintenance' }) => {
+  const handleFormSubmit = (values: { name: string; type: string; address?: string; price?: number; status: 'active' | 'maintenance' }) => {
     const pitchData = {
       name: values.name,
       type: `Sân ${values.type} người`,
-      desc: values.desc || '',
+      address: values.address || 'Hà Nội',
       status: values.status,
       grassHealth: values.status === 'maintenance' ? 45 : 94,
       grassStatus: values.status === 'maintenance' ? 'Cần chăm sóc' : 'Tốt',
@@ -90,11 +90,11 @@ const AdminPitchesList: React.FC = () => {
           </div>
         ),
         extra: [
-          <Button 
-            key="add" 
-            type="primary" 
-            icon={<PlusOutlined />} 
-            className="h-10 px-5 font-bold rounded-xl bg-[#006644] border-[#006644] hover:bg-[#005533] hover:border-[#005533] shadow-md shadow-emerald-900/10 flex items-center gap-1" 
+          <Button
+            key="add"
+            type="primary"
+            icon={<PlusOutlined />}
+            className="h-10 px-5 font-bold rounded-xl bg-[#006644] border-[#006644] hover:bg-[#005533] hover:border-[#005533] shadow-md shadow-emerald-900/10 flex items-center gap-1"
             onClick={handleOpenAdd}
           >
             Thêm sân mới

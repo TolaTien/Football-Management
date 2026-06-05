@@ -111,7 +111,7 @@ const AdminFinance: React.FC = () => {
     {
       icon: <WalletOutlined />,
       label: 'Tổng doanh thu',
-      value: `${((revenue?.totalRevenue ?? 0) / VIETNAMESE_DONG_TO_MILLION).toFixed(1)}M đ`, // Lấy trực tiếp từ Database
+      value: `${(revenue?.totalRevenue ?? 0).toLocaleString('vi-VN')} đ`, // Lấy trực tiếp từ Database
       trend: `${revenue?.rate ?? 0}%`,
       color: '#059669',
       bg: '#dcfce7',

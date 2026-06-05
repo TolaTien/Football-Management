@@ -32,14 +32,16 @@ export const ScheduleFilterCard: React.FC<ScheduleFilterCardProps> = ({
             />
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Lọc sân</span>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Lọc địa điểm</span>
             <Select
               value={filterPitch}
               onChange={setFilterPitch}
               className="w-44 h-10 rounded-xl"
               options={[
-                { value: 'all', label: 'Tất cả các sân' },
-                ...pitches.map(p => ({ value: p.id, label: p.name }))
+                { value: 'all', label: 'Tất cả địa điểm' },
+                { value: 'Hà Nội', label: 'Hà Nội' },
+                { value: 'Đà Nẵng', label: 'Đà Nẵng' },
+                { value: 'Hồ Chí Minh', label: 'Hồ Chí Minh' }
               ]}
             />
           </div>
