@@ -174,7 +174,7 @@ export const UserNavbar: React.FC<UserNavbarProps> = ({ onMenuClick }) => {
         <span className="material-symbols-outlined">menu</span>
       </button>
 
-      <div className="flex items-center gap-3 sm:gap-lg">
+      <div className="ml-auto flex items-center gap-3 sm:gap-lg">
         <div className="flex items-center gap-2 sm:gap-sm">
           <Popover
             content={notificationContent}

@@ -184,6 +184,7 @@ const AdminCustomers: React.FC = () => {
           <Table
             columns={columns}
             dataSource={filteredUsers}
+            scroll={{ x: 860 }}
             rowKey="id"
             pagination={{ pageSize: 5, className: 'px-2 py-3' }}
             className="admin-table border-none"

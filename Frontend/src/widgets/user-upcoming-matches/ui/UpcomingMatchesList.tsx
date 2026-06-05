@@ -49,7 +49,6 @@ export const UpcomingMatchesList: React.FC<UpcomingMatchesListProps> = ({ onLoad
           dateLabel: isToday ? 'HÔM NAY' : startDate.format('ddd, DD'),
           time: startDate.format('HH:mm'),
           team1Logo: user?.avt || `https://ui-avatars.com/api/?name=${user?.fullName || 'U'}&background=10b981&color=fff`,
-          team2Logo: 'https://ui-avatars.com/api/?name=Opponent&background=f3f4f6&color=6b7280', // Dummy opponent
           title: `Đơn đặt: ${booking.pitch?.namePitch || 'Sân chưa rõ'}`,
           location: booking.pitch?.namePitch || 'Sân chưa rõ',
           pitchType: booking.pitch?.pitchCategory ? `Sân ${booking.pitch.pitchCategory} người` : 'Chưa rõ',

@@ -185,6 +185,11 @@ const userSlice = createSlice({
     setCurrentUser: (state, action: PayloadAction<UserInfo | null>) => {
       state.currentUser = action.payload;
       state.isInitialized = true;
+      if (action.payload) {
+        localStorage.setItem('pitchhub_user', JSON.stringify(action.payload));
+      } else {
+        localStorage.removeItem('pitchhub_user');
+      }
     },
     logout: (state) => {
       state.currentUser = null;
@@ -215,6 +220,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.currentUser = action.payload;
         state.isInitialized = true;
+        localStorage.setItem('pitchhub_user', JSON.stringify(action.payload));
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.loading = false;

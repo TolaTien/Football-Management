@@ -196,6 +196,7 @@ export const RecentBookingsTable: React.FC<RecentBookingsTableProps> = ({ bookin
                 <Table
                     columns={columns}
                     dataSource={bookings}
+                    scroll={{ x: 950 }}
                     pagination={{ pageSize: 5, size: 'small' }}
                     rowKey="id"
                     className="admin-table rounded-none"

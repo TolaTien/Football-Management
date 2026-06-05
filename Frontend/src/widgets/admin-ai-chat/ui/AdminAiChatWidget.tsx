@@ -44,7 +44,7 @@ const AdminAiChatWidget: React.FC = () => {
 
             {/* Chat Panel */}
             {isOpen && (
-                <div className="fixed bottom-6 right-6 z-[1000] w-[400px] h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
+                <div className="fixed inset-x-4 bottom-4 top-20 z-[1000] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 sm:inset-auto sm:bottom-6 sm:right-6 sm:top-auto sm:w-[400px] sm:h-[600px]">
                     {/* Header */}
                     <div className="py-3.5 px-4 bg-emerald-650 flex items-center gap-2.5">
                         {activeId && (

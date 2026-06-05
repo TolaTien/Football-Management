@@ -182,6 +182,7 @@ export const ServicesTable: React.FC<ServicesTableProps> = ({
     <Table
       columns={columns}
       dataSource={services}
+      scroll={{ x: 760 }}
       rowKey="id"
       pagination={{ pageSize: 8, size: 'small', className: 'px-6 py-3 border-t border-slate-100' }}
       className="admin-table border-none"

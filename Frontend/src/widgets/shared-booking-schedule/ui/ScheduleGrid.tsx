@@ -20,6 +20,9 @@ export const ScheduleGrid: React.FC<ScheduleGridProps> = ({
 }) => {
   const weekDays = Array.from({ length: 7 }).map((_, i) => dayjs().add(i, 'day'));
   const safePitches = Array.isArray(pitches) ? pitches : [];
+  const getPitchTypeLabel = (pitch: PitchItem) => {
+    return pitch.pitchCategory ? `Sân ${pitch.pitchCategory} người` : 'Loại sân chưa cập nhật';
+  };
 
   const getBookingForSlot = (pitch: PitchItem, slot: string, date: dayjs.Dayjs) => {
     if (!pitch || !pitch.booking || !Array.isArray(pitch.booking) || pitch.booking.length === 0) return null;
@@ -90,7 +93,7 @@ export const ScheduleGrid: React.FC<ScheduleGridProps> = ({
               <PitchHeaderCell 
                 key={pitch.pitchId} 
                 name={pitch.namePitch} 
-                type={`${pitch.pitchCategory}-A-SIDE`} 
+                type={getPitchTypeLabel(pitch)} 
                 isLast={idx === safePitches.length - 1} 
               />
             ))

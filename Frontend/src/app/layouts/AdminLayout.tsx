@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, Link, useLocation, history } from '@umijs/max';
-import { ConfigProvider, notification, Popover, Badge, List } from 'antd';
+import { ConfigProvider, notification, Popover, Badge, List, Spin } from 'antd';
 import viVN from 'antd/locale/vi_VN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi';
 import { AdminAiChatWidget } from '@/widgets/admin-ai-chat';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { fetchAllBookings } from '@/entities/booking/model/bookingSlice';
+import { fetchCurrentUser, logout as logoutUser } from '@/entities/user';
 
 dayjs.locale('vi');
 
@@ -23,32 +24,27 @@ const ADMIN_NAV_ITEMS = [
 const AdminLayout: React.FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const [admin, setAdmin] = useState<{ email: string; role: string } | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { bookings } = useAppSelector((state) => state.booking);
+  const { currentUser, isInitialized } = useAppSelector((state) => state.user);
   const [initialLoaded, setInitialLoaded] = useState(false);
   const [knownBookingIds, setKnownBookingIds] = useState<Set<string>>(new Set());
 
   // 1. Kiểm tra xác thực admin
   useEffect(() => {
-    const adminStr = localStorage.getItem('pitchhub_user');
-    if (!adminStr) {
-      history.push('/auth/login');
-      return;
+    if (!isInitialized) {
+      dispatch(fetchCurrentUser());
     }
+  }, [dispatch, isInitialized]);
 
-    try {
-      const parsed = JSON.parse(adminStr);
-      if (parsed.role !== 'admin') {
-        history.push('/auth/login');
-        return;
-      }
-      setAdmin(parsed);
-    } catch (e) {
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    if (!currentUser || currentUser.role !== 'admin') {
       history.push('/auth/login');
     }
-  }, [location.pathname]);
+  }, [currentUser, isInitialized, location.pathname]);
 
   useEffect(() => {
     setSidebarOpen(false);
@@ -56,14 +52,14 @@ const AdminLayout: React.FC = () => {
 
   // 2. Fetch danh sách đặt sân ban đầu và định kỳ 10 giây một lần (Real-time polling)
   useEffect(() => {
-    if (admin) {
+    if (currentUser?.role === 'admin') {
       dispatch(fetchAllBookings());
       const interval = setInterval(() => {
         dispatch(fetchAllBookings());
       }, 10000);
       return () => clearInterval(interval);
     }
-  }, [dispatch, admin]);
+  }, [dispatch, currentUser?.role]);
 
   // 3. Lắng nghe và hiển thị thông báo Notification khi có đơn đặt sân mới xuất hiện
   useEffect(() => {
@@ -104,15 +100,25 @@ const AdminLayout: React.FC = () => {
   }, [bookings, initialLoaded, knownBookingIds]);
 
   const handleLogout = () => {
-    localStorage.removeItem('pitchhub_user');
+    dispatch(logoutUser());
     history.push('/auth/login');
   };
 
-  if (!admin) {
+  if (!isInitialized) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50">
+        <Spin size="large" tip="Đang tải thông tin quản trị viên..." />
+      </div>
+    );
+  }
+
+  if (!currentUser || currentUser.role !== 'admin') {
     return null;
   }
 
-  const avatarChar = admin.email.charAt(0).toUpperCase();
+  const admin = currentUser;
+  const displayName = admin.fullName || admin.email.split('@')[0];
+  const avatarUrl = admin.avt || `https://api.dicebear.com/7.x/avataaars/svg?seed=${admin.email || displayName}`;
   const pendingBookings = bookings.filter(b => b.status === 'pending');
 
   // Nội dung Popover thông báo khi click vào Quả chuông
@@ -157,7 +163,7 @@ const AdminLayout: React.FC = () => {
         }
       }}
     >
-      <div className="min-h-screen bg-slate-50 flex overflow-x-hidden">
+      <div className="min-h-screen bg-slate-50 flex">
         {sidebarOpen && (
           <button
             type="button"
@@ -207,12 +213,14 @@ const AdminLayout: React.FC = () => {
           <div className="mt-auto p-4 border-t border-gray-100">
             <div className="bg-gray-50 rounded-xl p-3 flex items-center justify-between border border-gray-100">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-white font-bold text-sm shadow-sm">
-                  {avatarChar}
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-gray-900">{admin.email.split('@')[0]}</p>
-                  <p className="text-xs text-gray-500">Quản trị viên</p>
+                <img
+                  src={avatarUrl}
+                  alt={displayName}
+                  className="w-10 h-10 rounded-full object-cover bg-emerald-100 shadow-sm border border-white"
+                />
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-gray-900 truncate">{displayName}</p>
+                  <p className="text-xs text-gray-500 truncate">{admin.email}</p>
                 </div>
               </div>
               <button
@@ -249,7 +257,6 @@ const AdminLayout: React.FC = () => {
           </div>
 
           <div className="flex flex-shrink-0 items-center gap-3 sm:gap-5">
-            {/* Quả chuông thông báo */}
             <Popover
               content={notificationContent}
               trigger="click"
@@ -264,15 +271,17 @@ const AdminLayout: React.FC = () => {
             </Popover>
 
             {/* Avatar Admin */}
-            <div className="w-8 h-8 rounded-full bg-[#dbeafe] text-[#1d4ed8] font-bold text-xs flex items-center justify-center shadow-sm select-none border border-[#bfdbfe]">
-              {avatarChar}
-            </div>
+            <img
+              src={avatarUrl}
+              alt={displayName}
+              className="w-8 h-8 rounded-full object-cover bg-[#dbeafe] shadow-sm select-none border border-[#bfdbfe]"
+            />
           </div>
         </header>
 
         {/* Main Content Area */}
-        <main className="pt-16 flex-1 min-h-screen lg:ml-[260px]">
-          <div className="p-4 sm:p-6 lg:p-8">
+        <main className="w-full min-w-0 pt-16 flex-1 min-h-screen lg:ml-[260px]">
+          <div className="w-full min-w-0 max-w-full p-4 sm:p-6 lg:p-8">
             <Outlet />
           </div>
         </main>

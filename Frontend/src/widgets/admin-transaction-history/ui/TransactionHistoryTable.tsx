@@ -158,6 +158,7 @@ export const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = (
       <Table
         columns={columns}
         dataSource={data}
+        scroll={{ x: 900 }}
         rowKey="id"
         pagination={{ pageSize: 5, size: 'small', className: 'px-6 py-3' }}
         className="admin-table border-none"

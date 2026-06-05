@@ -5,7 +5,6 @@ export interface MatchData {
   dateLabel: string;
   time: string;
   team1Logo: string;
-  team2Logo: string;
   title: string;
   location: string;
   pitchType: string;
@@ -29,9 +28,8 @@ export const MatchCard: React.FC<MatchCardProps> = ({ data, onViewDetails }) => 
         </div>
         
         <div className="flex items-center gap-md">
-          <div className="flex -space-x-3">
+          <div className="flex">
             <img className="w-12 h-12 rounded-full border-2 border-white object-cover bg-gray-200" src={data.team1Logo} alt="Team 1" />
-            <img className="w-12 h-12 rounded-full border-2 border-white object-cover bg-gray-200" src={data.team2Logo} alt="Team 2" />
           </div>
           <div>
             <h4 className="font-h3 text-h3">{data.title}</h4>

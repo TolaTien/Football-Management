@@ -130,7 +130,7 @@ const AdminScheduleGrid: React.FC = () => {
 
       {/* Grid Timeline */}
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-        <div className="flex items-center gap-5 px-5 py-3 border-b border-slate-200 bg-slate-50">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-5 px-4 sm:px-5 py-3 border-b border-slate-200 bg-slate-50">
           {Object.values(PAY_CFG).map(({ bgClass, label }) => (
             <div key={label} className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
               <div className={`w-2.5 h-2.5 rounded-full ${bgClass}`} />{label}
@@ -142,7 +142,7 @@ const AdminScheduleGrid: React.FC = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="max-w-full overflow-x-auto overscroll-x-contain [touch-action:pan-x]">
           <div className="min-w-[960px]">
             {/* Thanh hiển thị Giờ (Timeline Header) */}
             <div className="grid bg-indigo-50 border-b border-indigo-150" style={{ gridTemplateColumns: GRID_TPL }}>
