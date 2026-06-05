@@ -1,7 +1,8 @@
 # ⚽ Hệ thống Quản lý và Đặt sân bóng đá trực tuyến (PitchMaster / PitchHub)
 
-> **Môn học:** Thực hành lập trình Web
-> **Nền tảng:** Web Application
+ **Môn học:** Thực hành lập trình Web
+
+ **Nền tảng:** Web Application
 
 ## 📖 Giới thiệu dự án
 Dự án "Xây dựng Web quản lý sân bóng" được thiết kế nhằm mục tiêu số hóa toàn bộ quy trình vận hành sân bãi, mang lại trải nghiệm đặt lịch tiện lợi cho khách hàng, đồng thời cung cấp công cụ quản trị thông minh, tối ưu cho chủ sân.
