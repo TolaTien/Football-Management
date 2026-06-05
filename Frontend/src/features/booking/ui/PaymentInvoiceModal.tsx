@@ -4,6 +4,7 @@ import { BookingService } from '@/entities/booking';
 import dayjs from 'dayjs';
 import { useAppDispatch } from '@/app/store/hooks';
 import { fetchNotifications } from '@/entities/notification';
+import { QRCodeSVG } from 'qrcode.react';
 
 interface PaymentInvoiceModalProps {
   isOpen: boolean;
@@ -327,18 +328,14 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                       </div>
                       
                       <div className="w-28 h-28 bg-slate-50 flex items-center justify-center border border-slate-100 rounded-lg p-2 relative group">
-                        <svg className="w-full h-full" viewBox="0 0 100 100">
-                          <rect width="100" height="100" fill="#f8fafc" />
-                          <rect x="5" y="5" width="20" height="20" fill="#064e3b" stroke="#059669" strokeWidth="2" />
-                          <rect x="10" y="10" width="10" height="10" fill="#ffffff" />
-                          <rect x="75" y="5" width="20" height="20" fill="#064e3b" stroke="#059669" strokeWidth="2" />
-                          <rect x="80" y="10" width="10" height="10" fill="#ffffff" />
-                          <rect x="5" y="75" width="20" height="20" fill="#064e3b" stroke="#059669" strokeWidth="2" />
-                          <rect x="10" y="80" width="10" height="10" fill="#ffffff" />
-                          <path d="M35 5h10v10H35zM55 5h10v5H55zM65 15h5v15h-5zM30 25h15v5H30zM50 30h10v10H50zM5 35h15v5H5zM20 45h20v5H20zM45 45h30v5H45zM80 35h15v10H80zM5 55h20v5H5zM35 60h25v5H35zM75 55h20v15H75zM10 70h15v5H10zM40 75h10v15H40zM60 80h10v10H60zM80 80h15v15H80z" fill="#0f172a" />
-                          <rect x="42" y="42" width="16" height="16" rx="4" fill="#047857" />
-                          <circle cx="50" cy="50" r="3" fill="#fbbf24" />
-                        </svg>
+                        <QRCodeSVG 
+                          value={`https://example.com/pay?amount=${activeAmount}&id=${shortBookId}`} 
+                          size={96} 
+                          bgColor="#f8fafc" 
+                          fgColor="#064e3b" 
+                          level="Q" 
+                          includeMargin={false}
+                        />
                       </div>
                       <span className="text-[9px] text-gray-400 mt-2 text-center">Quét bằng ứng dụng ngân hàng để chuyển khoản nhanh</span>
                     </div>
@@ -366,7 +363,7 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
 
                       <div className="flex justify-between items-center border-b border-slate-100 pb-1.5">
                         <span className="text-gray-400 font-medium">Chủ tài khoản:</span>
-                        <span className="font-black uppercase text-slate-700">DANG VAN TIEN</span>
+                        <span className="font-black uppercase text-slate-700">LE VAN TIEN</span>
                       </div>
 
                       <div className="flex justify-between items-center border-b border-slate-100 pb-1.5">
