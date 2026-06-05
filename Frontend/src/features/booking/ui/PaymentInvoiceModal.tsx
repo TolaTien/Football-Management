@@ -350,10 +350,10 @@ export const PaymentInvoiceModal: React.FC<PaymentInvoiceModalProps> = ({
                       <div className="flex justify-between items-center border-b border-slate-100 pb-1.5">
                         <span className="text-gray-400 font-medium">Số tài khoản:</span>
                         <div className="flex items-center gap-1.5">
-                          <span className="font-black text-emerald-950 font-mono tracking-wider">1029384756</span>
+                          <span className="font-black text-emerald-950 font-mono tracking-wider">17092006000</span>
                           <button 
                             type="button"
-                            onClick={() => handleCopy('1029384756', 'số tài khoản')}
+                            onClick={() => handleCopy('17092006000', 'số tài khoản')}
                             className="text-emerald-600 hover:text-emerald-700 p-1 bg-emerald-50 rounded-md flex items-center justify-center transition-colors"
                           >
                             <span className="material-symbols-outlined text-xs">content_copy</span>
