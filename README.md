@@ -1,4 +1,4 @@
-# ⚽ Hệ thống Quản lý và Đặt sân bóng đá trực tuyến (PitchMaster / PitchHub)
+# ⚽ Hệ thống Quản lý và Đặt sân bóng đá trực tuyến (PitchHub)
 
  **Môn học:** Thực hành lập trình Web
 
